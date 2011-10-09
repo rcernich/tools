@@ -2,18 +2,45 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>switchyard-tools-eclipse-plugins</artifactId>
     <groupId>org.switchyard.tools</groupId>
+    <artifactId>switchyard-tools-eclipse-plugins</artifactId>
     <version>0.3.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>org.switchyard.tools.core</artifactId>
+  <artifactId>org.switchyard.tools.soap.ui</artifactId>
   <packaging>eclipse-plugin</packaging>
-  <name>SwitchYard: Eclipse Tools Core Plugin</name>
-  <description>Provides core SwitchYard functionality for use by Eclipse plugins.</description>
+  <name>SwtichYard: Eclipse SwitchYard SOAP Tools Plugin</name>
+  <description>SwitchYard SOAP component tools plugin.</description>
+
+  <properties>
+    <switchyard.version>${project.parent.version}</switchyard.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>sapphire_0.4.x</id>
+      <layout>p2</layout>
+      <url>https://hudson.eclipse.org/hudson/job/sapphire-0.4.x/lastSuccessfulBuild/artifact/build/repository/</url>
+    </repository>
+  </repositories>
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>apt-maven-plugin</artifactId>
+        <version>1.0-alpha-4</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>process</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <factory>org.eclipse.sapphire.sdk.build.processor.internal.APFactory</factory>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -29,18 +56,8 @@
               <outputDirectory>lib</outputDirectory>
               <artifactItems>
                 <artifactItem>
-                  <groupId>org.switchyard</groupId>
-                  <artifactId>switchyard-common</artifactId>
-                  <version>${version.switchyard.runtime}</version>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.switchyard</groupId>
-                  <artifactId>switchyard-config</artifactId>
-                  <version>${version.switchyard.runtime}</version>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.switchyard</groupId>
-                  <artifactId>switchyard-transform</artifactId>
+                  <groupId>org.switchyard.components</groupId>
+                  <artifactId>switchyard-component-soap</artifactId>
                   <version>${switchyard.version}</version>
                 </artifactItem>
               </artifactItems>
@@ -65,5 +82,6 @@
       </plugin>
     </plugins>
   </build>
+
 
 </project>

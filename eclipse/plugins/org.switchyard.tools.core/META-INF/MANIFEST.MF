@@ -9,6 +9,7 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.apache.log4j;bundle-version="1.2.15"
 Bundle-ClassPath: lib/switchyard-common.jar,
  lib/switchyard-config.jar,
+ lib/switchyard-transform.jar,
  .
 Export-Package: org.switchyard.common.io,
  org.switchyard.common.io.pull,
@@ -29,4 +30,6 @@ Export-Package: org.switchyard.common.io,
  org.switchyard.config.model.switchyard,
  org.switchyard.config.model.switchyard.v1,
  org.switchyard.config.model.transform,
- org.switchyard.config.model.transform.v1
+ org.switchyard.config.model.transform.v1,
+ org.switchyard.transform,
+ org.switchyard.transform.config.model

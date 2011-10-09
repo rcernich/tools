@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition>
+  <import>
+    <bundle>org.switchyard.tools.soap.ui</bundle>
+    <package>org.switchyard.tools.soap.ui</package>
+    <package>org.switchyard.tools.soap.ui.model</package>
+  </import>
+    <composite>
+        <id>switchyard.soapbinding.editor</id>
+        <content>
+            <property-editor>Wsdl</property-editor>
+            <property-editor>WsdlPort</property-editor>
+            <property-editor>ServerHost</property-editor>
+            <property-editor>ServerPort</property-editor>
+            <property-editor>ContextPath</property-editor>
+        </content>
+    </composite>
+</definition>

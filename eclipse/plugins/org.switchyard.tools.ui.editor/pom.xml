@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.switchyard.tools</groupId>
+    <artifactId>switchyard-tools-eclipse-plugins</artifactId>
+    <version>0.3.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>org.switchyard.tools.ui.editor</artifactId>
+  <packaging>eclipse-plugin</packaging>
+  <name>SwtichYard: Eclipse SwitchYard Configuration Editor Plugin</name>
+  <description>SwitchYard configuration editor plugin.</description>
+
+  <repositories>
+    <repository>
+      <id>sapphire_0.4.x</id>
+      <layout>p2</layout>
+      <url>https://hudson.eclipse.org/hudson/job/sapphire-0.4.x/lastSuccessfulBuild/artifact/build/repository/</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>apt-maven-plugin</artifactId>
+        <version>1.0-alpha-4</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>process</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <factory>org.eclipse.sapphire.sdk.build.processor.internal.APFactory</factory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
