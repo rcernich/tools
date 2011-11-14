@@ -24,7 +24,9 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.sapphire.modeling.ModelElementType;
 import org.eclipse.sapphire.modeling.xml.StandardXmlListBindingImpl;
 import org.eclipse.sapphire.modeling.xml.XmlNamespaceResolver;
-import org.eclipse.sapphire.modeling.xml.annotations.XmlRootBinding;
+import org.eclipse.sapphire.modeling.xml.XmlUtil;
+import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
+import org.eclipse.sapphire.modeling.xml.annotations.XmlNamespace;
 import org.switchyard.tools.ui.editor.Activator;
 
 /**
@@ -46,18 +48,22 @@ public class ExtendedXmlListBinding extends StandardXmlListBindingImpl {
     }
 
     @Override
-    protected QName createDefaultQualifiedElementName(ModelElementType type, XmlNamespaceResolver xmlNamespaceResolver) {
-        XmlRootBinding xmlRootBinding = type.getAnnotation(XmlRootBinding.class);
-        if (xmlRootBinding == null) {
+    protected QName createDefaultElementName(ModelElementType type, XmlNamespaceResolver xmlNamespaceResolver) {
+        XmlBinding xmlBinding = type.getAnnotation(XmlBinding.class);
+        XmlNamespace xmlNamespace = type.getAnnotation(XmlNamespace.class);
+        if (xmlBinding == null) {
             Activator
                     .getDefault()
                     .getLog()
                     .log(new Status(Status.WARNING, Activator.PLUGIN_ID,
-                            "Using default element name mapping, @XmlRootBinding not specified on specialized type: "
+                            "Using default element name mapping, @XmlBinding not specified on specialized type: "
                                     + type.getModelElementClass().getName()));
-            return super.createDefaultQualifiedElementName(type, xmlNamespaceResolver);
+            return super.createDefaultElementName(type, xmlNamespaceResolver);
         }
-        return new QName(xmlRootBinding.namespace(), xmlRootBinding.elementName(), xmlRootBinding.defaultPrefix());
+        if (xmlNamespace == null) {
+            return XmlUtil.createQualifiedName(xmlBinding.path(), xmlNamespaceResolver);
+        }
+        return new QName(xmlNamespace.uri(), xmlBinding.path(), xmlNamespace.prefix());
     }
 
 }

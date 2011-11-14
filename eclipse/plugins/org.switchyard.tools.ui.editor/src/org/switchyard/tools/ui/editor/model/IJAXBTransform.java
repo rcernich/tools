@@ -20,7 +20,9 @@ package org.switchyard.tools.ui.editor.model;
 
 import org.eclipse.sapphire.modeling.ModelElementType;
 import org.eclipse.sapphire.modeling.annotations.GenerateImpl;
+import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlNamespace;
+import org.switchyard.config.model.transform.TransformModel;
 import org.switchyard.transform.config.model.JAXBTransformModel;
 
 /**
@@ -31,6 +33,7 @@ import org.switchyard.transform.config.model.JAXBTransformModel;
  * @author Rob Cernich
  */
 @GenerateImpl
+@XmlBinding(path = TransformModel.TRANSFORM + '.' + JAXBTransformModel.JAXB)
 @XmlNamespace(prefix = ISwitchYard.TRANSFORM_XMLNS_PREFIX, uri = JAXBTransformModel.DEFAULT_NAMESPACE)
 public interface IJAXBTransform extends ITransform {
 

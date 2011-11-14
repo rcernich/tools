@@ -20,7 +20,9 @@ package org.switchyard.tools.ui.editor.model;
 
 import org.eclipse.sapphire.modeling.ModelElementType;
 import org.eclipse.sapphire.modeling.annotations.GenerateImpl;
+import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlNamespace;
+import org.switchyard.config.model.transform.TransformModel;
 import org.switchyard.transform.config.model.JSONTransformModel;
 
 /**
@@ -31,6 +33,7 @@ import org.switchyard.transform.config.model.JSONTransformModel;
  * @author Rob Cernich
  */
 @GenerateImpl
+@XmlBinding(path = TransformModel.TRANSFORM + '.' + JSONTransformModel.JSON)
 @XmlNamespace(prefix = ISwitchYard.TRANSFORM_XMLNS_PREFIX, uri = JSONTransformModel.DEFAULT_NAMESPACE)
 public interface IJSONTransform extends ITransform {
 

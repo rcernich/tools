@@ -27,7 +27,7 @@ import org.eclipse.sapphire.modeling.annotations.Label;
 import org.eclipse.sapphire.modeling.annotations.Required;
 import org.eclipse.sapphire.modeling.annotations.Type;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
-import org.eclipse.sapphire.modeling.xml.annotations.XmlRootBinding;
+import org.eclipse.sapphire.modeling.xml.annotations.XmlNamespace;
 import org.switchyard.component.soap.config.model.SOAPBindingModel;
 import org.switchyard.config.model.composite.BindingModel;
 import org.switchyard.tools.ui.editor.model.sca.IBinding;
@@ -41,7 +41,8 @@ import org.switchyard.tools.ui.editor.model.sca.IBinding;
  */
 @GenerateImpl
 @Label(standard = "SOAP Binding")
-@XmlRootBinding(elementName = BindingModel.BINDING + '.' + SOAPBindingModel.SOAP, namespace = SOAPBindingModel.DEFAULT_NAMESPACE, defaultPrefix = "sySoap")
+@XmlBinding(path=BindingModel.BINDING + '.' + SOAPBindingModel.SOAP)
+@XmlNamespace(uri= SOAPBindingModel.DEFAULT_NAMESPACE, prefix = "sysoap")
 public interface ISoapBinding extends IBinding {
 
     /** The type of this model element. */
@@ -95,7 +96,7 @@ public interface ISoapBinding extends IBinding {
 
     /** The "serverPort" element. */
     @Type(base = Integer.class)
-    @XmlBinding(path = "serverPort")
+    @XmlBinding(path = "socketAddr")
     @Label(standard = "Server Port")
     @DefaultValue(text = "8080")
     ValueProperty PROP_SERVER_PORT = new ValueProperty(TYPE, "ServerPort");

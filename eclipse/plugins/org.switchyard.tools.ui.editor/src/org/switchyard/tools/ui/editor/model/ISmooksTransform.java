@@ -26,6 +26,7 @@ import org.eclipse.sapphire.modeling.annotations.Label;
 import org.eclipse.sapphire.modeling.annotations.Required;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlNamespace;
+import org.switchyard.config.model.transform.TransformModel;
 import org.switchyard.transform.config.model.SmooksTransformModel;
 
 /**
@@ -36,6 +37,7 @@ import org.switchyard.transform.config.model.SmooksTransformModel;
  * @author Rob Cernich
  */
 @GenerateImpl
+@XmlBinding(path = TransformModel.TRANSFORM + '.' + SmooksTransformModel.SMOOKS)
 @XmlNamespace(prefix = ISwitchYard.TRANSFORM_XMLNS_PREFIX, uri = SmooksTransformModel.DEFAULT_NAMESPACE)
 public interface ISmooksTransform extends ITransform {
 

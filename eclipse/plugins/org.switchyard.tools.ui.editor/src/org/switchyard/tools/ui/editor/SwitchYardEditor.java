@@ -1,6 +1,7 @@
 package org.switchyard.tools.ui.editor;
 
 import org.eclipse.sapphire.ui.SapphireEditorFormPage;
+import org.eclipse.sapphire.ui.StandardFormEditorPage;
 import org.eclipse.sapphire.ui.def.ISapphireFormEditorPageDef;
 import org.eclipse.sapphire.ui.def.ISapphireUiDef;
 import org.eclipse.sapphire.ui.def.SapphireUiDefFactory;
@@ -36,14 +37,14 @@ public final class SwitchYardEditor extends SapphireEditorForXml {
     @Override
     protected void createFormPages() throws PartInitException {
         ISapphireUiDef uiDef = SapphireUiDefFactory.load(Activator.PLUGIN_ID, EDITOR_SDEF);
-        _overviewPage = SapphireEditorFormPage
-                .createEditorFormPage(this, getModelElement(), (ISapphireFormEditorPageDef) uiDef.getPartDef(
+        _overviewPage = StandardFormEditorPage
+                .createFormEditorPage(this, getModelElement(), (ISapphireFormEditorPageDef) uiDef.getPartDef(
                         OVERVIEW_PAGE_ID, true, ISapphireFormEditorPageDef.class));
         addPage(0, _overviewPage);
         setPageId(_overviewPage, OVERVIEW_PAGE_ID, _overviewPage.getPart());
 
-        _servicesPage = SapphireEditorFormPage
-                .createEditorFormPage(this, getModelElement(), (ISapphireFormEditorPageDef) uiDef.getPartDef(
+        _servicesPage = StandardFormEditorPage
+                .createFormEditorPage(this, getModelElement(), (ISapphireFormEditorPageDef) uiDef.getPartDef(
                         SERVICES_PAGE_ID, true, ISapphireFormEditorPageDef.class));
         addPage(1, _servicesPage);
         setPageId(_servicesPage, SERVICES_PAGE_ID, _servicesPage.getPart());

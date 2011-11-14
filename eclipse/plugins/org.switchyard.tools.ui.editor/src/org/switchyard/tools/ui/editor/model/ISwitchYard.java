@@ -36,7 +36,6 @@ import org.eclipse.sapphire.modeling.xml.annotations.XmlBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlListBinding;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlNamespace;
 import org.eclipse.sapphire.modeling.xml.annotations.XmlNamespaces;
-import org.eclipse.sapphire.modeling.xml.annotations.XmlRootBinding;
 import org.switchyard.config.model.composite.CompositeModel;
 import org.switchyard.config.model.domain.DomainModel;
 import org.switchyard.config.model.switchyard.SwitchYardModel;
@@ -61,7 +60,8 @@ import org.switchyard.transform.config.model.XsltTransformModel;
  * @author Rob Cernich
  */
 @GenerateImpl
-@XmlRootBinding(namespace = SwitchYardModel.DEFAULT_NAMESPACE, elementName = SwitchYardModel.SWITCHYARD)
+@XmlBinding(path = SwitchYardModel.SWITCHYARD)
+@XmlNamespace(uri = SwitchYardModel.DEFAULT_NAMESPACE)
 @XmlNamespaces(value = {@XmlNamespace(prefix = "sca", uri = CompositeModel.DEFAULT_NAMESPACE),
         @XmlNamespace(prefix = "trfm", uri = TransformModel.DEFAULT_NAMESPACE) })
 public interface ISwitchYard extends IModelElement {
@@ -108,7 +108,7 @@ public interface ISwitchYard extends IModelElement {
 
     /** The "composite" element. */
     @Type(base = IComposite.class)
-    @XmlBinding(path = CompositeModel.COMPOSITE)
+    @XmlBinding(path = SCA_XMLNS_PREFIX + ":" + CompositeModel.COMPOSITE)
     ElementProperty PROP_COMPOSITE = new ElementProperty(TYPE, "Composite");
 
     /**
