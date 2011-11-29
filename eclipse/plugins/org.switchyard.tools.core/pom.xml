@@ -41,7 +41,7 @@
                 <artifactItem>
                   <groupId>org.switchyard</groupId>
                   <artifactId>switchyard-transform</artifactId>
-                  <version>${switchyard.version}</version>
+                  <version>${version.switchyard.runtime}</version>
                 </artifactItem>
               </artifactItems>
             </configuration>

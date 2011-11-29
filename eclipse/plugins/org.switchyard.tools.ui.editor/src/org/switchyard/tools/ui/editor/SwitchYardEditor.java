@@ -1,10 +1,8 @@
 package org.switchyard.tools.ui.editor;
 
-import org.eclipse.sapphire.ui.SapphireEditorFormPage;
-import org.eclipse.sapphire.ui.StandardFormEditorPage;
-import org.eclipse.sapphire.ui.def.ISapphireFormEditorPageDef;
-import org.eclipse.sapphire.ui.def.ISapphireUiDef;
-import org.eclipse.sapphire.ui.def.SapphireUiDefFactory;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.sapphire.ui.FormEditorPage;
 import org.eclipse.sapphire.ui.swt.xml.editor.SapphireEditorForXml;
 import org.eclipse.ui.PartInitException;
 import org.switchyard.tools.ui.editor.model.ISwitchYard;
@@ -22,8 +20,8 @@ public final class SwitchYardEditor extends SapphireEditorForXml {
     private static final String OVERVIEW_PAGE_ID = "switchyard.overview.page";
     private static final String SERVICES_PAGE_ID = "switchyard.services.page";
 
-    private SapphireEditorFormPage _overviewPage;
-    private SapphireEditorFormPage _servicesPage;
+    private FormEditorPage _overviewPage;
+    private FormEditorPage _servicesPage;
 
     /**
      * Create a new SwitchYardEditor.
@@ -36,16 +34,13 @@ public final class SwitchYardEditor extends SapphireEditorForXml {
 
     @Override
     protected void createFormPages() throws PartInitException {
-        ISapphireUiDef uiDef = SapphireUiDefFactory.load(Activator.PLUGIN_ID, EDITOR_SDEF);
-        _overviewPage = StandardFormEditorPage
-                .createFormEditorPage(this, getModelElement(), (ISapphireFormEditorPageDef) uiDef.getPartDef(
-                        OVERVIEW_PAGE_ID, true, ISapphireFormEditorPageDef.class));
+        _overviewPage = new FormEditorPage(this, getModelElement(),
+                createFormEditorPageDefinitionPath(OVERVIEW_PAGE_ID));
         addPage(0, _overviewPage);
         setPageId(_overviewPage, OVERVIEW_PAGE_ID, _overviewPage.getPart());
 
-        _servicesPage = StandardFormEditorPage
-                .createFormEditorPage(this, getModelElement(), (ISapphireFormEditorPageDef) uiDef.getPartDef(
-                        SERVICES_PAGE_ID, true, ISapphireFormEditorPageDef.class));
+        _servicesPage = new FormEditorPage(this, getModelElement(),
+                createFormEditorPageDefinitionPath(SERVICES_PAGE_ID));
         addPage(1, _servicesPage);
         setPageId(_servicesPage, SERVICES_PAGE_ID, _servicesPage.getPart());
     }
@@ -54,6 +49,10 @@ public final class SwitchYardEditor extends SapphireEditorForXml {
     protected void pageChange(int pageIndex) {
         // FIXME pageChange
         super.pageChange(pageIndex);
+    }
+
+    private IPath createFormEditorPageDefinitionPath(String pageDefinition) {
+        return new Path(Activator.PLUGIN_ID).append(EDITOR_SDEF).append(pageDefinition);
     }
 
 }

@@ -18,12 +18,14 @@
  */
 package org.switchyard.tools.ui.editor.sapphire;
 
-import java.util.SortedSet;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.sapphire.modeling.ModelElementType;
 import org.eclipse.sapphire.modeling.ModelProperty;
 import org.eclipse.sapphire.modeling.internal.SapphireModelingExtensionSystem;
 import org.eclipse.sapphire.services.PossibleTypesService;
+import org.eclipse.sapphire.services.PossibleTypesServiceData;
 import org.eclipse.sapphire.services.ServiceFactoryProxy;
 import org.switchyard.tools.ui.editor.Activator;
 
@@ -39,16 +41,25 @@ public class PossibleExtendedTypesService extends PossibleTypesService {
     private static final String IGNORE_DECLARED_TYPES = "ignoreDeclaredTypes";
 
     private PossibleTypesService _standardService;
+    private Set<ModelElementType> _possible = new HashSet<ModelElementType>();
 
     @Override
     protected void initPossibleTypesService() {
         super.initPossibleTypesService();
+        for (Class<?> specializedType : Activator.getDefault().getElementExtensionRegistry()
+                .getSpecializedTypes(context(ModelProperty.class).getType().getModelElementClass())) {
+            ModelElementType met = ModelElementType.getModelElementType(specializedType, false);
+            if (met != null) {
+                _possible.add(met);
+            }
+        }
         if (Boolean.parseBoolean(params().get(IGNORE_DECLARED_TYPES))) {
             return;
         }
         for (ServiceFactoryProxy factory : SapphireModelingExtensionSystem.getServiceFactories()) {
             if ("Sapphire.PossibleTypesService.Standard".equals(factory.id())) {
                 _standardService = (PossibleTypesService) factory.create(context(), PossibleTypesService.class);
+                _standardService.init(context(), params());
                 break;
             }
         }
@@ -65,17 +76,12 @@ public class PossibleExtendedTypesService extends PossibleTypesService {
     }
 
     @Override
-    protected void types(SortedSet<ModelElementType> types) {
+    protected PossibleTypesServiceData compute() {
+        Set<ModelElementType> allPossible = new HashSet<ModelElementType>(_possible);
         if (_standardService != null) {
-            types.addAll(_standardService.types());
+            allPossible.addAll(_standardService.types());
         }
-        for (Class<?> specializedType : Activator.getDefault().getElementExtensionRegistry()
-                .getSpecializedTypes(context(ModelProperty.class).getType().getModelElementClass())) {
-            ModelElementType met = ModelElementType.getModelElementType(specializedType, false);
-            if (met != null) {
-                types.add(met);
-            }
-        }
+        return new PossibleTypesServiceData(allPossible);
     }
 
 }

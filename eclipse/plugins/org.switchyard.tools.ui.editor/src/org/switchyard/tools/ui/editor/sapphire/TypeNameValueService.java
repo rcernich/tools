@@ -21,6 +21,7 @@ package org.switchyard.tools.ui.editor.sapphire;
 import org.eclipse.sapphire.modeling.CapitalizationType;
 import org.eclipse.sapphire.modeling.ModelElementType;
 import org.eclipse.sapphire.services.DerivedValueService;
+import org.eclipse.sapphire.services.DerivedValueServiceData;
 
 /**
  * TypeNameValueService
@@ -32,8 +33,9 @@ import org.eclipse.sapphire.services.DerivedValueService;
 public class TypeNameValueService extends DerivedValueService {
 
     @Override
-    public String getDerivedValue() {
-        return context(ModelElementType.class).getLabel(false, CapitalizationType.TITLE_STYLE, false);
+    public DerivedValueServiceData compute() {
+        return new DerivedValueServiceData(context(ModelElementType.class).getLabel(false,
+                CapitalizationType.TITLE_STYLE, false));
     }
 
 }

@@ -180,54 +180,78 @@
     <id>switchyard.overview.page</id>
     <page-name>Overview</page-name>
     <page-header-text>Overview</page-header-text>
-    <sections>
-      <section>
-        <label>Application Details</label>
-        <content>
-          <include>switchyard.applicationDetails</include>
-        </content>
-      </section>
-      <section>
-        <label>Configuration Tasks</label>
-        <content>
-          <include>switchyard.actions</include>
-        </content>
-      </section>
-      <section>
-        <label>Transforms</label>
-        <content>
-          <include>switchyard.transformsDetails</include>
-        </content>
-        <collapsible>true</collapsible>
-        <column-span>2</column-span>
-      </section>
-      <section>
-        <label>Domain</label>
-        <content>
-          <with>
-            <path>Domain</path>
-            <label>Configure domain for application</label>
-            <panel>
-              <key>IDomain</key>
-              <content>
-                <include>switchyard.domainDetails</include>
-              </content>
-            </panel>
-          </with>
-        </content>
-        <collapsible>true</collapsible>
-        <collapsed-initially>true</collapsed-initially>
-        <column-span>2</column-span>
-      </section>
-    </sections>
     <action>
       <id>PROMOTE_SERVICE</id>
       <label>Promote Service</label>
     </action>
-    <num-columns>2</num-columns>
+    <content>
+      <split-form>
+        <block>
+          <content>
+            <split-form>
+              <orientation>horizontal</orientation>
+              <scale-vertically>false</scale-vertically>
+              <block>
+                <content>
+                  <section>
+                    <label>Application Details</label>
+                    <content>
+                      <include>switchyard.applicationDetails</include>
+                    </content>
+                  </section>
+                </content>
+              </block>
+              <block>
+                <content>
+                  <section>
+                    <label>Configuration Tasks</label>
+                    <content>
+                      <include>switchyard.actions</include>
+                    </content>
+                  </section>
+                </content>
+              </block>
+            </split-form>
+          </content>
+        </block>
+        <orientation>vertical</orientation>
+        <block>
+          <content>
+            <section>
+              <label>Transforms</label>
+              <content>
+                <include>switchyard.transformsDetails</include>
+              </content>
+              <collapsible>true</collapsible>
+            </section>
+          </content>
+        </block>
+        <block>
+          <content>
+            <section>
+              <label>Domain</label>
+              <content>
+                <with>
+                  <path>Domain</path>
+                  <label>Configure domain for application</label>
+                  <panel>
+                    <key>IDomain</key>
+                    <content>
+                      <include>switchyard.domainDetails</include>
+                    </content>
+                  </panel>
+                </with>
+              </content>
+              <collapsible>true</collapsible>
+              <collapsed-initially>true</collapsed-initially>
+            </section>
+          </content>
+        </block>
+      </split-form>
+    </content>
   </form-editor-page>
   <form-editor-page>
-    <sections>
+    <content>
       <section>
         <label>Services</label>
         <content>
@@ -243,7 +267,7 @@
           </with>
         </content>
       </section>
-    </sections>
+    </content>
     <id>switchyard.services.page</id>
     <page-name>Services</page-name>
     <page-header-text>Services</page-header-text>
