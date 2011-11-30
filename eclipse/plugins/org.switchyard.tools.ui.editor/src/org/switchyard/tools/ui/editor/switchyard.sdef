@@ -186,68 +186,53 @@
     </action>
     <content>
       <split-form>
-        <block>
-          <content>
-            <split-form>
-              <orientation>horizontal</orientation>
-              <scale-vertically>false</scale-vertically>
-              <block>
-                <content>
-                  <section>
-                    <label>Application Details</label>
-                    <content>
-                      <include>switchyard.applicationDetails</include>
-                    </content>
-                  </section>
-                </content>
-              </block>
-              <block>
-                <content>
-                  <section>
-                    <label>Configuration Tasks</label>
-                    <content>
-                      <include>switchyard.actions</include>
-                    </content>
-                  </section>
-                </content>
-              </block>
-            </split-form>
-          </content>
-        </block>
-        <orientation>vertical</orientation>
+        <orientation>horizontal</orientation>
+        <scale-vertically>false</scale-vertically>
         <block>
           <content>
             <section>
-              <label>Transforms</label>
+              <label>Application Details</label>
               <content>
-                <include>switchyard.transformsDetails</include>
+                <include>switchyard.applicationDetails</include>
               </content>
-              <collapsible>true</collapsible>
             </section>
           </content>
         </block>
         <block>
           <content>
             <section>
-              <label>Domain</label>
+              <label>Configuration Tasks</label>
               <content>
-                <with>
-                  <path>Domain</path>
-                  <label>Configure domain for application</label>
-                  <panel>
-                    <key>IDomain</key>
-                    <content>
-                      <include>switchyard.domainDetails</include>
-                    </content>
-                  </panel>
-                </with>
+                <include>switchyard.actions</include>
               </content>
-              <collapsible>true</collapsible>
-              <collapsed-initially>true</collapsed-initially>
             </section>
           </content>
         </block>
       </split-form>
+      <section>
+        <label>Transforms</label>
+        <content>
+          <include>switchyard.transformsDetails</include>
+        </content>
+        <collapsible>true</collapsible>
+      </section>
+      <section>
+        <label>Domain</label>
+        <content>
+          <with>
+            <path>Domain</path>
+            <label>Configure domain for application</label>
+            <panel>
+              <key>IDomain</key>
+              <content>
+                <include>switchyard.domainDetails</include>
+              </content>
+            </panel>
+          </with>
+        </content>
+        <collapsible>true</collapsible>
+        <collapsed-initially>true</collapsed-initially>
+      </section>
     </content>
   </form-editor-page>
   <form-editor-page>
