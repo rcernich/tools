@@ -1,0 +1,422 @@
+<projects>
+  <!-- "switchyard-quickstarts" is used as the name for all projects. This serves as the root folder for all SwitchYard quickstart 
+    projects. This allows the projects to be imported into the workspace using their Maven project names. -->
+  <project>
+    <category>SwitchYard Quickstarts - Services</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard CDI bean based service implementation.</shortDescription>
+    <description>TODO: description</description>
+    <size>38912</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>bean-service/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Services</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard BPEL based service implementation.</shortDescription>
+    <description>TODO: description</description>
+    <size>55706</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>bpel-service/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Services</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard jBPM based service implementation.</shortDescription>
+    <description>TODO: description</description>
+    <size>39834</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>bpm-service/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Gateways</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard Camel gateway binding.</shortDescription>
+    <description>TODO: description</description>
+    <size>10650</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>camel-binding/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Gateways</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard Camel JMS gateway binding.</shortDescription>
+    <description>TODO: description</description>
+    <size>26010</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>camel-jms-binding/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Services</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard Camel route based service implementation.</shortDescription>
+    <description>TODO: description</description>
+    <size>11571</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>camel-service/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Gateways</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard HornetQ gateway binding.</shortDescription>
+    <description>TODO: description</description>
+    <size>21811</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>hornetq-binding/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Services</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard Drools rule service based implementation.</shortDescription>
+    <description>TODO: description</description>
+    <size>10957</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>rules-interview/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Services</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard Drools rule agent based service implementation.</shortDescription>
+    <description>TODO: description</description>
+    <size>13619</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>rules-interview-agent/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Transformations</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard JAXB based transformation.</shortDescription>
+    <description>TODO: description</description>
+    <size>29082</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>transform-jaxb/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Transformations</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard JSON based transformation.</shortDescription>
+    <description>TODO: description</description>
+    <size>13619</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>transform-json/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Transformations</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard Smooks based transformation.</shortDescription>
+    <description>TODO: description</description>
+    <size>19353</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>transform-smooks/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Transformations</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>SwitchYard XSL based transformation.</shortDescription>
+    <description>TODO: description</description>
+    <size>17920</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>transform-xslt/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - General</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>Service proxy implemented using a Camel route.</shortDescription>
+    <description>TODO: description</description>
+    <size>16896</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>camel-soap-proxy/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - General</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>Incorporating XML validation into a message flow.</shortDescription>
+    <description>TODO: description</description>
+    <size>18432</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>validate-xml/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Demos</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>Sample application utilizing jBPM w/human interaction, CDI and SOAP.</shortDescription>
+    <description>TODO: description</description>
+    <size>45773</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>demos/helpdesk/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Demos</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>Sample web application incorporating SwitchYard services.</shortDescription>
+    <description>TODO: description</description>
+    <size>46592</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>demos/orders/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Demos</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>Sample application utilizing transaction policies.</shortDescription>
+    <description>TODO: description</description>
+    <size>22323</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>demos/policy-transaction/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+  <project>
+    <category>SwitchYard Quickstarts - Demos</category>
+    <name>switchyard-quickstarts</name>
+    <included-projects />
+    <shortDescription>Sample web application illustrating configuration for deployment into a generic web server.</shortDescription>
+    <description>TODO: description</description>
+    <size>20378</size>
+    <url />
+    <fixes />
+    <importType>mavenArtifact</importType>
+    <importTypeDescription>The project example requires SwitchYard, m2e, m2eclipse-wtp and JBoss Maven Integration
+      features.
+    </importTypeDescription>
+    <mavenArchetype>
+      <archetypeGroupId>org.switchyard.quickstarts</archetypeGroupId>
+      <archetypeArtifactId>switchyard-quickstarts-distro</archetypeArtifactId>
+      <archetypeVersion>0.4.0-SNAPSHOT</archetypeVersion>
+      <archetypeRepository>http://repository.jboss.org/nexus/content/groups/public</archetypeRepository>
+      <javaPackage>demos/webapp-deploy/</javaPackage>
+    </mavenArchetype>
+  </project>
+
+</projects>

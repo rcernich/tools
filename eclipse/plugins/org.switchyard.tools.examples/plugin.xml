@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         name="SwitchYard Examples (Latest)"
+         point="org.jboss.tools.project.examples.projectExamplesXml">
+      <url>
+         https://raw.github.com/jboss-switchyard/tools/master/eclipse/plugins/org.switchyard.tools.examples/examples/project-examples-1.0.xml</url>
+      <experimental>
+         true</experimental>
+   </extension>
+   <extension
+         name="SwitchYard Examples"
+         point="org.jboss.tools.project.examples.projectExamplesXml">
+      <url>
+         platform:/plugin/org.switchyard.tools.examples/examples/project-examples-1.0.xml</url>
+      <experimental>
+         false</experimental>
+   </extension>
+</plugin>
