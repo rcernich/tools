@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <!-- Servers View content -->
+	<extension
+      point="org.eclipse.ui.navigator.navigatorContent">
+    <navigatorContent
+          activeByDefault="true"
+          appearsBefore="org.jboss.ide.eclipse.as.ui.extensions.content"
+          contentProvider="org.switchyard.tools.servers.ui.SwitchYardContentTreeContentProvider"
+          icon="icons/switchyard_icon_16px.png"
+          id="org.switchyard.tools.servers.content"
+          labelProvider="org.switchyard.tools.servers.ui.SwitchYardContentLabelProvider"
+          name="SwitchYard Server Content"
+          priority="normal">
+       <triggerPoints>
+          <and>
+             <instanceof
+                    value="org.eclipse.wst.server.core.IServer">
+             </instanceof>
+             <or>
+                 <test
+                       property="org.eclipse.wst.server.ui.serverType"
+                       value="org.jboss.ide.eclipse.as.70">
+                 </test>
+                 <test
+                       property="org.eclipse.wst.server.ui.serverType"
+                       value="org.jboss.ide.eclipse.as.71">
+                 </test>
+                 <test
+                       property="org.eclipse.wst.server.ui.serverType"
+                       value="org.jboss.ide.eclipse.as.eap.60">
+                 </test>
+             </or>
+          </and>
+       </triggerPoints>
+       <possibleChildren>
+          <or>
+             <instanceof
+                   value="org.switchyard.tools.servers.ui.SwitchYardRootNode">
+             </instanceof>
+             <instanceof
+                   value="org.switchyard.tools.servers.ui.ApplicationsNode">
+             </instanceof>
+             <instanceof
+                   value="org.switchyard.tools.servers.ui.ServicesNode">
+             </instanceof>
+             <instanceof
+                   value="org.switchyard.tools.servers.ui.RuntimeNode">
+             </instanceof>
+          </or>
+       </possibleChildren>
+       <commonSorter
+             class="org.switchyard.tools.servers.ui.SwitchYardViewerSorter">
+       </commonSorter>
+    </navigatorContent>
+	</extension>
+
+	<extension
+	      point="org.eclipse.ui.navigator.viewer">
+	   <viewerContentBinding
+	         viewerId="org.eclipse.wst.server.ui.ServersView">
+	      <includes>
+             <contentExtension
+                isRoot="false"
+                pattern="org.switchyard.tools.servers.content">
+             </contentExtension>
+	      </includes>
+	   </viewerContentBinding>
+	</extension>
+</plugin>
