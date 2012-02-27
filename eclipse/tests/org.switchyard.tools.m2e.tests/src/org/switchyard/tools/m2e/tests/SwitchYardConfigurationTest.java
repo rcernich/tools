@@ -27,6 +27,7 @@ import org.custommonkey.xmlunit.XMLUnit;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.m2e.core.project.ResolverConfiguration;
 import org.eclipse.m2e.tests.common.AbstractMavenProjectTestCase;
 
@@ -39,6 +40,13 @@ import org.eclipse.m2e.tests.common.AbstractMavenProjectTestCase;
  */
 @SuppressWarnings("restriction")
 public class SwitchYardConfigurationTest extends AbstractMavenProjectTestCase {
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        // make sure JRE is initialized
+        JavaRuntime.getDefaultVMInstall();
+    }
 
     /**
      * Tests import and configuration of bean-service quickstart.
