@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+  <extension
+        point="org.switchyard.tools.ui.repositorySupport">
+     <wizard
+           class="org.switchyard.tools.guvnor.ui.wizards.NewGuvnorArtifactReferenceWizard"
+           icon="icons/guvnor_rep.gif"
+           id="org.switchyard.tools.ui.repository.generic"
+           name="Guvnor Package">
+        <description>
+           Add an artifact reference to a package in a Guvnor repository.
+        </description>
+     </wizard>
+  </extension>
+
+</plugin>

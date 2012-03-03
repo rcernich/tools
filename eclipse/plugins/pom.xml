@@ -18,6 +18,7 @@
     <module>org.switchyard.tools.m2e</module>
     <module>org.switchyard.tools.core</module>
     <module>org.switchyard.tools.ui</module>
+    <module>org.switchyard.tools.guvnor</module>
   </modules>
 
 </project>

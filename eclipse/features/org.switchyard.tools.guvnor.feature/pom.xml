@@ -3,18 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.switchyard.tools</groupId>
-    <artifactId>switchyard-tools-eclipse</artifactId>
+    <artifactId>switchyard-tools-eclipse-features</artifactId>
     <version>0.4.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>switchyard-tools-eclipse-features</artifactId>
-  <packaging>pom</packaging>
-  <name>Switchyard: Eclipse Tools Features</name>
-  <description>Parent project for SwitchYard Eclipse features.</description>
-
-  <modules>
-    <module>org.switchyard.tools.feature</module>
-    <module>org.switchyard.tools.guvnor.feature</module>
-  </modules>
+  <artifactId>org.switchyard.tools.guvnor.feature</artifactId>
+  <packaging>eclipse-feature</packaging>
+  <name>SwitchYard: Eclipse Tools Guvnor Integration Feature</name>
+  <description>Eclipse Feature for Guvnor integration with SwitchYard tooling.</description>
 
 </project>

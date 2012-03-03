@@ -6,9 +6,17 @@
    <feature url="features/org.switchyard.tools.feature_0.0.0.jar" id="org.switchyard.tools.feature" version="0.0.0">
       <category name="switchyard.category"/>
    </feature>
+   <feature url="features/org.switchyard.tools.guvnor.feature_0.0.0.jar" id="org.switchyard.tools.guvnor.feature" version="0.0.0">
+      <category name="switchyard.addons.category"/>
+   </feature>
    <category-def name="switchyard.category" label="SwitchYard Tools">
       <description>
          Tools for creating, testing, and debugging SwitchYard applications.
+      </description>
+   </category-def>
+   <category-def name="switchyard.addons.category" label="SwitchYard Add-ons">
+      <description>
+         Features providing improved integration with other tool sets.
       </description>
    </category-def>
 </site>
