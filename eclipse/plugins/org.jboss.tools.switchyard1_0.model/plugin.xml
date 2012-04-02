@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.w3.org/ns/ws-policy"
+            class="org.w3.ns.ws.policy.PolicyPackage"
+            genModel="model/switchyard_1.0.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="policy"
+            class="org.w3.ns.ws.policy.util.PolicyResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="urn:switchyard-component-bean:config:1.0"
+            class="org.jboss.tools.switchyard.model.bean.BeanPackage"
+            genModel="model/switchyard_1.0.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="bean"
+            class="org.jboss.tools.switchyard.model.bean.util.BeanResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://docs.oasis-open.org/ns/opencsa/sca/200903"
+            class="org.open.oasis.docs.ns.opencsa.sca.bpel.BPELPackage"
+            genModel="model/switchyard_1.0.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="bpel"
+            class="org.open.oasis.docs.ns.opencsa.sca.bpel.util.BPELResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="urn:switchyard-component-bpm:config:1.0"
+            class="org.jboss.tools.switchyard.model.bpm.BPMPackage"
+            genModel="model/switchyard_1.0.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="bpm"
+            class="org.jboss.tools.switchyard.model.bpm.util.BPMResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="urn:switchyard-component-common-rules:config:1.0"
+            class="org.jboss.tools.switchyard.model.commonrules.CommonRulesPackage"
+            genModel="model/switchyard_1.0.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="commonrules"
+            class="org.jboss.tools.switchyard.model.commonrules.util.CommonRulesResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="urn:switchyard-config:switchyard:1.0"
+            class="org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage"
+            genModel="model/switchyard_1.0.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="switchyard"
+            class="org.jboss.tools.switchyard.model.switchyard.util.SwitchyardResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="urn:switchyard-component-clojure:config:1.0"
+            class="org.jboss.tools.switchyard.model.clojure.ClojurePackage"
+            genModel="model/switchyard_1.0.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="clojure"
+            class="org.jboss.tools.switchyard.model.clojure.util.ClojureResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="urn:switchyard-component-hornetq:config:1.0"
+            class="org.jboss.tools.switchyard.model.hornetq.HornetQPackage"
+            genModel="model/switchyard_1.0.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="hornetq"
+            class="org.jboss.tools.switchyard.model.hornetq.util.HornetQResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="urn:switchyard-component-rules:config:1.0"
+            class="org.jboss.tools.switchyard.model.rules.RulesPackage"
+            genModel="model/switchyard_1.0.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="rules"
+            class="org.jboss.tools.switchyard.model.rules.util.RulesResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="urn:switchyard-component-soap:config:1.0"
+            class="org.jboss.tools.switchyard.model.soap.SOAPPackage"
+            genModel="model/switchyard_1.0.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="soap"
+            class="org.jboss.tools.switchyard.model.soap.util.SOAPResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="urn:switchyard-config:transform:1.0"
+            class="org.jboss.tools.switchyard.model.transform.TransformPackage"
+            genModel="model/switchyard_1.0.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="transform"
+            class="org.jboss.tools.switchyard.model.transform.util.TransformResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="urn:switchyard-config:validate:1.0"
+            class="org.jboss.tools.switchyard.model.validate.ValidatePackage"
+            genModel="model/switchyard_1.0.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="validate"
+            class="org.jboss.tools.switchyard.model.validate.util.ValidateResourceFactoryImpl"/>
+   </extension>
+
+</plugin>
