@@ -17,6 +17,7 @@ import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
+import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
@@ -27,23 +28,25 @@ import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
-import org.jboss.tools.sca.diagram.binding.SCADiagramAddReferenceFeature;
-import org.jboss.tools.sca.diagram.binding.SCADiagramCreateReferenceFeature;
+import org.jboss.tools.sca.diagram.binding.SCADiagramAddComponentServiceLinkFeature;
+import org.jboss.tools.sca.diagram.binding.SCADiagramAddReferenceLinkFeature;
+import org.jboss.tools.sca.diagram.binding.SCADiagramCreateComponentServiceLinkFeature;
+import org.jboss.tools.sca.diagram.binding.SCADiagramCreateReferenceLinkFeature;
 import org.jboss.tools.sca.diagram.component.SCADiagramAddComponentFeature;
 import org.jboss.tools.sca.diagram.component.SCADiagramCreateComponentFeature;
 import org.jboss.tools.sca.diagram.component.SCADiagramDirectEditComponentFeature;
 import org.jboss.tools.sca.diagram.component.SCADiagramLayoutComponentFeature;
-import org.jboss.tools.sca.diagram.component.SCADiagramResizeComponentFeature;
+import org.jboss.tools.sca.diagram.componentreference.SCADiagramAddComponentReferenceFeature;
+import org.jboss.tools.sca.diagram.componentreference.SCADiagramCreateComponentReferenceFeature;
+import org.jboss.tools.sca.diagram.componentservice.SCADiagramAddComponentServiceFeature;
+import org.jboss.tools.sca.diagram.componentservice.SCADiagramCreateComponentServiceFeature;
 import org.jboss.tools.sca.diagram.composite.SCADiagramAddCompositeFeature;
 import org.jboss.tools.sca.diagram.composite.SCADiagramCreateCompositeFeature;
 import org.jboss.tools.sca.diagram.composite.SCADiagramDirectEditCompositeFeature;
 import org.jboss.tools.sca.diagram.composite.SCADiagramLayoutCompositeFeature;
 import org.jboss.tools.sca.diagram.composite.SCADiagramMoveCompositeFeature;
-import org.jboss.tools.sca.diagram.composite.SCADiagramResizeCompositeFeature;
 import org.jboss.tools.sca.diagram.composite.SCADiagramUpdateCompositeFeature;
-import org.jboss.tools.sca.diagram.service.SCADiagramAddComponentServiceFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramAddServiceFeature;
-import org.jboss.tools.sca.diagram.service.SCADiagramCreateComponentServiceFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramCreateServiceFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramDirectEditServiceFeature;
 
@@ -66,14 +69,22 @@ public class SCADiagramFeatureProvider extends DefaultFeatureProvider {
 		if (context.getNewObject() instanceof Service) {
 			return new SCADiagramAddServiceFeature(this);
 		}
-		if (context.getNewObject() instanceof ComponentService) {
-			return new SCADiagramAddComponentServiceFeature(this);
-		}
 		if (context.getNewObject() instanceof Reference) {
-			return new SCADiagramAddReferenceFeature(this);
+			return new SCADiagramAddReferenceLinkFeature(this);
 		}
 		if (context.getNewObject() instanceof ComponentReference) {
-			return new SCADiagramAddReferenceFeature(this);
+			if (context instanceof AddConnectionContext) {
+				return new SCADiagramAddReferenceLinkFeature(this);
+			} else {
+				return new SCADiagramAddComponentReferenceFeature(this);
+			}
+		}
+		if (context.getNewObject() instanceof ComponentService) {
+			if (context instanceof AddConnectionContext) {
+				return new SCADiagramAddComponentServiceLinkFeature(this);
+			} else {
+				return new SCADiagramAddComponentServiceFeature(this);
+			}
 		}
 		return super.getAddFeature(context);
 	}
@@ -83,13 +94,17 @@ public class SCADiagramFeatureProvider extends DefaultFeatureProvider {
 		return new ICreateFeature[] { new SCADiagramCreateCompositeFeature(this),
 				new SCADiagramCreateComponentFeature(this),
 				new SCADiagramCreateServiceFeature(this),
-				new SCADiagramCreateComponentServiceFeature(this) };
+				new SCADiagramCreateComponentServiceFeature(this),
+				new SCADiagramCreateComponentReferenceFeature(this)
+			};
 	}
 
 	@Override
 	public ICreateConnectionFeature[] getCreateConnectionFeatures() {
 		return new ICreateConnectionFeature[] { 
-				new SCADiagramCreateReferenceFeature(this) };
+				new SCADiagramCreateReferenceLinkFeature(this),
+				new SCADiagramCreateComponentServiceLinkFeature(this)
+		};
 	}
 
 	@Override
@@ -116,21 +131,6 @@ public class SCADiagramFeatureProvider extends DefaultFeatureProvider {
 	}
 
 	@Override
-	public IResizeShapeFeature getResizeShapeFeature(
-			IResizeShapeContext context) {
-		Shape shape = context.getShape();
-		Object bo = getBusinessObjectForPictogramElement(shape);
-//		if (bo instanceof Composite) {
-//			return new SCADiagramResizeCompositeFeature(this);
-//		}
-		if (bo instanceof Component) {
-			return new SCADiagramResizeComponentFeature(this);
-		}
-		return super.getResizeShapeFeature(context);
-	}
-
-	@Override
-
 	public IFeature[] getDragAndDropFeatures(IPictogramElementContext context) {
 		// simply return all create connection features
 				return getCreateConnectionFeatures();
@@ -164,5 +164,15 @@ public class SCADiagramFeatureProvider extends DefaultFeatureProvider {
 			return new SCADiagramDirectEditServiceFeature(this);
 		}
 		return super.getDirectEditingFeature(context);
+	}
+
+	@Override
+	public IResizeShapeFeature getResizeShapeFeature(IResizeShapeContext context) {
+//		PictogramElement pe = context.getPictogramElement();
+//		Object bo = getBusinessObjectForPictogramElement(pe);
+//		if (bo instanceof Component) {
+//			return new SCADiagramResizeComponentFeature(this);
+//		}
+		return super.getResizeShapeFeature(context);
 	}
 }

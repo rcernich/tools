@@ -5,7 +5,6 @@ import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.soa.sca.sca1_1.model.sca.Component;
-import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 
 public class SCADiagramResizeComponentFeature extends DefaultResizeShapeFeature {
 

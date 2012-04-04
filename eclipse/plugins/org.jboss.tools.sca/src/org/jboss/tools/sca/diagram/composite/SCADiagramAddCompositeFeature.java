@@ -5,6 +5,7 @@ import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
+import org.eclipse.graphiti.mm.algorithms.styles.Font;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
@@ -48,6 +49,7 @@ public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
 		ContainerShape containerShape =
 				peCreateService.createContainerShape(targetDiagram, true);
+		Graphiti.getPeService().setPropertyValue(containerShape, "sca-type", "composite");
 
 		// define a default size for the shape
 		int width = 500;
@@ -68,9 +70,9 @@ public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 			// of the diagram
 
 			// in a real scenario the business model would have its own resource
-			if (addedClass.eResource() == null) {
-				getDiagram().eResource().getContents().add(addedClass);
-			}
+//			if (addedClass.eResource() == null) {
+//				getDiagram().eResource().getContents().add(addedClass);
+//			}
 
 			Graphiti.getPeService().setPropertyValue(roundedRectangle, "sca-type", "composite");
 
@@ -89,7 +91,9 @@ public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 			text.setForeground(manageColor(CLASS_TEXT_FOREGROUND));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_LEFT);
 			text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-			text.getFont().setBold(true);
+			Font font = text.getFont();
+			font = gaService.manageFont(getDiagram(), font.getName(), font.getSize(), false, true);
+//			text.getFont().setBold(true);
 			gaService.setLocationAndSize(text, 5, 5, width, 20);
 
 			// create link and wire it

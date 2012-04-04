@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.graphiti.examples.common,
  org.eclipse.emf.transaction,
  org.eclipse.ui.ide,
- org.jboss.tools.switchyard1_0.model;bundle-version="1.0.0"
+ org.jboss.tools.switchyard1_0.model;bundle-version="1.0.0",
+ org.eclipse.gef
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

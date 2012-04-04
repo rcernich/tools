@@ -1,11 +1,11 @@
 package org.jboss.tools.sca.diagram.service;
 
-import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
 import org.eclipse.graphiti.mm.algorithms.Polygon;
 import org.eclipse.graphiti.mm.algorithms.Text;
+import org.eclipse.graphiti.mm.algorithms.styles.Font;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.pictograms.ChopboxAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
@@ -15,19 +15,18 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
-import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
-import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
-import org.jboss.tools.sca.handlers.AddAllSCACommand;
 
 public class SCADiagramAddServiceFeature extends AbstractAddShapeFeature {
 
 	private static final IColorConstant CLASS_TEXT_FOREGROUND = new ColorConstant(0, 0, 0);
 	private static final IColorConstant CLASS_FOREGROUND = new ColorConstant(255, 102, 0);
 	private static final IColorConstant CLASS_BACKGROUND = new ColorConstant("99cc99");//0, 191, 255);
+
+	public static final int INVISIBLE_RECT_RIGHT = 13;
 
 	public SCADiagramAddServiceFeature( IFeatureProvider fp ) {
 		super(fp);
@@ -37,11 +36,13 @@ public class SCADiagramAddServiceFeature extends AbstractAddShapeFeature {
 	public boolean canAdd(IAddContext context) {
 		// check if user wants to add a EClass
 		if (context.getNewObject() instanceof Service ) {
+			
+			System.out.println(context);
 			// check if user wants to add to a diagram
 			if (context.getTargetContainer() instanceof Diagram) {
 				return true;
 			}
-			if (context.getTargetContainer() instanceof ContainerShape) {
+			if (getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof Composite) {
 				return true;
 			}
 		}
@@ -62,6 +63,7 @@ public class SCADiagramAddServiceFeature extends AbstractAddShapeFeature {
 			targetContainerShape = (ContainerShape) context.getTargetContainer();
 		// CONTAINER SHAPE WITH ROUNDED RECTANGLE
 		IPeCreateService peCreateService = Graphiti.getPeCreateService();
+		IGaService gaService = Graphiti.getGaService();
 		
 		ContainerShape containerShape = null;
 		if (targetDiagram != null)
@@ -69,11 +71,15 @@ public class SCADiagramAddServiceFeature extends AbstractAddShapeFeature {
 		if (targetContainerShape != null) {
 			containerShape = peCreateService.createContainerShape(targetContainerShape, true);
 		}
+		Graphiti.getPeService().setPropertyValue(containerShape, "sca-type", "service");
 
-		// define a default size for the shape
-		int width = 100;
-		int height = 50; 
-		IGaService gaService = Graphiti.getGaService();
+		int edge = 10;
+		
+	    // check whether the context has a size (e.g. from a create feature)
+        // otherwise define a default size for the shape
+        int width = context.getWidth() <= 0 ? 100 + edge : context.getWidth();
+        int height = context.getHeight() <= 0 ? 50 + edge : context.getHeight();
+ 
 		// create service
 		{
 			// triangle through points: top-middle, bottom-right, bottom-left
@@ -86,22 +92,22 @@ public class SCADiagramAddServiceFeature extends AbstractAddShapeFeature {
 			gaService.setLocationAndSize(p,
 					context.getX(), context.getY(), width, height);
 
+			Graphiti.getPeService().setPropertyValue(p, "sca-type", "service");
 			// if added Class has no resource we add it to the resource 
 			// of the diagram
 
-			// in a real scenario the business model would have its own resource
-			if (addedClass != null && addedClass.eResource() == null) {
-				getDiagram().eResource().getContents().add(addedClass);
-			}
-
+//			// in a real scenario the business model would have its own resource
+//			if (addedClass != null && addedClass.eResource() == null) {
+//				getDiagram().eResource().getContents().add(addedClass);
+//			}
 
 			// create link and wire it
-			if (addedClass != null)
-				link(containerShape, addedClass);
+			link(containerShape, addedClass);
 
 			ChopboxAnchor anchor = 
 					peCreateService.createChopboxAnchor(containerShape);
 			anchor.setActive(true);
+			link(anchor, addedClass);
 		}
 		// SHAPE WITH TEXT
 		{
@@ -114,7 +120,9 @@ public class SCADiagramAddServiceFeature extends AbstractAddShapeFeature {
 			text.setForeground(manageColor(CLASS_TEXT_FOREGROUND));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 			text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-			text.getFont().setBold(true);
+			Font font = text.getFont();
+			font = gaService.manageFont(getDiagram(), font.getName(), font.getSize(), false, true);
+//			text.getFont().setBold(true);
 			gaService.setLocationAndSize(text, 3, 25, width, 20);
 
 			// create link and wire it

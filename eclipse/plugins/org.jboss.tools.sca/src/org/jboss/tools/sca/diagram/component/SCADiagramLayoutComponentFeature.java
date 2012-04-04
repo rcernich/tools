@@ -29,9 +29,6 @@ public class SCADiagramLayoutComponentFeature extends AbstractLayoutFeature {
 		if (!(pe instanceof ContainerShape))
 			return false;
 		return true;
-//		EList<EObject> businessObjects = pe.getLink().getBusinessObjects();
-//		return businessObjects.size() == 1 
-//				&& businessObjects.get(0) instanceof Composite;
 	}
 
 	public boolean layout(ILayoutContext context){
@@ -54,30 +51,34 @@ public class SCADiagramLayoutComponentFeature extends AbstractLayoutFeature {
 			anythingChanged = true;
 		}
 
-		// width of visible rectangle (smaller than invisible rectangle)
-		int rectangleWidth = containerGa.getWidth() - SCADiagramAddComponentFeature.INVISIBLE_RECT_RIGHT;
-		if (containerGa.getWidth() != rectangleWidth) {
-			containerGa.setWidth(rectangleWidth);
-			anythingChanged = true;
-		}
-
 		int containerWidth = containerGa.getWidth();
+
 		for (Shape shape : containerShape.getChildren()){
+
 			GraphicsAlgorithm graphicsAlgorithm = shape.getGraphicsAlgorithm();
 			IGaService gaService = Graphiti.getGaService();
+
 			IDimension size = 
 					gaService.calculateSize(graphicsAlgorithm);
-			if (containerWidth != size.getWidth()) {
+
+			if (containerWidth != size.getWidth() || containerGa.getHeight() != size.getHeight()) {
+
 				if (graphicsAlgorithm instanceof Polyline) {
+
 					Polyline polyline = (Polyline) graphicsAlgorithm;
 					Point secondPoint = polyline.getPoints().get(1);
 					Point newSecondPoint =
-							gaService.createPoint(rectangleWidth, secondPoint.getY()); 
+							gaService.createPoint(containerWidth, secondPoint.getY()); 
 					polyline.getPoints().set(1, newSecondPoint);
+
 					anythingChanged = true;
+
 				} else {
 					gaService.setWidth(graphicsAlgorithm,
-							rectangleWidth);
+							containerWidth);
+					gaService.setHeight(graphicsAlgorithm, containerGa.getHeight());
+					graphicsAlgorithm.setWidth(containerWidth);
+
 					anythingChanged = true;
 				}
 			}

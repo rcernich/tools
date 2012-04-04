@@ -15,9 +15,7 @@
  *******************************************************************************/
 package org.jboss.tools.sca.diagram.composite;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.impl.AbstractDirectEditingFeature;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
