@@ -13,6 +13,10 @@
   <description>Parent project for SwitchYard Eclipse plugins</description>
 
   <modules>
+    <module>sca-deps</module>
+    <module>org.jboss.tools.switchyard1_0.model</module>
+    <module>org.jboss.tools.sca</module>
+
     <module>org.switchyard.tools</module>
     <module>org.switchyard.tools.xsd</module>
     <module>org.switchyard.tools.m2e</module>
