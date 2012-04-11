@@ -11,6 +11,7 @@ import org.eclipse.graphiti.features.IMoveShapeFeature;
 import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IAddContext;
+import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
@@ -18,6 +19,7 @@ import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
+import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
@@ -46,6 +48,8 @@ import org.jboss.tools.sca.diagram.composite.SCADiagramDirectEditCompositeFeatur
 import org.jboss.tools.sca.diagram.composite.SCADiagramLayoutCompositeFeature;
 import org.jboss.tools.sca.diagram.composite.SCADiagramMoveCompositeFeature;
 import org.jboss.tools.sca.diagram.composite.SCADiagramUpdateCompositeFeature;
+import org.jboss.tools.sca.diagram.custom.SCADiagramCustomLayoutFeature;
+import org.jboss.tools.sca.diagram.custom.ZestLayoutDiagramFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramAddServiceFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramCreateServiceFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramDirectEditServiceFeature;
@@ -174,5 +178,11 @@ public class SCADiagramFeatureProvider extends DefaultFeatureProvider {
 //			return new SCADiagramResizeComponentFeature(this);
 //		}
 		return super.getResizeShapeFeature(context);
+	}
+
+	@Override
+	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
+		return (ICustomFeature[]) new ICustomFeature[] {new SCADiagramCustomLayoutFeature(this), new ZestLayoutDiagramFeature(this)};
+//		return super.getCustomFeatures(context);
 	}
 }

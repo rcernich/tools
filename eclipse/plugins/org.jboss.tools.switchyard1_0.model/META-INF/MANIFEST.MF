@@ -47,6 +47,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.soa.sca.sca1_1.model;visibility:=reexport,
- org.eclipse.soa.sca.core.model;visibility:=reexport,
- org.eclipse.soa.sca.sca1_1.common;visibility:=reexport
+ org.eclipse.soa.sca.core.model;visibility:=reexport
 Bundle-ActivationPolicy: lazy

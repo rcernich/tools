@@ -1,5 +1,10 @@
 package org.jboss.tools.sca;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -45,6 +50,24 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+
+	public static void logStatus(IStatus status) {
+		Platform.getLog(plugin.getBundle()).log(status);
+	}
+
+	public static void logError(Exception e) {
+		logStatus(createStatus(e));
+	}
+
+	private static Status createStatus(Exception e) {
+		return new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e);
+	}
+
+	public static void showErrorWithLogging(Exception e){
+		Status s = createStatus(e);
+		logStatus(s);
+		ErrorDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "An error occured", null, s);
 	}
 
 }

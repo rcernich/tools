@@ -67,5 +67,44 @@
         </command>
      </menuContribution>
   </extension>
+	<extension
+	    point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+	    <propertyTabs contributorId="org.jboss.tools.sca.diagram.PropertyContributor">
+	        <propertyTab label="Main" category="SwitchyardSCA" 
+	            id="switchyard.main.tab">
+	        </propertyTab>
+	    </propertyTabs>
+	</extension>
+	 
+	<extension
+	    point="org.eclipse.ui.views.properties.tabbed.propertySections">
+	    <propertySections contributorId="org.jboss.tools.sca.diagram.PropertyContributor">
+	        <propertySection tab="switchyard.main.tab"            
+	         class="org.jboss.tools.sca.property.SwitchyardSCAPropertiesMain"
+	         filter="org.jboss.tools.sca.property.SwitchyardSCAPropertiesFilter"
+	         id="switchyard.main.tab.names">
+	        </propertySection>
+	    </propertySections>
+	</extension>
+ <extension
+       point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+    <propertyContributor
+          contributorId="org.jboss.tools.sca.diagram.PropertyContributor">
+       <propertyCategory
+             category="SwitchyardSCA">
+       </propertyCategory>
+    </propertyContributor>
+ </extension>
+ <extension
+       point="org.eclipse.ui.editors">
+    <editor
+          class="org.jboss.tools.sca.editor.SwitchyardSCAEditor"
+          contributorClass="org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor"
+          default="true"
+          extensions="xml"
+          id="org.jboss.tools.sca.switchyard.editor"
+          name="Switchyard SCA Visual Editor">
+    </editor>
+ </extension>
 
 </plugin>
