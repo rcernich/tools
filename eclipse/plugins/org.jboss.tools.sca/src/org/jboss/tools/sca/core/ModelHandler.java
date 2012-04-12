@@ -34,6 +34,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
+import org.eclipse.soa.sca.sca1_1.model.sca.ScaFactory;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
 import org.jboss.tools.sca.Activator;
 import org.jboss.tools.switchyard.model.bean.BeanPackage;
@@ -44,6 +46,7 @@ import org.jboss.tools.switchyard.model.hornetq.HornetQPackage;
 import org.jboss.tools.switchyard.model.rules.RulesPackage;
 import org.jboss.tools.switchyard.model.soap.SOAPPackage;
 import org.jboss.tools.switchyard.model.switchyard.DocumentRoot;
+import org.jboss.tools.switchyard.model.switchyard.SwitchYardType;
 import org.jboss.tools.switchyard.model.switchyard.SwitchyardFactory;
 import org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage;
 import org.jboss.tools.switchyard.model.switchyard.util.SwitchyardResourceFactoryImpl;
@@ -62,21 +65,26 @@ public class ModelHandler {
 		EList<EObject> contents = resource.getContents();
 
 		if (contents.isEmpty() || !(contents.get(0) instanceof DocumentRoot)) {
-			TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(resource);
-
-			if (domain != null) {
-				final DocumentRoot docRoot = create(DocumentRoot.class);
-//				final Definitions definitions = create(Definitions.class);
-
-				domain.getCommandStack().execute(new RecordingCommand(domain) {
-					@Override
-					protected void doExecute() {
-//						docRoot.setDefinitions(definitions);
-						resource.getContents().add(docRoot);
-					}
-				});
-				return;
-			}
+			
+			System.out.println("********EMPTY FILE MEANS DIDN'T READ RIGHT*************");
+//			TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(resource);
+//
+//			if (domain != null) {
+//
+//				domain.getCommandStack().execute(new RecordingCommand(domain) {
+//					@Override
+//					protected void doExecute() {
+//						DocumentRoot docRoot = createSY(DocumentRoot.class);
+//						SwitchYardType switchyardRoot = SwitchyardFactory.eINSTANCE.createSwitchYardType();
+//				        Composite compositeRoot = ScaFactory.eINSTANCE.createComposite();
+//				        compositeRoot.setName("composite");
+//						switchyardRoot.setComposite(compositeRoot);
+//						docRoot.setSwitchyard(switchyardRoot);
+//						resource.getContents().add(docRoot);
+//					}
+//				});
+//				return;
+//			}
 		}
 	}
 
@@ -103,36 +111,12 @@ public class ModelHandler {
 	}
 
 	private void saveResource() {
-		try {
-			TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(resource);
-			ResourceSet resourceSet = domain.getResourceSet();
-
-			ExtendedMetaData extendedMetaData = 
-					new BasicExtendedMetaData(resourceSet.getPackageRegistry());
-			domain.getResourceSet().getLoadOptions().put
-				(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-			domain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put
-				(Resource.Factory.Registry.DEFAULT_EXTENSION, 
-						new SwitchyardResourceFactoryImpl());
-
-			// Register the package to make it available during loading.
-			resourceSet.getPackageRegistry().put("http://docs.oasis-open.org/ns/opencsa/sca/200912", ScaPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put ("urn:switchyard-config:switchyard:1.0", SwitchyardPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-config:transform:1.0", TransformPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-bean:config:1.0", BeanPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-config:validate:1.0", ValidatePackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-soap:config:1.0", SOAPPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-rules:config:1.0", RulesPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-hornetq:config:1.0", HornetQPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-common-rules:config:1.0", CommonRulesPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-clojure:config:1.0", ClojurePackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-bpm:config:1.0", BPMPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("http://docs.oasis-open.org/ns/opencsa/sca/200903", BPELPackage.eINSTANCE);
-
-			resource.save(null);
-		} catch (IOException e) {
-			Activator.logError(e);
-		}
+		// disabling save for now, as it's not working and is corrupting things
+//		try {
+//			resource.save(null);
+//		} catch (IOException e) {
+//			Activator.logError(e);
+//		}
 	}
 
 	void loadResource() {
@@ -198,7 +182,7 @@ public class ModelHandler {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T extends EObject> T create(Class<T> clazz) {
+	public <T extends EObject> T createSY(Class<T> clazz) {
 		EObject newObject = null;
 		EClassifier eClassifier = SwitchyardPackage.eINSTANCE.getEClassifier(clazz.getSimpleName());
 		if (eClassifier instanceof EClass) {
@@ -213,6 +197,22 @@ public class ModelHandler {
 		return (T)newObject;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <T extends EObject> T createSCA(Class<T> clazz) {
+		EObject newObject = null;
+		EClassifier eClassifier = ScaPackage.eINSTANCE.getEClassifier(clazz.getSimpleName());
+		if (eClassifier instanceof EClass) {
+			EClass eClass = (EClass)eClassifier;
+			newObject = ScaFactory.eINSTANCE.create(eClass);
+		}
+		
+		if (newObject!=null) {
+			initialize(newObject);
+		}
+
+		return (T)newObject;
+	}
+
 	public void initialize(EObject newObject) {
 		if (newObject!=null) {
 //			if (newObject.eClass().getEPackage() == Bpmn2Package.eINSTANCE) {

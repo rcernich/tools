@@ -253,6 +253,11 @@ public class SwitchyardSCAEditor extends DiagramEditor {
 		IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
 		diagram.setActive(true);
 		SwitchyardSCADiagramEditorInput input = (SwitchyardSCADiagramEditorInput) getEditorInput();
+		if (input.getDiagram() != null) {
+//			BPMNDiagram bpmnDiagram = modelHandler.createDiagramType(diagramType);
+//			featureProvider.link(diagram, bpmnDiagram);
+//			SwitchyardSCAEditor.this.doSave(null);
+		}
 		
 		DIImport di = new DIImport();
 		di.setDiagram(diagram);

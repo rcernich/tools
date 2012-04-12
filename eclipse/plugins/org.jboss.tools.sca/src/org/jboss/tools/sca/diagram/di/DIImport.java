@@ -14,7 +14,6 @@ package org.jboss.tools.sca.diagram.di;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +27,6 @@ import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeService;
@@ -40,19 +38,14 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.jboss.tools.sca.core.ModelHandler;
 import org.jboss.tools.switchyard.model.switchyard.DocumentRoot;
 import org.jboss.tools.switchyard.model.switchyard.SwitchYardType;
-import org.jboss.tools.switchyard.model.switchyard.SwitchyardFactory;
 
 public class DIImport {
-
-	public static final String IMPORT_PROPERTY = DIImport.class.getSimpleName().concat(".import");
 
 	private Diagram diagram;
 	private TransactionalEditingDomain domain;
 	private ModelHandler modelHandler;
 	private IFeatureProvider featureProvider;
 	private final IPeService peService = Graphiti.getPeService();
-//	private final IGaService gaService = Graphiti.getGaService();
-//	private HashMap<Object, PictogramElement> elements;
 
 	/**
 	 * Look for model diagram interchange information and generate all shapes for the diagrams.
@@ -64,13 +57,14 @@ public class DIImport {
 		final List<DocumentRoot> documentRoots = modelHandler.getAll(DocumentRoot.class);
 		System.out.println("-------\n " + documentRoots.toString());
 		
-//		elements = new HashMap<Object, PictogramElement>();
 		domain.getCommandStack().execute(new RecordingCommand(domain) {
 			@Override
 			protected void doExecute() {
 
-				DocumentRoot docRoot = documentRoots.get(0);
-				addComposites(docRoot, diagram, featureProvider); 
+				if (!documentRoots.isEmpty()) {
+					DocumentRoot docRoot = documentRoots.get(0);
+					addComposites(docRoot, diagram, featureProvider);
+				}
 			}
 
 		});
@@ -119,8 +113,6 @@ public class DIImport {
 			
 			addComponents(composite, compositeContainerShape, featureProvider, diagram, x, y);
 			
-	//		handleServiceReferences(diagram, featureProvider, compositeContainerShape);
-			
 			return compositeContainerShape;
 		}
 		return null;
@@ -146,8 +138,6 @@ public class DIImport {
 			
 			addComponentServices(component, componentContainerShape, featureProvider, diagram, x, y);
 
-//			handleComponentReferences(diagram, featureProvider, componentContainerShape);
-//			handleComponentServiceReferences(diagram, featureProvider, componentContainerShape);
 		}
 		for (Iterator<Component> iterator = components.iterator(); iterator.hasNext();) {
 			Component component = (Component) iterator.next();

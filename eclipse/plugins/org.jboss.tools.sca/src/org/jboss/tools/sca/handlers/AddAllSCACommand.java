@@ -77,6 +77,9 @@ public class AddAllSCACommand extends RecordingCommand {
 		editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put
 			(Resource.Factory.Registry.DEFAULT_EXTENSION, 
 					new SwitchyardResourceFactoryImpl());
+		editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put
+			("switchyard", 
+				new SwitchyardResourceFactoryImpl());
 
 		// Register the package to make it available during loading.
 		editingDomain.getResourceSet().getPackageRegistry().put("http://docs.oasis-open.org/ns/opencsa/sca/200912", ScaPackage.eINSTANCE);
@@ -134,29 +137,30 @@ public class AddAllSCACommand extends RecordingCommand {
 		int y = 20;
 
 		SwitchYardType switchyardRoot = root.getSwitchyard();
-		Composite composite = switchyardRoot.getComposite();
-
-		// Create the context information
-		AddContext addContext = new AddContext();
-		addContext.setNewObject(composite);
-		addContext.setTargetContainer(diagram);
-		addContext.setX(x);
-		addContext.setY(y);
-
-		IAddFeature addFeature = featureProvider.getAddFeature(addContext);
-		if (addFeature.canAdd(addContext)) {
-			addFeature.add(addContext);
+		if (switchyardRoot != null) {
+			Composite composite = switchyardRoot.getComposite();
+	
+			// Create the context information
+			AddContext addContext = new AddContext();
+			addContext.setNewObject(composite);
+			addContext.setTargetContainer(diagram);
+			addContext.setX(x);
+			addContext.setY(y);
+	
+			IAddFeature addFeature = featureProvider.getAddFeature(addContext);
+			if (addFeature.canAdd(addContext)) {
+				addFeature.add(addContext);
+			}
+			
+			ContainerShape compositeContainerShape = (ContainerShape)featureProvider.getPictogramElementForBusinessObject(composite).getGraphicsAlgorithm().eContainer();
+			
+			addCompositeServices(composite, compositeContainerShape, featureProvider, diagram, x, y);
+			
+			addComponents(composite, compositeContainerShape, featureProvider, diagram, x, y);
+			
+			return compositeContainerShape;
 		}
-		
-		ContainerShape compositeContainerShape = (ContainerShape)featureProvider.getPictogramElementForBusinessObject(composite).getGraphicsAlgorithm().eContainer();
-		
-		addCompositeServices(composite, compositeContainerShape, featureProvider, diagram, x, y);
-		
-		addComponents(composite, compositeContainerShape, featureProvider, diagram, x, y);
-		
-//		handleServiceReferences(diagram, featureProvider, compositeContainerShape);
-		
-		return compositeContainerShape;
+		return null;
 	}
 	
 	private void addComponents(Composite composite, ContainerShape compositeContainerShape, IFeatureProvider featureProvider, Diagram diagram, int x, int y) {
