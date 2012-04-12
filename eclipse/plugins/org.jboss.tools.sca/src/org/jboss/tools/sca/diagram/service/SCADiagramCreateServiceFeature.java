@@ -24,8 +24,8 @@ public class SCADiagramCreateServiceFeature extends AbstractCreateFeature {
     
 	@Override
 	public boolean canCreate(ICreateContext context) {
-		if (context.getTargetContainer() instanceof Diagram)
-			return true;
+//		IF (CONTEXT.GETTARGETCONTAINER() INSTANCEOF DIAGRAM)
+//			RETURN TRUE;
 		if (getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof Composite) {
 			return true;
 		}
