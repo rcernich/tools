@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -32,14 +31,16 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.soa.sca.sca1_1.model.sca.Component;
+import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
+import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaFactory;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
+import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.jboss.tools.sca.Activator;
 import org.jboss.tools.switchyard.model.bean.BeanPackage;
 import org.jboss.tools.switchyard.model.bpm.BPMPackage;
@@ -70,25 +71,21 @@ public class ModelHandler {
 
 		if (contents.isEmpty() || !(contents.get(0) instanceof DocumentRoot)) {
 			
-			System.out.println("********EMPTY FILE MEANS DIDN'T READ RIGHT*************");
-//			TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(resource);
-//
-//			if (domain != null) {
-//
-//				domain.getCommandStack().execute(new RecordingCommand(domain) {
-//					@Override
-//					protected void doExecute() {
-//						DocumentRoot docRoot = createSY(DocumentRoot.class);
-//						SwitchYardType switchyardRoot = SwitchyardFactory.eINSTANCE.createSwitchYardType();
-//				        Composite compositeRoot = ScaFactory.eINSTANCE.createComposite();
-//				        compositeRoot.setName("composite");
-//						switchyardRoot.setComposite(compositeRoot);
-//						docRoot.setSwitchyard(switchyardRoot);
-//						resource.getContents().add(docRoot);
-//					}
-//				});
-//				return;
-//			}
+			TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(resource);
+
+			if (domain != null) {
+
+				domain.getCommandStack().execute(new RecordingCommand(domain) {
+					@Override
+					protected void doExecute() {
+						DocumentRoot docRoot = createDocumentRoot();
+						SwitchYardType switchYardRoot = createSY(SwitchYardType.class);
+						docRoot.setSwitchyard(switchYardRoot);
+						resource.getContents().add(docRoot);
+					}
+				});
+				return;
+			}
 		}
 	}
 
@@ -115,15 +112,83 @@ public class ModelHandler {
 	}
 
 	private void saveResource() {
-		// disabling save for now, as it's not working and is corrupting things
 		try {
-//			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-//			Map<String, Object> m = reg.getExtensionToFactoryMap();
-//			m.put("website", new XMIResourceFactoryImpl());
 			resource.save(Collections.EMPTY_MAP);
 		} catch (IOException e) {
 			Activator.logError(e);
 		}
+	}
+	
+	public DocumentRoot getDocumentRoot() {
+		if (!resource.getContents().isEmpty() && resource.getContents().get(0) instanceof DocumentRoot) {
+			DocumentRoot documentRoot = (DocumentRoot) resource.getContents().get(0);
+			return documentRoot;
+		}
+		return null;
+	}
+	
+	public SwitchYardType getRootSwitchYard() {
+		DocumentRoot documentRoot = getDocumentRoot();
+		if (documentRoot != null && documentRoot.eContents().get(0) instanceof SwitchYardType) {
+			SwitchYardType syType = (SwitchYardType) documentRoot.eContents().get(0);
+			return syType;
+		}
+		return null;
+	}
+
+	public Composite getRootComposite() {
+		SwitchYardType syType = getRootSwitchYard();
+		if (syType != null) {
+			return syType.getComposite();
+		}
+		return null;
+	}
+	
+	public DocumentRoot createDocumentRoot() {
+		DocumentRoot documentRoot = createSY(DocumentRoot.class);
+		return documentRoot;
+	}
+
+	public SwitchYardType createSwitchYard() {
+		SwitchYardType switchYardRoot = createSY(SwitchYardType.class);
+		if (getDocumentRoot() == null) 
+			createDocumentRoot();
+		getDocumentRoot().setSwitchyard(switchYardRoot);
+		return switchYardRoot;
+	}
+
+	public Composite createComposite() {
+		if (getDocumentRoot() == null) 
+			createDocumentRoot();
+		if (getRootSwitchYard() == null)
+			createSwitchYard();
+		Composite composite = createSCA(Composite.class);
+		getRootSwitchYard().setComposite(composite);
+		return composite;
+	}
+
+	public Service createService(Composite source) {
+		Service service = createSCA(Service.class);
+		source.getService().add(service);
+		return service;
+	}
+
+	public Component createComponent(Composite source) {
+		Component component = createSCA(Component.class);
+		source.getComponent().add(component);
+		return component;
+	}
+
+	public ComponentReference createComponentReference(Component source) {
+		ComponentReference componentRef = createSCA(ComponentReference.class);
+		source.getReference().add(componentRef);
+		return componentRef;
+	}
+
+	public ComponentService createComponentService(Component source) {
+		ComponentService componentService = createSCA(ComponentService.class);
+		source.getService().add(componentService);
+		return componentService;
 	}
 
 	void loadResource() {

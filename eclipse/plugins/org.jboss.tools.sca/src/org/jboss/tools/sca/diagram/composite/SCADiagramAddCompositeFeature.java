@@ -101,7 +101,7 @@ public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 		}
 
 //		// call the layout feature
-//		layoutPictogramElement(containerShape);
+		layoutPictogramElement(containerShape);
 
  
 		return containerShape;

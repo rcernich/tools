@@ -37,11 +37,11 @@ public class SCADiagramAddServiceFeature extends AbstractAddShapeFeature {
 		// check if user wants to add a EClass
 		if (context.getNewObject() instanceof Service ) {
 			
-			System.out.println(context);
+//			System.out.println(context);
 			// check if user wants to add to a diagram
-			if (context.getTargetContainer() instanceof Diagram) {
-				return true;
-			}
+//			if (context.getTargetContainer() instanceof Diagram) {
+//				return true;
+//			}
 			if (getBusinessObjectForPictogramElement(context.getTargetContainer()) instanceof Composite) {
 				return true;
 			}
@@ -129,8 +129,8 @@ public class SCADiagramAddServiceFeature extends AbstractAddShapeFeature {
 			link(shape, addedClass);
 		}
 
-//		// call the layout feature
-//		layoutPictogramElement(containerShape);
+		// call the layout feature
+		layoutPictogramElement(containerShape);
 
 
 		return containerShape;

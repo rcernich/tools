@@ -1,5 +1,7 @@
 package org.jboss.tools.sca.diagram.componentreference;
 
+import java.io.IOException;
+
 import org.eclipse.graphiti.examples.common.ExampleUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -7,7 +9,9 @@ import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
-import org.eclipse.soa.sca.sca1_1.model.sca.ScaFactory;
+import org.jboss.tools.sca.Activator;
+import org.jboss.tools.sca.core.ModelHandler;
+import org.jboss.tools.sca.core.ModelHandlerLocator;
 
 public class SCADiagramCreateComponentReferenceFeature extends AbstractCreateFeature {
 
@@ -33,26 +37,23 @@ public class SCADiagramCreateComponentReferenceFeature extends AbstractCreateFea
 
 	@Override
 	public Object[] create(ICreateContext context) {
+		
         // ask user for EClass name
         String newClassName = ExampleUtil.askString(TITLE, USER_QUESTION, "");
         if (newClassName == null || newClassName.trim().length() == 0) {
             return EMPTY;
         }
 
-        ContainerShape containerShape = context.getTargetContainer();
-        Component component = (Component) getBusinessObjectForPictogramElement(containerShape);
-        
-        // create EClass
-        ComponentReference newClass = ScaFactory.eINSTANCE.createComponentReference();
+        ComponentReference newClass = null;
 
-        // Add model element to resource.
-        // We add the model element to the resource of the diagram for
-        // simplicity's sake. Normally, a customer would use its own
-        // model persistence layer for storing the business model separately.
-        component.getReference().add(newClass);
-//        getDiagram().eResource().getContents().add(newClass);
-        newClass.setName(newClassName);
-
+		try {
+			ModelHandler mh = ModelHandlerLocator.getModelHandler(getDiagram().eResource());
+			Object o = getBusinessObjectForPictogramElement(context.getTargetContainer());
+			newClass = mh.createComponentReference((Component)o);
+			newClass.setName(newClassName);
+		} catch (IOException e) {
+			Activator.logError(e);
+		}
         // do the add
         addGraphicalRepresentation(context, newClass);
 

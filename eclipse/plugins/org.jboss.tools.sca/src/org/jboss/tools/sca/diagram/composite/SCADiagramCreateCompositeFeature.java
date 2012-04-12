@@ -1,12 +1,16 @@
 package org.jboss.tools.sca.diagram.composite;
 
+import java.io.IOException;
+
 import org.eclipse.graphiti.examples.common.ExampleUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
-import org.eclipse.soa.sca.sca1_1.model.sca.ScaFactory;
+import org.jboss.tools.sca.Activator;
+import org.jboss.tools.sca.core.ModelHandler;
+import org.jboss.tools.sca.core.ModelHandlerLocator;
 
 public class SCADiagramCreateCompositeFeature extends AbstractCreateFeature {
 
@@ -30,15 +34,26 @@ public class SCADiagramCreateCompositeFeature extends AbstractCreateFeature {
             return EMPTY;
         }
 
-        // create EClass
-        Composite newClass = ScaFactory.eINSTANCE.createComposite();
+        Composite newClass = null;
 
-        // Add model element to resource.
-        // We add the model element to the resource of the diagram for
-        // simplicity's sake. Normally, a customer would use its own
-        // model persistence layer for storing the business model separately.
-        getDiagram().eResource().getContents().add(newClass);
-        newClass.setName(newClassName);
+		try {
+			ModelHandler mh = ModelHandlerLocator.getModelHandler(getDiagram().eResource());
+//			Object o = getBusinessObjectForPictogramElement(context.getTargetContainer());
+			newClass = mh.createComposite();
+			newClass.setName(newClassName);
+		} catch (IOException e) {
+			Activator.logError(e);
+		}
+
+//		// create EClass
+//        Composite newClass = ScaFactory.eINSTANCE.createComposite();
+//
+//        // Add model element to resource.
+//        // We add the model element to the resource of the diagram for
+//        // simplicity's sake. Normally, a customer would use its own
+//        // model persistence layer for storing the business model separately.
+//        getDiagram().eResource().getContents().add(newClass);
+//        newClass.setName(newClassName);
 
         // do the add
         addGraphicalRepresentation(context, newClass);

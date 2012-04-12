@@ -120,7 +120,7 @@ public class ModelHandlerLocator {
 			}
 		}
 
-//		handler.createDefinitionsIfMissing();
+		handler.createDefinitionsIfMissing();
 		return handler;
 	}
 

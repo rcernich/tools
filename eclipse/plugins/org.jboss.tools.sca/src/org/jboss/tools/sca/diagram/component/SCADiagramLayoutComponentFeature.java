@@ -74,12 +74,12 @@ public class SCADiagramLayoutComponentFeature extends AbstractLayoutFeature {
 					anythingChanged = true;
 
 				} else {
-					gaService.setWidth(graphicsAlgorithm,
-							containerWidth);
-					gaService.setHeight(graphicsAlgorithm, containerGa.getHeight());
-					graphicsAlgorithm.setWidth(containerWidth);
-
-					anythingChanged = true;
+//					gaService.setWidth(graphicsAlgorithm,
+//							containerWidth);
+//					gaService.setHeight(graphicsAlgorithm, containerGa.getHeight());
+//					graphicsAlgorithm.setWidth(containerWidth);
+//
+//					anythingChanged = true;
 				}
 			}
 		}

@@ -26,7 +26,7 @@ public class SCADiagramCustomLayoutFeature extends AbstractCustomFeature  {
 	/**
 	 * Minimal distance between nodes.
 	 */
-	private static final int PADDING = 30;
+	private static final int PADDING = 5;
 
 
 	public SCADiagramCustomLayoutFeature(IFeatureProvider fp) {
@@ -111,7 +111,31 @@ public class SCADiagramCustomLayoutFeature extends AbstractCustomFeature  {
 		}
 		dg.nodes = nodeList;
 		dg.edges = edgeList;
+		dg.setDirection(org.eclipse.draw2d.PositionConstants.EAST);
 		return dg;
+	}
+	
+	private CompoundDirectedGraph figureOutFlow() {
+		Map<AnchorContainer, Node> shapeToNode = new HashMap<AnchorContainer, Node>();
+		Diagram d = getDiagram();
+		CompoundDirectedGraph dg = new CompoundDirectedGraph();
+		EdgeList edgeList = new EdgeList();
+		NodeList nodeList = new NodeList();
+		processShapes(shapeToNode, nodeList, d);
+		EList<Connection> connections = d.getConnections();
+		for (Connection connection : connections) {
+			AnchorContainer source = connection.getStart().getParent();
+			AnchorContainer target = connection.getEnd().getParent();
+			Node sourceNode = shapeToNode.get(source);
+			Node targetNode = shapeToNode.get(target);
+			Edge edge = new Edge(sourceNode, targetNode);
+			edge.data = connection;
+			edgeList.add(edge);
+		}
+		dg.nodes = nodeList;
+		dg.edges = edgeList;
+		return dg;
+		
 	}
 
 }
