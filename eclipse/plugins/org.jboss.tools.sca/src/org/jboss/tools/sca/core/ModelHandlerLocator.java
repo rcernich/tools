@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.jboss.tools.switchyard.model.switchyard.util.SwitchyardResourceImpl;
 //import org.jboss.tools.switchyard.model.switchyard.util.SwitchyardResourceImpl;
 
 public class ModelHandlerLocator {
@@ -53,14 +54,49 @@ public class ModelHandlerLocator {
 		map.remove(path);
 	}
 
-	public static ModelHandler createModelHandler(URI path, final XMIResourceImpl switchyardResource) {
+//	public static ModelHandler createModelHandler(URI path, final XMIResourceImpl switchyardResource) {
+//		if (map.containsKey(path)) {
+//			return map.get(path);
+//		}
+//		return createNewModelHandler(path, switchyardResource);
+//	}
+
+	public static ModelHandler createModelHandler(URI path, final SwitchyardResourceImpl switchyardResource) {
 		if (map.containsKey(path)) {
 			return map.get(path);
 		}
 		return createNewModelHandler(path, switchyardResource);
 	}
 
-	private static ModelHandler createNewModelHandler(URI path, final XMIResourceImpl switchyardResource) {
+//	private static ModelHandler createNewModelHandler(URI path, final XMIResourceImpl switchyardResource) {
+//		ModelHandler handler = new ModelHandler();
+//		map.put(path, handler);
+//		handler.resource = switchyardResource;
+//
+//		URI uri = switchyardResource.getURI();
+//
+//		try {
+//			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+//			String platformString = uri.toPlatformString(true);
+//
+//			// platformString is null if file is outside of workspace
+//			if ((platformString == null || workspace.getRoot().getFile(new Path(platformString)).exists())
+//					&& !switchyardResource.isLoaded()) {
+//				handler.loadResource();
+//			}
+//		} catch (IllegalStateException e) {
+//
+//			// Workspace is not initialized so we must be running tests!
+//			if (!switchyardResource.isLoaded()) {
+//				handler.loadResource();
+//			}
+//		}
+//
+////		handler.createDefinitionsIfMissing();
+//		return handler;
+//	}
+
+	private static ModelHandler createNewModelHandler(URI path, final SwitchyardResourceImpl switchyardResource) {
 		ModelHandler handler = new ModelHandler();
 		map.put(path, handler);
 		handler.resource = switchyardResource;

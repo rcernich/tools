@@ -14,7 +14,9 @@ package org.jboss.tools.sca.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -30,6 +32,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -50,13 +53,14 @@ import org.jboss.tools.switchyard.model.switchyard.SwitchYardType;
 import org.jboss.tools.switchyard.model.switchyard.SwitchyardFactory;
 import org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage;
 import org.jboss.tools.switchyard.model.switchyard.util.SwitchyardResourceFactoryImpl;
+import org.jboss.tools.switchyard.model.switchyard.util.SwitchyardResourceImpl;
 import org.jboss.tools.switchyard.model.transform.TransformPackage;
 import org.jboss.tools.switchyard.model.validate.ValidatePackage;
 import org.open.oasis.docs.ns.opencsa.sca.bpel.BPELPackage;
 
 public class ModelHandler {
 
-	XMIResourceImpl resource;
+	SwitchyardResourceImpl resource;
 
 	ModelHandler() {
 	}
@@ -92,7 +96,7 @@ public class ModelHandler {
 		return ModelHandlerLocator.getModelHandler(object.eResource());
 	}
 
-	public XMIResourceImpl getResource() {
+	public SwitchyardResourceImpl getResource() {
 		return resource;
 	}
 
@@ -112,11 +116,14 @@ public class ModelHandler {
 
 	private void saveResource() {
 		// disabling save for now, as it's not working and is corrupting things
-//		try {
-//			resource.save(null);
-//		} catch (IOException e) {
-//			Activator.logError(e);
-//		}
+		try {
+//			Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+//			Map<String, Object> m = reg.getExtensionToFactoryMap();
+//			m.put("website", new XMIResourceFactoryImpl());
+			resource.save(Collections.EMPTY_MAP);
+		} catch (IOException e) {
+			Activator.logError(e);
+		}
 	}
 
 	void loadResource() {
@@ -148,11 +155,11 @@ public class ModelHandler {
 		resourceSet.getPackageRegistry().put("http://docs.oasis-open.org/ns/opencsa/sca/200903", BPELPackage.eINSTANCE);
 
 		try {
-			resource = (XMIResourceImpl) resourceSet.getResource(fileuri, true);
+			resource = (SwitchyardResourceImpl) resourceSet.getResource(fileuri, true);
 		} catch (WrappedException we) {
-			resource = (XMIResourceImpl) resourceSet.getResource(fileuri, true);
+			resource = (SwitchyardResourceImpl) resourceSet.getResource(fileuri, true);
 		} catch (Exception e) {
-			resource = (XMIResourceImpl) resourceSet.getResource(fileuri, true);
+			resource = (SwitchyardResourceImpl) resourceSet.getResource(fileuri, true);
 		}
 	}
 
