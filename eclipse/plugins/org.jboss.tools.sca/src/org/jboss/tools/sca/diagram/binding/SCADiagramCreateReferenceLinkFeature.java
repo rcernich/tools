@@ -28,8 +28,6 @@ AbstractCreateConnectionFeature {
 			
 			Object source = getEClass(context.getSourceAnchor());
 			Object target = getEClass(context.getTargetAnchor());
-			System.out.println("Source=" + source);
-			System.out.println("Target=" + target);
 			if (source != null && target != null) {
 				if (source instanceof Service && target instanceof Component) {
 					Service service = (Service) source;

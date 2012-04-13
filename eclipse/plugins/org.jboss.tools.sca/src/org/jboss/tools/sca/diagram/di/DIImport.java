@@ -22,11 +22,15 @@ import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.ILayoutFeature;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddContext;
+import org.eclipse.graphiti.features.context.impl.LayoutContext;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeService;
@@ -49,6 +53,8 @@ public class DIImport {
 	private ModelHandler modelHandler;
 	private IFeatureProvider featureProvider;
 	private final IPeService peService = Graphiti.getPeService();
+	private int furthestX = 0;
+	private int furthestY = 0;
 
 	/**
 	 * Look for model diagram interchange information and generate all shapes for the diagrams.
@@ -58,7 +64,6 @@ public class DIImport {
 	public void generateFromDI() {
 		
 		final List<DocumentRoot> documentRoots = modelHandler.getAll(DocumentRoot.class);
-		System.out.println("-------\n " + documentRoots.toString());
 		
 		domain.getCommandStack().execute(new RecordingCommand(domain) {
 			@Override
@@ -104,6 +109,8 @@ public class DIImport {
 			addContext.setTargetContainer(diagram);
 			addContext.setX(x);
 			addContext.setY(y);
+			furthestX = x;
+			furthestY = y;
 	
 			IAddFeature addFeature = featureProvider.getAddFeature(addContext);
 			if (addFeature.canAdd(addContext)) {
@@ -116,9 +123,42 @@ public class DIImport {
 			
 			addComponents(composite, compositeContainerShape, featureProvider, diagram, x, y);
 			
+			expandCompositeShapeIfNecessary(compositeContainerShape);
+			
 			return compositeContainerShape;
 		}
 		return null;
+	}
+	
+	private void layoutAll() {
+		for (Shape shape : diagram.getChildren()) {
+			PictogramElement pe = shape.getGraphicsAlgorithm().getPictogramElement();
+			LayoutContext context = new LayoutContext(pe);
+			ILayoutFeature feature = featureProvider.getLayoutFeature(context);
+			if (feature==null) {
+				continue;
+			}
+			if (feature.canLayout(context))
+				feature.layout(context);
+		}
+	}
+
+	
+	private void expandCompositeShapeIfNecessary ( ContainerShape compositeContainerShape ) {
+		int farX = 0;
+		int farY = 0;
+		for (Shape shape : compositeContainerShape.getChildren()) {
+			GraphicsAlgorithm ga = shape.getGraphicsAlgorithm();
+			int computedFarX = ga.getX() + ga.getWidth();
+			int computedFarY = ga.getY() + ga.getHeight();
+			if (computedFarX > farX) farX = computedFarX;
+			if (computedFarY > farY) farY = computedFarY;
+		}
+		
+		GraphicsAlgorithm containerGA = compositeContainerShape.getGraphicsAlgorithm();
+		containerGA.setHeight(farY + 50);
+		containerGA.setWidth(farX + 50);
+		layoutAll();
 	}
 	
 	private void addComponents(Composite composite, ContainerShape compositeContainerShape, IFeatureProvider featureProvider, Diagram diagram, int x, int y) {
@@ -148,6 +188,9 @@ public class DIImport {
 			addComponentContext.setTargetContainer(compositeContainerShape);
 			addComponentContext.setX(innerx);
 			addComponentContext.setY(innery);
+			
+			if (innerx > furthestX) furthestX = innerx;
+			if (innery > furthestY) furthestY = innery;
 
 			IAddFeature addComponentFeature = featureProvider.getAddFeature(addComponentContext);
 			if (addComponentFeature.canAdd(addComponentContext)) {
@@ -195,21 +238,20 @@ public class DIImport {
 		for (Iterator<Service> iterator = services.iterator(); iterator.hasNext();) {
 			Service service = (Service) iterator.next();
 
-			System.out.println("Adding Service: " + service.toString());
 			boolean isPromoted = service.getPromote() != null;
-			System.out.println("Service is promoted: " + isPromoted);
 			if (isPromoted) {
 				innerx = compositeContainerShape.getGraphicsAlgorithm().getX() - SCADiagramAddCompositeFeature.INVISIBLE_RECT_RIGHT; 
 			}
 			
-			System.out.println("Service x = " + innerx);
-			System.out.println("Service y = " + innery);
 			if (featureProvider.getPictogramElementForBusinessObject(service) == null) {
 				AddContext addServiceContext = new AddContext();
 				addServiceContext.setNewObject(service);
 				addServiceContext.setTargetContainer(compositeContainerShape);
 				addServiceContext.setX(innerx);
 				addServiceContext.setY(innery);
+
+				if (innerx > furthestX) furthestX = innerx;
+				if (innery > furthestY) furthestY = innery;
 
 				IAddFeature addServiceFeature = featureProvider.getAddFeature(addServiceContext);
 				if (addServiceFeature.canAdd(addServiceContext)) {
@@ -241,7 +283,6 @@ public class DIImport {
 					testName = testcomposite.getName();
 				}
 				if (testName != null && testName.contentEquals(name)) {
-//					System.out.println(testName);
 					return (ContainerShape) shape;
 				}
 			}

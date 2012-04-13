@@ -152,7 +152,6 @@ public class SwitchyardSCAEditor extends DiagramEditor {
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		
 		try {
-//			Bpmn2DiagramType diagramType = Bpmn2DiagramType.NONE;
 			if (input instanceof IFileEditorInput) {
 				modelFile = ((IFileEditorInput) input).getFile();
 //				loadPreferences(modelFile.getProject());

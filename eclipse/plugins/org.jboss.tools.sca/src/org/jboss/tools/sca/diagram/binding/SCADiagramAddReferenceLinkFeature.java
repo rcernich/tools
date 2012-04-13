@@ -27,15 +27,12 @@ public class SCADiagramAddReferenceLinkFeature extends AbstractAddFeature {
 		// and those EClasses are not identical
 		if (context instanceof IAddConnectionContext) {
 			if (context.getNewObject() instanceof Reference) {
-				System.out.println("Adding Reference");
 				return true;
 			}
 			if (context.getNewObject() instanceof ComponentReference) {
-				System.out.println("Adding Component Reference");
 				return true;
 			}
 		}
-		System.out.println("Not adding Reference");
 		return false;
 	}
 
