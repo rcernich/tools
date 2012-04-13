@@ -34,6 +34,10 @@ public class SCADiagramAddComponentFeature extends AbstractAddShapeFeature {
 	// the additional size of the invisible rectangle at the right border
 	// (this also equals the half width of the anchor to paint there)
 	public static final int INVISIBLE_RECT_RIGHT = 13;
+	
+	public static final int EDGE = 10;
+	public static final int RECTANGLE_HEIGHT = 50;
+	public static final int RECTANGLE_WIDTH = 100;
 
 	public SCADiagramAddComponentFeature( IFeatureProvider fp ) {
 		super(fp);

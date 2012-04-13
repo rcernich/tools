@@ -26,7 +26,5 @@ Export-Package: org.jboss.tools.sca,
  org.jboss.tools.sca.diagram.componentreference,
  org.jboss.tools.sca.diagram.componentservice,
  org.jboss.tools.sca.diagram.composite,
- org.jboss.tools.sca.diagram.custom,
  org.jboss.tools.sca.diagram.service,
- org.jboss.tools.sca.handlers,
  org.jboss.tools.sca.property

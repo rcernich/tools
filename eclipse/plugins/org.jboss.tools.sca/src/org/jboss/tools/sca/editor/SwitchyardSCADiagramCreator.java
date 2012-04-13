@@ -165,7 +165,7 @@ public class SwitchyardSCADiagramCreator {
 	 * @return an IFile for the model file.
 	 */
 	public static IFile getModelFile(IPath fullPath) {
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(fullPath);
+//		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(fullPath);
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getFile(fullPath).getProject();
 		int matchingSegments = project.getFullPath().matchingFirstSegments(fullPath);
 		int totalSegments = fullPath.segmentCount();
@@ -211,7 +211,6 @@ public class SwitchyardSCADiagramCreator {
 				container = container.getParent();
 			}
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

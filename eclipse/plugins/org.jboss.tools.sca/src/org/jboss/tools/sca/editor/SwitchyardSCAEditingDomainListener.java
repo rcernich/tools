@@ -15,6 +15,7 @@ package org.jboss.tools.sca.editor;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.transaction.ExceptionHandler;
 import org.eclipse.emf.transaction.TransactionalCommandStack;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.TransactionalEditingDomainEvent;
 import org.eclipse.emf.transaction.TransactionalEditingDomainListenerImpl;
 
@@ -26,7 +27,8 @@ public class SwitchyardSCAEditingDomainListener extends TransactionalEditingDoma
 	public SwitchyardSCAEditingDomainListener(SwitchyardSCAEditor switchyardSCAEditor) {
 		super();
 		this.switchyardSCAEditor = switchyardSCAEditor;
-		TransactionalCommandStack stack = (TransactionalCommandStack) switchyardSCAEditor.getEditingDomain().getCommandStack();
+		TransactionalEditingDomain editingDomain = switchyardSCAEditor.getEditingDomain();
+		TransactionalCommandStack stack = (TransactionalCommandStack) editingDomain.getCommandStack();
 		stack.setExceptionHandler(this);
 	}
 

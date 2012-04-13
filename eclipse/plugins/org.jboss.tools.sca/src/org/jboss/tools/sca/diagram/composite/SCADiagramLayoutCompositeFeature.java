@@ -1,5 +1,6 @@
 package org.jboss.tools.sca.diagram.composite;
 
+import org.eclipse.draw2d.Polyline;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.datatypes.IDimension;
@@ -8,11 +9,8 @@ import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.features.impl.AbstractLayoutFeature;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Polygon;
-import org.eclipse.graphiti.mm.algorithms.Polyline;
-import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
-import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
@@ -65,25 +63,32 @@ public class SCADiagramLayoutCompositeFeature extends AbstractLayoutFeature {
 			anythingChanged = true;
 		}
 
+		IGaService gaService = Graphiti.getGaService();
+		IDimension containersize = 
+				gaService.calculateSize(containerGa);
+		containerGa.setHeight(containersize.getHeight());
+		containerGa.setWidth(containersize.getWidth());
+		
+		Object containerbo = getBusinessObjectForPictogramElement(containerShape);
+
 		int containerWidth = containerGa.getWidth();
 		for (Shape shape : containerShape.getChildren()){
 			Object bo = getBusinessObjectForPictogramElement(shape);
 
 			GraphicsAlgorithm graphicsAlgorithm = shape.getGraphicsAlgorithm();
-			IGaService gaService = Graphiti.getGaService();
 			IDimension size = 
 					gaService.calculateSize(graphicsAlgorithm);
 			System.out.println("Layout: " + bo.toString() + "\n" + "   Algorithm: " + graphicsAlgorithm.toString());
 			if (containerWidth != size.getWidth()) {
 				if (graphicsAlgorithm instanceof Polygon) {
 					// ignore
-				} else if (graphicsAlgorithm instanceof Polyline) {
-					Polyline polyline = (Polyline) graphicsAlgorithm;
-					Point secondPoint = polyline.getPoints().get(1);
-					Point newSecondPoint =
-							gaService.createPoint(containerWidth, secondPoint.getY()); 
-					polyline.getPoints().set(1, newSecondPoint);
-					anythingChanged = true;
+//				} else if (graphicsAlgorithm instanceof Polyline) {
+//					Polyline polyline = (Polyline) graphicsAlgorithm;
+//					Point secondPoint = polyline.getPoints().get(1);
+//					Point newSecondPoint =
+//							gaService.createPoint(containerWidth, secondPoint.getY()); 
+//					polyline.getPoints().set(1, newSecondPoint);
+//					anythingChanged = true;
 				} else if (graphicsAlgorithm instanceof RoundedRectangle) {
 					if (bo instanceof Component) {
 						RoundedRectangle rrect = (RoundedRectangle) graphicsAlgorithm;

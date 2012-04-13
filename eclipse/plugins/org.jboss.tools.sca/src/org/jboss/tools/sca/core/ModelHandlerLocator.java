@@ -20,9 +20,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.jboss.tools.switchyard.model.switchyard.util.SwitchyardResourceImpl;
-//import org.jboss.tools.switchyard.model.switchyard.util.SwitchyardResourceImpl;
 
 public class ModelHandlerLocator {
 
@@ -33,7 +31,7 @@ public class ModelHandlerLocator {
 		if (eResource==null)
 			return null;
 		URI uri = eResource.getURI();
-		String[] segments = uri.segments();
+//		String[] segments = uri.segments();
 
 		return getModelHandler(uri);
 	}

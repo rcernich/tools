@@ -95,6 +95,7 @@ public final class SwitchyardSCADiagramEditorInput extends DiagramEditorInput {
 		return false;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Object getAdapter(Class adapter) {
 //		if (adapter.equals(TransactionalEditingDomain.class)) {

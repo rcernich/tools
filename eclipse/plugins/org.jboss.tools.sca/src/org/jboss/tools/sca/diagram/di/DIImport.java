@@ -36,6 +36,9 @@ import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.jboss.tools.sca.core.ModelHandler;
+import org.jboss.tools.sca.diagram.component.SCADiagramAddComponentFeature;
+import org.jboss.tools.sca.diagram.composite.SCADiagramAddCompositeFeature;
+import org.jboss.tools.sca.diagram.service.SCADiagramAddServiceFeature;
 import org.jboss.tools.switchyard.model.switchyard.DocumentRoot;
 import org.jboss.tools.switchyard.model.switchyard.SwitchYardType;
 
@@ -119,15 +122,32 @@ public class DIImport {
 	}
 	
 	private void addComponents(Composite composite, ContainerShape compositeContainerShape, IFeatureProvider featureProvider, Diagram diagram, int x, int y) {
+		int innerx = compositeContainerShape.getGraphicsAlgorithm().getX() + 20;
+		int innery = compositeContainerShape.getGraphicsAlgorithm().getY() + 20;
+		int colOneX = innerx;
+		int colTwoX = innerx + SCADiagramAddComponentFeature.RECTANGLE_WIDTH + 50;
+		int colThreeX = colTwoX + SCADiagramAddComponentFeature.RECTANGLE_WIDTH + 50;
+
 		EList<Component> components = composite.getComponent();
 		for (Iterator<Component> iterator = components.iterator(); iterator.hasNext();) {
 			Component component = (Component) iterator.next();
 
+			boolean hasRef =  (component.getReference().size() > 0);
+			boolean hasCService = (component.getService().size() > 0);
+			
+			if (hasRef && hasCService) {
+				innerx = colTwoX;
+			} else if (hasRef) {
+				innerx = colOneX;
+			} else if (hasCService) {
+				innerx = colThreeX; 
+			}
+
 			AddContext addComponentContext = new AddContext();
 			addComponentContext.setNewObject(component);
 			addComponentContext.setTargetContainer(compositeContainerShape);
-			addComponentContext.setX(x);
-			addComponentContext.setY(y);
+			addComponentContext.setX(innerx);
+			addComponentContext.setY(innery);
 
 			IAddFeature addComponentFeature = featureProvider.getAddFeature(addComponentContext);
 			if (addComponentFeature.canAdd(addComponentContext)) {
@@ -138,6 +158,7 @@ public class DIImport {
 			
 			addComponentServices(component, componentContainerShape, featureProvider, diagram, x, y);
 
+			innery = innery + SCADiagramAddServiceFeature.POLYGON_HEIGHT + 20;
 		}
 		for (Iterator<Component> iterator = components.iterator(); iterator.hasNext();) {
 			Component component = (Component) iterator.next();
@@ -168,22 +189,35 @@ public class DIImport {
 	}
 
 	private void addCompositeServices ( Composite composite, ContainerShape compositeContainerShape, IFeatureProvider featureProvider, Diagram diagram, int x, int y) {
+		int innerx = compositeContainerShape.getGraphicsAlgorithm().getX() + 30;
+		int innery = compositeContainerShape.getGraphicsAlgorithm().getY() + 30;
 		EList<Service> services = composite.getService();
 		for (Iterator<Service> iterator = services.iterator(); iterator.hasNext();) {
 			Service service = (Service) iterator.next();
 
+			System.out.println("Adding Service: " + service.toString());
+			boolean isPromoted = service.getPromote() != null;
+			System.out.println("Service is promoted: " + isPromoted);
+			if (isPromoted) {
+				innerx = compositeContainerShape.getGraphicsAlgorithm().getX() - SCADiagramAddCompositeFeature.INVISIBLE_RECT_RIGHT; 
+			}
+			
+			System.out.println("Service x = " + innerx);
+			System.out.println("Service y = " + innery);
 			if (featureProvider.getPictogramElementForBusinessObject(service) == null) {
 				AddContext addServiceContext = new AddContext();
 				addServiceContext.setNewObject(service);
 				addServiceContext.setTargetContainer(compositeContainerShape);
-				addServiceContext.setX(x);
-				addServiceContext.setY(y);
+				addServiceContext.setX(innerx);
+				addServiceContext.setY(innery);
 
 				IAddFeature addServiceFeature = featureProvider.getAddFeature(addServiceContext);
 				if (addServiceFeature.canAdd(addServiceContext)) {
 					addServiceFeature.add(addServiceContext);
 				}
 			}
+
+			innery = innery + SCADiagramAddServiceFeature.POLYGON_HEIGHT + 20;
 		}
 	}
 	
