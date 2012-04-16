@@ -57,10 +57,30 @@
           class="org.jboss.tools.sca.editor.SwitchyardSCAEditor"
           contributorClass="org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor"
           default="true"
-          extensions="xml"
+          filenames="switchyard.xml"
           id="org.jboss.tools.sca.switchyard.editor"
           name="Switchyard SCA Visual Editor">
+       <contentTypeBinding
+             contentTypeId="org.jboss.switchyard.content-type.xml">
+       </contentTypeBinding>
     </editor>
+ </extension>
+    <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.xml"
+            id="org.jboss.switchyard.content-type.xml"
+            name="SwitchYard 0.5 XML File"
+            priority="normal">
+         <describer
+               class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber2"
+               plugin="org.eclipse.emf.ecore.xmi">
+            <parameter
+                  name="element"
+                  value="{urn:switchyard-config:switchyard:1.0}*">
+            </parameter>
+         </describer>
+      </content-type>
  </extension>
 
 </plugin>

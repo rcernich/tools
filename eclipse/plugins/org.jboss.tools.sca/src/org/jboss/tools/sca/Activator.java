@@ -64,6 +64,10 @@ public class Activator extends AbstractUIPlugin {
 		return new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage(), e);
 	}
 
+	public static Status createStatus(String message) {
+		return new Status(IStatus.ERROR, Activator.PLUGIN_ID, message, null);
+	}
+
 	public static void showErrorWithLogging(Exception e){
 		Status s = createStatus(e);
 		logStatus(s);

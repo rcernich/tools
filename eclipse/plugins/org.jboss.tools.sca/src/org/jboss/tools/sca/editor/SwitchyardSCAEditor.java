@@ -160,6 +160,7 @@ public class SwitchyardSCAEditor extends DiagramEditor {
 
 			} else if (input instanceof DiagramEditorInput) {
 				getModelPathFromInput((DiagramEditorInput) input);
+
 //				loadPreferences(modelFile.getProject());
 				if (input instanceof SwitchyardSCADiagramEditorInput)
 				// This was incorrectly constructed input, we ditch the old one and make a new and clean one instead
