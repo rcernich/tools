@@ -158,6 +158,15 @@ public class DIImport {
 		GraphicsAlgorithm containerGA = compositeContainerShape.getGraphicsAlgorithm();
 		containerGA.setHeight(farY + 50);
 		containerGA.setWidth(farX + 50);
+		
+		EList<Anchor> anchors = compositeContainerShape.getAnchors();
+		for (Anchor anchor : anchors) {
+			Object anchorObj = featureProvider.getBusinessObjectForPictogramElement(anchor);
+			if (anchorObj != null) {
+				GraphicsAlgorithm gaAnchor = anchor.getGraphicsAlgorithm();
+				gaAnchor.setY(gaAnchor.getY() + 20);
+			}
+		}
 		layoutAll();
 	}
 	
@@ -317,7 +326,7 @@ public class DIImport {
 		}
 		return foundItems.toArray(new ContainerShape[foundItems.size()]);
 	}
-
+	
 	private void handleComponentReferences ( Diagram diagram, IFeatureProvider featureProvider, ContainerShape parent ) {
 		Object parentObj = featureProvider.getBusinessObjectForPictogramElement(parent);
 

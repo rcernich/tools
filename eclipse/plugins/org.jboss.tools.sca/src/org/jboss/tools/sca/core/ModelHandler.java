@@ -38,6 +38,7 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
+import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaFactory;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
@@ -177,6 +178,12 @@ public class ModelHandler {
 		Component component = createSCA(Component.class);
 		source.getComponent().add(component);
 		return component;
+	}
+
+	public Reference createCompositeReference(Composite source) {
+		Reference compositeRef = createSCA(Reference.class);
+		source.getReference().add(compositeRef);
+		return compositeRef;
 	}
 
 	public ComponentReference createComponentReference(Component source) {

@@ -43,6 +43,8 @@ import org.jboss.tools.sca.diagram.composite.SCADiagramDirectEditCompositeFeatur
 import org.jboss.tools.sca.diagram.composite.SCADiagramLayoutCompositeFeature;
 import org.jboss.tools.sca.diagram.composite.SCADiagramMoveCompositeFeature;
 import org.jboss.tools.sca.diagram.composite.SCADiagramUpdateCompositeFeature;
+import org.jboss.tools.sca.diagram.compositereference.SCADiagramAddCompositeReferenceFeature;
+import org.jboss.tools.sca.diagram.compositereference.SCADiagramCreateCompositeReferenceFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramAddServiceFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramCreateServiceFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramDirectEditServiceFeature;
@@ -68,7 +70,7 @@ public class SCADiagramFeatureProvider extends DefaultFeatureProvider {
 			return new SCADiagramAddServiceFeature(this);
 		}
 		if (context.getNewObject() instanceof Reference) {
-			return new SCADiagramAddReferenceLinkFeature(this);
+			return new SCADiagramAddCompositeReferenceFeature(this);
 		}
 		if (context.getNewObject() instanceof ComponentReference) {
 			if (context instanceof AddConnectionContext) {
@@ -93,7 +95,8 @@ public class SCADiagramFeatureProvider extends DefaultFeatureProvider {
 				new SCADiagramCreateComponentFeature(this),
 				new SCADiagramCreateServiceFeature(this),
 				new SCADiagramCreateComponentServiceFeature(this),
-				new SCADiagramCreateComponentReferenceFeature(this)
+				new SCADiagramCreateComponentReferenceFeature(this),
+				new SCADiagramCreateCompositeReferenceFeature(this)
 			};
 	}
 

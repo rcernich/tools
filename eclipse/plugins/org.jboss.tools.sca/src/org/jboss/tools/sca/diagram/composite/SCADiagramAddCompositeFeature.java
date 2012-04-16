@@ -1,13 +1,16 @@
 package org.jboss.tools.sca.diagram.composite;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
+import org.eclipse.graphiti.mm.algorithms.Polygon;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.Font;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
+import org.eclipse.graphiti.mm.pictograms.BoxRelativeAnchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -17,12 +20,15 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
+import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 
 public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 
 	private static final IColorConstant CLASS_TEXT_FOREGROUND = new ColorConstant(0, 0, 0);
 	private static final IColorConstant CLASS_FOREGROUND = new ColorConstant(255, 102, 0);
 	private static final IColorConstant CLASS_BACKGROUND = new ColorConstant("6699ff");//0, 191, 255);
+	private static final IColorConstant COMPONENT_FOREGROUND = new ColorConstant(255, 102, 0); // bright orange line around component
+	private static final IColorConstant ANCHOR_OUT_BACKGROUND = new ColorConstant("f69679"); // orange
 
 	// the additional size of the invisible rectangle at the right border
 	// (this also equals the half width of the anchor to paint there)
@@ -117,7 +123,37 @@ public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 //			link(shape, addedClass);
 		}
 
-//		// call the layout feature
+		if (addedClass.getReference().size() > 0) {
+			
+			EList<Reference> references = addedClass.getReference();
+			for (Reference compositetReference : references) {
+				
+				// create a box relative anchor at middle-right
+				final BoxRelativeAnchor boxAnchorRight = peCreateService.createBoxRelativeAnchor(containerShape);
+				boxAnchorRight.setRelativeWidth(1.0);
+				boxAnchorRight.setRelativeHeight(0.38); // Use golden section
+				
+				// anchor references visible rectangle instead of invisible rectangle
+				boxAnchorRight.setReferencedGraphicsAlgorithm(roundedRectangle);
+				
+				// assign a graphics algorithm for the box relative anchor
+				int polyxy[] = new int[] {0,0, 15,0, 20,5, 15,10, 0,10, 3,5, 0,0 }; 
+		        Polygon pbox2 = gaService.createPolygon(boxAnchorRight, polyxy);
+		        pbox2.setBackground(manageColor(ANCHOR_OUT_BACKGROUND));
+		        pbox2.setForeground(manageColor(COMPONENT_FOREGROUND));
+		        pbox2.setLineVisible(false);
+		        pbox2.setFilled(true);
+		        
+				// anchor is located on the right border of the visible rectangle
+				// and touches the border of the invisible rectangle
+				final int w2 = INVISIBLE_RECT_RIGHT;
+				gaService.setLocationAndSize(pbox2, -w2 + INVISIBLE_RECT_RIGHT - 10, -w2, 20, 10); //2 * w2, 2 * w2);
+				
+				link (boxAnchorRight, compositetReference);
+			}
+		}
+
+		// call the layout feature
 		layoutPictogramElement(containerShape);
 
  
