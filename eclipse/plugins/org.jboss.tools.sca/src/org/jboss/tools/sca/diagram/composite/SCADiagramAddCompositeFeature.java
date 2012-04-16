@@ -81,7 +81,7 @@ public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 			roundedRectangle.setLineWidth(2);
 
 			gaService.setLocationAndSize(roundedRectangle,
-					context.getX(), context.getY(), width, height);
+					INVISIBLE_RECT_RIGHT/2, INVISIBLE_RECT_RIGHT/2, width - edge, height - edge);
 
 			// if added Class has no resource we add it to the resource 
 			// of the diagram

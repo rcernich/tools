@@ -46,6 +46,7 @@ import org.jboss.tools.sca.diagram.composite.SCADiagramUpdateCompositeFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramAddServiceFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramCreateServiceFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramDirectEditServiceFeature;
+import org.jboss.tools.sca.diagram.service.SCADiagramMoveServiceFeature;
 
 public class SCADiagramFeatureProvider extends DefaultFeatureProvider {
 
@@ -123,6 +124,9 @@ public class SCADiagramFeatureProvider extends DefaultFeatureProvider {
 		Object bo = getBusinessObjectForPictogramElement(shape);
 		if (bo instanceof Composite) {
 			return new SCADiagramMoveCompositeFeature(this);
+		}
+		if (bo instanceof Service) {
+			return new SCADiagramMoveServiceFeature(this);
 		}
 		return super.getMoveShapeFeature(context);
 	}

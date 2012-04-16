@@ -46,17 +46,19 @@ public class SCADiagramUpdateCompositeFeature extends AbstractUpdateFeature {
 		if (bo instanceof Composite) {
 			Composite eClass = (Composite) bo;
 			businessName = eClass.getName();
+
+			// update needed, if names are different
+			boolean updateNameNeeded =
+					((pictogramName == null && businessName != null) || 
+							(pictogramName != null && !pictogramName.equals(businessName)));
+			if (updateNameNeeded) {
+				return Reason.createTrueReason("Name is out of date");
+			} else {
+				return Reason.createFalseReason();
+			}
 		}
 
-		// update needed, if names are different
-		boolean updateNameNeeded =
-				((pictogramName == null && businessName != null) || 
-						(pictogramName != null && !pictogramName.equals(businessName)));
-		if (updateNameNeeded) {
-			return Reason.createTrueReason("Name is out of date");
-		} else {
-			return Reason.createFalseReason();
-		}
+		return Reason.createFalseReason();
 	}
 
 	@Override
