@@ -1,4 +1,16 @@
-package org.jboss.tools.sca.diagram.binding;
+/******************************************************************************* 
+ * Copyright (c) 2012 Red Hat, Inc. 
+ *  All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ *
+ * @author bfitzpat
+ ******************************************************************************/
+package org.jboss.tools.sca.diagram.connections;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
@@ -23,8 +35,6 @@ public class SCADiagramAddReferenceLinkFeature extends AbstractAddFeature {
 
 	@Override
 	public boolean canAdd(IAddContext context) {
-		// return true if both anchors belong to an EClass
-		// and those EClasses are not identical
 		if (context instanceof IAddConnectionContext) {
 			if (context.getNewObject() instanceof Reference) {
 				return true;
@@ -68,8 +78,6 @@ public class SCADiagramAddReferenceLinkFeature extends AbstractAddFeature {
         	link(connection, startObject);
         }
  
-//		Graphiti.getPeService().setPropertyValue(connection, "sca-type", "reference");
-
 		return connection;
 	}
 

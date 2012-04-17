@@ -1,3 +1,15 @@
+/******************************************************************************* 
+ * Copyright (c) 2012 Red Hat, Inc. 
+ *  All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ *
+ * @author bfitzpat
+ ******************************************************************************/
 package org.jboss.tools.sca.diagram.composite;
 
 import org.eclipse.emf.common.util.EList;
@@ -17,22 +29,11 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
-import org.eclipse.graphiti.util.ColorConstant;
-import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
+import org.jboss.tools.sca.diagram.StyleUtil;
 
 public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
-
-	private static final IColorConstant CLASS_TEXT_FOREGROUND = new ColorConstant(0, 0, 0);
-	private static final IColorConstant CLASS_FOREGROUND = new ColorConstant(255, 102, 0);
-	private static final IColorConstant CLASS_BACKGROUND = new ColorConstant("6699ff");//0, 191, 255);
-	private static final IColorConstant COMPONENT_FOREGROUND = new ColorConstant(255, 102, 0); // bright orange line around component
-	private static final IColorConstant ANCHOR_OUT_BACKGROUND = new ColorConstant("f69679"); // orange
-
-	// the additional size of the invisible rectangle at the right border
-	// (this also equals the half width of the anchor to paint there)
-	public static final int INVISIBLE_RECT_RIGHT = 40;
 
 	public SCADiagramAddCompositeFeature( IFeatureProvider fp ) {
 		super(fp);
@@ -40,7 +41,7 @@ public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 
 	@Override
 	public boolean canAdd(IAddContext context) {
-		// check if user wants to add a EClass
+		// check if user wants to add a composite
 		if (context.getNewObject() instanceof Composite) {
 			// check if user wants to add to a diagram
 			if (context.getTargetContainer() instanceof Diagram) {
@@ -52,7 +53,7 @@ public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 
 	@Override
 	public PictogramElement add(IAddContext context) {
-		Composite addedClass = (Composite) context.getNewObject();
+		Composite addedComposite = (Composite) context.getNewObject();
 		Diagram targetDiagram = (Diagram) context.getTargetContainer();
 
 		// CONTAINER SHAPE WITH ROUNDED RECTANGLE
@@ -62,32 +63,32 @@ public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 		Graphiti.getPeService().setPropertyValue(containerShape, "sca-type", "composite");
 
 		// define a default size for the shape
-//		int width = 500;
-//		int height = 300; 
 		IGaService gaService = Graphiti.getGaService();
-		int edge = 10;
+		int edge = StyleUtil.COMPOSITE_EDGE;
 		
 	    // check whether the context has a size (e.g. from a create feature)
         // otherwise define a default size for the shape
-        int width = context.getWidth() <= 0 ? 500 + edge : context.getWidth();
-        int height = context.getHeight() <= 0 ? 300 + edge : context.getHeight();
+        int width = context.getWidth() <= 0 ? StyleUtil.COMPOSITE_WIDTH + edge : context.getWidth();
+        int height = context.getHeight() <= 0 ? StyleUtil.COMPOSITE_HEIGHT + edge : context.getHeight();
  
         Rectangle invisibleRectangle = gaService.createInvisibleRectangle(containerShape);
         gaService.setLocationAndSize(invisibleRectangle,
-                context.getX(), context.getY(), width + INVISIBLE_RECT_RIGHT,
-                height + INVISIBLE_RECT_RIGHT);
+                context.getX(), context.getY(), width + StyleUtil.COMPOSITE_INVISIBLE_RECT_RIGHT,
+                height + StyleUtil.COMPOSITE_INVISIBLE_RECT_RIGHT);
 
         RoundedRectangle roundedRectangle = null;        
         {
 			// create and set graphics algorithm
 			roundedRectangle =
 					gaService.createRoundedRectangle(invisibleRectangle, 20, 20);
-			roundedRectangle.setForeground(manageColor(CLASS_FOREGROUND));
-			roundedRectangle.setBackground(manageColor(CLASS_BACKGROUND));
+			roundedRectangle.setForeground(manageColor(StyleUtil.ORANGE));
+			roundedRectangle.setBackground(manageColor(StyleUtil.PERIWINKLE_BLUE));
 			roundedRectangle.setLineWidth(2);
 
 			gaService.setLocationAndSize(roundedRectangle,
-					INVISIBLE_RECT_RIGHT/2, INVISIBLE_RECT_RIGHT/2, width - edge, height - edge);
+					StyleUtil.COMPOSITE_INVISIBLE_RECT_RIGHT/2, 
+					StyleUtil.COMPOSITE_INVISIBLE_RECT_RIGHT/2, 
+					width - edge, height - edge);
 
 			// if added Class has no resource we add it to the resource 
 			// of the diagram
@@ -100,18 +101,15 @@ public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 			Graphiti.getPeService().setPropertyValue(roundedRectangle, "sca-type", "composite");
 
 			// create link and wire it
-			link(containerShape, addedClass);
+			link(containerShape, addedComposite);
 		}
 
 		// SHAPE WITH TEXT
 		{
-//			// create shape for text
-//			Shape shape = peCreateService.createShape(invisibleRectangle, false);
-
 			// create and set text graphics algorithm
 			Text text = gaService.createDefaultText(getDiagram(), roundedRectangle,
-					addedClass.getName());
-			text.setForeground(manageColor(CLASS_TEXT_FOREGROUND));
+					addedComposite.getName());
+			text.setForeground(manageColor(StyleUtil.BLACK));
 			text.setHorizontalAlignment(Orientation.ALIGNMENT_LEFT);
 			text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 			Font font = text.getFont();
@@ -119,13 +117,11 @@ public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 //			text.getFont().setBold(true);
 			gaService.setLocationAndSize(text, edge + 2, edge + 2, width, font.getSize() * 2);
 
-//			// create link and wire it
-//			link(shape, addedClass);
 		}
 
-		if (addedClass.getReference().size() > 0) {
+		if (addedComposite.getReference().size() > 0) {
 			
-			EList<Reference> references = addedClass.getReference();
+			EList<Reference> references = addedComposite.getReference();
 			for (Reference compositetReference : references) {
 				
 				// create a box relative anchor at middle-right
@@ -137,17 +133,18 @@ public class SCADiagramAddCompositeFeature extends AbstractAddShapeFeature {
 				boxAnchorRight.setReferencedGraphicsAlgorithm(roundedRectangle);
 				
 				// assign a graphics algorithm for the box relative anchor
-				int polyxy[] = new int[] {0,0, 15,0, 20,5, 15,10, 0,10, 3,5, 0,0 }; 
-		        Polygon pbox2 = gaService.createPolygon(boxAnchorRight, polyxy);
-		        pbox2.setBackground(manageColor(ANCHOR_OUT_BACKGROUND));
-		        pbox2.setForeground(manageColor(COMPONENT_FOREGROUND));
-		        pbox2.setLineVisible(false);
+		        Polygon pbox2 = gaService.createPolygon(boxAnchorRight, StyleUtil.LARGE_RIGHT_ARROW);
+		        pbox2.setBackground(manageColor(StyleUtil.ORANGE));
+		        pbox2.setForeground(manageColor(StyleUtil.GREEN));
+		        pbox2.setLineVisible(true);
 		        pbox2.setFilled(true);
 		        
 				// anchor is located on the right border of the visible rectangle
 				// and touches the border of the invisible rectangle
-				final int w2 = INVISIBLE_RECT_RIGHT;
-				gaService.setLocationAndSize(pbox2, -w2 + INVISIBLE_RECT_RIGHT - 10, -w2, 20, 10); //2 * w2, 2 * w2);
+				final int w2 = StyleUtil.COMPOSITE_INVISIBLE_RECT_RIGHT;
+				gaService.setLocationAndSize(pbox2, 
+						-w2 + StyleUtil.COMPOSITE_INVISIBLE_RECT_RIGHT - 75, 
+						-w2, StyleUtil.LARGE_RIGHT_ARROW_WIDTH, StyleUtil.LARGE_RIGHT_ARROW_HEIGHT);
 				
 				link (boxAnchorRight, compositetReference);
 			}

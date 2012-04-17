@@ -1,4 +1,16 @@
-package org.jboss.tools.sca.diagram.binding;
+/******************************************************************************* 
+ * Copyright (c) 2012 Red Hat, Inc. 
+ *  All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ *
+ * @author bfitzpat
+ ******************************************************************************/
+package org.jboss.tools.sca.diagram.connections;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -20,8 +32,6 @@ AbstractCreateConnectionFeature {
 
 	@Override
 	public boolean canCreate(ICreateConnectionContext context) {
-		// return true if both anchors belong to an EClass
-		// and those EClasses are not identical
 		if (context.getSourceAnchor() != null && context.getTargetAnchor() != null) {
 			
 			Object source = getEClass(context.getSourceAnchor());

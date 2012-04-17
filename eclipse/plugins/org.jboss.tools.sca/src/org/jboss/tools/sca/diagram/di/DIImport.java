@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2011 Red Hat, Inc. 
+ * Copyright (c) 2012 Red Hat, Inc. 
  *  All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -8,7 +8,7 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  *
- * @author Ivar Meikas
+ * @author bfitzpat
  ******************************************************************************/
 package org.jboss.tools.sca.diagram.di;
 
@@ -40,9 +40,7 @@ import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.jboss.tools.sca.core.ModelHandler;
-import org.jboss.tools.sca.diagram.component.SCADiagramAddComponentFeature;
-import org.jboss.tools.sca.diagram.composite.SCADiagramAddCompositeFeature;
-import org.jboss.tools.sca.diagram.service.SCADiagramAddServiceFeature;
+import org.jboss.tools.sca.diagram.StyleUtil;
 import org.jboss.tools.switchyard.model.switchyard.DocumentRoot;
 import org.jboss.tools.switchyard.model.switchyard.SwitchYardType;
 
@@ -174,8 +172,8 @@ public class DIImport {
 		int innerx = compositeContainerShape.getGraphicsAlgorithm().getX() + 20;
 		int innery = compositeContainerShape.getGraphicsAlgorithm().getY() + 20;
 		int colOneX = innerx;
-		int colTwoX = innerx + SCADiagramAddComponentFeature.RECTANGLE_WIDTH + 50;
-		int colThreeX = colTwoX + SCADiagramAddComponentFeature.RECTANGLE_WIDTH + 50;
+		int colTwoX = innerx + StyleUtil.COMPONENT_WIDTH + 50;
+		int colThreeX = colTwoX + StyleUtil.COMPONENT_WIDTH + 50;
 
 		EList<Component> components = composite.getComponent();
 		for (Iterator<Component> iterator = components.iterator(); iterator.hasNext();) {
@@ -210,7 +208,7 @@ public class DIImport {
 			
 			addComponentServices(component, componentContainerShape, featureProvider, diagram, x, y);
 
-			innery = innery + SCADiagramAddServiceFeature.POLYGON_HEIGHT + 20;
+			innery = innery + StyleUtil.SERVICE_HEIGHT + 20;
 		}
 		for (Iterator<Component> iterator = components.iterator(); iterator.hasNext();) {
 			Component component = (Component) iterator.next();
@@ -249,7 +247,8 @@ public class DIImport {
 
 			boolean isPromoted = service.getPromote() != null;
 			if (isPromoted) {
-				innerx = compositeContainerShape.getGraphicsAlgorithm().getX() - SCADiagramAddCompositeFeature.INVISIBLE_RECT_RIGHT; 
+				innerx = compositeContainerShape.getGraphicsAlgorithm().getX() 
+						- StyleUtil.COMPOSITE_INVISIBLE_RECT_RIGHT; 
 			}
 			
 			if (featureProvider.getPictogramElementForBusinessObject(service) == null) {
@@ -268,7 +267,7 @@ public class DIImport {
 				}
 			}
 
-			innery = innery + SCADiagramAddServiceFeature.POLYGON_HEIGHT + 20;
+			innery = innery + StyleUtil.SERVICE_HEIGHT + 20;
 		}
 	}
 	

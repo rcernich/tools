@@ -64,6 +64,17 @@
              contentTypeId="org.jboss.switchyard.content-type.xml">
        </contentTypeBinding>
     </editor>
+    <editor
+          class="org.jboss.tools.sca.editor.MultiPageEditor"
+          contributorClass="org.jboss.tools.sca.editor.MultiPageEditorContributor"
+          default="true"
+          filenames="switchyard.xml"
+          id="org.jboss.tools.sca.switchyard.editor.multi"
+          name="Switchyard SCA Visual Multipage Editor">
+       <contentTypeBinding
+             contentTypeId="org.jboss.switchyard.content-type.xml">
+       </contentTypeBinding>
+    </editor>
  </extension>
     <extension
          point="org.eclipse.core.contenttype.contentTypes">

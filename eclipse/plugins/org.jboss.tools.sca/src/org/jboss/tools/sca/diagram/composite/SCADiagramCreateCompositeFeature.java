@@ -1,3 +1,15 @@
+/******************************************************************************* 
+ * Copyright (c) 2012 Red Hat, Inc. 
+ *  All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ *
+ * @author bfitzpat
+ ******************************************************************************/
 package org.jboss.tools.sca.diagram.composite;
 
 import java.io.IOException;
@@ -29,37 +41,26 @@ public class SCADiagramCreateCompositeFeature extends AbstractCreateFeature {
 	@Override
 	public Object[] create(ICreateContext context) {
         // ask user for EClass name
-        String newClassName = ExampleUtil.askString(TITLE, USER_QUESTION, "");
-        if (newClassName == null || newClassName.trim().length() == 0) {
+        String newCompositeName = ExampleUtil.askString(TITLE, USER_QUESTION, "");
+        if (newCompositeName == null || newCompositeName.trim().length() == 0) {
             return EMPTY;
         }
 
-        Composite newClass = null;
+        Composite newComposite = null;
 
 		try {
 			ModelHandler mh = ModelHandlerLocator.getModelHandler(getDiagram().eResource());
-//			Object o = getBusinessObjectForPictogramElement(context.getTargetContainer());
-			newClass = mh.createComposite();
-			newClass.setName(newClassName);
+			newComposite = mh.createComposite();
+			newComposite.setName(newCompositeName);
 		} catch (IOException e) {
 			Activator.logError(e);
 		}
 
-//		// create EClass
-//        Composite newClass = ScaFactory.eINSTANCE.createComposite();
-//
-//        // Add model element to resource.
-//        // We add the model element to the resource of the diagram for
-//        // simplicity's sake. Normally, a customer would use its own
-//        // model persistence layer for storing the business model separately.
-//        getDiagram().eResource().getContents().add(newClass);
-//        newClass.setName(newClassName);
-
         // do the add
-        addGraphicalRepresentation(context, newClass);
+        addGraphicalRepresentation(context, newComposite);
 
         // return newly created business object(s)
-        return new Object[] { newClass };
+        return new Object[] { newComposite };
 	}
 
 }

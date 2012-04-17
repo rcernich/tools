@@ -1,3 +1,15 @@
+/******************************************************************************* 
+ * Copyright (c) 2012 Red Hat, Inc. 
+ *  All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ *
+ * @author bfitzpat
+ ******************************************************************************/
 package org.jboss.tools.sca.diagram;
 
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
@@ -26,10 +38,6 @@ import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
-import org.jboss.tools.sca.diagram.binding.SCADiagramAddComponentServiceLinkFeature;
-import org.jboss.tools.sca.diagram.binding.SCADiagramAddReferenceLinkFeature;
-import org.jboss.tools.sca.diagram.binding.SCADiagramCreateComponentServiceLinkFeature;
-import org.jboss.tools.sca.diagram.binding.SCADiagramCreateReferenceLinkFeature;
 import org.jboss.tools.sca.diagram.component.SCADiagramAddComponentFeature;
 import org.jboss.tools.sca.diagram.component.SCADiagramCreateComponentFeature;
 import org.jboss.tools.sca.diagram.component.SCADiagramDirectEditComponentFeature;
@@ -45,6 +53,10 @@ import org.jboss.tools.sca.diagram.composite.SCADiagramMoveCompositeFeature;
 import org.jboss.tools.sca.diagram.composite.SCADiagramUpdateCompositeFeature;
 import org.jboss.tools.sca.diagram.compositereference.SCADiagramAddCompositeReferenceFeature;
 import org.jboss.tools.sca.diagram.compositereference.SCADiagramCreateCompositeReferenceFeature;
+import org.jboss.tools.sca.diagram.connections.SCADiagramAddComponentServiceLinkFeature;
+import org.jboss.tools.sca.diagram.connections.SCADiagramAddReferenceLinkFeature;
+import org.jboss.tools.sca.diagram.connections.SCADiagramCreateComponentServiceLinkFeature;
+import org.jboss.tools.sca.diagram.connections.SCADiagramCreateReferenceLinkFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramAddServiceFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramCreateServiceFeature;
 import org.jboss.tools.sca.diagram.service.SCADiagramDirectEditServiceFeature;

@@ -1,3 +1,15 @@
+/******************************************************************************* 
+ * Copyright (c) 2012 Red Hat, Inc. 
+ *  All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ *
+ * @author bfitzpat
+ ******************************************************************************/
 package org.jboss.tools.sca.diagram.component;
 
 import org.eclipse.graphiti.datatypes.IDimension;
@@ -10,11 +22,12 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
+import org.jboss.tools.sca.diagram.StyleUtil;
 
 public class SCADiagramLayoutComponentFeature extends AbstractLayoutFeature {
 
-	private static final int MIN_HEIGHT = 30;
-	private static final int MIN_WIDTH = 30;
+	private static final int MIN_HEIGHT = StyleUtil.COMPONENT_HEIGHT;
+	private static final int MIN_WIDTH = StyleUtil.COMPONENT_WIDTH;
 	
 	public SCADiagramLayoutComponentFeature(IFeatureProvider fp) {
 		super(fp);

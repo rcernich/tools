@@ -1,3 +1,15 @@
+/******************************************************************************* 
+ * Copyright (c) 2012 Red Hat, Inc. 
+ *  All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ *
+ * @author bfitzpat
+ ******************************************************************************/
 package org.jboss.tools.sca.diagram.componentservice;
 
 import org.eclipse.emf.common.util.EList;
@@ -12,19 +24,11 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
-import org.eclipse.graphiti.util.ColorConstant;
-import org.eclipse.graphiti.util.IColorConstant;
 import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
+import org.jboss.tools.sca.diagram.StyleUtil;
 
 public class SCADiagramAddComponentServiceFeature extends AbstractAddShapeFeature {
-
-	private static final IColorConstant COMPONENT_FOREGROUND = new ColorConstant(255, 102, 0); // bright orange line around component
-	private static final IColorConstant ANCHOR_IN_BACKGROUND = new ColorConstant("99cc99"); // green;
-	
-	// the additional size of the invisible rectangle at the right border
-	// (this also equals the half width of the anchor to paint there)
-	public static final int INVISIBLE_RECT_RIGHT = 13;
 
 	public SCADiagramAddComponentServiceFeature( IFeatureProvider fp ) {
 		super(fp);
@@ -32,10 +36,10 @@ public class SCADiagramAddComponentServiceFeature extends AbstractAddShapeFeatur
 
 	@Override
 	public boolean canAdd(IAddContext context) {
-		// check if user wants to add a EClass
+		// check if user wants to add a component service
 		if (context.getNewObject() instanceof ComponentService) {
 			ContainerShape targetContainer = context.getTargetContainer();
-			// check if user wants to add to a diagram
+			// check if user wants to add to a component
 			if (getBusinessObjectForPictogramElement(targetContainer) instanceof Component) {
 				return true;
 			}
@@ -45,7 +49,6 @@ public class SCADiagramAddComponentServiceFeature extends AbstractAddShapeFeatur
 
 	@Override
 	public PictogramElement add(IAddContext context) {
-//		ComponentService addedComponentService = (ComponentService) context.getNewObject();
 		ContainerShape targetContainer = context.getTargetContainer();
 		Component addedComponent = (Component) getBusinessObjectForPictogramElement(targetContainer);
 		
@@ -66,19 +69,18 @@ public class SCADiagramAddComponentServiceFeature extends AbstractAddShapeFeatur
 					final BoxRelativeAnchor boxAnchorLeft = peCreateService.createBoxRelativeAnchor(targetContainer);
 					boxAnchorLeft.setRelativeWidth(0.0);
 					boxAnchorLeft.setRelativeHeight(0.38); // Use golden section
-					// anchor references visible rectangle instead of invisible rectangle
-//					boxAnchorLeft.setReferencedGraphicsAlgorithm(roundedRectangle);
+
 					// assign a graphics algorithm for the box relative anchor
-					int polyxy[] = new int[] {0,0, 15,0, 20,5, 15,10, 0,10, 3,5, 0,0 }; 
-			        Polygon pbox = gaService.createPolygon(boxAnchorLeft, polyxy);
-			        pbox.setBackground(manageColor(ANCHOR_IN_BACKGROUND));
-			        pbox.setForeground(manageColor(COMPONENT_FOREGROUND));
+			        Polygon pbox = gaService.createPolygon(boxAnchorLeft, StyleUtil.SMALL_RIGHT_ARROW);
+			        pbox.setBackground(manageColor(StyleUtil.GREEN));
+			        pbox.setForeground(manageColor(StyleUtil.BRIGHT_ORANGE));
 			        pbox.setLineVisible(false);
 			        pbox.setFilled(true);
-					// anchor is located on the right border of the visible rectangle
+
+			        // anchor is located on the left border of the visible rectangle
 					// and touches the border of the invisible rectangle
-//					final int w = INVISIBLE_RECT_RIGHT;
-					gaService.setLocationAndSize(pbox, -10, 0, 25, 20); //2 * w, 2 * w);
+					gaService.setLocationAndSize(pbox, -6, 0, 
+							StyleUtil.SMALL_RIGHT_ARROW_WIDTH, StyleUtil.SMALL_RIGHT_ARROW_HEIGHT);
 					link(boxAnchorLeft, componentService);
 				}
 			}

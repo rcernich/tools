@@ -1,3 +1,15 @@
+/******************************************************************************* 
+ * Copyright (c) 2012 Red Hat, Inc. 
+ *  All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ *
+ * @author bfitzpat
+ ******************************************************************************/
 package org.jboss.tools.sca.diagram.compositereference;
 
 import java.io.IOException;
@@ -38,30 +50,30 @@ public class SCADiagramCreateCompositeReferenceFeature extends AbstractCreateFea
 	@Override
 	public Object[] create(ICreateContext context) {
 		
-        // ask user for EClass name
-        String newClassName = ExampleUtil.askString(TITLE, USER_QUESTION, "");
-        if (newClassName == null || newClassName.trim().length() == 0) {
+        // ask user for composite reference name
+        String newRefName = ExampleUtil.askString(TITLE, USER_QUESTION, "");
+        if (newRefName == null || newRefName.trim().length() == 0) {
             return EMPTY;
         }
 
-        Reference newClass = null;
+        Reference newReference = null;
 
 		try {
 			ModelHandler mh = ModelHandlerLocator.getModelHandler(getDiagram().eResource());
 			Object o = getBusinessObjectForPictogramElement(context.getTargetContainer());
-			newClass = mh.createCompositeReference((Composite)o);
-			newClass.setName(newClassName);
+			newReference = mh.createCompositeReference((Composite)o);
+			newReference.setName(newRefName);
 		} catch (IOException e) {
 			Activator.logError(e);
 		}
         // do the add
-        addGraphicalRepresentation(context, newClass);
+        addGraphicalRepresentation(context, newReference);
 
 		// activate direct editing after object creation
 		getFeatureProvider().getDirectEditingInfo().setActive(true);
 
 		// return newly created business object(s)
-        return new Object[] { newClass };
+        return new Object[] { newReference };
 	}
 
 }
