@@ -113,7 +113,7 @@
       <details key="baseType" value="javaTransformType"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="JAXBTransformType">
+  <eClassifiers xsi:type="ecore:EClass" name="JAXBTransformType" eSuperTypes="config.switchyard.ecore#//TransformType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xA;                JAXB Transformer Configuration.&#xA;            "/>
     </eAnnotations>
@@ -122,7 +122,7 @@
       <details key="kind" value="empty"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="JsonTransformType">
+  <eClassifiers xsi:type="ecore:EClass" name="JsonTransformType" eSuperTypes="config.switchyard.ecore#//TransformType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xA;                JSON Transformer Configuration.&#xA;            "/>
     </eAnnotations>
@@ -151,7 +151,7 @@
       </eAnnotations>
     </eLiterals>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SmooksTransformType1">
+  <eClassifiers xsi:type="ecore:EClass" name="SmooksTransformType1" eSuperTypes="config.switchyard.ecore#//TransformType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xA;                Smooks Transformer Configuration.&#xA;            "/>
     </eAnnotations>
@@ -166,7 +166,7 @@
       <details key="baseType" value="smooksTransformType"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="XsltTransformType">
+  <eClassifiers xsi:type="ecore:EClass" name="XsltTransformType" eSuperTypes="config.switchyard.ecore#//TransformType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xA;                XSLT Transformer Configuration.&#xA;            "/>
     </eAnnotations>

@@ -6,8 +6,6 @@
  */
 package org.jboss.tools.switchyard.model.hornetq;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Operation Selector Type</b></em>'.
@@ -18,5 +16,5 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='OperationSelectorType' kind='empty'"
  * @generated
  */
-public interface OperationSelectorType extends EObject {
+public interface OperationSelectorType extends org.eclipse.soa.sca.sca1_1.model.sca.OperationSelectorType {
 } // OperationSelectorType

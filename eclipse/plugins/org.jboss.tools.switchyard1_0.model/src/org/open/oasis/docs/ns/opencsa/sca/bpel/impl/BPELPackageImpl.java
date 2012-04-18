@@ -303,7 +303,7 @@ public class BPELPackageImpl extends EPackageImpl implements BPELPackage {
         // Set bounds for type parameters
 
         // Add supertypes to classes
-        bpelImplementationEClass.getESuperTypes().add(theScaPackage.getImplementationType());
+        bpelImplementationEClass.getESuperTypes().add(theScaPackage.getImplementation());
 
         // Initialize classes and features; add operations and parameters
         initEClass(bpelImplementationEClass, BPELImplementation.class, "BPELImplementation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

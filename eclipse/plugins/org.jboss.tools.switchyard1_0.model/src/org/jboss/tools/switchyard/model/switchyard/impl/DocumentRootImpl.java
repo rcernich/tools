@@ -53,13 +53,9 @@ import org.jboss.tools.switchyard.model.switchyard.ValidatesType;
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getResource <em>Resource</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getBindingSwitchyard <em>Binding Switchyard</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getResource1 <em>Resource1</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getBindingSwitchyard1 <em>Binding Switchyard1</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getArtifact <em>Artifact</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getArtifacts <em>Artifacts</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getBindingSwitchyard2 <em>Binding Switchyard2</em>}</li>
+ *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getBindingSwitchyard <em>Binding Switchyard</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getContextMapper <em>Context Mapper</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getDomain <em>Domain</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getHandler <em>Handler</em>}</li>
@@ -68,19 +64,12 @@ import org.jboss.tools.switchyard.model.switchyard.ValidatesType;
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getMessageComposer <em>Message Composer</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getProperties <em>Properties</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getProperty <em>Property</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getResource2 <em>Resource2</em>}</li>
+ *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getResource <em>Resource</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getSwitchyard <em>Switchyard</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getTransform <em>Transform</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getTransforms <em>Transforms</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getValidate <em>Validate</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getValidates <em>Validates</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getTransform1 <em>Transform1</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getTransform2 <em>Transform2</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getTransform3 <em>Transform3</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getTransform4 <em>Transform4</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getTransform5 <em>Transform5</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getValidate1 <em>Validate1</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.impl.DocumentRootImpl#getValidate2 <em>Validate2</em>}</li>
  * </ul>
  * </p>
  *
@@ -116,116 +105,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
      * @ordered
      */
 	protected EMap<String, String> xSISchemaLocation;
-
-	/**
-     * The default value of the '{@link #getResource() <em>Resource</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getResource()
-     * @generated
-     * @ordered
-     */
-	protected static final Object RESOURCE_EDEFAULT = null;
-
-	/**
-     * The default value of the '{@link #getBindingSwitchyard() <em>Binding Switchyard</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getBindingSwitchyard()
-     * @generated
-     * @ordered
-     */
-	protected static final Object BINDING_SWITCHYARD_EDEFAULT = null;
-
-	/**
-     * The default value of the '{@link #getResource1() <em>Resource1</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getResource1()
-     * @generated
-     * @ordered
-     */
-	protected static final Object RESOURCE1_EDEFAULT = null;
-
-	/**
-     * The default value of the '{@link #getBindingSwitchyard1() <em>Binding Switchyard1</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getBindingSwitchyard1()
-     * @generated
-     * @ordered
-     */
-	protected static final Object BINDING_SWITCHYARD1_EDEFAULT = null;
-
-	/**
-     * The default value of the '{@link #getTransform1() <em>Transform1</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getTransform1()
-     * @generated
-     * @ordered
-     */
-	protected static final Object TRANSFORM1_EDEFAULT = null;
-
-	/**
-     * The default value of the '{@link #getTransform2() <em>Transform2</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getTransform2()
-     * @generated
-     * @ordered
-     */
-	protected static final Object TRANSFORM2_EDEFAULT = null;
-
-	/**
-     * The default value of the '{@link #getTransform3() <em>Transform3</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getTransform3()
-     * @generated
-     * @ordered
-     */
-	protected static final Object TRANSFORM3_EDEFAULT = null;
-
-	/**
-     * The default value of the '{@link #getTransform4() <em>Transform4</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getTransform4()
-     * @generated
-     * @ordered
-     */
-	protected static final Object TRANSFORM4_EDEFAULT = null;
-
-	/**
-     * The default value of the '{@link #getTransform5() <em>Transform5</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getTransform5()
-     * @generated
-     * @ordered
-     */
-	protected static final Object TRANSFORM5_EDEFAULT = null;
-
-	/**
-     * The default value of the '{@link #getValidate1() <em>Validate1</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getValidate1()
-     * @generated
-     * @ordered
-     */
-	protected static final Object VALIDATE1_EDEFAULT = null;
-
-	/**
-     * The default value of the '{@link #getValidate2() <em>Validate2</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @see #getValidate2()
-     * @generated
-     * @ordered
-     */
-	protected static final Object VALIDATE2_EDEFAULT = null;
 
 	/**
      * <!-- begin-user-doc -->
@@ -287,74 +166,47 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public Object getResource() {
-        return getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__RESOURCE, true);
+	public ResourceType getResource() {
+        return (ResourceType)getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__RESOURCE, true);
     }
 
 	/**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void setResource(Object newResource) {
+    public NotificationChain basicSetResource(ResourceType newResource, NotificationChain msgs) {
+        return ((FeatureMap.Internal)getMixed()).basicAdd(SwitchyardPackage.Literals.DOCUMENT_ROOT__RESOURCE, newResource, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setResource(ResourceType newResource) {
         ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__RESOURCE, newResource);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public Object getBindingSwitchyard() {
-        return getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__BINDING_SWITCHYARD, true);
+	public SwitchYardBindingType getBindingSwitchyard() {
+        return (SwitchYardBindingType)getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__BINDING_SWITCHYARD, true);
     }
 
 	/**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public void setBindingSwitchyard(Object newBindingSwitchyard) {
-        ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__BINDING_SWITCHYARD, newBindingSwitchyard);
+    public NotificationChain basicSetBindingSwitchyard(SwitchYardBindingType newBindingSwitchyard, NotificationChain msgs) {
+        return ((FeatureMap.Internal)getMixed()).basicAdd(SwitchyardPackage.Literals.DOCUMENT_ROOT__BINDING_SWITCHYARD, newBindingSwitchyard, msgs);
     }
 
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public Object getResource1() {
-        return getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__RESOURCE1, true);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public void setResource1(Object newResource1) {
-        ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__RESOURCE1, newResource1);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public Object getBindingSwitchyard1() {
-        return getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__BINDING_SWITCHYARD1, true);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public void setBindingSwitchyard1(Object newBindingSwitchyard1) {
-        ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__BINDING_SWITCHYARD1, newBindingSwitchyard1);
-    }
-
-	/**
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
@@ -406,24 +258,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
      */
 	public void setArtifacts(ArtifactsType newArtifacts) {
         ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__ARTIFACTS, newArtifacts);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public SwitchYardBindingType getBindingSwitchyard2() {
-        return (SwitchYardBindingType)getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__BINDING_SWITCHYARD2, true);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public NotificationChain basicSetBindingSwitchyard2(SwitchYardBindingType newBindingSwitchyard2, NotificationChain msgs) {
-        return ((FeatureMap.Internal)getMixed()).basicAdd(SwitchyardPackage.Literals.DOCUMENT_ROOT__BINDING_SWITCHYARD2, newBindingSwitchyard2, msgs);
     }
 
 	/**
@@ -647,33 +481,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public ResourceType getResource2() {
-        return (ResourceType)getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__RESOURCE2, true);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public NotificationChain basicSetResource2(ResourceType newResource2, NotificationChain msgs) {
-        return ((FeatureMap.Internal)getMixed()).basicAdd(SwitchyardPackage.Literals.DOCUMENT_ROOT__RESOURCE2, newResource2, msgs);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public void setResource2(ResourceType newResource2) {
-        ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__RESOURCE2, newResource2);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
 	public SwitchYardType getSwitchyard() {
         return (SwitchYardType)getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__SWITCHYARD, true);
     }
@@ -791,132 +598,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	 * <!-- end-user-doc -->
      * @generated
      */
-	public Object getTransform1() {
-        return getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__TRANSFORM1, true);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public void setTransform1(Object newTransform1) {
-        ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__TRANSFORM1, newTransform1);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public Object getTransform2() {
-        return getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__TRANSFORM2, true);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public void setTransform2(Object newTransform2) {
-        ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__TRANSFORM2, newTransform2);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public Object getTransform3() {
-        return getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__TRANSFORM3, true);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public void setTransform3(Object newTransform3) {
-        ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__TRANSFORM3, newTransform3);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public Object getTransform4() {
-        return getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__TRANSFORM4, true);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public void setTransform4(Object newTransform4) {
-        ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__TRANSFORM4, newTransform4);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public Object getTransform5() {
-        return getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__TRANSFORM5, true);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public void setTransform5(Object newTransform5) {
-        ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__TRANSFORM5, newTransform5);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public Object getValidate1() {
-        return getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__VALIDATE1, true);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public void setValidate1(Object newValidate1) {
-        ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__VALIDATE1, newValidate1);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public Object getValidate2() {
-        return getMixed().get(SwitchyardPackage.Literals.DOCUMENT_ROOT__VALIDATE2, true);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
-	public void setValidate2(Object newValidate2) {
-        ((FeatureMap.Internal)getMixed()).set(SwitchyardPackage.Literals.DOCUMENT_ROOT__VALIDATE2, newValidate2);
-    }
-
-	/**
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
         switch (featureID) {
@@ -930,8 +611,8 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return basicSetArtifact(null, msgs);
             case SwitchyardPackage.DOCUMENT_ROOT__ARTIFACTS:
                 return basicSetArtifacts(null, msgs);
-            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD2:
-                return basicSetBindingSwitchyard2(null, msgs);
+            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD:
+                return basicSetBindingSwitchyard(null, msgs);
             case SwitchyardPackage.DOCUMENT_ROOT__CONTEXT_MAPPER:
                 return basicSetContextMapper(null, msgs);
             case SwitchyardPackage.DOCUMENT_ROOT__DOMAIN:
@@ -948,8 +629,8 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return basicSetProperties(null, msgs);
             case SwitchyardPackage.DOCUMENT_ROOT__PROPERTY:
                 return basicSetProperty(null, msgs);
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE2:
-                return basicSetResource2(null, msgs);
+            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE:
+                return basicSetResource(null, msgs);
             case SwitchyardPackage.DOCUMENT_ROOT__SWITCHYARD:
                 return basicSetSwitchyard(null, msgs);
             case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM:
@@ -981,20 +662,12 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
             case SwitchyardPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
                 if (coreType) return getXSISchemaLocation();
                 else return getXSISchemaLocation().map();
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE:
-                return getResource();
-            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD:
-                return getBindingSwitchyard();
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE1:
-                return getResource1();
-            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD1:
-                return getBindingSwitchyard1();
             case SwitchyardPackage.DOCUMENT_ROOT__ARTIFACT:
                 return getArtifact();
             case SwitchyardPackage.DOCUMENT_ROOT__ARTIFACTS:
                 return getArtifacts();
-            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD2:
-                return getBindingSwitchyard2();
+            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD:
+                return getBindingSwitchyard();
             case SwitchyardPackage.DOCUMENT_ROOT__CONTEXT_MAPPER:
                 return getContextMapper();
             case SwitchyardPackage.DOCUMENT_ROOT__DOMAIN:
@@ -1011,8 +684,8 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return getProperties();
             case SwitchyardPackage.DOCUMENT_ROOT__PROPERTY:
                 return getProperty();
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE2:
-                return getResource2();
+            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE:
+                return getResource();
             case SwitchyardPackage.DOCUMENT_ROOT__SWITCHYARD:
                 return getSwitchyard();
             case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM:
@@ -1023,20 +696,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return getValidate();
             case SwitchyardPackage.DOCUMENT_ROOT__VALIDATES:
                 return getValidates();
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM1:
-                return getTransform1();
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM2:
-                return getTransform2();
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM3:
-                return getTransform3();
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM4:
-                return getTransform4();
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM5:
-                return getTransform5();
-            case SwitchyardPackage.DOCUMENT_ROOT__VALIDATE1:
-                return getValidate1();
-            case SwitchyardPackage.DOCUMENT_ROOT__VALIDATE2:
-                return getValidate2();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -1057,18 +716,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return;
             case SwitchyardPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
                 ((EStructuralFeature.Setting)getXSISchemaLocation()).set(newValue);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE:
-                setResource(newValue);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD:
-                setBindingSwitchyard(newValue);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE1:
-                setResource1(newValue);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD1:
-                setBindingSwitchyard1(newValue);
                 return;
             case SwitchyardPackage.DOCUMENT_ROOT__ARTIFACT:
                 setArtifact((ArtifactType)newValue);
@@ -1100,8 +747,8 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
             case SwitchyardPackage.DOCUMENT_ROOT__PROPERTY:
                 setProperty((PropertyType)newValue);
                 return;
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE2:
-                setResource2((ResourceType)newValue);
+            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE:
+                setResource((ResourceType)newValue);
                 return;
             case SwitchyardPackage.DOCUMENT_ROOT__SWITCHYARD:
                 setSwitchyard((SwitchYardType)newValue);
@@ -1111,27 +758,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return;
             case SwitchyardPackage.DOCUMENT_ROOT__VALIDATES:
                 setValidates((ValidatesType)newValue);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM1:
-                setTransform1(newValue);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM2:
-                setTransform2(newValue);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM3:
-                setTransform3(newValue);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM4:
-                setTransform4(newValue);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM5:
-                setTransform5(newValue);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__VALIDATE1:
-                setValidate1(newValue);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__VALIDATE2:
-                setValidate2(newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -1153,18 +779,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return;
             case SwitchyardPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
                 getXSISchemaLocation().clear();
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE:
-                setResource(RESOURCE_EDEFAULT);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD:
-                setBindingSwitchyard(BINDING_SWITCHYARD_EDEFAULT);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE1:
-                setResource1(RESOURCE1_EDEFAULT);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD1:
-                setBindingSwitchyard1(BINDING_SWITCHYARD1_EDEFAULT);
                 return;
             case SwitchyardPackage.DOCUMENT_ROOT__ARTIFACT:
                 setArtifact((ArtifactType)null);
@@ -1196,8 +810,8 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
             case SwitchyardPackage.DOCUMENT_ROOT__PROPERTY:
                 setProperty((PropertyType)null);
                 return;
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE2:
-                setResource2((ResourceType)null);
+            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE:
+                setResource((ResourceType)null);
                 return;
             case SwitchyardPackage.DOCUMENT_ROOT__SWITCHYARD:
                 setSwitchyard((SwitchYardType)null);
@@ -1207,27 +821,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return;
             case SwitchyardPackage.DOCUMENT_ROOT__VALIDATES:
                 setValidates((ValidatesType)null);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM1:
-                setTransform1(TRANSFORM1_EDEFAULT);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM2:
-                setTransform2(TRANSFORM2_EDEFAULT);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM3:
-                setTransform3(TRANSFORM3_EDEFAULT);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM4:
-                setTransform4(TRANSFORM4_EDEFAULT);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM5:
-                setTransform5(TRANSFORM5_EDEFAULT);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__VALIDATE1:
-                setValidate1(VALIDATE1_EDEFAULT);
-                return;
-            case SwitchyardPackage.DOCUMENT_ROOT__VALIDATE2:
-                setValidate2(VALIDATE2_EDEFAULT);
                 return;
         }
         super.eUnset(featureID);
@@ -1247,20 +840,12 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return xMLNSPrefixMap != null && !xMLNSPrefixMap.isEmpty();
             case SwitchyardPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
                 return xSISchemaLocation != null && !xSISchemaLocation.isEmpty();
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE:
-                return RESOURCE_EDEFAULT == null ? getResource() != null : !RESOURCE_EDEFAULT.equals(getResource());
-            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD:
-                return BINDING_SWITCHYARD_EDEFAULT == null ? getBindingSwitchyard() != null : !BINDING_SWITCHYARD_EDEFAULT.equals(getBindingSwitchyard());
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE1:
-                return RESOURCE1_EDEFAULT == null ? getResource1() != null : !RESOURCE1_EDEFAULT.equals(getResource1());
-            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD1:
-                return BINDING_SWITCHYARD1_EDEFAULT == null ? getBindingSwitchyard1() != null : !BINDING_SWITCHYARD1_EDEFAULT.equals(getBindingSwitchyard1());
             case SwitchyardPackage.DOCUMENT_ROOT__ARTIFACT:
                 return getArtifact() != null;
             case SwitchyardPackage.DOCUMENT_ROOT__ARTIFACTS:
                 return getArtifacts() != null;
-            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD2:
-                return getBindingSwitchyard2() != null;
+            case SwitchyardPackage.DOCUMENT_ROOT__BINDING_SWITCHYARD:
+                return getBindingSwitchyard() != null;
             case SwitchyardPackage.DOCUMENT_ROOT__CONTEXT_MAPPER:
                 return getContextMapper() != null;
             case SwitchyardPackage.DOCUMENT_ROOT__DOMAIN:
@@ -1277,8 +862,8 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return getProperties() != null;
             case SwitchyardPackage.DOCUMENT_ROOT__PROPERTY:
                 return getProperty() != null;
-            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE2:
-                return getResource2() != null;
+            case SwitchyardPackage.DOCUMENT_ROOT__RESOURCE:
+                return getResource() != null;
             case SwitchyardPackage.DOCUMENT_ROOT__SWITCHYARD:
                 return getSwitchyard() != null;
             case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM:
@@ -1289,20 +874,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return getValidate() != null;
             case SwitchyardPackage.DOCUMENT_ROOT__VALIDATES:
                 return getValidates() != null;
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM1:
-                return TRANSFORM1_EDEFAULT == null ? getTransform1() != null : !TRANSFORM1_EDEFAULT.equals(getTransform1());
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM2:
-                return TRANSFORM2_EDEFAULT == null ? getTransform2() != null : !TRANSFORM2_EDEFAULT.equals(getTransform2());
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM3:
-                return TRANSFORM3_EDEFAULT == null ? getTransform3() != null : !TRANSFORM3_EDEFAULT.equals(getTransform3());
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM4:
-                return TRANSFORM4_EDEFAULT == null ? getTransform4() != null : !TRANSFORM4_EDEFAULT.equals(getTransform4());
-            case SwitchyardPackage.DOCUMENT_ROOT__TRANSFORM5:
-                return TRANSFORM5_EDEFAULT == null ? getTransform5() != null : !TRANSFORM5_EDEFAULT.equals(getTransform5());
-            case SwitchyardPackage.DOCUMENT_ROOT__VALIDATE1:
-                return VALIDATE1_EDEFAULT == null ? getValidate1() != null : !VALIDATE1_EDEFAULT.equals(getValidate1());
-            case SwitchyardPackage.DOCUMENT_ROOT__VALIDATE2:
-                return VALIDATE2_EDEFAULT == null ? getValidate2() != null : !VALIDATE2_EDEFAULT.equals(getValidate2());
         }
         return super.eIsSet(featureID);
     }

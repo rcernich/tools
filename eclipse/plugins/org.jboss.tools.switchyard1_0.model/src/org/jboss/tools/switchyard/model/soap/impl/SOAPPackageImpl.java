@@ -368,6 +368,7 @@ public class SOAPPackageImpl extends EPackageImpl implements SOAPPackage {
         setNsURI(eNS_URI);
 
         // Obtain other dependent packages
+        SwitchyardPackage theSwitchyardPackage = (SwitchyardPackage)EPackage.Registry.INSTANCE.getEPackage(SwitchyardPackage.eNS_URI);
         XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 
         // Create type parameters
@@ -375,6 +376,7 @@ public class SOAPPackageImpl extends EPackageImpl implements SOAPPackage {
         // Set bounds for type parameters
 
         // Add supertypes to classes
+        soapBindingTypeEClass.getESuperTypes().add(theSwitchyardPackage.getSwitchYardBindingType());
 
         // Initialize classes and features; add operations and parameters
         initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -126,13 +127,121 @@ public interface SOAPPackage extends EPackage {
 	int SOAP_BINDING_TYPE = 1;
 
 	/**
+     * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOAP_BINDING_TYPE__DOCUMENTATION = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOAP_BINDING_TYPE__ANY_ATTRIBUTE = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__ANY_ATTRIBUTE;
+
+    /**
+     * The feature id for the '<em><b>Wire Format Group</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOAP_BINDING_TYPE__WIRE_FORMAT_GROUP = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__WIRE_FORMAT_GROUP;
+
+    /**
+     * The feature id for the '<em><b>Wire Format</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOAP_BINDING_TYPE__WIRE_FORMAT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__WIRE_FORMAT;
+
+    /**
+     * The feature id for the '<em><b>Operation Selector Group</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOAP_BINDING_TYPE__OPERATION_SELECTOR_GROUP = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__OPERATION_SELECTOR_GROUP;
+
+    /**
+     * The feature id for the '<em><b>Operation Selector</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOAP_BINDING_TYPE__OPERATION_SELECTOR = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__OPERATION_SELECTOR;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOAP_BINDING_TYPE__NAME = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__NAME;
+
+    /**
+     * The feature id for the '<em><b>Policy Sets</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOAP_BINDING_TYPE__POLICY_SETS = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__POLICY_SETS;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOAP_BINDING_TYPE__REQUIRES = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Uri</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOAP_BINDING_TYPE__URI = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__URI;
+
+    /**
+     * The feature id for the '<em><b>Context Mapper</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOAP_BINDING_TYPE__CONTEXT_MAPPER = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__CONTEXT_MAPPER;
+
+    /**
+     * The feature id for the '<em><b>Message Composer</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SOAP_BINDING_TYPE__MESSAGE_COMPOSER = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__MESSAGE_COMPOSER;
+
+    /**
      * The feature id for the '<em><b>Wsdl</b></em>' attribute.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int SOAP_BINDING_TYPE__WSDL = 0;
+	int SOAP_BINDING_TYPE__WSDL = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 0;
 
 	/**
      * The feature id for the '<em><b>Wsdl Port</b></em>' attribute.
@@ -141,7 +250,7 @@ public interface SOAPPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int SOAP_BINDING_TYPE__WSDL_PORT = 1;
+	int SOAP_BINDING_TYPE__WSDL_PORT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 1;
 
 	/**
      * The feature id for the '<em><b>Socket Addr</b></em>' attribute.
@@ -150,7 +259,7 @@ public interface SOAPPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int SOAP_BINDING_TYPE__SOCKET_ADDR = 2;
+	int SOAP_BINDING_TYPE__SOCKET_ADDR = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 2;
 
 	/**
      * The feature id for the '<em><b>Context Path</b></em>' attribute.
@@ -159,7 +268,7 @@ public interface SOAPPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int SOAP_BINDING_TYPE__CONTEXT_PATH = 3;
+	int SOAP_BINDING_TYPE__CONTEXT_PATH = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 3;
 
 	/**
      * The number of structural features of the '<em>Binding Type</em>' class.
@@ -168,7 +277,7 @@ public interface SOAPPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int SOAP_BINDING_TYPE_FEATURE_COUNT = 4;
+	int SOAP_BINDING_TYPE_FEATURE_COUNT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 4;
 
 	/**
      * The meta object id for the '<em>Wsdl Port Type</em>' data type.

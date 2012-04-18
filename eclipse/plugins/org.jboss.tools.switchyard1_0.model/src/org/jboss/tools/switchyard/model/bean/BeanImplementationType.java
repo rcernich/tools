@@ -6,7 +6,7 @@
  */
 package org.jboss.tools.switchyard.model.bean;
 
-import org.eclipse.soa.sca.sca1_1.model.sca.ImplementationType;
+import org.eclipse.soa.sca.sca1_1.model.sca.Implementation;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +24,7 @@ import org.eclipse.soa.sca.sca1_1.model.sca.ImplementationType;
  * @model extendedMetaData="name='BeanImplementationType' kind='empty'"
  * @generated
  */
-public interface BeanImplementationType extends ImplementationType {
+public interface BeanImplementationType extends Implementation {
 
 	/**
      * Returns the value of the '<em><b>Class</b></em>' attribute.

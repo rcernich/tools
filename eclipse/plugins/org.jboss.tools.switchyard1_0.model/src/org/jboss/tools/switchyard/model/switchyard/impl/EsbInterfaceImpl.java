@@ -8,7 +8,7 @@ package org.jboss.tools.switchyard.model.switchyard.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.soa.sca.sca1_1.model.sca.impl.InterfaceImpl;
 
 import org.jboss.tools.switchyard.model.switchyard.EsbInterface;
 import org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage;
@@ -22,24 +22,24 @@ import org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage;
  *
  * @generated
  */
-public class EsbInterfaceImpl extends EObjectImpl implements EsbInterface {
+public class EsbInterfaceImpl extends InterfaceImpl implements EsbInterface {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected EsbInterfaceImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return SwitchyardPackage.Literals.ESB_INTERFACE;
-	}
+        return SwitchyardPackage.Literals.ESB_INTERFACE;
+    }
 
 } //EsbInterfaceImpl

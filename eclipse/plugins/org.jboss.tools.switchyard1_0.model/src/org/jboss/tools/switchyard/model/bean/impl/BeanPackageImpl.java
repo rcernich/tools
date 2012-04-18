@@ -312,7 +312,7 @@ public class BeanPackageImpl extends EPackageImpl implements BeanPackage {
         // Set bounds for type parameters
 
         // Add supertypes to classes
-        beanImplementationTypeEClass.getESuperTypes().add(theScaPackage.getImplementationType());
+        beanImplementationTypeEClass.getESuperTypes().add(theScaPackage.getImplementation());
 
         // Initialize classes and features; add operations and parameters
         initEClass(beanImplementationTypeEClass, BeanImplementationType.class, "BeanImplementationType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

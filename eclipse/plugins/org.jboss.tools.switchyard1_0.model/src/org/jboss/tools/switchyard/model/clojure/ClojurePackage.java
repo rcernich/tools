@@ -77,7 +77,7 @@ public interface ClojurePackage extends EPackage {
      * @generated
      * @ordered
      */
-	int CLOJURE_IMPLEMENTATION_TYPE__DOCUMENTATION = ScaPackage.IMPLEMENTATION_TYPE__DOCUMENTATION;
+	int CLOJURE_IMPLEMENTATION_TYPE__DOCUMENTATION = ScaPackage.IMPLEMENTATION__DOCUMENTATION;
 
 	/**
      * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
@@ -86,52 +86,34 @@ public interface ClojurePackage extends EPackage {
      * @generated
      * @ordered
      */
-	int CLOJURE_IMPLEMENTATION_TYPE__ANY_ATTRIBUTE = ScaPackage.IMPLEMENTATION_TYPE__ANY_ATTRIBUTE;
+	int CLOJURE_IMPLEMENTATION_TYPE__ANY_ATTRIBUTE = ScaPackage.IMPLEMENTATION__ANY_ATTRIBUTE;
 
 	/**
-     * The feature id for the '<em><b>Any</b></em>' attribute list.
+     * The feature id for the '<em><b>Policy Sets</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int CLOJURE_IMPLEMENTATION_TYPE__ANY = ScaPackage.IMPLEMENTATION_TYPE__ANY;
+    int CLOJURE_IMPLEMENTATION_TYPE__POLICY_SETS = ScaPackage.IMPLEMENTATION__POLICY_SETS;
 
-	/**
-     * The feature id for the '<em><b>Always Provides</b></em>' attribute.
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' attribute.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int CLOJURE_IMPLEMENTATION_TYPE__ALWAYS_PROVIDES = ScaPackage.IMPLEMENTATION_TYPE__ALWAYS_PROVIDES;
+    int CLOJURE_IMPLEMENTATION_TYPE__REQUIRES = ScaPackage.IMPLEMENTATION__REQUIRES;
 
-	/**
-     * The feature id for the '<em><b>May Provide</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int CLOJURE_IMPLEMENTATION_TYPE__MAY_PROVIDE = ScaPackage.IMPLEMENTATION_TYPE__MAY_PROVIDE;
-
-	/**
-     * The feature id for the '<em><b>Type</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int CLOJURE_IMPLEMENTATION_TYPE__TYPE = ScaPackage.IMPLEMENTATION_TYPE__TYPE;
-
-	/**
+    /**
      * The feature id for the '<em><b>Script</b></em>' attribute.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int CLOJURE_IMPLEMENTATION_TYPE__SCRIPT = ScaPackage.IMPLEMENTATION_TYPE_FEATURE_COUNT + 0;
+	int CLOJURE_IMPLEMENTATION_TYPE__SCRIPT = ScaPackage.IMPLEMENTATION_FEATURE_COUNT + 0;
 
 	/**
      * The number of structural features of the '<em>Implementation Type</em>' class.
@@ -140,7 +122,7 @@ public interface ClojurePackage extends EPackage {
      * @generated
      * @ordered
      */
-	int CLOJURE_IMPLEMENTATION_TYPE_FEATURE_COUNT = ScaPackage.IMPLEMENTATION_TYPE_FEATURE_COUNT + 1;
+	int CLOJURE_IMPLEMENTATION_TYPE_FEATURE_COUNT = ScaPackage.IMPLEMENTATION_FEATURE_COUNT + 1;
 
 	/**
      * The meta object id for the '{@link org.jboss.tools.switchyard.model.clojure.impl.DocumentRootImpl <em>Document Root</em>}' class.

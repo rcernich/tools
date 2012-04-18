@@ -8,8 +8,6 @@ package org.jboss.tools.switchyard.model.hornetq.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.jboss.tools.switchyard.model.hornetq.HornetQPackage;
 import org.jboss.tools.switchyard.model.hornetq.OperationSelectorType;
 
@@ -22,24 +20,24 @@ import org.jboss.tools.switchyard.model.hornetq.OperationSelectorType;
  *
  * @generated
  */
-public class OperationSelectorTypeImpl extends EObjectImpl implements OperationSelectorType {
+public class OperationSelectorTypeImpl extends org.eclipse.soa.sca.sca1_1.model.sca.impl.OperationSelectorTypeImpl implements OperationSelectorType {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected OperationSelectorTypeImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return HornetQPackage.Literals.OPERATION_SELECTOR_TYPE;
-	}
+        return HornetQPackage.Literals.OPERATION_SELECTOR_TYPE;
+    }
 
 } //OperationSelectorTypeImpl

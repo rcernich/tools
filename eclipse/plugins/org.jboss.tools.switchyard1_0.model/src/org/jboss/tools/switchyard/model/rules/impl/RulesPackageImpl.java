@@ -489,11 +489,15 @@ public class RulesPackageImpl extends EPackageImpl implements RulesPackage {
         setNsPrefix(eNS_PREFIX);
         setNsURI(eNS_URI);
 
+        // Obtain other dependent packages
+        ScaPackage theScaPackage = (ScaPackage)EPackage.Registry.INSTANCE.getEPackage(ScaPackage.eNS_URI);
+
         // Create type parameters
 
         // Set bounds for type parameters
 
         // Add supertypes to classes
+        rulesImplementationTypeEClass.getESuperTypes().add(theScaPackage.getImplementation());
 
         // Initialize classes and features; add operations and parameters
         initEClass(actionType1EClass, ActionType1.class, "ActionType1", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

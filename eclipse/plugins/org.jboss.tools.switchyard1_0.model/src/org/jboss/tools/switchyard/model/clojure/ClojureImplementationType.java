@@ -6,7 +6,7 @@
  */
 package org.jboss.tools.switchyard.model.clojure;
 
-import org.eclipse.soa.sca.sca1_1.model.sca.ImplementationType;
+import org.eclipse.soa.sca.sca1_1.model.sca.Implementation;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +24,7 @@ import org.eclipse.soa.sca.sca1_1.model.sca.ImplementationType;
  * @model extendedMetaData="name='ClojureImplementationType' kind='elementOnly'"
  * @generated
  */
-public interface ClojureImplementationType extends ImplementationType {
+public interface ClojureImplementationType extends Implementation {
 	/**
      * Returns the value of the '<em><b>Script</b></em>' attribute.
      * <!-- begin-user-doc -->

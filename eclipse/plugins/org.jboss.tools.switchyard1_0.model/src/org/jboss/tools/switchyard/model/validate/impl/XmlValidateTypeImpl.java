@@ -8,7 +8,7 @@ package org.jboss.tools.switchyard.model.validate.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.jboss.tools.switchyard.model.switchyard.impl.ValidateTypeImpl;
 
 import org.jboss.tools.switchyard.model.validate.ValidatePackage;
 import org.jboss.tools.switchyard.model.validate.XmlValidateType;
@@ -22,24 +22,24 @@ import org.jboss.tools.switchyard.model.validate.XmlValidateType;
  *
  * @generated
  */
-public class XmlValidateTypeImpl extends EObjectImpl implements XmlValidateType {
+public class XmlValidateTypeImpl extends ValidateTypeImpl implements XmlValidateType {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected XmlValidateTypeImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return ValidatePackage.Literals.XML_VALIDATE_TYPE;
-	}
+        return ValidatePackage.Literals.XML_VALIDATE_TYPE;
+    }
 
 } //XmlValidateTypeImpl

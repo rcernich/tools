@@ -313,7 +313,7 @@ public class ClojurePackageImpl extends EPackageImpl implements ClojurePackage {
         // Set bounds for type parameters
 
         // Add supertypes to classes
-        clojureImplementationTypeEClass.getESuperTypes().add(theScaPackage.getImplementationType());
+        clojureImplementationTypeEClass.getESuperTypes().add(theScaPackage.getImplementation());
 
         // Initialize classes and features; add operations and parameters
         initEClass(clojureImplementationTypeEClass, ClojureImplementationType.class, "ClojureImplementationType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

@@ -6,7 +6,7 @@
  */
 package org.open.oasis.docs.ns.opencsa.sca.bpel;
 
-import org.eclipse.soa.sca.sca1_1.model.sca.ImplementationType;
+import org.eclipse.soa.sca.sca1_1.model.sca.Implementation;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,6 +18,6 @@ import org.eclipse.soa.sca.sca1_1.model.sca.ImplementationType;
  * @model extendedMetaData="name='BPELImplementation' kind='empty'"
  * @generated
  */
-public interface BPELImplementation extends ImplementationType {
+public interface BPELImplementation extends Implementation {
 
 } // BPELImplementation

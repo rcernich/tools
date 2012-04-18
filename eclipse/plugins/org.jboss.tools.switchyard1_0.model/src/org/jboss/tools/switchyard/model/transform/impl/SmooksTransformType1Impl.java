@@ -8,7 +8,7 @@ package org.jboss.tools.switchyard.model.transform.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.jboss.tools.switchyard.model.switchyard.impl.TransformTypeImpl;
 
 import org.jboss.tools.switchyard.model.transform.SmooksTransformType1;
 import org.jboss.tools.switchyard.model.transform.TransformPackage;
@@ -22,24 +22,24 @@ import org.jboss.tools.switchyard.model.transform.TransformPackage;
  *
  * @generated
  */
-public class SmooksTransformType1Impl extends EObjectImpl implements SmooksTransformType1 {
+public class SmooksTransformType1Impl extends TransformTypeImpl implements SmooksTransformType1 {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected SmooksTransformType1Impl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return TransformPackage.Literals.SMOOKS_TRANSFORM_TYPE1;
-	}
+        return TransformPackage.Literals.SMOOKS_TRANSFORM_TYPE1;
+    }
 
 } //SmooksTransformType1Impl

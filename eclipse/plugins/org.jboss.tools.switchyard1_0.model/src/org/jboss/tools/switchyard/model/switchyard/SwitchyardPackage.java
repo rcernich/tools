@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -226,49 +227,13 @@ public interface SwitchyardPackage extends EPackage {
 	int DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = 2;
 
 	/**
-     * The feature id for the '<em><b>Resource</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int DOCUMENT_ROOT__RESOURCE = 3;
-
-	/**
-     * The feature id for the '<em><b>Binding Switchyard</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int DOCUMENT_ROOT__BINDING_SWITCHYARD = 4;
-
-	/**
-     * The feature id for the '<em><b>Resource1</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int DOCUMENT_ROOT__RESOURCE1 = 5;
-
-	/**
-     * The feature id for the '<em><b>Binding Switchyard1</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int DOCUMENT_ROOT__BINDING_SWITCHYARD1 = 6;
-
-	/**
      * The feature id for the '<em><b>Artifact</b></em>' containment reference.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__ARTIFACT = 7;
+	int DOCUMENT_ROOT__ARTIFACT = 3;
 
 	/**
      * The feature id for the '<em><b>Artifacts</b></em>' containment reference.
@@ -277,16 +242,16 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__ARTIFACTS = 8;
+	int DOCUMENT_ROOT__ARTIFACTS = 4;
 
-	/**
-     * The feature id for the '<em><b>Binding Switchyard2</b></em>' containment reference.
+    /**
+     * The feature id for the '<em><b>Binding Switchyard</b></em>' containment reference.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__BINDING_SWITCHYARD2 = 9;
+	int DOCUMENT_ROOT__BINDING_SWITCHYARD = 5;
 
 	/**
      * The feature id for the '<em><b>Context Mapper</b></em>' containment reference.
@@ -295,7 +260,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__CONTEXT_MAPPER = 10;
+	int DOCUMENT_ROOT__CONTEXT_MAPPER = 6;
 
 	/**
      * The feature id for the '<em><b>Domain</b></em>' containment reference.
@@ -304,7 +269,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__DOMAIN = 11;
+	int DOCUMENT_ROOT__DOMAIN = 7;
 
 	/**
      * The feature id for the '<em><b>Handler</b></em>' containment reference.
@@ -313,7 +278,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__HANDLER = 12;
+	int DOCUMENT_ROOT__HANDLER = 8;
 
 	/**
      * The feature id for the '<em><b>Handlers</b></em>' containment reference.
@@ -322,7 +287,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__HANDLERS = 13;
+	int DOCUMENT_ROOT__HANDLERS = 9;
 
 	/**
      * The feature id for the '<em><b>Interface Esb</b></em>' containment reference.
@@ -331,7 +296,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__INTERFACE_ESB = 14;
+	int DOCUMENT_ROOT__INTERFACE_ESB = 10;
 
 	/**
      * The feature id for the '<em><b>Message Composer</b></em>' containment reference.
@@ -340,7 +305,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__MESSAGE_COMPOSER = 15;
+	int DOCUMENT_ROOT__MESSAGE_COMPOSER = 11;
 
 	/**
      * The feature id for the '<em><b>Properties</b></em>' containment reference.
@@ -349,7 +314,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__PROPERTIES = 16;
+	int DOCUMENT_ROOT__PROPERTIES = 12;
 
 	/**
      * The feature id for the '<em><b>Property</b></em>' containment reference.
@@ -358,16 +323,16 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__PROPERTY = 17;
+	int DOCUMENT_ROOT__PROPERTY = 13;
 
-	/**
-     * The feature id for the '<em><b>Resource2</b></em>' containment reference.
+    /**
+     * The feature id for the '<em><b>Resource</b></em>' containment reference.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__RESOURCE2 = 18;
+	int DOCUMENT_ROOT__RESOURCE = 14;
 
 	/**
      * The feature id for the '<em><b>Switchyard</b></em>' containment reference.
@@ -376,7 +341,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__SWITCHYARD = 19;
+	int DOCUMENT_ROOT__SWITCHYARD = 15;
 
 	/**
      * The feature id for the '<em><b>Transform</b></em>' containment reference.
@@ -385,7 +350,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__TRANSFORM = 20;
+	int DOCUMENT_ROOT__TRANSFORM = 16;
 
 	/**
      * The feature id for the '<em><b>Transforms</b></em>' containment reference.
@@ -394,7 +359,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__TRANSFORMS = 21;
+	int DOCUMENT_ROOT__TRANSFORMS = 17;
 
 	/**
      * The feature id for the '<em><b>Validate</b></em>' containment reference.
@@ -403,7 +368,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__VALIDATE = 22;
+	int DOCUMENT_ROOT__VALIDATE = 18;
 
 	/**
      * The feature id for the '<em><b>Validates</b></em>' containment reference.
@@ -412,70 +377,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT__VALIDATES = 23;
-
-	/**
-     * The feature id for the '<em><b>Transform1</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int DOCUMENT_ROOT__TRANSFORM1 = 24;
-
-	/**
-     * The feature id for the '<em><b>Transform2</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int DOCUMENT_ROOT__TRANSFORM2 = 25;
-
-	/**
-     * The feature id for the '<em><b>Transform3</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int DOCUMENT_ROOT__TRANSFORM3 = 26;
-
-	/**
-     * The feature id for the '<em><b>Transform4</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int DOCUMENT_ROOT__TRANSFORM4 = 27;
-
-	/**
-     * The feature id for the '<em><b>Transform5</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int DOCUMENT_ROOT__TRANSFORM5 = 28;
-
-	/**
-     * The feature id for the '<em><b>Validate1</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int DOCUMENT_ROOT__VALIDATE1 = 29;
-
-	/**
-     * The feature id for the '<em><b>Validate2</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int DOCUMENT_ROOT__VALIDATE2 = 30;
+	int DOCUMENT_ROOT__VALIDATES = 19;
 
 	/**
      * The number of structural features of the '<em>Document Root</em>' class.
@@ -484,7 +386,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT_FEATURE_COUNT = 31;
+	int DOCUMENT_ROOT_FEATURE_COUNT = 20;
 
 	/**
      * The meta object id for the '{@link org.jboss.tools.switchyard.model.switchyard.impl.DomainTypeImpl <em>Domain Type</em>}' class.
@@ -561,13 +463,58 @@ public interface SwitchyardPackage extends EPackage {
 	int ESB_INTERFACE = 5;
 
 	/**
+     * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ESB_INTERFACE__DOCUMENTATION = ScaPackage.INTERFACE__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ESB_INTERFACE__ANY_ATTRIBUTE = ScaPackage.INTERFACE__ANY_ATTRIBUTE;
+
+    /**
+     * The feature id for the '<em><b>Policy Sets</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ESB_INTERFACE__POLICY_SETS = ScaPackage.INTERFACE__POLICY_SETS;
+
+    /**
+     * The feature id for the '<em><b>Remotable</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ESB_INTERFACE__REMOTABLE = ScaPackage.INTERFACE__REMOTABLE;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int ESB_INTERFACE__REQUIRES = ScaPackage.INTERFACE__REQUIRES;
+
+    /**
      * The number of structural features of the '<em>Esb Interface</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int ESB_INTERFACE_FEATURE_COUNT = 0;
+	int ESB_INTERFACE_FEATURE_COUNT = ScaPackage.INTERFACE_FEATURE_COUNT + 0;
 
 	/**
      * The meta object id for the '{@link org.jboss.tools.switchyard.model.switchyard.impl.HandlersTypeImpl <em>Handlers Type</em>}' class.
@@ -775,13 +722,103 @@ public interface SwitchyardPackage extends EPackage {
 	int SWITCH_YARD_BINDING_TYPE = 12;
 
 	/**
+     * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SWITCH_YARD_BINDING_TYPE__DOCUMENTATION = ScaPackage.BINDING__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SWITCH_YARD_BINDING_TYPE__ANY_ATTRIBUTE = ScaPackage.BINDING__ANY_ATTRIBUTE;
+
+    /**
+     * The feature id for the '<em><b>Wire Format Group</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SWITCH_YARD_BINDING_TYPE__WIRE_FORMAT_GROUP = ScaPackage.BINDING__WIRE_FORMAT_GROUP;
+
+    /**
+     * The feature id for the '<em><b>Wire Format</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SWITCH_YARD_BINDING_TYPE__WIRE_FORMAT = ScaPackage.BINDING__WIRE_FORMAT;
+
+    /**
+     * The feature id for the '<em><b>Operation Selector Group</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SWITCH_YARD_BINDING_TYPE__OPERATION_SELECTOR_GROUP = ScaPackage.BINDING__OPERATION_SELECTOR_GROUP;
+
+    /**
+     * The feature id for the '<em><b>Operation Selector</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SWITCH_YARD_BINDING_TYPE__OPERATION_SELECTOR = ScaPackage.BINDING__OPERATION_SELECTOR;
+
+    /**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SWITCH_YARD_BINDING_TYPE__NAME = ScaPackage.BINDING__NAME;
+
+    /**
+     * The feature id for the '<em><b>Policy Sets</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SWITCH_YARD_BINDING_TYPE__POLICY_SETS = ScaPackage.BINDING__POLICY_SETS;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SWITCH_YARD_BINDING_TYPE__REQUIRES = ScaPackage.BINDING__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Uri</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SWITCH_YARD_BINDING_TYPE__URI = ScaPackage.BINDING__URI;
+
+    /**
      * The feature id for the '<em><b>Context Mapper</b></em>' containment reference.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int SWITCH_YARD_BINDING_TYPE__CONTEXT_MAPPER = 0;
+	int SWITCH_YARD_BINDING_TYPE__CONTEXT_MAPPER = ScaPackage.BINDING_FEATURE_COUNT + 0;
 
 	/**
      * The feature id for the '<em><b>Message Composer</b></em>' containment reference.
@@ -790,7 +827,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int SWITCH_YARD_BINDING_TYPE__MESSAGE_COMPOSER = 1;
+	int SWITCH_YARD_BINDING_TYPE__MESSAGE_COMPOSER = ScaPackage.BINDING_FEATURE_COUNT + 1;
 
 	/**
      * The number of structural features of the '<em>Switch Yard Binding Type</em>' class.
@@ -799,7 +836,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT = 2;
+	int SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT = ScaPackage.BINDING_FEATURE_COUNT + 2;
 
 	/**
      * The meta object id for the '{@link org.jboss.tools.switchyard.model.switchyard.impl.SwitchYardTypeImpl <em>Switch Yard Type</em>}' class.
@@ -812,49 +849,13 @@ public interface SwitchyardPackage extends EPackage {
 	int SWITCH_YARD_TYPE = 13;
 
 	/**
-     * The feature id for the '<em><b>Transforms</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int SWITCH_YARD_TYPE__TRANSFORMS = 0;
-
-	/**
-     * The feature id for the '<em><b>Validates</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int SWITCH_YARD_TYPE__VALIDATES = 1;
-
-	/**
-     * The feature id for the '<em><b>Domain</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int SWITCH_YARD_TYPE__DOMAIN = 2;
-
-	/**
-     * The feature id for the '<em><b>Artifacts</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-	int SWITCH_YARD_TYPE__ARTIFACTS = 3;
-
-	/**
      * The feature id for the '<em><b>Name</b></em>' attribute.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int SWITCH_YARD_TYPE__NAME = 4;
+	int SWITCH_YARD_TYPE__NAME = 0;
 
 	/**
      * The feature id for the '<em><b>Target Namespace</b></em>' attribute.
@@ -863,7 +864,7 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int SWITCH_YARD_TYPE__TARGET_NAMESPACE = 5;
+	int SWITCH_YARD_TYPE__TARGET_NAMESPACE = 1;
 
 	/**
      * The feature id for the '<em><b>Composite</b></em>' containment reference.
@@ -872,7 +873,43 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int SWITCH_YARD_TYPE__COMPOSITE = 6;
+	int SWITCH_YARD_TYPE__COMPOSITE = 2;
+
+    /**
+     * The feature id for the '<em><b>Transforms</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+	int SWITCH_YARD_TYPE__TRANSFORMS = 3;
+
+    /**
+     * The feature id for the '<em><b>Validates</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+	int SWITCH_YARD_TYPE__VALIDATES = 4;
+
+    /**
+     * The feature id for the '<em><b>Domain</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+	int SWITCH_YARD_TYPE__DOMAIN = 5;
+
+    /**
+     * The feature id for the '<em><b>Artifacts</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+	int SWITCH_YARD_TYPE__ARTIFACTS = 6;
 
 	/**
      * The number of structural features of the '<em>Switch Yard Type</em>' class.
@@ -1185,48 +1222,26 @@ public interface SwitchyardPackage extends EPackage {
 	EReference getDocumentRoot_XSISchemaLocation();
 
 	/**
-     * Returns the meta object for the attribute '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource <em>Resource</em>}'.
+     * Returns the meta object for the containment reference '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource <em>Resource</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Resource</em>'.
+     * @return the meta object for the containment reference '<em>Resource</em>'.
      * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource()
      * @see #getDocumentRoot()
      * @generated
      */
-	EAttribute getDocumentRoot_Resource();
+	EReference getDocumentRoot_Resource();
 
 	/**
-     * Returns the meta object for the attribute '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard <em>Binding Switchyard</em>}'.
+     * Returns the meta object for the containment reference '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard <em>Binding Switchyard</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Binding Switchyard</em>'.
+     * @return the meta object for the containment reference '<em>Binding Switchyard</em>'.
      * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard()
      * @see #getDocumentRoot()
      * @generated
      */
-	EAttribute getDocumentRoot_BindingSwitchyard();
-
-	/**
-     * Returns the meta object for the attribute '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource1 <em>Resource1</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Resource1</em>'.
-     * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource1()
-     * @see #getDocumentRoot()
-     * @generated
-     */
-	EAttribute getDocumentRoot_Resource1();
-
-	/**
-     * Returns the meta object for the attribute '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard1 <em>Binding Switchyard1</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Binding Switchyard1</em>'.
-     * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard1()
-     * @see #getDocumentRoot()
-     * @generated
-     */
-	EAttribute getDocumentRoot_BindingSwitchyard1();
+	EReference getDocumentRoot_BindingSwitchyard();
 
 	/**
      * Returns the meta object for the containment reference '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getArtifact <em>Artifact</em>}'.
@@ -1249,17 +1264,6 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      */
 	EReference getDocumentRoot_Artifacts();
-
-	/**
-     * Returns the meta object for the containment reference '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard2 <em>Binding Switchyard2</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the containment reference '<em>Binding Switchyard2</em>'.
-     * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard2()
-     * @see #getDocumentRoot()
-     * @generated
-     */
-	EReference getDocumentRoot_BindingSwitchyard2();
 
 	/**
      * Returns the meta object for the containment reference '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getContextMapper <em>Context Mapper</em>}'.
@@ -1350,17 +1354,6 @@ public interface SwitchyardPackage extends EPackage {
 	EReference getDocumentRoot_Property();
 
 	/**
-     * Returns the meta object for the containment reference '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource2 <em>Resource2</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the containment reference '<em>Resource2</em>'.
-     * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource2()
-     * @see #getDocumentRoot()
-     * @generated
-     */
-	EReference getDocumentRoot_Resource2();
-
-	/**
      * Returns the meta object for the containment reference '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getSwitchyard <em>Switchyard</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1414,83 +1407,6 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      */
 	EReference getDocumentRoot_Validates();
-
-	/**
-     * Returns the meta object for the attribute '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform1 <em>Transform1</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Transform1</em>'.
-     * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform1()
-     * @see #getDocumentRoot()
-     * @generated
-     */
-	EAttribute getDocumentRoot_Transform1();
-
-	/**
-     * Returns the meta object for the attribute '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform2 <em>Transform2</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Transform2</em>'.
-     * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform2()
-     * @see #getDocumentRoot()
-     * @generated
-     */
-	EAttribute getDocumentRoot_Transform2();
-
-	/**
-     * Returns the meta object for the attribute '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform3 <em>Transform3</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Transform3</em>'.
-     * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform3()
-     * @see #getDocumentRoot()
-     * @generated
-     */
-	EAttribute getDocumentRoot_Transform3();
-
-	/**
-     * Returns the meta object for the attribute '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform4 <em>Transform4</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Transform4</em>'.
-     * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform4()
-     * @see #getDocumentRoot()
-     * @generated
-     */
-	EAttribute getDocumentRoot_Transform4();
-
-	/**
-     * Returns the meta object for the attribute '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform5 <em>Transform5</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Transform5</em>'.
-     * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform5()
-     * @see #getDocumentRoot()
-     * @generated
-     */
-	EAttribute getDocumentRoot_Transform5();
-
-	/**
-     * Returns the meta object for the attribute '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getValidate1 <em>Validate1</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Validate1</em>'.
-     * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getValidate1()
-     * @see #getDocumentRoot()
-     * @generated
-     */
-	EAttribute getDocumentRoot_Validate1();
-
-	/**
-     * Returns the meta object for the attribute '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getValidate2 <em>Validate2</em>}'.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Validate2</em>'.
-     * @see org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getValidate2()
-     * @see #getDocumentRoot()
-     * @generated
-     */
-	EAttribute getDocumentRoot_Validate2();
 
 	/**
      * Returns the meta object for class '{@link org.jboss.tools.switchyard.model.switchyard.DomainType <em>Domain Type</em>}'.
@@ -2113,36 +2029,20 @@ public interface SwitchyardPackage extends EPackage {
 		EReference DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = eINSTANCE.getDocumentRoot_XSISchemaLocation();
 
 		/**
-         * The meta object literal for the '<em><b>Resource</b></em>' attribute feature.
+         * The meta object literal for the '<em><b>Resource</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute DOCUMENT_ROOT__RESOURCE = eINSTANCE.getDocumentRoot_Resource();
+		EReference DOCUMENT_ROOT__RESOURCE = eINSTANCE.getDocumentRoot_Resource();
 
 		/**
-         * The meta object literal for the '<em><b>Binding Switchyard</b></em>' attribute feature.
+         * The meta object literal for the '<em><b>Binding Switchyard</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
          * @generated
          */
-		EAttribute DOCUMENT_ROOT__BINDING_SWITCHYARD = eINSTANCE.getDocumentRoot_BindingSwitchyard();
-
-		/**
-         * The meta object literal for the '<em><b>Resource1</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EAttribute DOCUMENT_ROOT__RESOURCE1 = eINSTANCE.getDocumentRoot_Resource1();
-
-		/**
-         * The meta object literal for the '<em><b>Binding Switchyard1</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EAttribute DOCUMENT_ROOT__BINDING_SWITCHYARD1 = eINSTANCE.getDocumentRoot_BindingSwitchyard1();
+		EReference DOCUMENT_ROOT__BINDING_SWITCHYARD = eINSTANCE.getDocumentRoot_BindingSwitchyard();
 
 		/**
          * The meta object literal for the '<em><b>Artifact</b></em>' containment reference feature.
@@ -2159,14 +2059,6 @@ public interface SwitchyardPackage extends EPackage {
          * @generated
          */
 		EReference DOCUMENT_ROOT__ARTIFACTS = eINSTANCE.getDocumentRoot_Artifacts();
-
-		/**
-         * The meta object literal for the '<em><b>Binding Switchyard2</b></em>' containment reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EReference DOCUMENT_ROOT__BINDING_SWITCHYARD2 = eINSTANCE.getDocumentRoot_BindingSwitchyard2();
 
 		/**
          * The meta object literal for the '<em><b>Context Mapper</b></em>' containment reference feature.
@@ -2233,14 +2125,6 @@ public interface SwitchyardPackage extends EPackage {
 		EReference DOCUMENT_ROOT__PROPERTY = eINSTANCE.getDocumentRoot_Property();
 
 		/**
-         * The meta object literal for the '<em><b>Resource2</b></em>' containment reference feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EReference DOCUMENT_ROOT__RESOURCE2 = eINSTANCE.getDocumentRoot_Resource2();
-
-		/**
          * The meta object literal for the '<em><b>Switchyard</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2279,62 +2163,6 @@ public interface SwitchyardPackage extends EPackage {
          * @generated
          */
 		EReference DOCUMENT_ROOT__VALIDATES = eINSTANCE.getDocumentRoot_Validates();
-
-		/**
-         * The meta object literal for the '<em><b>Transform1</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EAttribute DOCUMENT_ROOT__TRANSFORM1 = eINSTANCE.getDocumentRoot_Transform1();
-
-		/**
-         * The meta object literal for the '<em><b>Transform2</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EAttribute DOCUMENT_ROOT__TRANSFORM2 = eINSTANCE.getDocumentRoot_Transform2();
-
-		/**
-         * The meta object literal for the '<em><b>Transform3</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EAttribute DOCUMENT_ROOT__TRANSFORM3 = eINSTANCE.getDocumentRoot_Transform3();
-
-		/**
-         * The meta object literal for the '<em><b>Transform4</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EAttribute DOCUMENT_ROOT__TRANSFORM4 = eINSTANCE.getDocumentRoot_Transform4();
-
-		/**
-         * The meta object literal for the '<em><b>Transform5</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EAttribute DOCUMENT_ROOT__TRANSFORM5 = eINSTANCE.getDocumentRoot_Transform5();
-
-		/**
-         * The meta object literal for the '<em><b>Validate1</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EAttribute DOCUMENT_ROOT__VALIDATE1 = eINSTANCE.getDocumentRoot_Validate1();
-
-		/**
-         * The meta object literal for the '<em><b>Validate2</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-         * @generated
-         */
-		EAttribute DOCUMENT_ROOT__VALIDATE2 = eINSTANCE.getDocumentRoot_Validate2();
 
 		/**
          * The meta object literal for the '{@link org.jboss.tools.switchyard.model.switchyard.impl.DomainTypeImpl <em>Domain Type</em>}' class.

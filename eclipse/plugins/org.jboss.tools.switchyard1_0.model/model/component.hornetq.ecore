@@ -3,12 +3,12 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="hornetq"
     nsURI="urn:switchyard-component-hornetq:config:1.0" nsPrefix="hornetq">
-  <eClassifiers xsi:type="ecore:EClass" name="BindingType">
+  <eClassifiers xsi:type="ecore:EClass" name="BindingType" eSuperTypes="config.switchyard.ecore#//SwitchYardBindingType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="BindingType"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="operationSelector" eType="#//OperationSelectorType"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hqOperationSelector" eType="#//OperationSelectorType"
         containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -435,7 +435,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OperationSelectorType">
+  <eClassifiers xsi:type="ecore:EClass" name="OperationSelectorType" eSuperTypes="platform:/plugin/org.eclipse.soa.sca.sca1_1.model/model/sca.ecore#//OperationSelectorType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="OperationSelectorType"/>
       <details key="kind" value="empty"/>

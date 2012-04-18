@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
+import org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -70,22 +72,130 @@ public interface HornetQPackage extends EPackage {
 	int BINDING_TYPE = 0;
 
 	/**
+     * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BINDING_TYPE__DOCUMENTATION = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BINDING_TYPE__ANY_ATTRIBUTE = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__ANY_ATTRIBUTE;
+
+    /**
+     * The feature id for the '<em><b>Wire Format Group</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BINDING_TYPE__WIRE_FORMAT_GROUP = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__WIRE_FORMAT_GROUP;
+
+    /**
+     * The feature id for the '<em><b>Wire Format</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BINDING_TYPE__WIRE_FORMAT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__WIRE_FORMAT;
+
+    /**
+     * The feature id for the '<em><b>Operation Selector Group</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BINDING_TYPE__OPERATION_SELECTOR_GROUP = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__OPERATION_SELECTOR_GROUP;
+
+    /**
      * The feature id for the '<em><b>Operation Selector</b></em>' containment reference.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int BINDING_TYPE__OPERATION_SELECTOR = 0;
+	int BINDING_TYPE__OPERATION_SELECTOR = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__OPERATION_SELECTOR;
 
 	/**
+     * The feature id for the '<em><b>Name</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BINDING_TYPE__NAME = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__NAME;
+
+    /**
+     * The feature id for the '<em><b>Policy Sets</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BINDING_TYPE__POLICY_SETS = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__POLICY_SETS;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BINDING_TYPE__REQUIRES = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__REQUIRES;
+
+    /**
+     * The feature id for the '<em><b>Uri</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BINDING_TYPE__URI = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__URI;
+
+    /**
+     * The feature id for the '<em><b>Context Mapper</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BINDING_TYPE__CONTEXT_MAPPER = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__CONTEXT_MAPPER;
+
+    /**
+     * The feature id for the '<em><b>Message Composer</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BINDING_TYPE__MESSAGE_COMPOSER = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__MESSAGE_COMPOSER;
+
+    /**
+     * The feature id for the '<em><b>Hq Operation Selector</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BINDING_TYPE__HQ_OPERATION_SELECTOR = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 0;
+
+    /**
      * The feature id for the '<em><b>Config</b></em>' containment reference.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int BINDING_TYPE__CONFIG = 1;
+	int BINDING_TYPE__CONFIG = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 1;
 
 	/**
      * The number of structural features of the '<em>Binding Type</em>' class.
@@ -94,7 +204,7 @@ public interface HornetQPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int BINDING_TYPE_FEATURE_COUNT = 2;
+	int BINDING_TYPE_FEATURE_COUNT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 2;
 
 	/**
      * The meta object id for the '{@link org.jboss.tools.switchyard.model.hornetq.impl.ConfigTypeImpl <em>Config Type</em>}' class.
@@ -615,13 +725,31 @@ public interface HornetQPackage extends EPackage {
 	int OPERATION_SELECTOR_TYPE = 5;
 
 	/**
+     * The feature id for the '<em><b>Any</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int OPERATION_SELECTOR_TYPE__ANY = ScaPackage.OPERATION_SELECTOR_TYPE__ANY;
+
+    /**
+     * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int OPERATION_SELECTOR_TYPE__ANY_ATTRIBUTE = ScaPackage.OPERATION_SELECTOR_TYPE__ANY_ATTRIBUTE;
+
+    /**
      * The number of structural features of the '<em>Operation Selector Type</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int OPERATION_SELECTOR_TYPE_FEATURE_COUNT = 0;
+	int OPERATION_SELECTOR_TYPE_FEATURE_COUNT = ScaPackage.OPERATION_SELECTOR_TYPE_FEATURE_COUNT + 0;
 
 	/**
      * The meta object id for the '{@link org.jboss.tools.switchyard.model.hornetq.impl.PropertiesTypeImpl <em>Properties Type</em>}' class.
@@ -700,17 +828,17 @@ public interface HornetQPackage extends EPackage {
 	EClass getBindingType();
 
 	/**
-     * Returns the meta object for the containment reference '{@link org.jboss.tools.switchyard.model.hornetq.BindingType#getOperationSelector <em>Operation Selector</em>}'.
+     * Returns the meta object for the containment reference '{@link org.jboss.tools.switchyard.model.hornetq.BindingType#getHqOperationSelector <em>Hq Operation Selector</em>}'.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @return the meta object for the containment reference '<em>Operation Selector</em>'.
-     * @see org.jboss.tools.switchyard.model.hornetq.BindingType#getOperationSelector()
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference '<em>Hq Operation Selector</em>'.
+     * @see org.jboss.tools.switchyard.model.hornetq.BindingType#getHqOperationSelector()
      * @see #getBindingType()
      * @generated
      */
-	EReference getBindingType_OperationSelector();
+    EReference getBindingType_HqOperationSelector();
 
-	/**
+    /**
      * Returns the meta object for the containment reference '{@link org.jboss.tools.switchyard.model.hornetq.BindingType#getConfig <em>Config</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1385,14 +1513,14 @@ public interface HornetQPackage extends EPackage {
 		EClass BINDING_TYPE = eINSTANCE.getBindingType();
 
 		/**
-         * The meta object literal for the '<em><b>Operation Selector</b></em>' containment reference feature.
+         * The meta object literal for the '<em><b>Hq Operation Selector</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
+         * <!-- end-user-doc -->
          * @generated
          */
-		EReference BINDING_TYPE__OPERATION_SELECTOR = eINSTANCE.getBindingType_OperationSelector();
+        EReference BINDING_TYPE__HQ_OPERATION_SELECTOR = eINSTANCE.getBindingType_HqOperationSelector();
 
-		/**
+        /**
          * The meta object literal for the '<em><b>Config</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->

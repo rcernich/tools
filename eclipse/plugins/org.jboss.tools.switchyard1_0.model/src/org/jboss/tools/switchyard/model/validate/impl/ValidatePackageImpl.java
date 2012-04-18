@@ -361,11 +361,16 @@ public class ValidatePackageImpl extends EPackageImpl implements ValidatePackage
         setNsPrefix(eNS_PREFIX);
         setNsURI(eNS_URI);
 
+        // Obtain other dependent packages
+        SwitchyardPackage theSwitchyardPackage = (SwitchyardPackage)EPackage.Registry.INSTANCE.getEPackage(SwitchyardPackage.eNS_URI);
+
         // Create type parameters
 
         // Set bounds for type parameters
 
         // Add supertypes to classes
+        javaValidateTypeEClass.getESuperTypes().add(theSwitchyardPackage.getValidateType());
+        xmlValidateTypeEClass.getESuperTypes().add(theSwitchyardPackage.getValidateType());
 
         // Initialize classes and features; add operations and parameters
         initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

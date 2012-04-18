@@ -210,13 +210,31 @@ public interface TransformPackage extends EPackage {
 	int JAXB_TRANSFORM_TYPE = 2;
 
 	/**
+     * The feature id for the '<em><b>From</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int JAXB_TRANSFORM_TYPE__FROM = SwitchyardPackage.TRANSFORM_TYPE__FROM;
+
+    /**
+     * The feature id for the '<em><b>To</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int JAXB_TRANSFORM_TYPE__TO = SwitchyardPackage.TRANSFORM_TYPE__TO;
+
+    /**
      * The number of structural features of the '<em>JAXB Transform Type</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int JAXB_TRANSFORM_TYPE_FEATURE_COUNT = 0;
+	int JAXB_TRANSFORM_TYPE_FEATURE_COUNT = SwitchyardPackage.TRANSFORM_TYPE_FEATURE_COUNT + 0;
 
 	/**
      * The meta object id for the '{@link org.jboss.tools.switchyard.model.transform.impl.JsonTransformTypeImpl <em>Json Transform Type</em>}' class.
@@ -229,13 +247,31 @@ public interface TransformPackage extends EPackage {
 	int JSON_TRANSFORM_TYPE = 3;
 
 	/**
+     * The feature id for the '<em><b>From</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int JSON_TRANSFORM_TYPE__FROM = SwitchyardPackage.TRANSFORM_TYPE__FROM;
+
+    /**
+     * The feature id for the '<em><b>To</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int JSON_TRANSFORM_TYPE__TO = SwitchyardPackage.TRANSFORM_TYPE__TO;
+
+    /**
      * The number of structural features of the '<em>Json Transform Type</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int JSON_TRANSFORM_TYPE_FEATURE_COUNT = 0;
+	int JSON_TRANSFORM_TYPE_FEATURE_COUNT = SwitchyardPackage.TRANSFORM_TYPE_FEATURE_COUNT + 0;
 
 	/**
      * The meta object id for the '{@link org.jboss.tools.switchyard.model.transform.impl.SmooksTransformType1Impl <em>Smooks Transform Type1</em>}' class.
@@ -248,13 +284,31 @@ public interface TransformPackage extends EPackage {
 	int SMOOKS_TRANSFORM_TYPE1 = 4;
 
 	/**
+     * The feature id for the '<em><b>From</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SMOOKS_TRANSFORM_TYPE1__FROM = SwitchyardPackage.TRANSFORM_TYPE__FROM;
+
+    /**
+     * The feature id for the '<em><b>To</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SMOOKS_TRANSFORM_TYPE1__TO = SwitchyardPackage.TRANSFORM_TYPE__TO;
+
+    /**
      * The number of structural features of the '<em>Smooks Transform Type1</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int SMOOKS_TRANSFORM_TYPE1_FEATURE_COUNT = 0;
+	int SMOOKS_TRANSFORM_TYPE1_FEATURE_COUNT = SwitchyardPackage.TRANSFORM_TYPE_FEATURE_COUNT + 0;
 
 	/**
      * The meta object id for the '{@link org.jboss.tools.switchyard.model.transform.impl.XsltTransformTypeImpl <em>Xslt Transform Type</em>}' class.
@@ -267,13 +321,31 @@ public interface TransformPackage extends EPackage {
 	int XSLT_TRANSFORM_TYPE = 5;
 
 	/**
+     * The feature id for the '<em><b>From</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int XSLT_TRANSFORM_TYPE__FROM = SwitchyardPackage.TRANSFORM_TYPE__FROM;
+
+    /**
+     * The feature id for the '<em><b>To</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int XSLT_TRANSFORM_TYPE__TO = SwitchyardPackage.TRANSFORM_TYPE__TO;
+
+    /**
      * The number of structural features of the '<em>Xslt Transform Type</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int XSLT_TRANSFORM_TYPE_FEATURE_COUNT = 0;
+	int XSLT_TRANSFORM_TYPE_FEATURE_COUNT = SwitchyardPackage.TRANSFORM_TYPE_FEATURE_COUNT + 0;
 
 	/**
      * The meta object id for the '{@link org.jboss.tools.switchyard.model.transform.JavaTransformType <em>Java Transform Type</em>}' enum.

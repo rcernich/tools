@@ -29,7 +29,7 @@
       <details key="kind" value="empty"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="BPMImplementationType">
+  <eClassifiers xsi:type="ecore:EClass" name="BPMImplementationType" eSuperTypes="platform:/plugin/org.eclipse.soa.sca.sca1_1.model/model/sca.ecore#//Implementation">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="BPMImplementationType"/>
       <details key="kind" value="elementOnly"/>

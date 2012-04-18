@@ -18,13 +18,13 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link org.jboss.tools.switchyard.model.switchyard.SwitchYardType#getName <em>Name</em>}</li>
+ *   <li>{@link org.jboss.tools.switchyard.model.switchyard.SwitchYardType#getTargetNamespace <em>Target Namespace</em>}</li>
+ *   <li>{@link org.jboss.tools.switchyard.model.switchyard.SwitchYardType#getComposite <em>Composite</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.SwitchYardType#getTransforms <em>Transforms</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.SwitchYardType#getValidates <em>Validates</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.SwitchYardType#getDomain <em>Domain</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.SwitchYardType#getArtifacts <em>Artifacts</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.SwitchYardType#getName <em>Name</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.SwitchYardType#getTargetNamespace <em>Target Namespace</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.SwitchYardType#getComposite <em>Composite</em>}</li>
  * </ul>
  * </p>
  *

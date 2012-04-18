@@ -240,14 +240,14 @@ public class HornetQPackageImpl extends EPackageImpl implements HornetQPackage {
 
 	/**
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
      * @generated
      */
-	public EReference getBindingType_OperationSelector() {
+    public EReference getBindingType_HqOperationSelector() {
         return (EReference)bindingTypeEClass.getEStructuralFeatures().get(0);
     }
 
-	/**
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
@@ -807,7 +807,7 @@ public class HornetQPackageImpl extends EPackageImpl implements HornetQPackage {
 
         // Create classes and their features
         bindingTypeEClass = createEClass(BINDING_TYPE);
-        createEReference(bindingTypeEClass, BINDING_TYPE__OPERATION_SELECTOR);
+        createEReference(bindingTypeEClass, BINDING_TYPE__HQ_OPERATION_SELECTOR);
         createEReference(bindingTypeEClass, BINDING_TYPE__CONFIG);
 
         configTypeEClass = createEClass(CONFIG_TYPE);
@@ -900,17 +900,21 @@ public class HornetQPackageImpl extends EPackageImpl implements HornetQPackage {
         setNsURI(eNS_URI);
 
         // Obtain other dependent packages
+        SwitchyardPackage theSwitchyardPackage = (SwitchyardPackage)EPackage.Registry.INSTANCE.getEPackage(SwitchyardPackage.eNS_URI);
         XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+        ScaPackage theScaPackage = (ScaPackage)EPackage.Registry.INSTANCE.getEPackage(ScaPackage.eNS_URI);
 
         // Create type parameters
 
         // Set bounds for type parameters
 
         // Add supertypes to classes
+        bindingTypeEClass.getESuperTypes().add(theSwitchyardPackage.getSwitchYardBindingType());
+        operationSelectorTypeEClass.getESuperTypes().add(theScaPackage.getOperationSelectorType());
 
         // Initialize classes and features; add operations and parameters
         initEClass(bindingTypeEClass, BindingType.class, "BindingType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getBindingType_OperationSelector(), this.getOperationSelectorType(), null, "operationSelector", null, 0, 1, BindingType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getBindingType_HqOperationSelector(), this.getOperationSelectorType(), null, "hqOperationSelector", null, 0, 1, BindingType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getBindingType_Config(), this.getConfigType(), null, "config", null, 1, 1, BindingType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(configTypeEClass, ConfigType.class, "ConfigType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1002,7 +1006,7 @@ public class HornetQPackageImpl extends EPackageImpl implements HornetQPackage {
              "kind", "elementOnly"
            });		
         addAnnotation
-          (getBindingType_OperationSelector(), 
+          (getBindingType_HqOperationSelector(), 
            source, 
            new String[] {
              "kind", "element",

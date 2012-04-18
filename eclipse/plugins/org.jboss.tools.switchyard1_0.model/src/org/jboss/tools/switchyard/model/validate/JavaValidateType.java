@@ -6,7 +6,7 @@
  */
 package org.jboss.tools.switchyard.model.validate;
 
-import org.eclipse.emf.ecore.EObject;
+import org.jboss.tools.switchyard.model.switchyard.ValidateType;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,5 +24,5 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='JavaValidateType' kind='empty'"
  * @generated
  */
-public interface JavaValidateType extends EObject {
+public interface JavaValidateType extends ValidateType {
 } // JavaValidateType

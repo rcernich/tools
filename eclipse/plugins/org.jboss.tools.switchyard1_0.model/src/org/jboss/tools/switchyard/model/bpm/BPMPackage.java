@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -110,13 +111,49 @@ public interface BPMPackage extends EPackage {
 	int BPM_IMPLEMENTATION_TYPE = 2;
 
 	/**
+     * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BPM_IMPLEMENTATION_TYPE__DOCUMENTATION = ScaPackage.IMPLEMENTATION__DOCUMENTATION;
+
+    /**
+     * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BPM_IMPLEMENTATION_TYPE__ANY_ATTRIBUTE = ScaPackage.IMPLEMENTATION__ANY_ATTRIBUTE;
+
+    /**
+     * The feature id for the '<em><b>Policy Sets</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BPM_IMPLEMENTATION_TYPE__POLICY_SETS = ScaPackage.IMPLEMENTATION__POLICY_SETS;
+
+    /**
+     * The feature id for the '<em><b>Requires</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BPM_IMPLEMENTATION_TYPE__REQUIRES = ScaPackage.IMPLEMENTATION__REQUIRES;
+
+    /**
      * The feature id for the '<em><b>Action</b></em>' containment reference list.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int BPM_IMPLEMENTATION_TYPE__ACTION = 0;
+	int BPM_IMPLEMENTATION_TYPE__ACTION = ScaPackage.IMPLEMENTATION_FEATURE_COUNT + 0;
 
 	/**
      * The feature id for the '<em><b>Audit</b></em>' containment reference.
@@ -125,7 +162,7 @@ public interface BPMPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int BPM_IMPLEMENTATION_TYPE__AUDIT = 1;
+	int BPM_IMPLEMENTATION_TYPE__AUDIT = ScaPackage.IMPLEMENTATION_FEATURE_COUNT + 1;
 
 	/**
      * The feature id for the '<em><b>Task Handler</b></em>' containment reference list.
@@ -134,7 +171,7 @@ public interface BPMPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int BPM_IMPLEMENTATION_TYPE__TASK_HANDLER = 2;
+	int BPM_IMPLEMENTATION_TYPE__TASK_HANDLER = ScaPackage.IMPLEMENTATION_FEATURE_COUNT + 2;
 
 	/**
      * The feature id for the '<em><b>Resource</b></em>' containment reference list.
@@ -143,7 +180,7 @@ public interface BPMPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int BPM_IMPLEMENTATION_TYPE__RESOURCE = 3;
+	int BPM_IMPLEMENTATION_TYPE__RESOURCE = ScaPackage.IMPLEMENTATION_FEATURE_COUNT + 3;
 
 	/**
      * The number of structural features of the '<em>Implementation Type</em>' class.
@@ -152,7 +189,7 @@ public interface BPMPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int BPM_IMPLEMENTATION_TYPE_FEATURE_COUNT = 4;
+	int BPM_IMPLEMENTATION_TYPE_FEATURE_COUNT = ScaPackage.IMPLEMENTATION_FEATURE_COUNT + 4;
 
 	/**
      * The meta object id for the '{@link org.jboss.tools.switchyard.model.bpm.impl.DocumentRootImpl <em>Document Root</em>}' class.

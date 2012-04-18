@@ -6,7 +6,7 @@
  */
 package org.jboss.tools.switchyard.model.transform;
 
-import org.eclipse.emf.ecore.EObject;
+import org.jboss.tools.switchyard.model.switchyard.TransformType;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,5 +24,5 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='SmooksTransformType' kind='empty'"
  * @generated
  */
-public interface SmooksTransformType1 extends EObject {
+public interface SmooksTransformType1 extends TransformType {
 } // SmooksTransformType1

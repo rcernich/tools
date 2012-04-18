@@ -11,7 +11,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.soa.sca.sca1_1.model.sca.impl.ImplementationTypeImpl;
+import org.eclipse.soa.sca.sca1_1.model.sca.impl.ImplementationImpl;
 
 import org.jboss.tools.switchyard.model.clojure.ClojureImplementationType;
 import org.jboss.tools.switchyard.model.clojure.ClojurePackage;
@@ -29,7 +29,7 @@ import org.jboss.tools.switchyard.model.clojure.ClojurePackage;
  *
  * @generated
  */
-public class ClojureImplementationTypeImpl extends ImplementationTypeImpl implements ClojureImplementationType {
+public class ClojureImplementationTypeImpl extends ImplementationImpl implements ClojureImplementationType {
 	/**
      * The default value of the '{@link #getScript() <em>Script</em>}' attribute.
      * <!-- begin-user-doc -->

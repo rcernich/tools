@@ -505,6 +505,10 @@ public class TransformPackageImpl extends EPackageImpl implements TransformPacka
 
         // Add supertypes to classes
         javaTransformType1EClass.getESuperTypes().add(theSwitchyardPackage.getTransformType());
+        jaxbTransformTypeEClass.getESuperTypes().add(theSwitchyardPackage.getTransformType());
+        jsonTransformTypeEClass.getESuperTypes().add(theSwitchyardPackage.getTransformType());
+        smooksTransformType1EClass.getESuperTypes().add(theSwitchyardPackage.getTransformType());
+        xsltTransformTypeEClass.getESuperTypes().add(theSwitchyardPackage.getTransformType());
 
         // Initialize classes and features; add operations and parameters
         initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

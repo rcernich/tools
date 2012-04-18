@@ -23,13 +23,9 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource <em>Resource</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard <em>Binding Switchyard</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource1 <em>Resource1</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard1 <em>Binding Switchyard1</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getArtifact <em>Artifact</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getArtifacts <em>Artifacts</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard2 <em>Binding Switchyard2</em>}</li>
+ *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard <em>Binding Switchyard</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getContextMapper <em>Context Mapper</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getDomain <em>Domain</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getHandler <em>Handler</em>}</li>
@@ -38,19 +34,12 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getMessageComposer <em>Message Composer</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getProperties <em>Properties</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getProperty <em>Property</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource2 <em>Resource2</em>}</li>
+ *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource <em>Resource</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getSwitchyard <em>Switchyard</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform <em>Transform</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransforms <em>Transforms</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getValidate <em>Validate</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getValidates <em>Validates</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform1 <em>Transform1</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform2 <em>Transform2</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform3 <em>Transform3</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform4 <em>Transform4</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform5 <em>Transform5</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getValidate1 <em>Validate1</em>}</li>
- *   <li>{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getValidate2 <em>Validate2</em>}</li>
  * </ul>
  * </p>
  *
@@ -113,112 +102,47 @@ public interface DocumentRoot extends EObject {
 	EMap<String, String> getXSISchemaLocation();
 
 	/**
-     * Returns the value of the '<em><b>Resource</b></em>' attribute.
+     * Returns the value of the '<em><b>Resource</b></em>' containment reference.
      * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Resource</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Resource</em>' attribute.
-     * @see #setResource(Object)
+     * @return the value of the '<em>Resource</em>' containment reference.
+     * @see #setResource(ResourceType)
      * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_Resource()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" upper="-2" transient="true" volatile="true" derived="true"
+     * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
      *        extendedMetaData="kind='element' name='resource' namespace='##targetNamespace'"
      * @generated
      */
-	Object getResource();
+	ResourceType getResource();
 
 	/**
-     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource <em>Resource</em>}' attribute.
+     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource <em>Resource</em>}' containment reference.
      * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Resource</em>' attribute.
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Resource</em>' containment reference.
      * @see #getResource()
      * @generated
      */
-	void setResource(Object value);
+    void setResource(ResourceType value);
 
-	/**
-     * Returns the value of the '<em><b>Binding Switchyard</b></em>' attribute.
+    /**
+     * Returns the value of the '<em><b>Binding Switchyard</b></em>' containment reference.
      * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Binding Switchyard</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Binding Switchyard</em>' attribute.
-     * @see #setBindingSwitchyard(Object)
+     * @return the value of the '<em>Binding Switchyard</em>' containment reference.
      * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_BindingSwitchyard()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" upper="-2" transient="true" volatile="true" derived="true"
-     *        extendedMetaData="kind='element' name='binding.switchyard' namespace='##targetNamespace'"
+     * @model containment="true" upper="-2" transient="true" changeable="false" volatile="true" derived="true"
+     *        extendedMetaData="kind='element' name='binding.switchyard' namespace='##targetNamespace' affiliation='http://docs.oasis-open.org/ns/opencsa/sca/200912#binding'"
      * @generated
      */
-	Object getBindingSwitchyard();
-
-	/**
-     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard <em>Binding Switchyard</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Binding Switchyard</em>' attribute.
-     * @see #getBindingSwitchyard()
-     * @generated
-     */
-	void setBindingSwitchyard(Object value);
-
-	/**
-     * Returns the value of the '<em><b>Resource1</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Resource1</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Resource1</em>' attribute.
-     * @see #setResource1(Object)
-     * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_Resource1()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" upper="-2" transient="true" volatile="true" derived="true"
-     *        extendedMetaData="kind='element' name='resource' namespace='##targetNamespace'"
-     * @generated
-     */
-	Object getResource1();
-
-	/**
-     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource1 <em>Resource1</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Resource1</em>' attribute.
-     * @see #getResource1()
-     * @generated
-     */
-	void setResource1(Object value);
-
-	/**
-     * Returns the value of the '<em><b>Binding Switchyard1</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Binding Switchyard1</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Binding Switchyard1</em>' attribute.
-     * @see #setBindingSwitchyard1(Object)
-     * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_BindingSwitchyard1()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" upper="-2" transient="true" volatile="true" derived="true"
-     *        extendedMetaData="kind='element' name='binding.switchyard' namespace='##targetNamespace'"
-     * @generated
-     */
-	Object getBindingSwitchyard1();
-
-	/**
-     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getBindingSwitchyard1 <em>Binding Switchyard1</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Binding Switchyard1</em>' attribute.
-     * @see #getBindingSwitchyard1()
-     * @generated
-     */
-	void setBindingSwitchyard1(Object value);
+	SwitchYardBindingType getBindingSwitchyard();
 
 	/**
      * Returns the value of the '<em><b>Artifact</b></em>' containment reference.
@@ -273,22 +197,6 @@ public interface DocumentRoot extends EObject {
      * @generated
      */
 	void setArtifacts(ArtifactsType value);
-
-	/**
-     * Returns the value of the '<em><b>Binding Switchyard2</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Binding Switchyard2</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Binding Switchyard2</em>' containment reference.
-     * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_BindingSwitchyard2()
-     * @model containment="true" upper="-2" transient="true" changeable="false" volatile="true" derived="true"
-     *        extendedMetaData="kind='element' name='binding.switchyard' namespace='##targetNamespace' affiliation='http://docs.oasis-open.org/ns/opencsa/sca/200912#binding'"
-     * @generated
-     */
-	SwitchYardBindingType getBindingSwitchyard2();
 
 	/**
      * Returns the value of the '<em><b>Context Mapper</b></em>' containment reference.
@@ -507,33 +415,6 @@ public interface DocumentRoot extends EObject {
 	void setProperty(PropertyType value);
 
 	/**
-     * Returns the value of the '<em><b>Resource2</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Resource2</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Resource2</em>' containment reference.
-     * @see #setResource2(ResourceType)
-     * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_Resource2()
-     * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
-     *        extendedMetaData="kind='element' name='resource' namespace='##targetNamespace'"
-     * @generated
-     */
-	ResourceType getResource2();
-
-	/**
-     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getResource2 <em>Resource2</em>}' containment reference.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Resource2</em>' containment reference.
-     * @see #getResource2()
-     * @generated
-     */
-	void setResource2(ResourceType value);
-
-	/**
      * Returns the value of the '<em><b>Switchyard</b></em>' containment reference.
      * <!-- begin-user-doc -->
 	 * <p>
@@ -645,194 +526,5 @@ public interface DocumentRoot extends EObject {
      * @generated
      */
 	void setValidates(ValidatesType value);
-
-	/**
-     * Returns the value of the '<em><b>Transform1</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Transform1</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Transform1</em>' attribute.
-     * @see #setTransform1(Object)
-     * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_Transform1()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" upper="-2" transient="true" volatile="true" derived="true"
-     *        extendedMetaData="kind='element' name='transform' namespace='##targetNamespace'"
-     * @generated
-     */
-	Object getTransform1();
-
-	/**
-     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform1 <em>Transform1</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Transform1</em>' attribute.
-     * @see #getTransform1()
-     * @generated
-     */
-	void setTransform1(Object value);
-
-	/**
-     * Returns the value of the '<em><b>Transform2</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Transform2</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Transform2</em>' attribute.
-     * @see #setTransform2(Object)
-     * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_Transform2()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" upper="-2" transient="true" volatile="true" derived="true"
-     *        extendedMetaData="kind='element' name='transform' namespace='##targetNamespace'"
-     * @generated
-     */
-	Object getTransform2();
-
-	/**
-     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform2 <em>Transform2</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Transform2</em>' attribute.
-     * @see #getTransform2()
-     * @generated
-     */
-	void setTransform2(Object value);
-
-	/**
-     * Returns the value of the '<em><b>Transform3</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Transform3</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Transform3</em>' attribute.
-     * @see #setTransform3(Object)
-     * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_Transform3()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" upper="-2" transient="true" volatile="true" derived="true"
-     *        extendedMetaData="kind='element' name='transform' namespace='##targetNamespace'"
-     * @generated
-     */
-	Object getTransform3();
-
-	/**
-     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform3 <em>Transform3</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Transform3</em>' attribute.
-     * @see #getTransform3()
-     * @generated
-     */
-	void setTransform3(Object value);
-
-	/**
-     * Returns the value of the '<em><b>Transform4</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Transform4</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Transform4</em>' attribute.
-     * @see #setTransform4(Object)
-     * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_Transform4()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" upper="-2" transient="true" volatile="true" derived="true"
-     *        extendedMetaData="kind='element' name='transform' namespace='##targetNamespace'"
-     * @generated
-     */
-	Object getTransform4();
-
-	/**
-     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform4 <em>Transform4</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Transform4</em>' attribute.
-     * @see #getTransform4()
-     * @generated
-     */
-	void setTransform4(Object value);
-
-	/**
-     * Returns the value of the '<em><b>Transform5</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Transform5</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Transform5</em>' attribute.
-     * @see #setTransform5(Object)
-     * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_Transform5()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" upper="-2" transient="true" volatile="true" derived="true"
-     *        extendedMetaData="kind='element' name='transform' namespace='##targetNamespace'"
-     * @generated
-     */
-	Object getTransform5();
-
-	/**
-     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getTransform5 <em>Transform5</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Transform5</em>' attribute.
-     * @see #getTransform5()
-     * @generated
-     */
-	void setTransform5(Object value);
-
-	/**
-     * Returns the value of the '<em><b>Validate1</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Validate1</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Validate1</em>' attribute.
-     * @see #setValidate1(Object)
-     * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_Validate1()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" upper="-2" transient="true" volatile="true" derived="true"
-     *        extendedMetaData="kind='element' name='validate' namespace='##targetNamespace'"
-     * @generated
-     */
-	Object getValidate1();
-
-	/**
-     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getValidate1 <em>Validate1</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Validate1</em>' attribute.
-     * @see #getValidate1()
-     * @generated
-     */
-	void setValidate1(Object value);
-
-	/**
-     * Returns the value of the '<em><b>Validate2</b></em>' attribute.
-     * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Validate2</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-     * @return the value of the '<em>Validate2</em>' attribute.
-     * @see #setValidate2(Object)
-     * @see org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage#getDocumentRoot_Validate2()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.AnySimpleType" upper="-2" transient="true" volatile="true" derived="true"
-     *        extendedMetaData="kind='element' name='validate' namespace='##targetNamespace'"
-     * @generated
-     */
-	Object getValidate2();
-
-	/**
-     * Sets the value of the '{@link org.jboss.tools.switchyard.model.switchyard.DocumentRoot#getValidate2 <em>Validate2</em>}' attribute.
-     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Validate2</em>' attribute.
-     * @see #getValidate2()
-     * @generated
-     */
-	void setValidate2(Object value);
 
 } // DocumentRoot

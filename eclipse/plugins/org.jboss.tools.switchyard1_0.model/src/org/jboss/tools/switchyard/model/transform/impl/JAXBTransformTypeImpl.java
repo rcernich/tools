@@ -8,7 +8,7 @@ package org.jboss.tools.switchyard.model.transform.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.jboss.tools.switchyard.model.switchyard.impl.TransformTypeImpl;
 
 import org.jboss.tools.switchyard.model.transform.JAXBTransformType;
 import org.jboss.tools.switchyard.model.transform.TransformPackage;
@@ -22,24 +22,24 @@ import org.jboss.tools.switchyard.model.transform.TransformPackage;
  *
  * @generated
  */
-public class JAXBTransformTypeImpl extends EObjectImpl implements JAXBTransformType {
+public class JAXBTransformTypeImpl extends TransformTypeImpl implements JAXBTransformType {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected JAXBTransformTypeImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return TransformPackage.Literals.JAXB_TRANSFORM_TYPE;
-	}
+        return TransformPackage.Literals.JAXB_TRANSFORM_TYPE;
+    }
 
 } //JAXBTransformTypeImpl

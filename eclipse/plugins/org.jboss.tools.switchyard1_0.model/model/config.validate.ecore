@@ -52,7 +52,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="JavaValidateType">
+  <eClassifiers xsi:type="ecore:EClass" name="JavaValidateType" eSuperTypes="config.switchyard.ecore#//ValidateType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xA;                Generic/Custom Java Validator Configuration.&#xA;            "/>
     </eAnnotations>
@@ -87,7 +87,7 @@
       <details key="baseType" value="xmlSchemaType"/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="XmlValidateType">
+  <eClassifiers xsi:type="ecore:EClass" name="XmlValidateType" eSuperTypes="config.switchyard.ecore#//ValidateType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xA;                XML Validator Configuration.&#xA;            "/>
     </eAnnotations>

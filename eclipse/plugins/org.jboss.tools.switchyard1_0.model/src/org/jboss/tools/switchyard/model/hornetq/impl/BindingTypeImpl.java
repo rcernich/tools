@@ -13,12 +13,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.jboss.tools.switchyard.model.hornetq.BindingType;
 import org.jboss.tools.switchyard.model.hornetq.ConfigType;
 import org.jboss.tools.switchyard.model.hornetq.HornetQPackage;
 import org.jboss.tools.switchyard.model.hornetq.OperationSelectorType;
+import org.jboss.tools.switchyard.model.switchyard.impl.SwitchYardBindingTypeImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,221 +27,221 @@ import org.jboss.tools.switchyard.model.hornetq.OperationSelectorType;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.jboss.tools.switchyard.model.hornetq.impl.BindingTypeImpl#getOperationSelector <em>Operation Selector</em>}</li>
+ *   <li>{@link org.jboss.tools.switchyard.model.hornetq.impl.BindingTypeImpl#getHqOperationSelector <em>Hq Operation Selector</em>}</li>
  *   <li>{@link org.jboss.tools.switchyard.model.hornetq.impl.BindingTypeImpl#getConfig <em>Config</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class BindingTypeImpl extends EObjectImpl implements BindingType {
+public class BindingTypeImpl extends SwitchYardBindingTypeImpl implements BindingType {
 	/**
-	 * The cached value of the '{@link #getOperationSelector() <em>Operation Selector</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOperationSelector()
-	 * @generated
-	 * @ordered
-	 */
-	protected OperationSelectorType operationSelector;
+     * The cached value of the '{@link #getHqOperationSelector() <em>Hq Operation Selector</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getHqOperationSelector()
+     * @generated
+     * @ordered
+     */
+    protected OperationSelectorType hqOperationSelector;
 
-	/**
-	 * The cached value of the '{@link #getConfig() <em>Config</em>}' containment reference.
-	 * <!-- begin-user-doc -->
+    /**
+     * The cached value of the '{@link #getConfig() <em>Config</em>}' containment reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getConfig()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getConfig()
+     * @generated
+     * @ordered
+     */
 	protected ConfigType config;
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected BindingTypeImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return HornetQPackage.Literals.BINDING_TYPE;
-	}
+        return HornetQPackage.Literals.BINDING_TYPE;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public OperationSelectorType getOperationSelector() {
-		return operationSelector;
-	}
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public OperationSelectorType getHqOperationSelector() {
+        return hqOperationSelector;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetOperationSelector(OperationSelectorType newOperationSelector, NotificationChain msgs) {
-		OperationSelectorType oldOperationSelector = operationSelector;
-		operationSelector = newOperationSelector;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HornetQPackage.BINDING_TYPE__OPERATION_SELECTOR, oldOperationSelector, newOperationSelector);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetHqOperationSelector(OperationSelectorType newHqOperationSelector, NotificationChain msgs) {
+        OperationSelectorType oldHqOperationSelector = hqOperationSelector;
+        hqOperationSelector = newHqOperationSelector;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HornetQPackage.BINDING_TYPE__HQ_OPERATION_SELECTOR, oldHqOperationSelector, newHqOperationSelector);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOperationSelector(OperationSelectorType newOperationSelector) {
-		if (newOperationSelector != operationSelector) {
-			NotificationChain msgs = null;
-			if (operationSelector != null)
-				msgs = ((InternalEObject)operationSelector).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HornetQPackage.BINDING_TYPE__OPERATION_SELECTOR, null, msgs);
-			if (newOperationSelector != null)
-				msgs = ((InternalEObject)newOperationSelector).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HornetQPackage.BINDING_TYPE__OPERATION_SELECTOR, null, msgs);
-			msgs = basicSetOperationSelector(newOperationSelector, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HornetQPackage.BINDING_TYPE__OPERATION_SELECTOR, newOperationSelector, newOperationSelector));
-	}
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setHqOperationSelector(OperationSelectorType newHqOperationSelector) {
+        if (newHqOperationSelector != hqOperationSelector) {
+            NotificationChain msgs = null;
+            if (hqOperationSelector != null)
+                msgs = ((InternalEObject)hqOperationSelector).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HornetQPackage.BINDING_TYPE__HQ_OPERATION_SELECTOR, null, msgs);
+            if (newHqOperationSelector != null)
+                msgs = ((InternalEObject)newHqOperationSelector).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HornetQPackage.BINDING_TYPE__HQ_OPERATION_SELECTOR, null, msgs);
+            msgs = basicSetHqOperationSelector(newHqOperationSelector, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, HornetQPackage.BINDING_TYPE__HQ_OPERATION_SELECTOR, newHqOperationSelector, newHqOperationSelector));
+    }
 
-	/**
-	 * <!-- begin-user-doc -->
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public ConfigType getConfig() {
-		return config;
-	}
+        return config;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public NotificationChain basicSetConfig(ConfigType newConfig, NotificationChain msgs) {
-		ConfigType oldConfig = config;
-		config = newConfig;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HornetQPackage.BINDING_TYPE__CONFIG, oldConfig, newConfig);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
+        ConfigType oldConfig = config;
+        config = newConfig;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, HornetQPackage.BINDING_TYPE__CONFIG, oldConfig, newConfig);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setConfig(ConfigType newConfig) {
-		if (newConfig != config) {
-			NotificationChain msgs = null;
-			if (config != null)
-				msgs = ((InternalEObject)config).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HornetQPackage.BINDING_TYPE__CONFIG, null, msgs);
-			if (newConfig != null)
-				msgs = ((InternalEObject)newConfig).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HornetQPackage.BINDING_TYPE__CONFIG, null, msgs);
-			msgs = basicSetConfig(newConfig, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HornetQPackage.BINDING_TYPE__CONFIG, newConfig, newConfig));
-	}
+        if (newConfig != config) {
+            NotificationChain msgs = null;
+            if (config != null)
+                msgs = ((InternalEObject)config).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - HornetQPackage.BINDING_TYPE__CONFIG, null, msgs);
+            if (newConfig != null)
+                msgs = ((InternalEObject)newConfig).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - HornetQPackage.BINDING_TYPE__CONFIG, null, msgs);
+            msgs = basicSetConfig(newConfig, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, HornetQPackage.BINDING_TYPE__CONFIG, newConfig, newConfig));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case HornetQPackage.BINDING_TYPE__OPERATION_SELECTOR:
-				return basicSetOperationSelector(null, msgs);
-			case HornetQPackage.BINDING_TYPE__CONFIG:
-				return basicSetConfig(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case HornetQPackage.BINDING_TYPE__HQ_OPERATION_SELECTOR:
+                return basicSetHqOperationSelector(null, msgs);
+            case HornetQPackage.BINDING_TYPE__CONFIG:
+                return basicSetConfig(null, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case HornetQPackage.BINDING_TYPE__OPERATION_SELECTOR:
-				return getOperationSelector();
-			case HornetQPackage.BINDING_TYPE__CONFIG:
-				return getConfig();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case HornetQPackage.BINDING_TYPE__HQ_OPERATION_SELECTOR:
+                return getHqOperationSelector();
+            case HornetQPackage.BINDING_TYPE__CONFIG:
+                return getConfig();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case HornetQPackage.BINDING_TYPE__OPERATION_SELECTOR:
-				setOperationSelector((OperationSelectorType)newValue);
-				return;
-			case HornetQPackage.BINDING_TYPE__CONFIG:
-				setConfig((ConfigType)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case HornetQPackage.BINDING_TYPE__HQ_OPERATION_SELECTOR:
+                setHqOperationSelector((OperationSelectorType)newValue);
+                return;
+            case HornetQPackage.BINDING_TYPE__CONFIG:
+                setConfig((ConfigType)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case HornetQPackage.BINDING_TYPE__OPERATION_SELECTOR:
-				setOperationSelector((OperationSelectorType)null);
-				return;
-			case HornetQPackage.BINDING_TYPE__CONFIG:
-				setConfig((ConfigType)null);
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case HornetQPackage.BINDING_TYPE__HQ_OPERATION_SELECTOR:
+                setHqOperationSelector((OperationSelectorType)null);
+                return;
+            case HornetQPackage.BINDING_TYPE__CONFIG:
+                setConfig((ConfigType)null);
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case HornetQPackage.BINDING_TYPE__OPERATION_SELECTOR:
-				return operationSelector != null;
-			case HornetQPackage.BINDING_TYPE__CONFIG:
-				return config != null;
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case HornetQPackage.BINDING_TYPE__HQ_OPERATION_SELECTOR:
+                return hqOperationSelector != null;
+            case HornetQPackage.BINDING_TYPE__CONFIG:
+                return config != null;
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //BindingTypeImpl

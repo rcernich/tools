@@ -42,7 +42,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SOAPBindingType">
+  <eClassifiers xsi:type="ecore:EClass" name="SOAPBindingType" eSuperTypes="config.switchyard.ecore#//SwitchYardBindingType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="SOAPBindingType"/>
       <details key="kind" value="elementOnly"/>

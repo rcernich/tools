@@ -8,7 +8,7 @@ package org.jboss.tools.switchyard.model.transform.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.jboss.tools.switchyard.model.switchyard.impl.TransformTypeImpl;
 
 import org.jboss.tools.switchyard.model.transform.TransformPackage;
 import org.jboss.tools.switchyard.model.transform.XsltTransformType;
@@ -22,24 +22,24 @@ import org.jboss.tools.switchyard.model.transform.XsltTransformType;
  *
  * @generated
  */
-public class XsltTransformTypeImpl extends EObjectImpl implements XsltTransformType {
+public class XsltTransformTypeImpl extends TransformTypeImpl implements XsltTransformType {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected XsltTransformTypeImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return TransformPackage.Literals.XSLT_TRANSFORM_TYPE;
-	}
+        return TransformPackage.Literals.XSLT_TRANSFORM_TYPE;
+    }
 
 } //XsltTransformTypeImpl

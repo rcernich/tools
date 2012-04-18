@@ -10,7 +10,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.soa.sca.sca1_1.model.sca.impl.ImplementationTypeImpl;
+import org.eclipse.soa.sca.sca1_1.model.sca.impl.ImplementationImpl;
 
 import org.jboss.tools.switchyard.model.bean.BeanImplementationType;
 import org.jboss.tools.switchyard.model.bean.BeanPackage;
@@ -28,7 +28,7 @@ import org.jboss.tools.switchyard.model.bean.BeanPackage;
  *
  * @generated
  */
-public class BeanImplementationTypeImpl extends ImplementationTypeImpl implements BeanImplementationType {
+public class BeanImplementationTypeImpl extends ImplementationImpl implements BeanImplementationType {
 	/**
      * The default value of the '{@link #getClass_() <em>Class</em>}' attribute.
      * <!-- begin-user-doc -->
