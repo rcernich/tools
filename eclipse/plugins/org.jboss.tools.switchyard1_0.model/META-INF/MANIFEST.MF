@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.jboss.tools.switchyard1_0.model;singleton:=true
-Bundle-Version: 0.4.0.qualifier
+Bundle-Version: 0.5.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -39,10 +39,7 @@ Export-Package: org.jboss.tools.switchyard.model.bean,
  org.jboss.tools.switchyard.model.validate.util,
  org.open.oasis.docs.ns.opencsa.sca.bpel,
  org.open.oasis.docs.ns.opencsa.sca.bpel.impl,
- org.open.oasis.docs.ns.opencsa.sca.bpel.util,
- org.w3.ns.ws.policy,
- org.w3.ns.ws.policy.impl,
- org.w3.ns.ws.policy.util
+ org.open.oasis.docs.ns.opencsa.sca.bpel.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,

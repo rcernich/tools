@@ -60,10 +60,24 @@ public class ComponentServiceImpl extends ContractImpl implements ComponentServi
 	 * @generated NOT
 	 */
 	public String getId() {
-		return getName();
-//		// TODO: implement this method to return the 'Id' attribute
-//		// Ensure that you remove @generated or mark it @generated NOT
-//		throw new UnsupportedOperationException();
+        final String id;
+	    final String compName;
+	    if (eContainer != null) {
+	        compName = (String) eContainer.eGet(ScaPackage.eINSTANCE.getComponent_Name());
+	    } else {
+	        compName = null;
+	    }
+	    final String name = getName();
+	    if (name == null) {
+	        System.err.println("ComponentService id = "+name);
+	        id = null;
+	    } else if (compName == null) {
+	        id = "ComponentService:" + name;
+	    } else {
+	        id = "ComponentService:" + compName + ":" + name;
+	    }
+        System.err.println("ComponentService id = "+id);
+        return id;
 	}
 
 	/**

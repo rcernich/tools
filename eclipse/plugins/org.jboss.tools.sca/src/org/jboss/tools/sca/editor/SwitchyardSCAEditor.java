@@ -46,7 +46,6 @@ import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorInput;
 import org.eclipse.graphiti.ui.internal.editor.GFPaletteRoot;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IEditorSite;
@@ -62,19 +61,8 @@ import org.jboss.tools.sca.Activator;
 import org.jboss.tools.sca.core.ModelHandler;
 import org.jboss.tools.sca.core.ModelHandlerLocator;
 import org.jboss.tools.sca.diagram.di.DIImport;
-import org.jboss.tools.switchyard.model.bean.BeanPackage;
-import org.jboss.tools.switchyard.model.bpm.BPMPackage;
-import org.jboss.tools.switchyard.model.clojure.ClojurePackage;
-import org.jboss.tools.switchyard.model.commonrules.CommonRulesPackage;
-import org.jboss.tools.switchyard.model.hornetq.HornetQPackage;
-import org.jboss.tools.switchyard.model.rules.RulesPackage;
-import org.jboss.tools.switchyard.model.soap.SOAPPackage;
-import org.jboss.tools.switchyard.model.switchyard.SwitchyardPackage;
 import org.jboss.tools.switchyard.model.switchyard.util.SwitchyardResourceFactoryImpl;
 import org.jboss.tools.switchyard.model.switchyard.util.SwitchyardResourceImpl;
-import org.jboss.tools.switchyard.model.transform.TransformPackage;
-import org.jboss.tools.switchyard.model.validate.ValidatePackage;
-import org.open.oasis.docs.ns.opencsa.sca.bpel.BPELPackage;
 
 /**
  * 
@@ -162,9 +150,9 @@ public class SwitchyardSCAEditor extends DiagramEditor {
 				getModelPathFromInput((DiagramEditorInput) input);
 
 //				loadPreferences(modelFile.getProject());
-				if (input instanceof SwitchyardSCADiagramEditorInput)
-				// This was incorrectly constructed input, we ditch the old one and make a new and clean one instead
-				// This code path comes in from the New File Wizard
+//				if (input instanceof SwitchyardSCADiagramEditorInput)
+//				// This was incorrectly constructed input, we ditch the old one and make a new and clean one instead
+//				// This code path comes in from the New File Wizard
 				input = createNewDiagramEditorInput();
 			}
 		} catch (CoreException e) {
@@ -243,20 +231,9 @@ public class SwitchyardSCAEditor extends DiagramEditor {
 						new SwitchyardResourceFactoryImpl());
 
 			// Register the package to make it available during loading.
-			resourceSet.getPackageRegistry().put("http://docs.oasis-open.org/ns/opencsa/sca/200912", ScaPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put ("urn:switchyard-config:switchyard:1.0", SwitchyardPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-config:transform:1.0", TransformPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-bean:config:1.0", BeanPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-config:validate:1.0", ValidatePackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-soap:config:1.0", SOAPPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-rules:config:1.0", RulesPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-hornetq:config:1.0", HornetQPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-common-rules:config:1.0", CommonRulesPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-clojure:config:1.0", ClojurePackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("urn:switchyard-component-bpm:config:1.0", BPMPackage.eINSTANCE);
-			resourceSet.getPackageRegistry().put("http://docs.oasis-open.org/ns/opencsa/sca/200903", BPELPackage.eINSTANCE);
+			ModelHandler.registerPackages(resourceSet);
 
-			SwitchyardResourceImpl switchyardResource = (SwitchyardResourceImpl) resourceSet.createResource(modelUri);
+			SwitchyardResourceImpl switchyardResource = (SwitchyardResourceImpl) resourceSet.createResource(modelUri, "org.jboss.switchyard.content-type.xml");
 
 //			resourceSet.setURIConverter(new ProxyURIConverterImplExtension());
 			resourceSet.eAdapters().add(editorAdapter = new SwitchyardSCAEditorAdapter());

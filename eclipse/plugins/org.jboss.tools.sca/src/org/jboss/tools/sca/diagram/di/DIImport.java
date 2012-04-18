@@ -153,6 +153,11 @@ public class DIImport {
 			if (computedFarY > farY) farY = computedFarY;
 		}
 		
+		Composite composite = (Composite) featureProvider.getBusinessObjectForPictogramElement(compositeContainerShape);
+		if (composite != null && !composite.getReference().isEmpty()) {
+			farX = farX + StyleUtil.LARGE_RIGHT_ARROW_WIDTH;
+		}
+
 		GraphicsAlgorithm containerGA = compositeContainerShape.getGraphicsAlgorithm();
 		containerGA.setHeight(farY + 50);
 		containerGA.setWidth(farX + 50);
@@ -165,6 +170,7 @@ public class DIImport {
 				gaAnchor.setY(gaAnchor.getY() + 20);
 			}
 		}
+
 		layoutAll();
 	}
 	
@@ -248,7 +254,7 @@ public class DIImport {
 			boolean isPromoted = service.getPromote() != null;
 			if (isPromoted) {
 				innerx = compositeContainerShape.getGraphicsAlgorithm().getX() 
-						- StyleUtil.COMPOSITE_INVISIBLE_RECT_RIGHT; 
+						- StyleUtil.COMPOSITE_INVISIBLE_RECT_RIGHT/2; 
 			}
 			
 			if (featureProvider.getPictogramElementForBusinessObject(service) == null) {

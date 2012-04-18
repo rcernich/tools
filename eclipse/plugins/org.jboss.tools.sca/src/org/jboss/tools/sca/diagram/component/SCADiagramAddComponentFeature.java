@@ -85,10 +85,9 @@ public class SCADiagramAddComponentFeature extends AbstractAddShapeFeature {
 		{
 			// create and set graphics algorithm
 			roundedRectangle =
-					gaService.createRoundedRectangle(invisibleRectangle, 5, 0);
-			roundedRectangle.setForeground(manageColor(StyleUtil.BRIGHT_ORANGE));
-			roundedRectangle.setBackground(manageColor(StyleUtil.LIGHT_BLUE));
-			roundedRectangle.setLineWidth(1);
+					gaService.createRoundedRectangle(invisibleRectangle, 6, 0);
+            roundedRectangle.setStyle(StyleUtil
+                    .getStyleForComponent(getDiagram()));
 	        roundedRectangle.setParentGraphicsAlgorithm(invisibleRectangle);
 
 			gaService.setLocationAndSize(roundedRectangle,

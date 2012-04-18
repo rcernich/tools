@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="switchyard"
-    nsURI="urn:switchyard-config:switchyard:1.0" nsPrefix="">
+    nsURI="urn:switchyard-config:switchyard:1.0" nsPrefix="sy">
   <eClassifiers xsi:type="ecore:EClass" name="ArtifactsType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="ArtifactsType"/>
@@ -571,7 +571,13 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="composite" eType="ecore:EClass ../../org.eclipse.soa.sca.sca1_1.model/model/sca.ecore#//Composite"
-        derived="true" containment="true"/>
+        derived="true" containment="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="composite"/>
+        <details key="namespace" value="http://docs.oasis-open.org/ns/opencsa/sca/200912"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TransformsType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

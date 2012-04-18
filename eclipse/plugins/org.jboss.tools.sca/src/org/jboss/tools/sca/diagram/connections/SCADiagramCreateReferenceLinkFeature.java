@@ -24,6 +24,7 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaFactory;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
+import org.jboss.tools.sca.ImageProvider;
 
 public class SCADiagramCreateReferenceLinkFeature extends
 AbstractCreateConnectionFeature {
@@ -143,10 +144,14 @@ AbstractCreateConnectionFeature {
 
 	private ComponentReference createComponentReference (Component source, Component target) {
 		ComponentReference eReference = ScaFactory.eINSTANCE.createComponentReference();
-//		ComponentReference eReference = ScaFactory.eINSTANCE.createComponentReference();
 		eReference.setName(source.getName());
 		target.getReference().add(eReference);
 		getDiagram().eResource().getContents().add(eReference);
 		return eReference;
+	}
+
+	@Override
+	public String getCreateImageId() {
+		return ImageProvider.IMG_16_CONNECTION;
 	}
 }

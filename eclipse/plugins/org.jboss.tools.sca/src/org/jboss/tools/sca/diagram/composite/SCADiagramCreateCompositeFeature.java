@@ -21,6 +21,7 @@ import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.jboss.tools.sca.Activator;
+import org.jboss.tools.sca.ImageProvider;
 import org.jboss.tools.sca.core.ModelHandler;
 import org.jboss.tools.sca.core.ModelHandlerLocator;
 
@@ -61,6 +62,11 @@ public class SCADiagramCreateCompositeFeature extends AbstractCreateFeature {
 
         // return newly created business object(s)
         return new Object[] { newComposite };
+	}
+
+	@Override
+	public String getCreateImageId() {
+		return ImageProvider.IMG_16_COMPOSITE;
 	}
 
 }

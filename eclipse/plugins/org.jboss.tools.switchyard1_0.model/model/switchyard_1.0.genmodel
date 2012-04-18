@@ -3,7 +3,7 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.jboss.tools.switchyard1_0.model/src"
     modelPluginID="org.jboss.tools.switchyard1_0.model" modelName="Switchyard_1" importerID="org.eclipse.xsd.ecore.importer"
-    complianceLevel="6.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.soa.sca.sca1_1.model/model/sca.genmodel#//sca platform:/plugin/org.eclipse.soa.sca.sca1_1.model/model/sca.genmodel#//instance platform:/plugin/org.eclipse.soa.sca.sca1_1.model/model/sca.genmodel#//addressing platform:/plugin/org.eclipse.emf.ecore/model/XMLNamespace.genmodel#//namespace">
+    complianceLevel="6.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.soa.sca.sca1_1.model/model/sca.genmodel#//sca platform:/plugin/org.eclipse.soa.sca.core.model/model/instance.genmodel#//instance platform:/plugin/org.eclipse.soa.sca.core.model/model/addressing.genmodel#//addressing platform:/plugin/org.eclipse.soa.sca.core.model/model/policy.genmodel# platform:/plugin/org.eclipse.emf.ecore/model/XMLNamespace.genmodel#//namespace">
   <foreignModel>../../org.jboss.tools.sca/schemas/resource/sca-1.1-cd06.xsd</foreignModel>
   <foreignModel>../../org.jboss.tools.sca/schemas/resource/sca-binding-ejb-1.1-cd02-rev2.xsd</foreignModel>
   <foreignModel>../../org.jboss.tools.sca/schemas/resource/sca-binding-jca-1.1-cd04-rev2.xsd</foreignModel>
@@ -38,60 +38,6 @@
   <foreignModel>../../org.jboss.tools.sca/schemas/switchyard-v1.xsd</foreignModel>
   <foreignModel>../../org.jboss.tools.sca/schemas/transform-v1.xsd</foreignModel>
   <foreignModel>../../org.jboss.tools.sca/schemas/validate-v1.xsd</foreignModel>
-  <genPackages prefix="Policy" basePackage="org.w3.ns.ws" resource="XML" disposableProviderFactory="true"
-      ecorePackage="policy.ecore#/">
-    <genDataTypes ecoreDataType="policy.ecore#//PolicyURIsType"/>
-    <genClasses ecoreClass="policy.ecore#//AppliesToType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute policy.ecore#//AppliesToType/any"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute policy.ecore#//AppliesToType/anyAttribute"/>
-    </genClasses>
-    <genClasses ecoreClass="policy.ecore#//DocumentRoot">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute policy.ecore#//DocumentRoot/mixed"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference policy.ecore#//DocumentRoot/xMLNSPrefixMap"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference policy.ecore#//DocumentRoot/xSISchemaLocation"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference policy.ecore#//DocumentRoot/all"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference policy.ecore#//DocumentRoot/appliesTo"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference policy.ecore#//DocumentRoot/exactlyOne"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference policy.ecore#//DocumentRoot/policy"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference policy.ecore#//DocumentRoot/policyAttachment"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference policy.ecore#//DocumentRoot/policyReference"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference policy.ecore#//DocumentRoot/uRI"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute policy.ecore#//DocumentRoot/ignorable"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute policy.ecore#//DocumentRoot/optional"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute policy.ecore#//DocumentRoot/policyURIs"/>
-    </genClasses>
-    <genClasses ecoreClass="policy.ecore#//OperatorContentType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute policy.ecore#//OperatorContentType/group"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference policy.ecore#//OperatorContentType/policy"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference policy.ecore#//OperatorContentType/all"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference policy.ecore#//OperatorContentType/exactlyOne"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference policy.ecore#//OperatorContentType/policyReference"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute policy.ecore#//OperatorContentType/any"/>
-    </genClasses>
-    <genClasses ecoreClass="policy.ecore#//PolicyAttachmentType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference policy.ecore#//PolicyAttachmentType/appliesTo"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute policy.ecore#//PolicyAttachmentType/group"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference policy.ecore#//PolicyAttachmentType/policy"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference policy.ecore#//PolicyAttachmentType/policyReference"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute policy.ecore#//PolicyAttachmentType/any"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute policy.ecore#//PolicyAttachmentType/anyAttribute"/>
-    </genClasses>
-    <genClasses ecoreClass="policy.ecore#//PolicyReferenceType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute policy.ecore#//PolicyReferenceType/any"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute policy.ecore#//PolicyReferenceType/digest"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute policy.ecore#//PolicyReferenceType/digestAlgorithm"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute policy.ecore#//PolicyReferenceType/uRI"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute policy.ecore#//PolicyReferenceType/anyAttribute"/>
-    </genClasses>
-    <genClasses ecoreClass="policy.ecore#//PolicyType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute policy.ecore#//PolicyType/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute policy.ecore#//PolicyType/anyAttribute"/>
-    </genClasses>
-    <genClasses ecoreClass="policy.ecore#//URIType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute policy.ecore#//URIType/value"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute policy.ecore#//URIType/anyAttribute"/>
-    </genClasses>
-  </genPackages>
   <genPackages prefix="Bean" basePackage="org.jboss.tools.switchyard.model" resource="XML"
       disposableProviderFactory="true" ecorePackage="component.bean.ecore#/">
     <genClasses ecoreClass="component.bean.ecore#//BeanImplementationType"/>

@@ -17,6 +17,7 @@ import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddFeature;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
+import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -67,6 +68,7 @@ public class SCADiagramAddReferenceLinkFeature extends AbstractAddFeature {
         IGaService gaService = Graphiti.getGaService();
         Polyline polyline = gaService.createPolyline(connection);
         polyline.setLineWidth(2);
+        polyline.setLineStyle(LineStyle.DASH);
         polyline.setForeground(manageColor(IColorConstant.BLACK));
  
         // create link and wire it

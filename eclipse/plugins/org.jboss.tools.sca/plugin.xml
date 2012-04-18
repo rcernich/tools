@@ -21,6 +21,9 @@
       <diagramType
         id="org.jboss.tools.sca.diagram">
       </diagramType>
+      <imageProvider
+            id="org.jboss.tools.sca.ImageProvider">
+      </imageProvider>
     </diagramTypeProvider>
   </extension>
 	<extension
@@ -94,4 +97,9 @@
       </content-type>
  </extension>
 
+	<extension point="org.eclipse.graphiti.ui.imageProviders">
+		<imageProvider class="org.jboss.tools.sca.ImageProvider"
+			id="org.jboss.tools.sca.ImageProvider">
+		</imageProvider>
+	</extension>
 </plugin>

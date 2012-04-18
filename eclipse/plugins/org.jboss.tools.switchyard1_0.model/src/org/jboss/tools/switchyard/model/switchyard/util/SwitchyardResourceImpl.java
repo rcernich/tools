@@ -8,16 +8,16 @@ package org.jboss.tools.switchyard.model.switchyard.util;
 
 import org.eclipse.emf.common.util.URI;
 
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.soa.sca.sca1_1.model.sca.util.ScaResourceImpl;
 
 /**
  * <!-- begin-user-doc -->
  * The <b>Resource </b> associated with the package.
  * <!-- end-user-doc -->
  * @see org.jboss.tools.switchyard.model.switchyard.util.SwitchyardResourceFactoryImpl
- * @generated
+ * @generated NOT
  */
-public class SwitchyardResourceImpl extends XMLResourceImpl {
+public class SwitchyardResourceImpl extends ScaResourceImpl {
 	/**
 	 * Creates an instance of the resource.
 	 * <!-- begin-user-doc -->

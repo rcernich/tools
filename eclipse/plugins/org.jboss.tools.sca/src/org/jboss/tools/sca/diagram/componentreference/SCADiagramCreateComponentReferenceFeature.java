@@ -22,6 +22,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
 import org.jboss.tools.sca.Activator;
+import org.jboss.tools.sca.ImageProvider;
 import org.jboss.tools.sca.core.ModelHandler;
 import org.jboss.tools.sca.core.ModelHandlerLocator;
 
@@ -74,6 +75,11 @@ public class SCADiagramCreateComponentReferenceFeature extends AbstractCreateFea
 
 		// return newly created business object(s)
         return new Object[] { newCReference };
+	}
+
+	@Override
+	public String getCreateImageId() {
+		return ImageProvider.IMG_16_COMPONENT_REFERENCE;
 	}
 
 }

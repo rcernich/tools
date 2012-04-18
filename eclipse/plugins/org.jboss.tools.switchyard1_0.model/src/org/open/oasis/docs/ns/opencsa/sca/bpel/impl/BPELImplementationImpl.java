@@ -6,17 +6,8 @@
  */
 package org.open.oasis.docs.ns.opencsa.sca.bpel.impl;
 
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.soa.sca.sca1_1.model.sca.impl.ImplementationTypeImpl;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
-import org.eclipse.emf.ecore.util.BasicFeatureMap;
-import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.open.oasis.docs.ns.opencsa.sca.bpel.BPELImplementation;
 import org.open.oasis.docs.ns.opencsa.sca.bpel.BPELPackage;
@@ -32,22 +23,22 @@ import org.open.oasis.docs.ns.opencsa.sca.bpel.BPELPackage;
  */
 public class BPELImplementationImpl extends ImplementationTypeImpl implements BPELImplementation {
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected BPELImplementationImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return BPELPackage.Literals.BPEL_IMPLEMENTATION;
-	}
+        return BPELPackage.Literals.BPEL_IMPLEMENTATION;
+    }
 
 } //BPELImplementationImpl

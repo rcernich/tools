@@ -13,16 +13,30 @@
 package org.jboss.tools.sca.diagram;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
+import org.eclipse.graphiti.features.ICreateConnectionFeature;
+import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
+import org.eclipse.graphiti.palette.impl.ConnectionCreationToolEntry;
+import org.eclipse.graphiti.palette.impl.ObjectCreationToolEntry;
+import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
+import org.eclipse.graphiti.palette.impl.StackEntry;
 import org.eclipse.graphiti.platform.IPlatformImageConstants;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IDecorator;
 import org.eclipse.graphiti.tb.ImageDecorator;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
+import org.eclipse.soa.sca.sca1_1.model.sca.Component;
+import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
+import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
+import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
+import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 
 public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider {
@@ -54,5 +68,91 @@ public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider 
 		}
 		return super.getDecorators(pe);
 	}
+
+	@Override
+	public String getToolTip(GraphicsAlgorithm ga) {
+		PictogramElement pe = ga.getPictogramElement();
+		Object bo = getFeatureProvider().getBusinessObjectForPictogramElement(pe);
+		if (bo instanceof Composite) {
+			String name = ((Composite)bo).getName();
+			if (name != null && !name.isEmpty()) {
+				return name;
+			}
+		} else if (bo instanceof Component) {
+			String name = ((Component)bo).getName();
+			if (name != null && !name.isEmpty()) {
+				return name;
+			}
+		} else if (bo instanceof Service) {
+			String name = ((Service)bo).getName();
+			if (name != null && !name.isEmpty()) {
+				return name;
+			}
+		} else if (bo instanceof ComponentService) {
+			String name = ((ComponentService)bo).getName();
+			if (name != null && !name.isEmpty()) {
+				return name;
+			}
+		} else if (bo instanceof ComponentReference) {
+			String name = ((ComponentReference)bo).getName();
+			if (name != null && !name.isEmpty()) {
+				return name;
+			}
+		} else if (bo instanceof Reference) {
+			String name = ((Reference)bo).getName();
+			if (name != null && !name.isEmpty()) {
+				return name;
+			}
+		}
+		return super.getToolTip(ga);
+	}
+
+	@Override
+    public IPaletteCompartmentEntry[] getPalette() {
+        List<IPaletteCompartmentEntry> ret =
+            new ArrayList<IPaletteCompartmentEntry>();
+
+        // add compartments from super class
+        IPaletteCompartmentEntry[] superCompartments =
+            super.getPalette();
+
+        for (int i = 0; i < superCompartments.length; i++)
+            ret.add(superCompartments[i]);
+
+//        // add new compartment at the end of the existing compartments
+//        PaletteCompartmentEntry compartmentEntry =
+//            new PaletteCompartmentEntry("Stacked", null);
+//        ret.add(compartmentEntry);
+//
+//        // add new stack entry to new compartment
+//        StackEntry stackEntry = new StackEntry("EObject", "EObject", null);
+//        compartmentEntry.addToolEntry(stackEntry);
+//
+//        // add all create-features to the new stack-entry
+//        IFeatureProvider featureProvider = getFeatureProvider();
+//
+//        ICreateFeature[] createFeatures = featureProvider.getCreateFeatures();
+//        for (ICreateFeature cf : createFeatures) {
+//            ObjectCreationToolEntry objectCreationToolEntry = 
+//                   new ObjectCreationToolEntry(cf.getCreateName(),
+//                     cf.getCreateDescription(), cf.getCreateImageId(),
+//                        cf.getCreateLargeImageId(), cf);
+//            stackEntry.addCreationToolEntry(objectCreationToolEntry);
+//        }
+//      
+//        // add all create-connection-features to the new stack-entry
+//        ICreateConnectionFeature[] createConnectionFeatures =
+//             featureProvider.getCreateConnectionFeatures();
+//        for (ICreateConnectionFeature cf : createConnectionFeatures) {
+//            ConnectionCreationToolEntry connectionCreationToolEntry = 
+//                new ConnectionCreationToolEntry(cf.getCreateName(), cf
+//                  .getCreateDescription(), cf.getCreateImageId(),
+//                    cf.getCreateLargeImageId());
+//                        connectionCreationToolEntry.addCreateConnectionFeature(cf);
+//            stackEntry.addCreationToolEntry(connectionCreationToolEntry);
+//        }
+
+        return ret.toArray(new IPaletteCompartmentEntry[ret.size()]);
+    }
 
 }

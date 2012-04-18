@@ -12,19 +12,6 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="http://www.w3.org/ns/ws-policy"
-            class="org.w3.ns.ws.policy.PolicyPackage"
-            genModel="model/switchyard_1.0.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.extension_parser">
-      <parser
-            type="policy"
-            class="org.w3.ns.ws.policy.util.PolicyResourceFactoryImpl"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
             uri="urn:switchyard-component-bean:config:1.0"
             class="org.jboss.tools.switchyard.model.bean.BeanPackage"
             genModel="model/switchyard_1.0.genmodel"/>

@@ -7,7 +7,6 @@
 package org.jboss.tools.switchyard.model.bean;
 
 import org.eclipse.soa.sca.sca1_1.model.sca.ImplementationType;
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,29 +27,29 @@ import org.eclipse.emf.ecore.EObject;
 public interface BeanImplementationType extends ImplementationType {
 
 	/**
-	 * Returns the value of the '<em><b>Class</b></em>' attribute.
-	 * <!-- begin-user-doc -->
+     * Returns the value of the '<em><b>Class</b></em>' attribute.
+     * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Class</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Class</em>' attribute.
-	 * @see #setClass(String)
-	 * @see org.jboss.tools.switchyard.model.bean.BeanPackage#getBeanImplementationType_Class()
-	 * @model dataType="org.eclipse.emf.ecore.xml.type.NCName" required="true"
-	 *        extendedMetaData="kind='attribute' name='class'"
-	 * @generated
-	 */
+     * @return the value of the '<em>Class</em>' attribute.
+     * @see #setClass(String)
+     * @see org.jboss.tools.switchyard.model.bean.BeanPackage#getBeanImplementationType_Class()
+     * @model dataType="org.eclipse.emf.ecore.xml.type.NCName" required="true"
+     *        extendedMetaData="kind='attribute' name='class'"
+     * @generated
+     */
 	String getClass_();
 
 	/**
-	 * Sets the value of the '{@link org.jboss.tools.switchyard.model.bean.BeanImplementationType#getClass_ <em>Class</em>}' attribute.
-	 * <!-- begin-user-doc -->
+     * Sets the value of the '{@link org.jboss.tools.switchyard.model.bean.BeanImplementationType#getClass_ <em>Class</em>}' attribute.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Class</em>' attribute.
-	 * @see #getClass_()
-	 * @generated
-	 */
+     * @param value the new value of the '<em>Class</em>' attribute.
+     * @see #getClass_()
+     * @generated
+     */
 	void setClass(String value);
 } // BeanImplementationType

@@ -12,6 +12,13 @@
  ******************************************************************************/
 package org.jboss.tools.sca.diagram;
 
+import java.util.Collection;
+
+import org.eclipse.graphiti.mm.StyleContainer;
+import org.eclipse.graphiti.mm.algorithms.styles.Style;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.util.ColorConstant;
 import org.eclipse.graphiti.util.IColorConstant;
 
@@ -47,4 +54,67 @@ public class StyleUtil {
 	public static final int SERVICE_WIDTH = 100;
 	public static final int SERVICE_HEIGHT = 50;
 	public static final int SERVICE_INVISIBLE_RECT_RIGHT = 10;
+
+    public static Style getStyleForComposite(Diagram diagram) {
+        final String styleId = "Composite";
+        Style style = findStyle(diagram, styleId);
+        if (style ==null) {// style not found - create new style
+            IGaService gaService = Graphiti.getGaService();
+            style = gaService.createStyle(diagram, styleId);
+            style.setForeground(gaService.manageColor(diagram,
+            		ORANGE));
+            gaService.setRenderingStyle(style,
+            		SCADiagramColoredAreas.getCompositeAdaptions());
+            style.setLineWidth(2);
+        }
+
+        return style;
+    }
+
+    public static Style getStyleForComponent(Diagram diagram) {
+        final String styleId = "Component";
+        Style style = findStyle(diagram, styleId);
+        if (style ==null) {// style not found - create new style
+            IGaService gaService = Graphiti.getGaService();
+            style = gaService.createStyle(diagram, styleId);
+            style.setForeground(gaService.manageColor(diagram,
+            		BRIGHT_ORANGE));
+            gaService.setRenderingStyle(style,
+            		SCADiagramColoredAreas.getComponentAdaptions());
+            style.setLineWidth(2);
+        }
+
+        return style;
+    }
+
+    public static Style getStyleForService(Diagram diagram) {
+        final String styleId = "Service";
+        Style style = findStyle(diagram, styleId);
+        if (style ==null) {// style not found - create new style
+            IGaService gaService = Graphiti.getGaService();
+            style = gaService.createStyle(diagram, styleId);
+            style.setForeground(gaService.manageColor(diagram,
+            		BRIGHT_ORANGE));
+            gaService.setRenderingStyle(style,
+            		SCADiagramColoredAreas.getServiceAdaptions());
+            style.setLineWidth(2);
+        }
+
+        return style;
+    }
+
+    // find the style with a given id in the style-container, can return null
+    private static Style findStyle(StyleContainer styleContainer, String id) {
+        // find and return style
+        Collection<Style> styles = styleContainer.getStyles();
+        if (styles != null) {
+            for (Style style : styles) {
+                if (id.equals(style.getId())) {
+                    return style;
+                }
+            }
+        }
+       return null;
+    }
+
 }

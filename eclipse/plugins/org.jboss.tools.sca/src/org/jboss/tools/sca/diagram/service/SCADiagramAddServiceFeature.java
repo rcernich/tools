@@ -71,16 +71,18 @@ public class SCADiagramAddServiceFeature extends AbstractAddShapeFeature {
  
         Rectangle invisibleRectangle = gaService.createInvisibleRectangle(containerShape);
         gaService.setLocationAndSize(invisibleRectangle,
-                context.getX() , context.getY(), width + StyleUtil.SERVICE_INVISIBLE_RECT_RIGHT, height);
+                context.getX() , context.getY(), width , height);
 
         Polygon p = null;
         // create service
 		{
 			// arrow through points: top-middle, bottom-right, bottom-left
 			p = gaService.createPolygon(invisibleRectangle, StyleUtil.LARGE_RIGHT_ARROW);
-			p.setForeground(manageColor(StyleUtil.BRIGHT_ORANGE));
-			p.setBackground(manageColor(StyleUtil.GREEN));
-			p.setLineWidth(2);
+            p.setStyle(StyleUtil
+                    .getStyleForService(getDiagram()));
+//			p.setForeground(manageColor(StyleUtil.BRIGHT_ORANGE));
+//			p.setBackground(manageColor(StyleUtil.GREEN));
+//			p.setLineWidth(2);
 	        p.setParentGraphicsAlgorithm(invisibleRectangle);
 
 			gaService.setLocationAndSize(p,
