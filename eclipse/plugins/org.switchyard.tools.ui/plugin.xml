@@ -296,6 +296,53 @@
         </action>
      </objectContribution>
   </extension>
+
+   <!-- Project Explorer View content -->
+	<extension
+      point="org.eclipse.ui.navigator.navigatorContent">
+    <navigatorContent
+          activeByDefault="true"
+          appearsBefore="org.jboss.ide.eclipse.as.ui.extensions.content"
+          contentProvider="org.switchyard.tools.ui.explorer.SwitchYardContentTreeContentProvider"
+          icon="icons/switchyard_icon_16px.png"
+          id="org.switchyard.tools.ui.explorer.content"
+          labelProvider="org.switchyard.tools.ui.explorer.SwitchYardContentLabelProvider"
+          name="SwitchYard"
+          priority="normal">
+       <triggerPoints>
+           <adapt
+                 type="org.eclipse.core.resources.IProject">
+              <test
+                    property="org.eclipse.wst.common.project.facet.core.projectFacet"
+                    value="switchyard.core">
+              </test>
+           </adapt>
+       </triggerPoints>
+       <possibleChildren>
+          <or>
+             <instanceof
+                   value="org.switchyard.tools.ui.explorer.SwitchYardNode">
+             </instanceof>
+          </or>
+       </possibleChildren>
+       <commonSorter
+             class="org.switchyard.tools.ui.explorer.SwitchYardViewerSorter">
+       </commonSorter>
+    </navigatorContent>
+	</extension>
+	<extension
+	      point="org.eclipse.ui.navigator.viewer">
+	   <viewerContentBinding
+	         viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+	      <includes>
+             <contentExtension
+                isRoot="false"
+                pattern="org.switchyard.tools.ui.explorer.content">
+             </contentExtension>
+	      </includes>
+	   </viewerContentBinding>
+	</extension>
+
   <extension
         point="org.switchyard.tools.ui.switchYardComponent">
      <component
