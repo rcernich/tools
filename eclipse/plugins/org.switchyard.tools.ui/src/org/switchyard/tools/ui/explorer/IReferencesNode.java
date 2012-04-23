@@ -26,4 +26,5 @@ public interface IReferencesNode extends ISwitchYardNode {
      * @return the references used by the application.
      */
     public List<IReferenceNode> getReferences();
+
 }

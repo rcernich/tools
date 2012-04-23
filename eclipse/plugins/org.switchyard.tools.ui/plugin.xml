@@ -302,11 +302,10 @@
       point="org.eclipse.ui.navigator.navigatorContent">
     <navigatorContent
           activeByDefault="true"
-          appearsBefore="org.jboss.ide.eclipse.as.ui.extensions.content"
-          contentProvider="org.switchyard.tools.ui.explorer.SwitchYardContentTreeContentProvider"
+          contentProvider="org.switchyard.tools.ui.explorer.SwitchYardExplorerContentProvider"
           icon="icons/switchyard_icon_16px.png"
           id="org.switchyard.tools.ui.explorer.content"
-          labelProvider="org.switchyard.tools.ui.explorer.SwitchYardContentLabelProvider"
+          labelProvider="org.switchyard.tools.ui.explorer.SwitchYardExplorerLabelProvider"
           name="SwitchYard"
           priority="normal">
        <triggerPoints>

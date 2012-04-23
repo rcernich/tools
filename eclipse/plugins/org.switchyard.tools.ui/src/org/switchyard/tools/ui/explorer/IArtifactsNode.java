@@ -27,4 +27,5 @@ public interface IArtifactsNode extends ISwitchYardNode {
      * @return the artifacts referenced by the application.
      */
     public List<IArtifactNode> getArtifacts();
+
 }

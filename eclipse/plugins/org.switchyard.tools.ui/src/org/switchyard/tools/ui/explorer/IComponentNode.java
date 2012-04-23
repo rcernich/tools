@@ -23,6 +23,11 @@ import java.util.List;
 public interface IComponentNode extends ISwitchYardNode {
 
     /**
+     * @return the component's name.
+     */
+    public String getName();
+
+    /**
      * @return the services implemented by this component.
      */
     public List<IComponentService> getServices();

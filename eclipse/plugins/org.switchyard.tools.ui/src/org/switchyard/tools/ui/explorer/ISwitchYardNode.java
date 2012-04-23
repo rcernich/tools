@@ -20,4 +20,8 @@ package org.switchyard.tools.ui.explorer;
  */
 public interface ISwitchYardNode {
 
+    /**
+     * @return this node's parent.
+     */
+    public ISwitchYardNode getParent();
 }

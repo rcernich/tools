@@ -26,4 +26,5 @@ public interface IComponentsNode extends ISwitchYardNode {
      * @return the SwitchYard components defined within the application.
      */
     public List<IComponentNode> getComponents();
+
 }

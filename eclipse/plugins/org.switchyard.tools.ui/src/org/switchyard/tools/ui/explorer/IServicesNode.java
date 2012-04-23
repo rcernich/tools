@@ -26,5 +26,5 @@ public interface IServicesNode extends ISwitchYardNode {
      * @return the services provided by the application.
      */
     public List<IServiceNode> getServices();
-
+    
 }

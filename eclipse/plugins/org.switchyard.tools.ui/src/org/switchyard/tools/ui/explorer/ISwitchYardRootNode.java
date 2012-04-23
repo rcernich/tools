@@ -10,6 +10,8 @@
  ************************************************************************************/
 package org.switchyard.tools.ui.explorer;
 
+import org.eclipse.core.resources.IProject;
+
 /**
  * ISwitchYardRootNode
  * 
@@ -40,4 +42,8 @@ public interface ISwitchYardRootNode extends ISwitchYardNode {
      */
     public IArtifactsNode getArtifactsNode();
 
+    /**
+     * @return the project containing the application.
+     */
+    public IProject getProject();
 }
