@@ -468,5 +468,22 @@
         </description>
      </wizard>
   </extension>
+  <extension
+        point="org.eclipse.core.runtime.adapters">
+     <factory
+           adaptableType="org.switchyard.tools.ui.explorer.ISwitchYardNode"
+           class="org.switchyard.tools.ui.properties.PropertySourceAdapterFactory">
+        <adapter
+              type="org.eclipse.ui.views.properties.IPropertySource">
+        </adapter>
+     </factory>
+     <factory
+           adaptableType="org.switchyard.config.model.Model"
+           class="org.switchyard.tools.ui.properties.PropertySourceAdapterFactory">
+        <adapter
+              type="org.eclipse.ui.views.properties.IPropertySource">
+        </adapter>
+     </factory>
+  </extension>
 
 </plugin>

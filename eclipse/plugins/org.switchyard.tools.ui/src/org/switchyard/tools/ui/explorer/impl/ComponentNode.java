@@ -16,11 +16,11 @@ import java.util.List;
 import org.switchyard.config.model.composite.ComponentModel;
 import org.switchyard.config.model.composite.ComponentReferenceModel;
 import org.switchyard.config.model.composite.ComponentServiceModel;
+import org.switchyard.tools.ui.explorer.AbstractSwitchYardNode;
 import org.switchyard.tools.ui.explorer.IComponentNode;
 import org.switchyard.tools.ui.explorer.IComponentReference;
 import org.switchyard.tools.ui.explorer.IComponentService;
 import org.switchyard.tools.ui.explorer.IComponentsNode;
-import org.switchyard.tools.ui.explorer.ISwitchYardNode;
 
 /**
  * ComponentNode
@@ -30,9 +30,8 @@ import org.switchyard.tools.ui.explorer.ISwitchYardNode;
  * 
  * @author Rob Cernich
  */
-public class ComponentNode implements IComponentNode {
+public class ComponentNode extends AbstractSwitchYardNode implements IComponentNode {
 
-    private IComponentsNode _parent;
     private ComponentModel _component;
     private List<IComponentService> _services;
     private List<IComponentReference> _references;
@@ -44,7 +43,7 @@ public class ComponentNode implements IComponentNode {
      * @param component the configuration.
      */
     public ComponentNode(IComponentsNode parent, ComponentModel component) {
-        _parent = parent;
+        super(parent);
         _component = component;
 
         List<ComponentServiceModel> services = component.getServices();
@@ -58,11 +57,6 @@ public class ComponentNode implements IComponentNode {
         for (ComponentReferenceModel reference : references) {
             _references.add(new ComponentReference(this, reference));
         }
-    }
-
-    @Override
-    public ISwitchYardNode getParent() {
-        return _parent;
     }
 
     @Override
@@ -80,6 +74,13 @@ public class ComponentNode implements IComponentNode {
         return _references;
     }
 
+    /**
+     * @return the ComponentModel.
+     */
+    public ComponentModel getModel() {
+        return _component;
+    }
+
     @Override
     public int hashCode() {
         return _component.getQName() == null ? super.hashCode() : _component.getQName().hashCode();
@@ -89,7 +90,7 @@ public class ComponentNode implements IComponentNode {
     public boolean equals(Object obj) {
         if (obj instanceof ComponentNode) {
             ComponentNode other = (ComponentNode) obj;
-            return other._parent.equals(_parent) && other._component.getQName() != null
+            return other.getRoot().equals(getRoot()) && other._component.getQName() != null
                     && _component.getQName() != null && other._component.getQName().equals(_component.getQName());
         }
         return false;

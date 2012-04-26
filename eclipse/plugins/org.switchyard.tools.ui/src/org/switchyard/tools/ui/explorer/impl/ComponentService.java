@@ -11,10 +11,9 @@
 package org.switchyard.tools.ui.explorer.impl;
 
 import org.switchyard.config.model.composite.ComponentServiceModel;
-import org.switchyard.config.model.composite.InterfaceModel;
+import org.switchyard.tools.ui.explorer.AbstractSwitchYardNode;
 import org.switchyard.tools.ui.explorer.IComponentNode;
 import org.switchyard.tools.ui.explorer.IComponentService;
-import org.switchyard.tools.ui.explorer.ISwitchYardNode;
 
 /**
  * ComponentService
@@ -24,9 +23,8 @@ import org.switchyard.tools.ui.explorer.ISwitchYardNode;
  * 
  * @author Rob Cernich
  */
-public class ComponentService implements IComponentService {
+public class ComponentService extends AbstractSwitchYardNode implements IComponentService {
 
-    private IComponentNode _parent;
     private ComponentServiceModel _service;
 
     /**
@@ -36,13 +34,8 @@ public class ComponentService implements IComponentService {
      * @param service the ComponentServiceModel.
      */
     public ComponentService(IComponentNode parent, ComponentServiceModel service) {
-        _parent = parent;
+        super(parent);
         _service = service;
-    }
-
-    @Override
-    public ISwitchYardNode getParent() {
-        return _parent;
     }
 
     @Override
@@ -50,9 +43,11 @@ public class ComponentService implements IComponentService {
         return _service.getName();
     }
 
-    @Override
-    public InterfaceModel getInterface() {
-        return _service.getInterface();
+    /**
+     * @return the ComponentServiceModel.
+     */
+    public ComponentServiceModel getModel() {
+        return _service;
     }
 
     @Override
@@ -64,7 +59,7 @@ public class ComponentService implements IComponentService {
     public boolean equals(Object obj) {
         if (obj instanceof ComponentService) {
             ComponentService other = (ComponentService) obj;
-            return other._parent.equals(_parent) && other._service.getName() != null && _service.getName() != null
+            return other.getRoot().equals(getRoot()) && other._service.getName() != null && _service.getName() != null
                     && other._service.getName().equals(_service.getName());
         }
         return false;

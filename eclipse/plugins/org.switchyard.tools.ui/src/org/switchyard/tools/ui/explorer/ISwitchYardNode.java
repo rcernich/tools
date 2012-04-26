@@ -21,6 +21,16 @@ package org.switchyard.tools.ui.explorer;
 public interface ISwitchYardNode {
 
     /**
+     * @return this node's name.
+     */
+    public String getName();
+    
+    /**
+     * @return the root node.
+     */
+    public ISwitchYardRootNode getRoot();
+
+    /**
      * @return this node's parent.
      */
     public ISwitchYardNode getParent();

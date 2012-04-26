@@ -23,11 +23,6 @@ import java.util.List;
 public interface IServiceNode extends ISwitchYardNode {
 
     /**
-     * @return this service's name.
-     */
-    public String getName();
-
-    /**
      * @return the gateways (bindings) through which this service is exposed.
      */
     public List<IServiceGateway> getGateways();

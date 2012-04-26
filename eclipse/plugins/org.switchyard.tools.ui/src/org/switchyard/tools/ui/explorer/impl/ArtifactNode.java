@@ -11,9 +11,9 @@
 package org.switchyard.tools.ui.explorer.impl;
 
 import org.switchyard.config.model.switchyard.ArtifactModel;
+import org.switchyard.tools.ui.explorer.AbstractSwitchYardNode;
 import org.switchyard.tools.ui.explorer.IArtifactNode;
 import org.switchyard.tools.ui.explorer.IArtifactsNode;
-import org.switchyard.tools.ui.explorer.ISwitchYardNode;
 
 /**
  * ArtifactNode
@@ -23,9 +23,8 @@ import org.switchyard.tools.ui.explorer.ISwitchYardNode;
  * 
  * @author Rob Cernich
  */
-public class ArtifactNode implements IArtifactNode {
+public class ArtifactNode extends AbstractSwitchYardNode implements IArtifactNode {
 
-    private IArtifactsNode _parent;
     private ArtifactModel _artifact;
 
     /**
@@ -35,13 +34,8 @@ public class ArtifactNode implements IArtifactNode {
      * @param artifact the configuration.
      */
     public ArtifactNode(IArtifactsNode parent, ArtifactModel artifact) {
-        _parent = parent;
+        super(parent);
         _artifact = artifact;
-    }
-
-    @Override
-    public ISwitchYardNode getParent() {
-        return _parent;
     }
 
     @Override
@@ -49,9 +43,11 @@ public class ArtifactNode implements IArtifactNode {
         return _artifact.getName();
     }
 
-    @Override
-    public String getURL() {
-        return _artifact.getURL();
+    /**
+     * @return the ArtifactModel.
+     */
+    public ArtifactModel getModel() {
+        return _artifact;
     }
 
     @Override
@@ -63,8 +59,8 @@ public class ArtifactNode implements IArtifactNode {
     public boolean equals(Object obj) {
         if (obj instanceof ArtifactNode) {
             ArtifactNode other = (ArtifactNode) obj;
-            return other._parent.equals(_parent) && other._artifact.getName() != null && _artifact.getName() != null
-                    && other._artifact.getName().equals(_artifact.getName());
+            return other.getRoot().equals(getRoot()) && other._artifact.getName() != null
+                    && _artifact.getName() != null && other._artifact.getName().equals(_artifact.getName());
         }
         return false;
     }

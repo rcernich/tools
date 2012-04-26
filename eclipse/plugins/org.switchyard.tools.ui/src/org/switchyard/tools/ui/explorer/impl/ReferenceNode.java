@@ -15,10 +15,10 @@ import java.util.List;
 
 import org.switchyard.config.model.composite.BindingModel;
 import org.switchyard.config.model.composite.CompositeReferenceModel;
+import org.switchyard.tools.ui.explorer.AbstractSwitchYardNode;
 import org.switchyard.tools.ui.explorer.IReferenceNode;
 import org.switchyard.tools.ui.explorer.IReferencesNode;
 import org.switchyard.tools.ui.explorer.IServiceGateway;
-import org.switchyard.tools.ui.explorer.ISwitchYardNode;
 
 /**
  * ReferenceNode
@@ -28,9 +28,8 @@ import org.switchyard.tools.ui.explorer.ISwitchYardNode;
  * 
  * @author Rob Cernich
  */
-public class ReferenceNode implements IReferenceNode {
+public class ReferenceNode extends AbstractSwitchYardNode implements IReferenceNode {
 
-    private IReferencesNode _parent;
     private CompositeReferenceModel _reference;
     private List<IServiceGateway> _gateways;
 
@@ -41,18 +40,13 @@ public class ReferenceNode implements IReferenceNode {
      * @param reference the configuration.
      */
     public ReferenceNode(IReferencesNode parent, CompositeReferenceModel reference) {
-        _parent = parent;
+        super(parent);
         _reference = reference;
         List<BindingModel> bindings = reference.getBindings();
         _gateways = new ArrayList<IServiceGateway>(bindings.size());
         for (BindingModel binding : bindings) {
             _gateways.add(new ServiceGateway(this, binding));
         }
-    }
-
-    @Override
-    public ISwitchYardNode getParent() {
-        return _parent;
     }
 
     @Override
@@ -65,6 +59,13 @@ public class ReferenceNode implements IReferenceNode {
         return _gateways;
     }
 
+    /**
+     * @return the CompositeReferenceModel.
+     */
+    public CompositeReferenceModel getModel() {
+        return _reference;
+    }
+
     @Override
     public int hashCode() {
         return _reference.getQName() == null ? super.hashCode() : _reference.getQName().hashCode();
@@ -74,7 +75,7 @@ public class ReferenceNode implements IReferenceNode {
     public boolean equals(Object obj) {
         if (obj instanceof ReferenceNode) {
             ReferenceNode other = (ReferenceNode) obj;
-            return other._parent.equals(_parent) && other._reference.getQName() != null
+            return other.getRoot().equals(getRoot()) && other._reference.getQName() != null
                     && _reference.getQName() != null && other._reference.getQName().equals(_reference.getQName());
         }
         return false;

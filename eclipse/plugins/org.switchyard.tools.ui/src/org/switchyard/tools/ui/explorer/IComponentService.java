@@ -10,8 +10,6 @@
  ************************************************************************************/
 package org.switchyard.tools.ui.explorer;
 
-import org.switchyard.config.model.composite.InterfaceModel;
-
 /**
  * IComponentService
  * 
@@ -21,15 +19,5 @@ import org.switchyard.config.model.composite.InterfaceModel;
  * @author Rob Cernich
  */
 public interface IComponentService extends ISwitchYardNode {
-
-    /**
-     * @return the name.
-     */
-    public String getName();
-
-    /**
-     * @return the interface.
-     */
-    public InterfaceModel getInterface();
 
 }

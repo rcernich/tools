@@ -17,9 +17,9 @@ import java.util.List;
 import org.switchyard.config.model.switchyard.ArtifactModel;
 import org.switchyard.config.model.switchyard.ArtifactsModel;
 import org.switchyard.config.model.switchyard.SwitchYardModel;
+import org.switchyard.tools.ui.explorer.AbstractSwitchYardNode;
 import org.switchyard.tools.ui.explorer.IArtifactNode;
 import org.switchyard.tools.ui.explorer.IArtifactsNode;
-import org.switchyard.tools.ui.explorer.ISwitchYardNode;
 
 /**
  * ArtifactsNode
@@ -29,9 +29,8 @@ import org.switchyard.tools.ui.explorer.ISwitchYardNode;
  * 
  * @author Rob Cernich
  */
-public class ArtifactsNode implements IArtifactsNode {
+public class ArtifactsNode extends AbstractSwitchYardNode implements IArtifactsNode {
 
-    private SwitchYardRootNode _root;
     private List<IArtifactNode> _artifacts;
 
     /**
@@ -41,7 +40,7 @@ public class ArtifactsNode implements IArtifactsNode {
      * @param configuration the configuration.
      */
     public ArtifactsNode(SwitchYardRootNode root, SwitchYardModel configuration) {
-        _root = root;
+        super(root);
         if (configuration == null) {
             _artifacts = Collections.emptyList();
             return;
@@ -59,24 +58,24 @@ public class ArtifactsNode implements IArtifactsNode {
     }
 
     @Override
-    public ISwitchYardNode getParent() {
-        return _root;
-    }
-
-    @Override
     public List<IArtifactNode> getArtifacts() {
         return _artifacts;
     }
 
     @Override
+    public String getName() {
+        return "Artifacts";
+    }
+
+    @Override
     public int hashCode() {
-        return _root.hashCode();
+        return getParent().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof ArtifactsNode) {
-            return ((ArtifactsNode) obj)._root == _root;
+            return ((ArtifactsNode) obj).getRoot() == getRoot();
         }
         return false;
     }

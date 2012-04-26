@@ -10,6 +10,7 @@
  ************************************************************************************/
 package org.switchyard.tools.ui.explorer;
 
+
 /**
  * IServiceGateway
  * 
@@ -20,8 +21,4 @@ package org.switchyard.tools.ui.explorer;
  */
 public interface IServiceGateway extends ISwitchYardNode {
 
-    /**
-     * @return the gateway type.
-     */
-    public String getType();
 }

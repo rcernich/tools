@@ -86,6 +86,11 @@ public class SwitchYardRootNode implements ISwitchYardRootNode {
     }
 
     @Override
+    public ISwitchYardProject getSwitchYardProject() {
+        return _switchYardProject;
+    }
+
+    @Override
     public IProject getProject() {
         return _switchYardProject.getProject();
     }
@@ -95,12 +100,44 @@ public class SwitchYardRootNode implements ISwitchYardRootNode {
         return null;
     }
 
+    @Override
+    public String getTargetNamespace() {
+        if (_configuration == null) {
+            return null;
+        } else if (_configuration.getTargetNamespace() != null) {
+            return _configuration.getTargetNamespace();
+        } else if (_configuration.getComposite() != null) {
+            return _configuration.getComposite().getTargetNamespace();
+        }
+        return null;
+    }
+
+    /**
+     * @return the SwitchYardModel.
+     */
+    public SwitchYardModel getModel() {
+        return _configuration;
+    }
+
     /**
      * Free references, listeners, etc.
      */
     public void dispose() {
         resetState();
         _switchYardProject = null;
+    }
+
+    @Override
+    public String getName() {
+        if (_configuration == null) {
+            return getProject().getName();
+        }
+        return _configuration.getName();
+    }
+
+    @Override
+    public ISwitchYardRootNode getRoot() {
+        return this;
     }
 
     /**

@@ -23,11 +23,6 @@ import java.util.List;
 public interface IReferenceNode extends ISwitchYardNode {
 
     /**
-     * @return this reference's name.
-     */
-    public String getName();
-
-    /**
      * @return the gateways (bindings) through which this reference is accessed.
      */
     public List<IServiceGateway> getGateways();

@@ -11,6 +11,7 @@
 package org.switchyard.tools.ui.explorer.impl;
 
 import org.switchyard.config.model.composite.BindingModel;
+import org.switchyard.tools.ui.explorer.AbstractSwitchYardNode;
 import org.switchyard.tools.ui.explorer.IServiceGateway;
 import org.switchyard.tools.ui.explorer.ISwitchYardNode;
 
@@ -22,9 +23,8 @@ import org.switchyard.tools.ui.explorer.ISwitchYardNode;
  * 
  * @author Rob Cernich
  */
-public class ServiceGateway implements IServiceGateway {
+public class ServiceGateway extends AbstractSwitchYardNode implements IServiceGateway {
 
-    private ISwitchYardNode _parent;
     private BindingModel _binding;
 
     /**
@@ -34,18 +34,20 @@ public class ServiceGateway implements IServiceGateway {
      * @param binding the binding.
      */
     public ServiceGateway(ISwitchYardNode parent, BindingModel binding) {
-        _parent = parent;
+        super(parent);
         _binding = binding;
     }
 
     @Override
-    public ISwitchYardNode getParent() {
-        return _parent;
+    public String getName() {
+        return _binding.getType();
     }
 
-    @Override
-    public String getType() {
-        return _binding.getType();
+    /**
+     * @return the BindingModel.
+     */
+    public BindingModel getModel() {
+        return _binding;
     }
 
 }

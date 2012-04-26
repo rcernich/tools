@@ -31,6 +31,11 @@
                 <!-- Core -->
                 <artifactItem>
                   <groupId>org.switchyard</groupId>
+                  <artifactId>switchyard-api</artifactId>
+                  <version>${version.switchyard.runtime}</version>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.switchyard</groupId>
                   <artifactId>switchyard-common</artifactId>
                   <version>${version.switchyard.runtime}</version>
                 </artifactItem>
@@ -94,6 +99,10 @@
                   <groupId>org.switchyard.components</groupId>
                   <artifactId>switchyard-component-soap</artifactId>
                   <version>${version.switchyard.runtime}</version>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.camel</groupId>
+                  <artifactId>camel-core</artifactId>
                 </artifactItem>
               </artifactItems>
             </configuration>

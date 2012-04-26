@@ -11,6 +11,7 @@
 package org.switchyard.tools.ui.explorer;
 
 import org.eclipse.core.resources.IProject;
+import org.switchyard.tools.ui.common.ISwitchYardProject;
 
 /**
  * ISwitchYardRootNode
@@ -21,6 +22,16 @@ import org.eclipse.core.resources.IProject;
  * @author Rob Cernich
  */
 public interface ISwitchYardRootNode extends ISwitchYardNode {
+
+    /**
+     * @return the SwitchYard application name.
+     */
+    public String getName();
+
+    /**
+     * @return the SwitchYard application target namespace.
+     */
+    public String getTargetNamespace();
 
     /**
      * @return the node containing application services.
@@ -41,6 +52,11 @@ public interface ISwitchYardRootNode extends ISwitchYardNode {
      * @return the node containing artifacts referenced by the application.
      */
     public IArtifactsNode getArtifactsNode();
+
+    /**
+     * @return the associated ISwitchYardProject instance.
+     */
+    public ISwitchYardProject getSwitchYardProject();
 
     /**
      * @return the project containing the application.

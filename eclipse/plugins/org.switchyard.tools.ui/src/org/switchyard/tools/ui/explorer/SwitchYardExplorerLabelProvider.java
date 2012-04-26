@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.navigator.IDescriptionProvider;
 import org.switchyard.tools.ui.Activator;
 import org.switchyard.tools.ui.IImageDescriptors;
 
@@ -26,7 +27,7 @@ import org.switchyard.tools.ui.IImageDescriptors;
  * 
  * @author Rob Cernich
  */
-public class SwitchYardExplorerLabelProvider extends LabelProvider implements ILabelProvider {
+public class SwitchYardExplorerLabelProvider extends LabelProvider implements ILabelProvider, IDescriptionProvider {
 
     @Override
     public Image getImage(Object element) {
@@ -51,30 +52,39 @@ public class SwitchYardExplorerLabelProvider extends LabelProvider implements IL
 
     @Override
     public String getText(Object element) {
+        if (element instanceof ISwitchYardNode) {
+            return named(((ISwitchYardNode) element).getName());
+        }
+        return super.getText(element);
+    }
+
+    @Override
+    public String getDescription(Object element) {
         if (element instanceof ISwitchYardRootNode) {
-            return "SwitchYard";
+            return "SwitchYard Application - " + ((ISwitchYardRootNode) element).getProject().getName();
         } else if (element instanceof IServicesNode) {
-            return "Services";
+            return "SwitchYard Services";
         } else if (element instanceof IReferencesNode) {
-            return "References";
+            return "SwitchYard References";
         } else if (element instanceof IComponentsNode) {
-            return "Components";
+            return "SwitchYard Components";
         } else if (element instanceof IArtifactsNode) {
-            return "Artifacts";
+            return "SwitchYard Artifacts";
         } else if (element instanceof IServiceNode) {
-            return named(((IServiceNode) element).getName());
+            return named(((IServiceNode) element).getName()) + " - SwitchYard Service";
         } else if (element instanceof IReferenceNode) {
-            return named(((IReferenceNode) element).getName());
+            return named(((IReferenceNode) element).getName()) + " - SwitchYard Reference";
         } else if (element instanceof IComponentNode) {
-            return named(((IComponentNode) element).getName());
+            return named(((IComponentNode) element).getName()) + " - SwitchYard Component";
         } else if (element instanceof IComponentService) {
-            return named(((IComponentService) element).getName());
+            return named(((IComponentService) element).getName()) + " - SwitchYard Component Service";
         } else if (element instanceof IComponentReference) {
-            return named(((IComponentReference) element).getName());
+            return named(((IComponentReference) element).getName()) + " - SwitchYard Component Reference";
         } else if (element instanceof IArtifactNode) {
-            return named(((IArtifactNode) element).getName());
+            return named(((IArtifactNode) element).getName()) + " - SwitchYard Artifact Reference";
         } else if (element instanceof IServiceGateway) {
-            return ((IServiceGateway) element).getType();
+            IServiceGateway gateway = (IServiceGateway) element;
+            return gateway.getName() + " Binding";
         }
         return super.getText(element);
     }

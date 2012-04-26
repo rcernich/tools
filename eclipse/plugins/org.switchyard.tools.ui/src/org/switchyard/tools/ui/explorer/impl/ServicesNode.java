@@ -17,9 +17,9 @@ import java.util.List;
 import org.switchyard.config.model.composite.CompositeModel;
 import org.switchyard.config.model.composite.CompositeServiceModel;
 import org.switchyard.config.model.switchyard.SwitchYardModel;
+import org.switchyard.tools.ui.explorer.AbstractSwitchYardNode;
 import org.switchyard.tools.ui.explorer.IServiceNode;
 import org.switchyard.tools.ui.explorer.IServicesNode;
-import org.switchyard.tools.ui.explorer.ISwitchYardNode;
 
 /**
  * ServicesNode
@@ -29,9 +29,8 @@ import org.switchyard.tools.ui.explorer.ISwitchYardNode;
  * 
  * @author Rob Cernich
  */
-public class ServicesNode implements IServicesNode {
+public class ServicesNode extends AbstractSwitchYardNode implements IServicesNode {
 
-    private SwitchYardRootNode _root;
     private List<IServiceNode> _services;
 
     /**
@@ -41,7 +40,7 @@ public class ServicesNode implements IServicesNode {
      * @param configuration the SwitchYardConfiguration.
      */
     public ServicesNode(SwitchYardRootNode root, SwitchYardModel configuration) {
-        _root = root;
+        super(root);
         if (configuration == null) {
             _services = Collections.emptyList();
             return;
@@ -59,24 +58,24 @@ public class ServicesNode implements IServicesNode {
     }
 
     @Override
+    public String getName() {
+        return "Services";
+    }
+
+    @Override
     public List<IServiceNode> getServices() {
         return _services;
     }
 
     @Override
-    public ISwitchYardNode getParent() {
-        return _root;
-    }
-
-    @Override
     public int hashCode() {
-        return _root.hashCode();
+        return getRoot().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof ServicesNode) {
-            return ((ServicesNode) obj)._root == _root;
+            return ((ServicesNode) obj).getRoot() == getRoot();
         }
         return false;
     }

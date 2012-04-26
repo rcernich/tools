@@ -13,6 +13,7 @@ package org.switchyard.tools.ui.explorer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -108,6 +109,10 @@ public class SwitchYardExplorerContentProvider implements ITreeContentProvider, 
             children.addAll(services);
             children.addAll(references);
             return children.toArray();
+        } else if (parentElement instanceof IServiceNode) {
+            return ((IServiceNode) parentElement).getGateways().toArray();
+        } else if (parentElement instanceof IReferenceNode) {
+            return ((IReferenceNode) parentElement).getGateways().toArray();
         }
         return new Object[0];
     }
@@ -167,20 +172,22 @@ public class SwitchYardExplorerContentProvider implements ITreeContentProvider, 
             monitor.beginTask("Refreshing SwitchYard project configuration: ", IProgressMonitor.UNKNOWN);
             IStatus status = Status.OK_STATUS;
             try {
-                final List<SwitchYardRootNode> updatedNodes = new ArrayList<SwitchYardRootNode>(_pendingUpdates.size());
+                final Set<SwitchYardRootNode> updatedNodes = new LinkedHashSet<SwitchYardRootNode>();
                 for (Iterator<SwitchYardRootNode> it = _pendingUpdates.keySet().iterator(); it.hasNext();) {
                     SwitchYardRootNode switchYardNode = it.next();
                     monitor.subTask(switchYardNode.getProject().getName());
                     SubProgressMonitor subMontior = new SubProgressMonitor(monitor, 100);
+                    Job.getJobManager().beginRule(switchYardNode.getProject(), monitor);
                     try {
+                        it.remove();
                         switchYardNode.reload(subMontior);
                         updatedNodes.add(switchYardNode);
                     } catch (Exception e) {
                         e.fillInStackTrace();
                     } finally {
+                        Job.getJobManager().endRule(switchYardNode.getProject());
                         subMontior.done();
                     }
-                    it.remove();
                     if (monitor.isCanceled()) {
                         status = Status.CANCEL_STATUS;
                     }

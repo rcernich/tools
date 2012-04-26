@@ -11,10 +11,9 @@
 package org.switchyard.tools.ui.explorer.impl;
 
 import org.switchyard.config.model.composite.ComponentReferenceModel;
-import org.switchyard.config.model.composite.InterfaceModel;
+import org.switchyard.tools.ui.explorer.AbstractSwitchYardNode;
 import org.switchyard.tools.ui.explorer.IComponentNode;
 import org.switchyard.tools.ui.explorer.IComponentReference;
-import org.switchyard.tools.ui.explorer.ISwitchYardNode;
 
 /**
  * ComponentReference
@@ -24,9 +23,8 @@ import org.switchyard.tools.ui.explorer.ISwitchYardNode;
  * 
  * @author Rob Cernich
  */
-public class ComponentReference implements IComponentReference {
+public class ComponentReference extends AbstractSwitchYardNode implements IComponentReference {
 
-    private IComponentNode _parent;
     private ComponentReferenceModel _reference;
 
     /**
@@ -36,13 +34,8 @@ public class ComponentReference implements IComponentReference {
      * @param reference the ComponentReferenceModel.
      */
     public ComponentReference(IComponentNode parent, ComponentReferenceModel reference) {
-        _parent = parent;
+        super(parent);
         _reference = reference;
-    }
-
-    @Override
-    public ISwitchYardNode getParent() {
-        return _parent;
     }
 
     @Override
@@ -50,9 +43,11 @@ public class ComponentReference implements IComponentReference {
         return _reference.getName();
     }
 
-    @Override
-    public InterfaceModel getInterface() {
-        return _reference.getInterface();
+    /**
+     * @return the ComponentReferenceModel.
+     */
+    public ComponentReferenceModel getModel() {
+        return _reference;
     }
 
     @Override
@@ -64,8 +59,8 @@ public class ComponentReference implements IComponentReference {
     public boolean equals(Object obj) {
         if (obj instanceof ComponentReference) {
             ComponentReference other = (ComponentReference) obj;
-            return other._parent.equals(_parent) && other._reference.getName() != null && _reference.getName() != null
-                    && other._reference.getName().equals(_reference.getName());
+            return other.getRoot().equals(getRoot()) && other._reference.getName() != null
+                    && _reference.getName() != null && other._reference.getName().equals(_reference.getName());
         }
         return false;
     }

@@ -11,13 +11,30 @@
 package org.switchyard.tools.ui.explorer;
 
 /**
- * IArtifactNode
+ * AbstractSwitchYardNode
  * 
  * <p/>
- * Represents an artifact referenced by a SwitchYard application.
+ * Base type for ISwitchYardNode objects.
  * 
  * @author Rob Cernich
  */
-public interface IArtifactNode extends ISwitchYardNode {
+public abstract class AbstractSwitchYardNode implements ISwitchYardNode {
+
+    private ISwitchYardNode _parent;
+
+    protected AbstractSwitchYardNode(ISwitchYardNode parent) {
+        super();
+        _parent = parent;
+    }
+
+    @Override
+    public ISwitchYardRootNode getRoot() {
+        return _parent == null ? null : _parent.getRoot();
+    }
+
+    @Override
+    public ISwitchYardNode getParent() {
+        return _parent;
+    }
 
 }

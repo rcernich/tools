@@ -17,9 +17,9 @@ import java.util.List;
 import org.switchyard.config.model.composite.CompositeModel;
 import org.switchyard.config.model.composite.CompositeReferenceModel;
 import org.switchyard.config.model.switchyard.SwitchYardModel;
+import org.switchyard.tools.ui.explorer.AbstractSwitchYardNode;
 import org.switchyard.tools.ui.explorer.IReferenceNode;
 import org.switchyard.tools.ui.explorer.IReferencesNode;
-import org.switchyard.tools.ui.explorer.ISwitchYardNode;
 
 /**
  * ReferencesNode
@@ -29,9 +29,8 @@ import org.switchyard.tools.ui.explorer.ISwitchYardNode;
  * 
  * @author Rob Cernich
  */
-public class ReferencesNode implements IReferencesNode {
+public class ReferencesNode extends AbstractSwitchYardNode implements IReferencesNode {
 
-    private SwitchYardRootNode _root;
     private List<IReferenceNode> _references;
 
     /**
@@ -41,7 +40,7 @@ public class ReferencesNode implements IReferencesNode {
      * @param configuration the configuration.
      */
     public ReferencesNode(SwitchYardRootNode root, SwitchYardModel configuration) {
-        _root = root;
+        super(root);
         if (configuration == null) {
             _references = Collections.emptyList();
             return;
@@ -59,8 +58,8 @@ public class ReferencesNode implements IReferencesNode {
     }
 
     @Override
-    public ISwitchYardNode getParent() {
-        return _root;
+    public String getName() {
+        return "References";
     }
 
     @Override
@@ -70,13 +69,13 @@ public class ReferencesNode implements IReferencesNode {
 
     @Override
     public int hashCode() {
-        return _root.hashCode();
+        return getRoot().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof ReferencesNode) {
-            return ((ReferencesNode) obj)._root == _root;
+            return ((ReferencesNode) obj).getRoot() == getRoot();
         }
         return false;
     }

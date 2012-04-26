@@ -205,6 +205,7 @@ public final class SwitchYardProjectManager implements IResourceChangeListener, 
                     SubProgressMonitor subMontior = new SubProgressMonitor(monitor, 100);
                     getJobManager().beginRule(switchYardProject.getProject(), monitor);
                     try {
+                        it.remove();
                         switchYardProject.load(subMontior);
                     } catch (Exception e) {
                         Activator
@@ -219,7 +220,6 @@ public final class SwitchYardProjectManager implements IResourceChangeListener, 
                         getJobManager().endRule(switchYardProject.getProject());
                         subMontior.done();
                     }
-                    it.remove();
                     if (monitor.isCanceled()) {
                         return Status.CANCEL_STATUS;
                     }

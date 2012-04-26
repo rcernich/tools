@@ -15,10 +15,10 @@ import java.util.List;
 
 import org.switchyard.config.model.composite.BindingModel;
 import org.switchyard.config.model.composite.CompositeServiceModel;
+import org.switchyard.tools.ui.explorer.AbstractSwitchYardNode;
 import org.switchyard.tools.ui.explorer.IServiceGateway;
 import org.switchyard.tools.ui.explorer.IServiceNode;
 import org.switchyard.tools.ui.explorer.IServicesNode;
-import org.switchyard.tools.ui.explorer.ISwitchYardNode;
 
 /**
  * ServiceNode
@@ -28,9 +28,8 @@ import org.switchyard.tools.ui.explorer.ISwitchYardNode;
  * 
  * @author Rob Cernich
  */
-public class ServiceNode implements IServiceNode {
+public class ServiceNode extends AbstractSwitchYardNode implements IServiceNode {
 
-    private IServicesNode _parent;
     private CompositeServiceModel _service;
     private List<IServiceGateway> _gateways;
 
@@ -41,18 +40,13 @@ public class ServiceNode implements IServiceNode {
      * @param service the service.
      */
     public ServiceNode(IServicesNode parent, CompositeServiceModel service) {
-        _parent = parent;
+        super(parent);
         _service = service;
         List<BindingModel> bindings = service.getBindings();
         _gateways = new ArrayList<IServiceGateway>(bindings.size());
         for (BindingModel binding : bindings) {
             _gateways.add(new ServiceGateway(this, binding));
         }
-    }
-
-    @Override
-    public ISwitchYardNode getParent() {
-        return _parent;
     }
 
     @Override
@@ -65,6 +59,13 @@ public class ServiceNode implements IServiceNode {
         return _gateways;
     }
 
+    /**
+     * @return the CompositeServiceModel.
+     */
+    public CompositeServiceModel getModel() {
+        return _service;
+    }
+
     @Override
     public int hashCode() {
         return _service.getQName() == null ? super.hashCode() : _service.getQName().hashCode();
@@ -74,8 +75,8 @@ public class ServiceNode implements IServiceNode {
     public boolean equals(Object obj) {
         if (obj instanceof ServiceNode) {
             ServiceNode other = (ServiceNode) obj;
-            return other._parent.equals(_parent) && other._service.getQName() != null && _service.getQName() != null
-                    && other._service.getQName().equals(_service.getQName());
+            return other.getRoot().equals(getRoot()) && other._service.getQName() != null
+                    && _service.getQName() != null && other._service.getQName().equals(_service.getQName());
         }
         return false;
     }
