@@ -24,7 +24,7 @@ public interface ISwitchYardNode {
      * @return this node's name.
      */
     public String getName();
-    
+
     /**
      * @return the root node.
      */
