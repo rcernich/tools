@@ -101,7 +101,7 @@ public class SwitchYardRootNode implements ISwitchYardRootNode {
     }
 
     @Override
-    public String getTargetNamespace() {
+    public synchronized String getTargetNamespace() {
         if (_configuration == null) {
             return null;
         } else if (_configuration.getTargetNamespace() != null) {
@@ -115,7 +115,7 @@ public class SwitchYardRootNode implements ISwitchYardRootNode {
     /**
      * @return the SwitchYardModel.
      */
-    public SwitchYardModel getModel() {
+    public synchronized SwitchYardModel getModel() {
         return _configuration;
     }
 
@@ -128,7 +128,7 @@ public class SwitchYardRootNode implements ISwitchYardRootNode {
     }
 
     @Override
-    public String getName() {
+    public synchronized String getName() {
         if (_configuration == null) {
             return getProject().getName();
         }
@@ -150,6 +150,9 @@ public class SwitchYardRootNode implements ISwitchYardRootNode {
         resetState();
         try {
             IFile outputFile = _switchYardProject.getOutputSwitchYardConfigurationFile();
+            if (outputFile == null) {
+                return;
+            }
             ModelPuller<SwitchYardModel> puller = new ModelPuller<SwitchYardModel>();
             _configuration = puller.pull(outputFile.getContents());
         } catch (CoreException e) {

@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -49,6 +50,9 @@ import org.switchyard.tools.ui.common.impl.SwitchYardProjectManager.ISwitchYardP
  * @author Rob Cernich
  */
 public final class SwitchYardProjectManager implements IResourceChangeListener, IResourceDeltaVisitor {
+
+    /** Identifies the Job family for the project refresh job. */
+    public static final Object SWITCHYARD_PROJECT_REFRESH_JOB_FAMILY = new Object();
 
     /**
      * Listener interface for SwitchYard project updates.
@@ -106,7 +110,7 @@ public final class SwitchYardProjectManager implements IResourceChangeListener, 
         }
         SwitchYardProject switchYardProject = new SwitchYardProject(this, project);
         _cache.put(project, switchYardProject);
-        scheduleRefresh(switchYardProject);
+        scheduleRefresh(switchYardProject, EnumSet.of(Type.POM, Type.CONFIG));
         return switchYardProject;
     }
 
@@ -136,11 +140,17 @@ public final class SwitchYardProjectManager implements IResourceChangeListener, 
             return false;
         }
         SwitchYardProject switchYardProject = _cache.get(project);
-        boolean projectUpdated = delta.findMember(new Path("pom.xml")) != null;
-        boolean switchYardUpdated = switchYardProject.getOutputSwitchYardConfigurationFile() != null
-                && delta.findMember(switchYardProject.getOutputSwitchYardConfigurationFile().getProjectRelativePath()) != null;
-        if (projectUpdated || switchYardUpdated) {
-            scheduleRefresh(switchYardProject);
+        Set<Type> updateTypes = EnumSet.noneOf(Type.class);
+        if (delta.findMember(new Path("pom.xml")) != null
+                || switchYardProject.getOutputSwitchYardConfigurationFile() == null) {
+            updateTypes.add(Type.POM);
+        }
+        if (switchYardProject.getOutputSwitchYardConfigurationFile() != null
+                && delta.findMember(switchYardProject.getOutputSwitchYardConfigurationFile().getProjectRelativePath()) != null) {
+            updateTypes.add(Type.CONFIG);
+        }
+        if (updateTypes.size() > 0) {
+            scheduleRefresh(switchYardProject, updateTypes);
         }
         return false;
     }
@@ -186,50 +196,74 @@ public final class SwitchYardProjectManager implements IResourceChangeListener, 
         }
     }
 
-    private void scheduleRefresh(SwitchYardProject switchYardProject) {
-        if (_pendingUpdates.putIfAbsent(switchYardProject, PENDING) == null) {
+    /**
+     * @param project the project to check.
+     * 
+     * @return true if a refresh is schedule for the project.
+     */
+    public boolean refreshScheduled(ISwitchYardProject project) {
+        return _pendingUpdates.containsKey(project);
+    }
+
+    private void scheduleRefresh(SwitchYardProject switchYardProject, Set<Type> updateTypes) {
+        Set<Type> existing = _pendingUpdates.putIfAbsent(switchYardProject, updateTypes);
+        if (existing == null) {
             _projectUpdateJob.schedule(100);
+        } else {
+            updateTypes.addAll(existing);
+            _pendingUpdates.put(switchYardProject, updateTypes);
         }
     }
 
-    private static final Object PENDING = new Object();
-    private ConcurrentMap<SwitchYardProject, Object> _pendingUpdates = new ConcurrentHashMap<SwitchYardProject, Object>();
+    private ConcurrentMap<SwitchYardProject, Set<Type>> _pendingUpdates = new ConcurrentHashMap<SwitchYardProject, Set<Type>>();
     private Job _projectUpdateJob = new Job("Updating SwitchYard project meta-data.") {
         @Override
         protected IStatus run(IProgressMonitor monitor) {
             monitor.beginTask("Updating SwitchYard project meta-data: ", IProgressMonitor.UNKNOWN);
             try {
-                for (Iterator<SwitchYardProject> it = _pendingUpdates.keySet().iterator(); it.hasNext();) {
-                    SwitchYardProject switchYardProject = it.next();
-                    monitor.subTask(switchYardProject.getProject().getName());
-                    SubProgressMonitor subMontior = new SubProgressMonitor(monitor, 100);
-                    getJobManager().beginRule(switchYardProject.getProject(), monitor);
-                    try {
-                        it.remove();
-                        switchYardProject.load(subMontior);
-                    } catch (Exception e) {
-                        Activator
-                                .getDefault()
-                                .getLog()
-                                .log(new Status(
-                                        Status.ERROR,
-                                        Activator.PLUGIN_ID,
-                                        "Error loading SwitchYard project meta-data: " + switchYardProject.getProject(),
-                                        e));
-                    } finally {
-                        getJobManager().endRule(switchYardProject.getProject());
-                        subMontior.done();
+                do {
+                    for (Iterator<Entry<SwitchYardProject, Set<Type>>> it = _pendingUpdates.entrySet().iterator(); it
+                            .hasNext();) {
+                        Entry<SwitchYardProject, Set<Type>> entry = it.next();
+                        SwitchYardProject switchYardProject = entry.getKey();
+                        monitor.subTask(switchYardProject.getProject().getName());
+                        SubProgressMonitor subMontior = new SubProgressMonitor(monitor, 100);
+                        getJobManager().beginRule(switchYardProject.getProject(), monitor);
+                        try {
+                            it.remove();
+                            Set<Type> updateTypes = entry.getValue();
+                            if (updateTypes.contains(Type.POM)) {
+                                switchYardProject.load(subMontior);
+                            } else if (updateTypes.contains(Type.CONFIG)) {
+                                SwitchYardProjectManager.this.notify(switchYardProject, updateTypes);
+                            }
+                        } catch (Exception e) {
+                            Activator
+                                    .getDefault()
+                                    .getLog()
+                                    .log(new Status(Status.ERROR, Activator.PLUGIN_ID,
+                                            "Error loading SwitchYard project meta-data: "
+                                                    + switchYardProject.getProject(), e));
+                        } finally {
+                            getJobManager().endRule(switchYardProject.getProject());
+                            subMontior.done();
+                        }
+                        if (monitor.isCanceled()) {
+                            return Status.CANCEL_STATUS;
+                        }
                     }
-                    if (monitor.isCanceled()) {
-                        return Status.CANCEL_STATUS;
-                    }
-                }
+                } while (_pendingUpdates.size() > 0);
             } catch (OperationCanceledException e) {
                 return Status.CANCEL_STATUS;
             } finally {
                 monitor.done();
             }
             return Status.OK_STATUS;
+        }
+
+        @Override
+        public boolean belongsTo(Object family) {
+            return family == SWITCHYARD_PROJECT_REFRESH_JOB_FAMILY || super.belongsTo(family);
         }
 
         @Override

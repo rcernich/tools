@@ -52,7 +52,9 @@ public class SwitchYardExplorerLabelProvider extends LabelProvider implements IL
 
     @Override
     public String getText(Object element) {
-        if (element instanceof ISwitchYardNode) {
+        if (element instanceof ISwitchYardRootNode) {
+            return "SwitchYard";
+        } else if (element instanceof ISwitchYardNode) {
             return named(((ISwitchYardNode) element).getName());
         }
         return super.getText(element);
@@ -61,30 +63,34 @@ public class SwitchYardExplorerLabelProvider extends LabelProvider implements IL
     @Override
     public String getDescription(Object element) {
         if (element instanceof ISwitchYardRootNode) {
-            return "SwitchYard Application - " + ((ISwitchYardRootNode) element).getProject().getName();
+            ISwitchYardRootNode root = (ISwitchYardRootNode) element;
+            return named(root.getName()) + " Application - " + root.getProject().getName();
         } else if (element instanceof IServicesNode) {
-            return "SwitchYard Services";
+            ISwitchYardRootNode root = ((IServicesNode) element).getRoot();
+            return named(root.getName()) + " Application Services - " + root.getProject().getName();
         } else if (element instanceof IReferencesNode) {
-            return "SwitchYard References";
+            ISwitchYardRootNode root = ((IReferencesNode) element).getRoot();
+            return named(root.getName()) + " Application References - " + root.getProject().getName();
         } else if (element instanceof IComponentsNode) {
-            return "SwitchYard Components";
+            ISwitchYardRootNode root = ((IComponentsNode) element).getRoot();
+            return named(root.getName()) + " Application Components - " + root.getProject().getName();
         } else if (element instanceof IArtifactsNode) {
-            return "SwitchYard Artifacts";
+            ISwitchYardRootNode root = ((IArtifactsNode) element).getRoot();
+            return named(root.getName()) + " Application Artifacts - " + root.getProject().getName();
         } else if (element instanceof IServiceNode) {
-            return named(((IServiceNode) element).getName()) + " - SwitchYard Service";
+            return getText(element) + " Service";
         } else if (element instanceof IReferenceNode) {
-            return named(((IReferenceNode) element).getName()) + " - SwitchYard Reference";
+            return getText(element) + " Reference";
         } else if (element instanceof IComponentNode) {
-            return named(((IComponentNode) element).getName()) + " - SwitchYard Component";
+            return getText(element) + " Component";
         } else if (element instanceof IComponentService) {
-            return named(((IComponentService) element).getName()) + " - SwitchYard Component Service";
+            return getText(element) + " Component Service";
         } else if (element instanceof IComponentReference) {
-            return named(((IComponentReference) element).getName()) + " - SwitchYard Component Reference";
+            return getText(element) + " Component Reference";
         } else if (element instanceof IArtifactNode) {
-            return named(((IArtifactNode) element).getName()) + " - SwitchYard Artifact Reference";
+            return getText(element) + " Artifact Reference";
         } else if (element instanceof IServiceGateway) {
-            IServiceGateway gateway = (IServiceGateway) element;
-            return gateway.getName() + " Binding";
+            return getText(element) + " Binding";
         }
         return super.getText(element);
     }

@@ -25,7 +25,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -53,6 +56,7 @@ public class SwitchYardExplorerContentProvider implements ITreeContentProvider, 
      */
     public SwitchYardExplorerContentProvider() {
         super();
+        Job.getJobManager().addJobChangeListener(_jobListener);
         SwitchYardProjectManager.instance().addListener(this);
     }
 
@@ -61,6 +65,7 @@ public class SwitchYardExplorerContentProvider implements ITreeContentProvider, 
         _viewer = null;
 
         SwitchYardProjectManager.instance().removeListener(this);
+        Job.getJobManager().removeJobChangeListener(_jobListener);
 
         _switchYardNodeRefreshJob.cancel();
         _pendingUpdates.clear();
@@ -140,7 +145,9 @@ public class SwitchYardExplorerContentProvider implements ITreeContentProvider, 
         if (!_cache.containsKey(project.getProject()) || (types.size() == 1 && types.contains(Type.POM))) {
             return;
         } else if (types.contains(Type.REMOVED)) {
-            _cache.remove(project);
+            SwitchYardRootNode node = _cache.remove(project);
+            _pendingUpdates.remove(node);
+            node.dispose();
             return;
         }
         scheduleRefresh(_cache.get(project.getProject()));
@@ -152,6 +159,7 @@ public class SwitchYardExplorerContentProvider implements ITreeContentProvider, 
         }
         SwitchYardRootNode rootNode = new SwitchYardRootNode(project);
         _cache.put(project, rootNode);
+        scheduleRefresh(rootNode);
         return rootNode;
     }
 
@@ -159,9 +167,8 @@ public class SwitchYardExplorerContentProvider implements ITreeContentProvider, 
         if (node == null) {
             return;
         }
-        if (_pendingUpdates.putIfAbsent(node, PENDING) == null) {
-            _switchYardNodeRefreshJob.schedule(100);
-        }
+        _pendingUpdates.putIfAbsent(node, PENDING);
+        _switchYardNodeRefreshJob.schedule(100);
     }
 
     private static final Object PENDING = new Object();
@@ -173,41 +180,40 @@ public class SwitchYardExplorerContentProvider implements ITreeContentProvider, 
             IStatus status = Status.OK_STATUS;
             try {
                 final Set<SwitchYardRootNode> updatedNodes = new LinkedHashSet<SwitchYardRootNode>();
-                for (Iterator<SwitchYardRootNode> it = _pendingUpdates.keySet().iterator(); it.hasNext();) {
-                    SwitchYardRootNode switchYardNode = it.next();
-                    monitor.subTask(switchYardNode.getProject().getName());
-                    SubProgressMonitor subMontior = new SubProgressMonitor(monitor, 100);
-                    Job.getJobManager().beginRule(switchYardNode.getProject(), monitor);
-                    try {
-                        it.remove();
-                        switchYardNode.reload(subMontior);
-                        updatedNodes.add(switchYardNode);
-                    } catch (Exception e) {
-                        e.fillInStackTrace();
-                    } finally {
-                        Job.getJobManager().endRule(switchYardNode.getProject());
-                        subMontior.done();
+                do {
+                    for (Iterator<SwitchYardRootNode> it = _pendingUpdates.keySet().iterator(); it.hasNext();) {
+                        SwitchYardRootNode switchYardNode = it.next();
+                        monitor.subTask(switchYardNode.getProject().getName());
+                        SubProgressMonitor subMontior = new SubProgressMonitor(monitor, 100);
+                        Job.getJobManager().beginRule(switchYardNode.getProject(), monitor);
+                        try {
+                            it.remove();
+                            switchYardNode.reload(subMontior);
+                            updatedNodes.add(switchYardNode);
+                        } catch (Exception e) {
+                            e.fillInStackTrace();
+                        } finally {
+                            Job.getJobManager().endRule(switchYardNode.getProject());
+                            subMontior.done();
+                        }
+                        if (monitor.isCanceled()) {
+                            status = Status.CANCEL_STATUS;
+                            break;
+                        }
                     }
-                    if (monitor.isCanceled()) {
-                        status = Status.CANCEL_STATUS;
-                    }
-                }
+                } while (status.isOK() && _pendingUpdates.size() > 0);
                 final TreeViewer viewer = SwitchYardExplorerContentProvider.this._viewer;
                 if (viewer == null) {
-                    _pendingUpdates.keySet().clear();
+                    _pendingUpdates.clear();
                 } else {
                     viewer.getControl().getDisplay().asyncExec(new Runnable() {
                         public void run() {
                             if (viewer.getControl().isDisposed()) {
                                 return;
                             }
-                            final Object[] expandedElements = viewer.getExpandedElements();
-                            viewer.getControl().setRedraw(false);
-                            for (SwitchYardRootNode node : updatedNodes) {
-                                viewer.refresh(node, true);
-                            }
-                            viewer.setExpandedElements(expandedElements);
-                            viewer.getControl().setRedraw(true);
+                            // refreshing individual nodes does not work
+                            // correctly. Eclipse 3.7, GTK.
+                            viewer.refresh();
                         }
                     });
                 }
@@ -218,8 +224,33 @@ public class SwitchYardExplorerContentProvider implements ITreeContentProvider, 
         }
 
         @Override
-        public boolean shouldRun() {
-            return _pendingUpdates.size() > 0;
+        public boolean shouldSchedule() {
+            return shouldRun();
         }
+
+        @Override
+        public boolean shouldRun() {
+            return _pendingUpdates.size() > 0
+                    && Job.getJobManager().find(SwitchYardProjectManager.SWITCHYARD_PROJECT_REFRESH_JOB_FAMILY).length == 0;
+        }
+    };
+
+    private IJobChangeListener _jobListener = new JobChangeAdapter() {
+        @Override
+        public void done(IJobChangeEvent event) {
+            if (event.getJob().belongsTo(SwitchYardProjectManager.SWITCHYARD_PROJECT_REFRESH_JOB_FAMILY)) {
+                if (_pendingUpdates.size() > 0) {
+                    _switchYardNodeRefreshJob.schedule();
+                }
+            }
+        }
+
+        @Override
+        public void scheduled(IJobChangeEvent event) {
+            if (event.getJob().belongsTo(SwitchYardProjectManager.SWITCHYARD_PROJECT_REFRESH_JOB_FAMILY)) {
+                _switchYardNodeRefreshJob.cancel();
+            }
+        }
+
     };
 }

@@ -75,19 +75,19 @@ public class PropertySourceAdapterFactory implements IAdapterFactory {
 
     private Object getNodeAdapter(Object adaptableObject) {
         if (adaptableObject instanceof ArtifactNode) {
-            return new ArtifactPropertySource((ArtifactNode) adaptableObject);
+            return getModelAdapter(((ArtifactNode) adaptableObject).getModel());
         } else if (adaptableObject instanceof ComponentNode) {
-            return new ComponentPropertySource((ComponentNode) adaptableObject);
+            return getModelAdapter(((ComponentNode) adaptableObject).getModel());
         } else if (adaptableObject instanceof ComponentService) {
-            return new ComponentServicePropertySource((ComponentService) adaptableObject);
+            return getModelAdapter(((ComponentService) adaptableObject).getModel());
         } else if (adaptableObject instanceof ComponentReference) {
-            return new ComponentReferencePropertySource((ComponentReference) adaptableObject);
+            return getModelAdapter(((ComponentReference) adaptableObject).getModel());
         } else if (adaptableObject instanceof ReferenceNode) {
-            return new ReferencePropertySource((ReferenceNode) adaptableObject);
+            return getModelAdapter(((ReferenceNode) adaptableObject).getModel());
         } else if (adaptableObject instanceof ServiceGateway) {
-            return new ServiceGatewayPropertySource((ServiceGateway) adaptableObject);
+            return getModelAdapter(((ServiceGateway) adaptableObject).getModel());
         } else if (adaptableObject instanceof ServiceNode) {
-            return new ServicePropertySource((ServiceNode) adaptableObject);
+            return getModelAdapter(((ServiceNode) adaptableObject).getModel());
         } else if (adaptableObject instanceof SwitchYardRootNode) {
             return new SwitchYardRootPropertySource((SwitchYardRootNode) adaptableObject);
         }

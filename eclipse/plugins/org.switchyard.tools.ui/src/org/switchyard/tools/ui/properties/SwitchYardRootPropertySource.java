@@ -70,8 +70,8 @@ public class SwitchYardRootPropertySource implements IPropertySource {
     }
 
     static {
-        DESCRIPTORS = new PropertyDescriptor[] {new PropertyDescriptor(PROP_MODEL, "SwitchYard Application"),
-                new PropertyDescriptor(PROP_RESOURCE, "SwitchYard Configuration File") };
+        DESCRIPTORS = new PropertyDescriptor[] {new PropertyDescriptor(PROP_MODEL, "Application"),
+                new PropertyDescriptor(PROP_RESOURCE, "Configuration File") };
         DESCRIPTORS[0].setDescription("SwitchYard application details.");
         DESCRIPTORS[1].setDescription("switchyard.xml file details.");
         DESCRIPTORS[1].setLabelProvider(new LabelProvider() {
