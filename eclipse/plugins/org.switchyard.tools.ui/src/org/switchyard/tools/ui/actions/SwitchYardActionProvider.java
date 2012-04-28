@@ -10,8 +10,11 @@
  ************************************************************************************/
 package org.switchyard.tools.ui.actions;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
@@ -20,15 +23,16 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchCommandConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.OpenFileAction;
 import org.eclipse.ui.actions.RefreshAction;
 import org.eclipse.ui.internal.navigator.resources.plugin.WorkbenchNavigatorMessages;
 import org.eclipse.ui.navigator.CommonActionProvider;
+import org.eclipse.ui.navigator.ICommonActionConstants;
 import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 import org.eclipse.ui.navigator.ICommonMenuConstants;
 import org.eclipse.ui.navigator.ICommonViewerWorkbenchSite;
@@ -68,7 +72,14 @@ public class SwitchYardActionProvider extends CommonActionProvider {
             ICommonViewerWorkbenchSite workbenchSite = (ICommonViewerWorkbenchSite) aSite.getViewSite();
             _newWizardActionGroup = new WizardActionGroup(workbenchSite.getWorkbenchWindow(), PlatformUI.getWorkbench()
                     .getNewWizardRegistry(), WizardActionGroup.TYPE_NEW, aSite.getContentService());
-            _openFileAction = new OpenFileAction(workbenchSite.getPage());
+            _openFileAction = new OpenFileAction(workbenchSite.getPage()) {
+                @SuppressWarnings("rawtypes")
+                @Override
+                protected List getSelectedResources() {
+                    return collectResources(getStructuredSelection());
+                }
+            };
+            aSite.getStructuredViewer().addSelectionChangedListener(_openFileAction);
             _contribute = true;
         }
         _refreshAction = new RefreshAction(new IShellProvider() {
@@ -89,6 +100,12 @@ public class SwitchYardActionProvider extends CommonActionProvider {
     }
 
     @Override
+    public void dispose() {
+        getActionSite().getStructuredViewer().removeSelectionChangedListener(_openFileAction);
+        super.dispose();
+    }
+
+    @Override
     public void fillContextMenu(IMenuManager menu) {
         menu.insertAfter(ICommonMenuConstants.GROUP_OPEN, new Separator(SWITCHYARD_MENU));
         if (_contribute) {
@@ -99,13 +116,19 @@ public class SwitchYardActionProvider extends CommonActionProvider {
 
             menu.insertAfter(ICommonMenuConstants.GROUP_NEW, submenu);
 
-            _openFileAction.selectionChanged(getOpenFileSelection());
             if (_openFileAction.isEnabled()) {
                 menu.insertAfter(ICommonMenuConstants.GROUP_OPEN, _openFileAction);
             }
         }
         _refreshAction.setEnabled(true);
         menu.appendToGroup(ICommonMenuConstants.GROUP_BUILD, _refreshAction);
+    }
+
+    @Override
+    public void fillActionBars(IActionBars actionBars) {
+        super.fillActionBars(actionBars);
+        actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN, _openFileAction);
+        actionBars.updateActionBars();
     }
 
     /**
@@ -115,15 +138,11 @@ public class SwitchYardActionProvider extends CommonActionProvider {
      * @return the converted selection.
      */
     @SuppressWarnings("rawtypes")
-    private IStructuredSelection getOpenFileSelection() {
-        if (!(getContext().getSelection() instanceof IStructuredSelection)) {
-            return StructuredSelection.EMPTY;
-        }
-        IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
+    private List<IResource> collectResources(IStructuredSelection selection) {
         if (selection.isEmpty()) {
-            return selection;
+            return Collections.emptyList();
         }
-        Set<Object> converted = new LinkedHashSet<Object>(selection.size());
+        Set<IResource> converted = new LinkedHashSet<IResource>(selection.size());
         for (Iterator it = selection.iterator(); it.hasNext();) {
             Object obj = it.next();
             if (obj instanceof ComponentService) {
@@ -131,7 +150,7 @@ public class SwitchYardActionProvider extends CommonActionProvider {
                 IResource related = SwitchYardModelUtils.getAssociatedResource(service.getRoot().getProject(), service
                         .getModel().getInterface());
                 if (related == null) {
-                    return StructuredSelection.EMPTY;
+                    continue;
                 }
                 converted.add(related);
             } else if (obj instanceof ComponentReference) {
@@ -139,7 +158,7 @@ public class SwitchYardActionProvider extends CommonActionProvider {
                 IResource related = SwitchYardModelUtils.getAssociatedResource(reference.getRoot().getProject(),
                         reference.getModel().getInterface());
                 if (related == null) {
-                    return StructuredSelection.EMPTY;
+                    continue;
                 }
                 converted.add(related);
             } else if (obj instanceof ComponentNode) {
@@ -147,7 +166,7 @@ public class SwitchYardActionProvider extends CommonActionProvider {
                 IResource related = SwitchYardModelUtils.getAssociatedResource(component.getRoot().getProject(),
                         component.getModel().getImplementation());
                 if (related == null) {
-                    return StructuredSelection.EMPTY;
+                    continue;
                 }
                 converted.add(related);
             } else if (obj instanceof ServiceNode) {
@@ -155,7 +174,7 @@ public class SwitchYardActionProvider extends CommonActionProvider {
                 IResource related = SwitchYardModelUtils.getAssociatedResource(service.getRoot().getProject(), service
                         .getModel().getInterface());
                 if (related == null) {
-                    return StructuredSelection.EMPTY;
+                    continue;
                 }
                 converted.add(related);
             } else if (obj instanceof ReferenceNode) {
@@ -163,21 +182,21 @@ public class SwitchYardActionProvider extends CommonActionProvider {
                 IResource related = SwitchYardModelUtils.getAssociatedResource(reference.getRoot().getProject(),
                         reference.getModel().getInterface());
                 if (related == null) {
-                    return StructuredSelection.EMPTY;
+                    continue;
                 }
                 converted.add(related);
             } else if (obj instanceof ISwitchYardRootNode) {
                 IResource switchYardConfigFile = ((ISwitchYardNode) obj).getRoot().getSwitchYardProject()
                         .getSwitchYardConfigurationFile();
                 if (switchYardConfigFile == null) {
-                    return StructuredSelection.EMPTY;
+                    continue;
                 }
                 converted.add(switchYardConfigFile);
-            } else {
-                converted.add(obj);
+            } else if (obj instanceof IResource) {
+                converted.add((IResource) obj);
             }
         }
-        return new StructuredSelection(converted.toArray());
+        return new ArrayList<IResource>(converted);
     }
 
 }
