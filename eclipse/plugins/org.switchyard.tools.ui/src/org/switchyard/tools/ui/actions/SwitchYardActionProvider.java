@@ -128,7 +128,6 @@ public class SwitchYardActionProvider extends CommonActionProvider {
     public void fillActionBars(IActionBars actionBars) {
         super.fillActionBars(actionBars);
         actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN, _openFileAction);
-        actionBars.updateActionBars();
     }
 
     /**
