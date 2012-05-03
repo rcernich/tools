@@ -175,14 +175,12 @@ public class SCADiagramAddComponentImplementationCamelPage extends BaseWizardPag
     public boolean getSkippable() {
         if (_startPage != null) {
             Implementation impl = getImplementationFromStartPage();
-            if (impl != null) {
-                return true;
-            }
-//            if (impl instanceof CamelImplementationType) {
-//                return false;
+            if (impl instanceof CamelImplementationType) {
+                return false;
 //            } else {
 //                return true;
-//            }
+            }
+            return true;
         }
         return super.getSkippable();
     }

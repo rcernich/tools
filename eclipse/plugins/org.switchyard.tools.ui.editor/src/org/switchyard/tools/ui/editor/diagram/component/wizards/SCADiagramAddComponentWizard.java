@@ -114,6 +114,8 @@ public class SCADiagramAddComponentWizard extends BaseWizard {
                 _camelPage.refresh();
                 return _camelPage;
             }
+        } else {
+            return null;
         }
         return super.getNextPage(page);
     }
