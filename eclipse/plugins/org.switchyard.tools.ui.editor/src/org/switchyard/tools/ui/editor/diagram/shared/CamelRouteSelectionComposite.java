@@ -64,20 +64,14 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.SelectionDialog;
-import org.eclipse.ui.internal.LegacyResourceSupport;
-import org.eclipse.ui.internal.util.Util;
 import org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType;
 import org.switchyard.tools.models.switchyard1_0.spring.RouteDefinition;
 import org.switchyard.tools.models.switchyard1_0.spring.SpringFactory;
@@ -89,7 +83,6 @@ import org.switchyard.tools.ui.editor.core.ModelHandlerLocator;
  * @author bfitzpat
  * 
  */
-@SuppressWarnings("restriction")
 public class CamelRouteSelectionComposite {
 
     // change listeners
@@ -156,16 +149,19 @@ public class CamelRouteSelectionComposite {
         _newXMLLink.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String path = getPathToNewXML(_panel.getShell());
+                String path = getPathToNewXML(_panel.getShell(), _mXMLText.getText());
                 if (path != null) {
                     _mXMLText.setText(path);
+                    handleModify();
+                    fireChangedEvent(_newXMLLink);
                 }
             }
         });
         _mXMLText = new Text(_panel, SWT.BORDER);
         _mXMLText.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
-                // edit class name
+                handleModify();
+                fireChangedEvent(_mXMLText);
             }
         });
         GridData uriGDXML = new GridData(GridData.FILL_HORIZONTAL);
@@ -180,6 +176,8 @@ public class CamelRouteSelectionComposite {
                 String path = selectResourceFromWorkspace(_panel.getShell(), "xml");
                 if (path != null) {
                     _mXMLText.setText(path);
+                    handleModify();
+                    fireChangedEvent(_browseXMLBtn);
                 }
             }
         });
@@ -215,6 +213,8 @@ public class CamelRouteSelectionComposite {
                             String className = handleCreateJavaClass();
                             if (className != null) {
                                 _mClassText.setText(className);
+                                handleModify();
+                                fireChangedEvent(_newClassLink);
                             }
                             return;
                         } else {
@@ -245,6 +245,8 @@ public class CamelRouteSelectionComposite {
                     IType selected = selectType(_panel.getShell(), "org.apache.camel.builder.RouteBuilder", null);
                     if (selected != null) {
                         _mClassText.setText(selected.getFullyQualifiedName());
+                        handleModify();
+                        fireChangedEvent(_browseClassBtn);
                     }
                 } catch (JavaModelException e1) {
                     e1.printStackTrace();
@@ -253,8 +255,19 @@ public class CamelRouteSelectionComposite {
         });
 
         updateSelectionBasedOnOptionBtn();
+
+        _mXMLText.setText("route.xml");
+        _camelRouteFilePath = _mXMLText.getText();
+        validate();
     }
 
+    /**
+     * @param shell Shell for the window
+     * @param superTypeName supertype to search for
+     * @param project project to look in
+     * @return IType the type created
+     * @throws JavaModelException exception thrown
+     */
     public IType selectType(Shell shell, String superTypeName, IProject project) throws JavaModelException {
         IJavaSearchScope searchScope = null;
         if (project == null) {
@@ -271,8 +284,9 @@ public class CamelRouteSelectionComposite {
         if (project != null && superTypeName != null && !superTypeName.equals("java.lang.Object")) { //$NON-NLS-1$
             IJavaProject javaProject = JavaCore.create(project);
             IType superType = javaProject.findType(superTypeName);
-            if (superType != null)
+            if (superType != null) {
                 searchScope = SearchEngine.createHierarchyScope(superType);
+            }
         } else {
             searchScope = SearchEngine.createWorkspaceScope();
         }
@@ -280,11 +294,13 @@ public class CamelRouteSelectionComposite {
                 IJavaElementSearchConstants.CONSIDER_CLASSES_AND_INTERFACES, false);
         dialog.setTitle("Select entries");
         dialog.setMessage("Matching items");
-        if (dialog.open() == IDialogConstants.CANCEL_ID)
+        if (dialog.open() == IDialogConstants.CANCEL_ID) {
             return null;
+        }
         Object[] types = dialog.getResult();
-        if (types == null || types.length == 0)
+        if (types == null || types.length == 0) {
             return null;
+        }
         return (IType) types[0];
     }
 
@@ -348,17 +364,25 @@ public class CamelRouteSelectionComposite {
         }
         action.setSelection(selectionToPass);
         NewClassWizardPage page = new NewClassWizardPage();
-        IPackageFragmentRoot packRoot = javaProject.getAllPackageFragmentRoots()[0];
-        page.setPackageFragmentRoot(packRoot, true);
-        IPackageFragment pack = null;
-        for (int i = 0; i < javaProject.getAllPackageFragmentRoots().length; i++) {
-            pack = javaProject.getPackageFragmentRoots()[i].getPackageFragment("");
-            if (pack != null)
-                break;
+        if (javaProject != null) {
+            IPackageFragmentRoot[] roots = javaProject.getAllPackageFragmentRoots();
+            IPackageFragmentRoot packRoot = null;
+            if (roots.length > 0) {
+                packRoot = roots[0];
+                page.setPackageFragmentRoot(packRoot, true);
+            }
+            IPackageFragment pack = null;
+            for (int i = 0; i < javaProject.getAllPackageFragmentRoots().length; i++) {
+                pack = javaProject.getPackageFragmentRoots()[i].getPackageFragment("");
+                if (pack != null) {
+                    break;
+                }
+            }
+            if (pack != null) {
+                page.setPackageFragment(pack, true);
+            }
         }
         page.setSuperClass("org.apache.camel.builder.RouteBuilder", false);
-        if (pack != null)
-            page.setPackageFragment(pack, true);
         action.setConfiguredWizardPage(page);
         action.setOpenEditorOnFinish(false);
         action.run();
@@ -366,8 +390,9 @@ public class CamelRouteSelectionComposite {
         if (createdElement != null && createdElement instanceof IType) {
             IType stype = (IType) createdElement;
             String name = stype.getFullyQualifiedName();
-            if (name != null)
+            if (name != null) {
                 return name;
+            }
         }
         return null;
     }
@@ -514,17 +539,24 @@ public class CamelRouteSelectionComposite {
     }
 
     /**
-     * @param _diagram the _diagram to set
+     * @return String for camel class
      */
-    public void setDiagram(Diagram _diagram) {
-        this._diagram = _diagram;
+    public String getCamelRouteClass() {
+        return this._routeClassName;
     }
 
     /**
-     * @param _rootGridData the _rootGridData to set
+     * @param diagram the _diagram to set
      */
-    public void setRootGridData(GridData _rootGridData) {
-        this._rootGridData = _rootGridData;
+    public void setDiagram(Diagram diagram) {
+        this._diagram = diagram;
+    }
+
+    /**
+     * @param rootGridData the _rootGridData to set
+     */
+    public void setRootGridData(GridData rootGridData) {
+        this._rootGridData = rootGridData;
     }
 
     private static String selectResourceFromWorkspace(Shell shell, final String extension) {
@@ -627,54 +659,44 @@ public class CamelRouteSelectionComposite {
         return null;
     }
 
-    private static FileDialog getFileSelectionDialog(final Shell shell) {
-        FileDialog fileDialog = new FileDialog(shell, SWT.PRIMARY_MODAL | SWT.OPEN);
-        IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-        String strDefaultProject = (projects.length > 0) ? projects[0].getFullPath().toOSString() : "";
-        int index = strDefaultProject.indexOf("/"); //$NON-NLS-1$
-        if (index == -1) {
-            index = strDefaultProject.indexOf("\\"); //$NON-NLS-1$
-        }
-        if (index != -1) {
-            strDefaultProject = strDefaultProject.substring(index + 1);
-        }
-        fileDialog.setFilterPath(strDefaultProject);
-        return fileDialog;
-    }
+    // private static FileDialog getFileSelectionDialog(final Shell shell) {
+    // FileDialog fileDialog = new FileDialog(shell, SWT.PRIMARY_MODAL |
+    // SWT.OPEN);
+    // IProject[] projects =
+    // ResourcesPlugin.getWorkspace().getRoot().getProjects();
+    // String strDefaultProject = (projects.length > 0) ?
+    // projects[0].getFullPath().toOSString() : "";
+    //        int index = strDefaultProject.indexOf("/"); //$NON-NLS-1$
+    // if (index == -1) {
+    //            index = strDefaultProject.indexOf("\\"); //$NON-NLS-1$
+    // }
+    // if (index != -1) {
+    // strDefaultProject = strDefaultProject.substring(index + 1);
+    // }
+    // fileDialog.setFilterPath(strDefaultProject);
+    // return fileDialog;
+    // }
 
-    private static String openFileSelectionDialog(Shell shell, String fileExt) {
-        String extName = "*." + fileExt;
-        FileDialog fileDialog = getFileSelectionDialog(shell);
-        fileDialog.setFilterExtensions(new String[] {"*." + fileExt }); //$NON-NLS-1$
-        fileDialog.setFilterNames(new String[] {extName });
-        fileDialog.setText("Select WSDL File from File System");
-        return fileDialog.open();
-    }
+    // private static String openFileSelectionDialog(Shell shell, String
+    // fileExt) {
+    // String extName = "*." + fileExt;
+    // FileDialog fileDialog = getFileSelectionDialog(shell);
+    //        fileDialog.setFilterExtensions(new String[] {"*." + fileExt }); //$NON-NLS-1$
+    // fileDialog.setFilterNames(new String[] {extName });
+    // fileDialog.setText("Select File from File System");
+    // return fileDialog.open();
+    // }
 
-    private static String getPathToNewXML(final Shell shell) {
+    private static String getPathToNewXML(final Shell shell, String defaultName) {
         NewRouteFileWizard newWizard = new NewRouteFileWizard();
         ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService()
                 .getSelection();
         IStructuredSelection selectionToPass = StructuredSelection.EMPTY;
         if (selection instanceof IStructuredSelection) {
             selectionToPass = (IStructuredSelection) selection;
-        } else {
-            // @issue the following is resource-specific legacy code
-            // Build the selection from the IFile of the editor
-            Class<?> resourceClass = LegacyResourceSupport.getResourceClass();
-            if (resourceClass != null) {
-                IWorkbenchPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
-                        .getActivePart();
-                if (part instanceof IEditorPart) {
-                    IEditorInput input = ((IEditorPart) part).getEditorInput();
-                    Object resource = Util.getAdapter(input, resourceClass);
-                    if (resource != null) {
-                        selectionToPass = new StructuredSelection(resource);
-                    }
-                }
-            }
         }
         newWizard.init(PlatformUI.getWorkbench(), selectionToPass);
+        newWizard.setCreatedFilePath(defaultName);
         WizardDialog dialog = new WizardDialog(shell, newWizard);
         if (dialog.open() == Window.OK) {
             return newWizard.getCreatedFilePath();

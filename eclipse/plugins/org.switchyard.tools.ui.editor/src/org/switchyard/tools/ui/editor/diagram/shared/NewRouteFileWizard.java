@@ -1,10 +1,13 @@
 package org.switchyard.tools.ui.editor.diagram.shared;
 
-import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
@@ -38,17 +41,27 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
             }
 
             _createdFilePath = file.getProjectRelativePath().toPortableString();
-
-            String input = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                    + "<route xmlns=\"http://camel.apache.org/schema/spring\">\n"
-                    + "    <from uri=\"switchyard://${service.name}\"/>\n"
-                    + "    <log message=\"${service.name} - message received: ${body}\"/>\n" + "</route>";
-            ByteArrayInputStream bais = new ByteArrayInputStream(input.getBytes());
+            
             try {
-                file.setContents(bais, true, true, null);
+                InputStream inputStream = FileLocator.openStream(
+                        Activator.getDefault().getBundle(), new Path("resources/RouteXMLTemplate.xml"), false);
+                file.setContents(inputStream, true, true, null);
             } catch (CoreException e1) {
                 e1.printStackTrace();
+            } catch (IOException e2) {
+                e2.printStackTrace();
             }
+
+//            String input = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+//                    + "<route xmlns=\"http://camel.apache.org/schema/spring\">\n"
+//                    + "    <from uri=\"switchyard://${service.name}\"/>\n"
+//                    + "    <log message=\"${service.name} - message received: ${body}\"/>\n" + "</route>";
+//            ByteArrayInputStream bais = new ByteArrayInputStream(input.getBytes());
+//            try {
+//                file.setContents(bais, true, true, null);
+//            } catch (CoreException e1) {
+//                e1.printStackTrace();
+//            }
 
             selectAndReveal(file);
 
@@ -74,6 +87,10 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
     public String getCreatedFilePath() {
         return _createdFilePath;
     }
+    
+    public void setCreatedFilePath(String inPath) {
+        this._createdFilePath = inPath;
+    }
 
     /*
      * (non-Javadoc)
@@ -89,6 +106,9 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
             filePage.setTitle("Route File");
             filePage.setDescription("Create a new Camel Route file resource.");
             filePage.setFileName("route.xml");
+            if (this._createdFilePath != null) {
+                filePage.setFileName(_createdFilePath);
+            }
         }
     }
 

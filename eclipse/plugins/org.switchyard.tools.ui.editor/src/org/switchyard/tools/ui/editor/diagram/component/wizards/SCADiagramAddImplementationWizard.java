@@ -25,6 +25,14 @@ import org.switchyard.tools.ui.editor.diagram.internal.wizards.BaseWizard;
  */
 public class SCADiagramAddImplementationWizard extends BaseWizard {
 
+    @Override
+    public boolean canFinish() {
+        if (getImplementation() == null) {
+            return false;
+        }
+        return super.canFinish();
+    }
+
     private SCADiagramAddImplementationStartPage _startPage = null;
     private SCADiagramAddComponentImplementationCamelPage _camelPage = null;
     private Diagram _diagram = null;

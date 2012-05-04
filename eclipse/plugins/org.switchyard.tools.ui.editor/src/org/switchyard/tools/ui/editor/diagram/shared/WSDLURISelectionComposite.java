@@ -190,11 +190,18 @@ public class WSDLURISelectionComposite {
         _mWSDLPortText.setLayoutData(portGD);
 
         setVisibilityOfPortControls(this._binding != null);
+        
+//        _mWSDLInterfaceURIText.setText("MyService.wsdl");
+//        _sWSDLURI = _mWSDLInterfaceURIText.getText();
     }
 
     private void setVisibilityOfPortControls(boolean flag) {
         _portLabel.setVisible(flag);
         _mWSDLPortText.setVisible(flag);
+        if (_portLabel.getVisible()) {
+            _mWSDLPortText.setText("18001");
+            _bindingPort = _mWSDLPortText.getText();
+        }
     }
 
     private void handleModify() {
