@@ -71,18 +71,18 @@ public class SCADiagramCustomPromoteServiceFeature extends AbstractCustomFeature
                             }
                         }
                         if (!this._hasDoneChanges) {
-                            createAndConnectService(component, cservice);
+                            createAndConnectService(component, cservice, pes);
                         }
                         getDiagramEditor().refresh();
                     } else {
-                        createAndConnectService(component, cservice);
+                        createAndConnectService(component, cservice, pes);
                     }
                 }
             }
         }
     }
 
-    private void createAndConnectService(Component component, ComponentService cservice) {
+    private void createAndConnectService(Component component, ComponentService cservice, PictogramElement[] pes) {
         try {
             Composite composite = (Composite) component.eContainer();
             ModelHandler handler = ModelHandlerLocator.getModelHandler(getDiagram().eResource());
@@ -97,7 +97,11 @@ public class SCADiagramCustomPromoteServiceFeature extends AbstractCustomFeature
             addServiceContext.setNewObject(newService);
             addServiceContext.setTargetContainer(cshape);
             addServiceContext.setX(0);
-            addServiceContext.setY(0);
+            if (pes != null && pes.length > 0) {
+                addServiceContext.setY(pes[0].getGraphicsAlgorithm().getY());
+            } else {
+                addServiceContext.setY(0);
+            }
 
             IAddFeature addServiceFeature = getFeatureProvider().getAddFeature(addServiceContext);
             if (addServiceFeature.canAdd(addServiceContext)) {
