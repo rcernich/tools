@@ -62,6 +62,7 @@ import org.switchyard.tools.models.switchyard1_0.camel.DocumentRoot;
 import org.switchyard.tools.models.switchyard1_0.camel.FileConsumerType;
 import org.switchyard.tools.models.switchyard1_0.camel.FileProducerType;
 import org.switchyard.tools.models.switchyard1_0.camel.JavaDSLType;
+import org.switchyard.tools.models.switchyard1_0.camel.XMLDSLType;
 import org.switchyard.tools.models.switchyard1_0.clojure.ClojurePackage;
 import org.switchyard.tools.models.switchyard1_0.clojure.impl.ClojurePackageImpl;
 import org.switchyard.tools.models.switchyard1_0.commonrules.CommonRulesPackage;
@@ -180,6 +181,13 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
 	private EClass javaDSLTypeEClass = null;
 
 	/**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass xmldslTypeEClass = null;
+
+    /**
      * Creates an instance of the model <b>Package</b>, registered with
      * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
      * package URI value.
@@ -396,6 +404,15 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
 
 	/**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getCamelBindingType_ConfigURI() {
+        return (EAttribute)camelBindingTypeEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -512,6 +529,15 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
     }
 
 	/**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getCamelImplementationType_Xml() {
+        return (EReference)camelImplementationTypeEClass.getEStructuralFeatures().get(2);
+    }
+
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
@@ -1098,6 +1124,24 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
 
 	/**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getXMLDSLType() {
+        return xmldslTypeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getXMLDSLType_Path() {
+        return (EAttribute)xmldslTypeEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -1137,6 +1181,7 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
         createEAttribute(camelAtomBindingTypeEClass, CAMEL_ATOM_BINDING_TYPE__CONSUMER_USER_FIXED_DELAY);
 
         camelBindingTypeEClass = createEClass(CAMEL_BINDING_TYPE);
+        createEAttribute(camelBindingTypeEClass, CAMEL_BINDING_TYPE__CONFIG_URI);
 
         camelDirectBindingTypeEClass = createEClass(CAMEL_DIRECT_BINDING_TYPE);
 
@@ -1153,6 +1198,7 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
         camelImplementationTypeEClass = createEClass(CAMEL_IMPLEMENTATION_TYPE);
         createEReference(camelImplementationTypeEClass, CAMEL_IMPLEMENTATION_TYPE__ROUTE);
         createEReference(camelImplementationTypeEClass, CAMEL_IMPLEMENTATION_TYPE__JAVA);
+        createEReference(camelImplementationTypeEClass, CAMEL_IMPLEMENTATION_TYPE__XML);
 
         camelMockBindingTypeEClass = createEClass(CAMEL_MOCK_BINDING_TYPE);
         createEAttribute(camelMockBindingTypeEClass, CAMEL_MOCK_BINDING_TYPE__REPORT_GROUP);
@@ -1226,6 +1272,9 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
 
         javaDSLTypeEClass = createEClass(JAVA_DSL_TYPE);
         createEAttribute(javaDSLTypeEClass, JAVA_DSL_TYPE__CLASS);
+
+        xmldslTypeEClass = createEClass(XMLDSL_TYPE);
+        createEAttribute(xmldslTypeEClass, XMLDSL_TYPE__PATH);
     }
 
 	/**
@@ -1286,6 +1335,7 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
         initEAttribute(getCamelAtomBindingType_ConsumerUserFixedDelay(), theXMLTypePackage.getBoolean(), "consumerUserFixedDelay", null, 0, 1, CamelAtomBindingType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(camelBindingTypeEClass, CamelBindingType.class, "CamelBindingType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getCamelBindingType_ConfigURI(), theXMLTypePackage.getAnyURI(), "configURI", null, 1, 1, CamelBindingType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(camelDirectBindingTypeEClass, CamelDirectBindingType.class, "CamelDirectBindingType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1302,6 +1352,7 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
         initEClass(camelImplementationTypeEClass, CamelImplementationType.class, "CamelImplementationType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getCamelImplementationType_Route(), theSpringPackage.getRouteDefinition(), null, "route", null, 0, 1, CamelImplementationType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getCamelImplementationType_Java(), this.getJavaDSLType(), null, "java", null, 0, 1, CamelImplementationType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getCamelImplementationType_Xml(), this.getXMLDSLType(), null, "xml", null, 0, 1, CamelImplementationType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(camelMockBindingTypeEClass, CamelMockBindingType.class, "CamelMockBindingType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getCamelMockBindingType_ReportGroup(), theXMLTypePackage.getInteger(), "reportGroup", null, 1, 1, CamelMockBindingType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1375,6 +1426,9 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
 
         initEClass(javaDSLTypeEClass, JavaDSLType.class, "JavaDSLType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getJavaDSLType_Class(), theXMLTypePackage.getString(), "class", null, 0, 1, JavaDSLType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(xmldslTypeEClass, XMLDSLType.class, "XMLDSLType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getXMLDSLType_Path(), theXMLTypePackage.getString(), "path", null, 0, 1, XMLDSLType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         // Create resource
         createResource(eNS_URI);
@@ -1485,6 +1539,14 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
            new String[] {
              "name", "CamelBindingType",
              "kind", "elementOnly"
+           });		
+        addAnnotation
+          (getCamelBindingType_ConfigURI(), 
+           source, 
+           new String[] {
+             "kind", "element",
+             "name", "feedURI",
+             "namespace", "##targetNamespace"
            });		
         addAnnotation
           (camelDirectBindingTypeEClass, 
@@ -2086,10 +2148,24 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
            source, 
            new String[] {
              "name", "JavaDSLType",
-             "kind", "empty"
+             "kind", "elementOnly"
            });		
         addAnnotation
           (getJavaDSLType_Class(), 
+           source, 
+           new String[] {
+             "kind", "attribute",
+             "name", "class"
+           });		
+        addAnnotation
+          (xmldslTypeEClass, 
+           source, 
+           new String[] {
+             "name", "JavaDSLType",
+             "kind", "elementOnly"
+           });		
+        addAnnotation
+          (getXMLDSLType_Path(), 
            source, 
            new String[] {
              "kind", "attribute",

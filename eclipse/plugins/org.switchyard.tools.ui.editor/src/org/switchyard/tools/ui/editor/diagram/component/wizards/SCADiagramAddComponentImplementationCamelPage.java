@@ -52,6 +52,12 @@ public class SCADiagramAddComponentImplementationCamelPage extends BaseWizardPag
     @Override
     public void createControl(Composite parent) {
         _camelComposite = new CamelRouteSelectionComposite();
+        if (getWizard() instanceof SCADiagramAddComponentWizard) {
+            _camelComposite.setDiagram(((SCADiagramAddComponentWizard)getWizard()).getDiagram());
+        } else if (getWizard() instanceof SCADiagramAddImplementationWizard) {
+            _camelComposite.setDiagram(((SCADiagramAddImplementationWizard)getWizard()).getDiagram());
+        }
+
         Implementation implementation = getImplementationFromStartPage();
         if (implementation instanceof CamelImplementationType) {
             _camelComposite.setImplementation((CamelImplementationType) implementation);
@@ -66,25 +72,6 @@ public class SCADiagramAddComponentImplementationCamelPage extends BaseWizardPag
         _camelComposite.createContents(parent, SWT.NONE);
 
         setControl(_camelComposite.getcPanel());
-        // Composite composite = new Composite(parent, SWT.NONE);
-        // GridLayout gl = new GridLayout();
-        // gl.numColumns = 3;
-        // composite.setLayout(gl);
-        // // Component service name
-        // new Label(composite, SWT.NONE).setText("To:");
-        // _camelRouteToText = new Text(composite, SWT.BORDER);
-        // _camelRouteToText.addModifyListener(new ModifyListener() {
-        // public void modifyText(ModifyEvent e) {
-        // handleModify();
-        // }
-        // });
-        // _camelRouteToText.setLayoutData(new
-        // GridData(GridData.FILL_HORIZONTAL));
-        //
-        // setControl(composite);
-        //
-        // validate();
-        // setErrorMessage(null);
     }
 
     /**
@@ -130,18 +117,8 @@ public class SCADiagramAddComponentImplementationCamelPage extends BaseWizardPag
         if (_startPage != null) {
             Implementation impl = getImplementationFromStartPage();
             if (impl instanceof CamelImplementationType) {
-                // do something with it
-                System.out.println(impl.toString());
-//                CamelImplementationType camelImpl = (CamelImplementationType) impl;
-//                if (camelImpl.getRoute() != null) {
-//                    RouteDefinition defn = camelImpl.getRoute();
-//                    if (!defn.getTo().isEmpty()) {
-//                        if (_camelComposite != null) {
-//                            _camelComposite.set
-//                            _camelRouteToText.setText(defn.getTo().get(0).getUri());
-//                        }
-//                    }
-//                }
+                CamelImplementationType camelImpl = (CamelImplementationType) impl;
+                _camelComposite.setImplementation(camelImpl);
             }
         }
     }

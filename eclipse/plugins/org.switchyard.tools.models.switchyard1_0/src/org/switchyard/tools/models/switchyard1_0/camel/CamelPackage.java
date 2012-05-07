@@ -399,13 +399,22 @@ public interface CamelPackage extends EPackage {
 	int CAMEL_BINDING_TYPE__MESSAGE_COMPOSER = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE__MESSAGE_COMPOSER;
 
 	/**
+     * The feature id for the '<em><b>Config URI</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CAMEL_BINDING_TYPE__CONFIG_URI = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 0;
+
+    /**
      * The number of structural features of the '<em>Binding Type</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int CAMEL_BINDING_TYPE_FEATURE_COUNT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 0;
+	int CAMEL_BINDING_TYPE_FEATURE_COUNT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 1;
 
 	/**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.impl.CamelDirectBindingTypeImpl <em>Direct Binding Type</em>}' class.
@@ -798,13 +807,22 @@ public interface CamelPackage extends EPackage {
 	int CAMEL_IMPLEMENTATION_TYPE__JAVA = ScaPackage.IMPLEMENTATION_FEATURE_COUNT + 1;
 
 	/**
+     * The feature id for the '<em><b>Xml</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int CAMEL_IMPLEMENTATION_TYPE__XML = ScaPackage.IMPLEMENTATION_FEATURE_COUNT + 2;
+
+    /**
      * The number of structural features of the '<em>Implementation Type</em>' class.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-	int CAMEL_IMPLEMENTATION_TYPE_FEATURE_COUNT = ScaPackage.IMPLEMENTATION_FEATURE_COUNT + 2;
+	int CAMEL_IMPLEMENTATION_TYPE_FEATURE_COUNT = ScaPackage.IMPLEMENTATION_FEATURE_COUNT + 3;
 
 	/**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.impl.CamelMockBindingTypeImpl <em>Mock Binding Type</em>}' class.
@@ -1815,6 +1833,35 @@ public interface CamelPackage extends EPackage {
 
 
 	/**
+     * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.impl.XMLDSLTypeImpl <em>XMLDSL Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.switchyard.tools.models.switchyard1_0.camel.impl.XMLDSLTypeImpl
+     * @see org.switchyard.tools.models.switchyard1_0.camel.impl.CamelPackageImpl#getXMLDSLType()
+     * @generated
+     */
+    int XMLDSL_TYPE = 13;
+
+    /**
+     * The feature id for the '<em><b>Path</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int XMLDSL_TYPE__PATH = 0;
+
+    /**
+     * The number of structural features of the '<em>XMLDSL Type</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int XMLDSL_TYPE_FEATURE_COUNT = 1;
+
+
+    /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.CamelAtomBindingType <em>Atom Binding Type</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1945,6 +1992,17 @@ public interface CamelPackage extends EPackage {
 	EClass getCamelBindingType();
 
 	/**
+     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.camel.CamelBindingType#getConfigURI <em>Config URI</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Config URI</em>'.
+     * @see org.switchyard.tools.models.switchyard1_0.camel.CamelBindingType#getConfigURI()
+     * @see #getCamelBindingType()
+     * @generated
+     */
+    EAttribute getCamelBindingType_ConfigURI();
+
+    /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.CamelDirectBindingType <em>Direct Binding Type</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2085,6 +2143,17 @@ public interface CamelPackage extends EPackage {
 	EReference getCamelImplementationType_Java();
 
 	/**
+     * Returns the meta object for the containment reference '{@link org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType#getXml <em>Xml</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the containment reference '<em>Xml</em>'.
+     * @see org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType#getXml()
+     * @see #getCamelImplementationType()
+     * @generated
+     */
+    EReference getCamelImplementationType_Xml();
+
+    /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.CamelMockBindingType <em>Mock Binding Type</em>}'.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2792,6 +2861,27 @@ public interface CamelPackage extends EPackage {
 	EAttribute getJavaDSLType_Class();
 
 	/**
+     * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.XMLDSLType <em>XMLDSL Type</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>XMLDSL Type</em>'.
+     * @see org.switchyard.tools.models.switchyard1_0.camel.XMLDSLType
+     * @generated
+     */
+    EClass getXMLDSLType();
+
+    /**
+     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.camel.XMLDSLType#getPath <em>Path</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Path</em>'.
+     * @see org.switchyard.tools.models.switchyard1_0.camel.XMLDSLType#getPath()
+     * @see #getXMLDSLType()
+     * @generated
+     */
+    EAttribute getXMLDSLType_Path();
+
+    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2914,6 +3004,14 @@ public interface CamelPackage extends EPackage {
 		EClass CAMEL_BINDING_TYPE = eINSTANCE.getCamelBindingType();
 
 		/**
+         * The meta object literal for the '<em><b>Config URI</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute CAMEL_BINDING_TYPE__CONFIG_URI = eINSTANCE.getCamelBindingType_ConfigURI();
+
+        /**
          * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.camel.impl.CamelDirectBindingTypeImpl <em>Direct Binding Type</em>}' class.
          * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3024,6 +3122,14 @@ public interface CamelPackage extends EPackage {
 		EReference CAMEL_IMPLEMENTATION_TYPE__JAVA = eINSTANCE.getCamelImplementationType_Java();
 
 		/**
+         * The meta object literal for the '<em><b>Xml</b></em>' containment reference feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EReference CAMEL_IMPLEMENTATION_TYPE__XML = eINSTANCE.getCamelImplementationType_Xml();
+
+        /**
          * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.camel.impl.CamelMockBindingTypeImpl <em>Mock Binding Type</em>}' class.
          * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3558,6 +3664,24 @@ public interface CamelPackage extends EPackage {
          * @generated
          */
 		EAttribute JAVA_DSL_TYPE__CLASS = eINSTANCE.getJavaDSLType_Class();
+
+        /**
+         * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.camel.impl.XMLDSLTypeImpl <em>XMLDSL Type</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.switchyard.tools.models.switchyard1_0.camel.impl.XMLDSLTypeImpl
+         * @see org.switchyard.tools.models.switchyard1_0.camel.impl.CamelPackageImpl#getXMLDSLType()
+         * @generated
+         */
+        EClass XMLDSL_TYPE = eINSTANCE.getXMLDSLType();
+
+        /**
+         * The meta object literal for the '<em><b>Path</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute XMLDSL_TYPE__PATH = eINSTANCE.getXMLDSLType_Path();
 
 	}
 

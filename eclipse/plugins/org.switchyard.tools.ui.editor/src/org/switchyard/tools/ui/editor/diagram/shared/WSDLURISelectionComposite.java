@@ -271,7 +271,10 @@ public class WSDLURISelectionComposite {
     public void setInterface(Interface cInterface) {
         this._interface = cInterface;
         if (_mWSDLInterfaceURIText != null && !_mWSDLInterfaceURIText.isDisposed()) {
-            _mWSDLInterfaceURIText.setText(((WSDLPortType) this._interface).getInterface());
+            WSDLPortType wPortType = (WSDLPortType) this._interface;
+            if (wPortType.getInterface() != null) {
+                _mWSDLInterfaceURIText.setText(wPortType.getInterface());
+            }
         }
     }
 

@@ -20,6 +20,7 @@ import org.eclipse.soa.sca.sca1_1.model.sca.impl.ImplementationImpl;
 import org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType;
 import org.switchyard.tools.models.switchyard1_0.camel.CamelPackage;
 import org.switchyard.tools.models.switchyard1_0.camel.JavaDSLType;
+import org.switchyard.tools.models.switchyard1_0.camel.XMLDSLType;
 import org.switchyard.tools.models.switchyard1_0.spring.RouteDefinition;
 
 /**
@@ -31,6 +32,7 @@ import org.switchyard.tools.models.switchyard1_0.spring.RouteDefinition;
  * <ul>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.camel.impl.CamelImplementationTypeImpl#getRoute <em>Route</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.camel.impl.CamelImplementationTypeImpl#getJava <em>Java</em>}</li>
+ *   <li>{@link org.switchyard.tools.models.switchyard1_0.camel.impl.CamelImplementationTypeImpl#getXml <em>Xml</em>}</li>
  * </ul>
  * </p>
  *
@@ -58,6 +60,16 @@ public class CamelImplementationTypeImpl extends ImplementationImpl implements C
 	protected JavaDSLType java;
 
 	/**
+     * The cached value of the '{@link #getXml() <em>Xml</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getXml()
+     * @generated
+     * @ordered
+     */
+    protected XMLDSLType xml;
+
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
@@ -164,6 +176,49 @@ public class CamelImplementationTypeImpl extends ImplementationImpl implements C
 
 	/**
      * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public XMLDSLType getXml() {
+        return xml;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetXml(XMLDSLType newXml, NotificationChain msgs) {
+        XMLDSLType oldXml = xml;
+        xml = newXml;
+        if (eNotificationRequired()) {
+            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CamelPackage.CAMEL_IMPLEMENTATION_TYPE__XML, oldXml, newXml);
+            if (msgs == null) msgs = notification; else msgs.add(notification);
+        }
+        return msgs;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setXml(XMLDSLType newXml) {
+        if (newXml != xml) {
+            NotificationChain msgs = null;
+            if (xml != null)
+                msgs = ((InternalEObject)xml).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - CamelPackage.CAMEL_IMPLEMENTATION_TYPE__XML, null, msgs);
+            if (newXml != null)
+                msgs = ((InternalEObject)newXml).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - CamelPackage.CAMEL_IMPLEMENTATION_TYPE__XML, null, msgs);
+            msgs = basicSetXml(newXml, msgs);
+            if (msgs != null) msgs.dispatch();
+        }
+        else if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, CamelPackage.CAMEL_IMPLEMENTATION_TYPE__XML, newXml, newXml));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
      */
@@ -174,6 +229,8 @@ public class CamelImplementationTypeImpl extends ImplementationImpl implements C
                 return basicSetRoute(null, msgs);
             case CamelPackage.CAMEL_IMPLEMENTATION_TYPE__JAVA:
                 return basicSetJava(null, msgs);
+            case CamelPackage.CAMEL_IMPLEMENTATION_TYPE__XML:
+                return basicSetXml(null, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -190,6 +247,8 @@ public class CamelImplementationTypeImpl extends ImplementationImpl implements C
                 return getRoute();
             case CamelPackage.CAMEL_IMPLEMENTATION_TYPE__JAVA:
                 return getJava();
+            case CamelPackage.CAMEL_IMPLEMENTATION_TYPE__XML:
+                return getXml();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -207,6 +266,9 @@ public class CamelImplementationTypeImpl extends ImplementationImpl implements C
                 return;
             case CamelPackage.CAMEL_IMPLEMENTATION_TYPE__JAVA:
                 setJava((JavaDSLType)newValue);
+                return;
+            case CamelPackage.CAMEL_IMPLEMENTATION_TYPE__XML:
+                setXml((XMLDSLType)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -226,6 +288,9 @@ public class CamelImplementationTypeImpl extends ImplementationImpl implements C
             case CamelPackage.CAMEL_IMPLEMENTATION_TYPE__JAVA:
                 setJava((JavaDSLType)null);
                 return;
+            case CamelPackage.CAMEL_IMPLEMENTATION_TYPE__XML:
+                setXml((XMLDSLType)null);
+                return;
         }
         super.eUnset(featureID);
     }
@@ -242,6 +307,8 @@ public class CamelImplementationTypeImpl extends ImplementationImpl implements C
                 return route != null;
             case CamelPackage.CAMEL_IMPLEMENTATION_TYPE__JAVA:
                 return java != null;
+            case CamelPackage.CAMEL_IMPLEMENTATION_TYPE__XML:
+                return xml != null;
         }
         return super.eIsSet(featureID);
     }

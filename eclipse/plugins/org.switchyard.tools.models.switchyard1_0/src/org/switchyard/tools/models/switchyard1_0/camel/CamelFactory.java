@@ -143,6 +143,15 @@ public interface CamelFactory extends EFactory {
 	JavaDSLType createJavaDSLType();
 
 	/**
+     * Returns a new object of class '<em>XMLDSL Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>XMLDSL Type</em>'.
+     * @generated
+     */
+    XMLDSLType createXMLDSLType();
+
+    /**
      * Returns the package supported by this factory.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

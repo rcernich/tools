@@ -73,6 +73,7 @@ public class CamelFactoryImpl extends EFactoryImpl implements CamelFactory {
             case CamelPackage.FILE_CONSUMER_TYPE: return createFileConsumerType();
             case CamelPackage.FILE_PRODUCER_TYPE: return createFileProducerType();
             case CamelPackage.JAVA_DSL_TYPE: return createJavaDSLType();
+            case CamelPackage.XMLDSL_TYPE: return createXMLDSLType();
             default:
                 throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
         }
@@ -209,6 +210,16 @@ public class CamelFactoryImpl extends EFactoryImpl implements CamelFactory {
     }
 
 	/**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public XMLDSLType createXMLDSLType() {
+        XMLDSLTypeImpl xmldslType = new XMLDSLTypeImpl();
+        return xmldslType;
+    }
+
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated

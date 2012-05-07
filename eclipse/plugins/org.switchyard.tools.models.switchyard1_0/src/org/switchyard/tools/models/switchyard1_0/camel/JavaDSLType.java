@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.switchyard.tools.models.switchyard1_0.camel.CamelPackage#getJavaDSLType()
- * @model extendedMetaData="name='JavaDSLType' kind='empty'"
+ * @model extendedMetaData="name='JavaDSLType' kind='elementOnly'"
  * @generated
  */
 public interface JavaDSLType extends EObject {

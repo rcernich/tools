@@ -20,6 +20,7 @@ import org.switchyard.tools.models.switchyard1_0.spring.RouteDefinition;
  * <ul>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType#getRoute <em>Route</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType#getJava <em>Java</em>}</li>
+ *   <li>{@link org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType#getXml <em>Xml</em>}</li>
  * </ul>
  * </p>
  *
@@ -80,5 +81,31 @@ public interface CamelImplementationType extends Implementation {
      * @generated
      */
 	void setJava(JavaDSLType value);
+
+    /**
+     * Returns the value of the '<em><b>Xml</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Xml</em>' containment reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Xml</em>' containment reference.
+     * @see #setXml(XMLDSLType)
+     * @see org.switchyard.tools.models.switchyard1_0.camel.CamelPackage#getCamelImplementationType_Xml()
+     * @model containment="true"
+     * @generated
+     */
+    XMLDSLType getXml();
+
+    /**
+     * Sets the value of the '{@link org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType#getXml <em>Xml</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Xml</em>' containment reference.
+     * @see #getXml()
+     * @generated
+     */
+    void setXml(XMLDSLType value);
 
 } // CamelImplementationType

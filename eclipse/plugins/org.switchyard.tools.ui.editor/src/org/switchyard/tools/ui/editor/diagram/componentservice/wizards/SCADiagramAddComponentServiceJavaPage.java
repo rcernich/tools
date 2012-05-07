@@ -89,9 +89,11 @@ public class SCADiagramAddComponentServiceJavaPage extends BaseWizardPage implem
             @Override
             public void widgetSelected(SelectionEvent e) {
                 String out = browseForClass();
-                _javaInterfaceNameText.setText(out);
-                if (_startPage != null && _startPage.getInterface() instanceof JavaInterface) {
-                    ((JavaInterface) _startPage.getInterface()).setInterface(out);
+                if (out != null) {
+                    _javaInterfaceNameText.setText(out);
+                    if (_startPage != null && _startPage.getInterface() instanceof JavaInterface) {
+                        ((JavaInterface) _startPage.getInterface()).setInterface(out);
+                    }
                 }
             }
 
@@ -161,8 +163,11 @@ public class SCADiagramAddComponentServiceJavaPage extends BaseWizardPage implem
 
     @Override
     public void refresh() {
-        if (_startPage != null && _startPage.getInterface() instanceof JavaInterface) {
-            _javaInterfaceNameText.setText(((JavaInterface) _startPage.getInterface()).getInterface());
+        if (_startPage != null && _startPage.getInterface() instanceof JavaInterface && _javaInterfaceNameText != null && !_javaInterfaceNameText.isDisposed()) {
+            JavaInterface interfaceToTest = (JavaInterface) _startPage.getInterface();
+            if (interfaceToTest.getInterface() != null) {
+                _javaInterfaceNameText.setText(interfaceToTest.getInterface());
+            }
         }
     }
 }

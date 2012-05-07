@@ -46,8 +46,11 @@ import org.open.oasis.docs.ns.opencsa.sca.bpel.BPELPackage;
 import org.switchyard.tools.models.switchyard1_0.bean.BeanPackage;
 import org.switchyard.tools.models.switchyard1_0.bpm.BPMPackage;
 import org.switchyard.tools.models.switchyard1_0.camel.CamelBindingType;
+import org.switchyard.tools.models.switchyard1_0.camel.CamelFactory;
 import org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType;
 import org.switchyard.tools.models.switchyard1_0.camel.CamelPackage;
+import org.switchyard.tools.models.switchyard1_0.camel.JavaDSLType;
+import org.switchyard.tools.models.switchyard1_0.camel.XMLDSLType;
 import org.switchyard.tools.models.switchyard1_0.clojure.ClojurePackage;
 import org.switchyard.tools.models.switchyard1_0.commonrules.CommonRulesPackage;
 import org.switchyard.tools.models.switchyard1_0.hornetq.HornetQPackage;
@@ -309,6 +312,30 @@ public class ModelHandler {
     }
 
     /**
+     * @param source camel implementation
+     * @return new XML DSL type class
+     */
+    public XMLDSLType createCamelXMLDSLType(CamelImplementationType source) {
+        XMLDSLType xmlDSLType = createCamel(XMLDSLType.class);
+        if (xmlDSLType != null) {
+            source.setXml(xmlDSLType);
+        }
+        return xmlDSLType;
+    }
+
+    /**
+     * @param source camel implementation
+     * @return new Java DSL type class
+     */
+    public JavaDSLType createCamelJavaDSLType(CamelImplementationType source) {
+        JavaDSLType javaDSLType = createCamel(JavaDSLType.class);
+        if (javaDSLType != null) {
+            source.setJava(javaDSLType);
+        }
+        return javaDSLType;
+    }
+
+    /**
      * @param source Camel implementation to create route for
      * @return new route definition
      */
@@ -416,6 +443,26 @@ public class ModelHandler {
         return (T) newObject;
     }
 
+    /**
+    * @param clazz the class from the Camel factory to create
+     * @param <T> the class 
+     * @return the class instance
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends EObject> T createCamel(Class<T> clazz) {
+        EObject newObject = null;
+        EClassifier eClassifier = CamelPackage.eINSTANCE.getEClassifier(clazz.getSimpleName());
+        if (eClassifier instanceof EClass) {
+            EClass eClass = (EClass) eClassifier;
+            newObject = CamelFactory.eINSTANCE.create(eClass);
+        }
+
+        if (newObject != null) {
+            initialize(newObject);
+        }
+
+        return (T) newObject;
+    }
     /**
      * @param clazz the class from the SOAP factory to create
      * @param <T> the class 

@@ -26,7 +26,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
@@ -73,9 +72,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType;
-import org.switchyard.tools.models.switchyard1_0.spring.RouteDefinition;
-import org.switchyard.tools.models.switchyard1_0.spring.SpringFactory;
-import org.switchyard.tools.models.switchyard1_0.spring.ToDefinition;
+import org.switchyard.tools.models.switchyard1_0.camel.JavaDSLType;
+import org.switchyard.tools.models.switchyard1_0.camel.XMLDSLType;
 import org.switchyard.tools.ui.editor.core.ModelHandler;
 import org.switchyard.tools.ui.editor.core.ModelHandlerLocator;
 
@@ -409,28 +407,21 @@ public class CamelRouteSelectionComposite {
                 Implementation impl = _implementation;
                 if (impl instanceof CamelImplementationType) {
                     CamelImplementationType camelImpl = (CamelImplementationType) impl;
-                    RouteDefinition defn = camelImpl.getRoute();
-                    boolean alreadyExists = false;
-                    if (defn != null) {
-                        EList<ToDefinition> toDefs = defn.getTo();
-                        for (ToDefinition toDefinition : toDefs) {
-                            if (toDefinition.getUri().contentEquals(_camelRouteFilePath)) {
-                                alreadyExists = true;
-                                break;
-                            }
+                    if (_mXMLText != null && !_mXMLText.isDisposed() && _mXMLText.isEnabled()) {
+                        // handle xml file path
+                        XMLDSLType xmltype = camelImpl.getXml();
+                        if (xmltype == null) {
+                            xmltype = mh.createCamelXMLDSLType(camelImpl);
                         }
-                    }
-                    EList<ToDefinition> toDefs = null;
-                    if (!alreadyExists) {
-                        defn = mh.createRouteDefinition(camelImpl);
-                        toDefs = defn.getTo();
-                    } else {
-                        toDefs = defn.getTo();
-                    }
-                    if (defn != null && toDefs != null) {
-                        ToDefinition todef = SpringFactory.eINSTANCE.createToDefinition();
-                        todef.setUri(_camelRouteFilePath);
-                        toDefs.add(todef);
+//                        camelImpl.getXml().eSet(CamelPackage.eINSTANCE.getXMLDSLType().getEStructuralFeature(CamelPackage.XMLDSL_TYPE__PATH), _mXMLText.getText());
+                        xmltype.setPath(_mXMLText.getText());
+                    } else if (_mClassText != null && !_mClassText.isDisposed() && _mClassText.isEnabled()) {
+                        // handle java class name
+                        JavaDSLType javatype = camelImpl.getJava();
+                        if (javatype == null) {
+                            javatype = mh.createCamelJavaDSLType(camelImpl);
+                        }
+                        javatype.setClass(_mClassText.getText());
                     }
                 }
             } catch (IOException e) {
@@ -471,15 +462,20 @@ public class CamelRouteSelectionComposite {
     }
 
     /**
-     * @param cInterface interface
+     * @param cImplementation implementation coming in
      */
-    public void setImplementation(Implementation cInterface) {
-        this._implementation = cInterface;
-        // if (_camelRouteFilePathText != null &&
-        // !_camelRouteFilePathText.isDisposed()) {
-        // _camelRouteFilePathText.setText(((CamelImplementationType)
-        // this._implementation).getRoute().getTo().toString());
-        // }
+    public void setImplementation(Implementation cImplementation) {
+        this._implementation = cImplementation;
+        if (this._implementation != null && this._implementation instanceof CamelImplementationType) {
+            CamelImplementationType camelImpl = (CamelImplementationType) this._implementation;
+            if (camelImpl.getJava() != null) {
+                this._mClassText.setText(camelImpl.getJava().getClass_());
+                handleModify();
+            } else if (camelImpl.getXml() != null) {
+                this._mXMLText.setText(camelImpl.getXml().getPath());
+                handleModify();
+            }
+        }
     }
 
     /**
