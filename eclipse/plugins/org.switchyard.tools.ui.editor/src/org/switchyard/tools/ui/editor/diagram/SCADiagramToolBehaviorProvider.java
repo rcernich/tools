@@ -20,7 +20,9 @@ import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IDoubleClickContext;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
+import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
@@ -42,6 +44,9 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.switchyard.tools.models.switchyard1_0.hornetq.BindingType;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType;
 import org.switchyard.tools.ui.editor.ImageProvider;
+import org.switchyard.tools.ui.editor.diagram.component.SCADiagramDoubleClickComponentFeature;
+import org.switchyard.tools.ui.editor.diagram.compositereference.SCADiagramDoubleClickCompositeReferenceFeature;
+import org.switchyard.tools.ui.editor.diagram.service.SCADiagramDoubleClickServiceFeature;
 
 /**
  * @author bfitzpat
@@ -236,5 +241,25 @@ public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider 
 
         return data;
     }
+
+    @Override
+    public ICustomFeature getDoubleClickFeature(IDoubleClickContext context) {
+        if (context.getPictogramElements() != null) {
+            PictogramElement[] elements = context.getPictogramElements();
+            if (elements.length > 0) {
+                PictogramElement firstOne = elements[0];
+                Object bo = getFeatureProvider().getBusinessObjectForPictogramElement(firstOne);
+                if (bo instanceof Component) {
+                    return new SCADiagramDoubleClickComponentFeature(getFeatureProvider());
+                } else if (bo instanceof Service) {
+                    return new SCADiagramDoubleClickCompositeReferenceFeature(getFeatureProvider());
+                } else if (bo instanceof Reference) {
+                    return new SCADiagramDoubleClickServiceFeature(getFeatureProvider());
+                }
+            }
+        }
+        return super.getDoubleClickFeature(context);
+    }
+
 
 }
