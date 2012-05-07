@@ -155,9 +155,8 @@ public class SCADiagramAddComponentReferenceJavaPage extends BaseWizardPage impl
             if (_startPage.getInterface() instanceof JavaInterface) {
                 return false;
             }
-            return true;
         }
-        return super.getSkippable();
+        return true;
     }
 
     @Override
