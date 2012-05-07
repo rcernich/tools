@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.switchyard.tools.models.switchyard1_0.camel.CamelPackage#getXMLDSLType()
- * @model extendedMetaData="name='JavaDSLType' kind='elementOnly'"
+ * @model extendedMetaData="name='XMLDSLType' kind='elementOnly'"
  * @generated
  */
 public interface XMLDSLType extends EObject {
@@ -37,7 +37,7 @@ public interface XMLDSLType extends EObject {
      * @see #setPath(String)
      * @see org.switchyard.tools.models.switchyard1_0.camel.CamelPackage#getXMLDSLType_Path()
      * @model dataType="org.eclipse.emf.ecore.xml.type.String"
-     *        extendedMetaData="kind='attribute' name='class'"
+     *        extendedMetaData="kind='attribute' name='path'"
      * @generated
      */
     String getPath();

@@ -21,13 +21,13 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -52,18 +52,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
-import org.eclipse.ui.internal.LegacyResourceSupport;
-import org.eclipse.ui.internal.util.Util;
 import org.eclipse.wst.wsdl.ui.internal.wizards.NewWSDLWizard;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.ContextMapperType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
+import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 
 /**
  * @author bfitzpat
@@ -473,31 +469,19 @@ public class WSDLURISelectionComposite {
         fileDialog.setFilterExtensions(new String[] {"*." + fileExt }); //$NON-NLS-1$
         fileDialog.setFilterNames(new String[] {extName });
         fileDialog.setText("Select WSDL File from File System");
+        IFile modelFile = SwitchyardSCAEditor.getActiveEditor().getModelFile();
+        if (modelFile != null) {
+            fileDialog.setFilterPath(modelFile.getParent().getLocation().makeAbsolute().toOSString());
+        }
         return fileDialog.open();
     }
 
     private static String getPathToNewWSDL(final Shell shell) {
         NewWSDLWizard newWizard = new NewWSDLWizard();
-        ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService()
-                .getSelection();
+        IFile modelFile = SwitchyardSCAEditor.getActiveEditor().getModelFile();
         IStructuredSelection selectionToPass = StructuredSelection.EMPTY;
-        if (selection instanceof IStructuredSelection) {
-            selectionToPass = (IStructuredSelection) selection;
-        } else {
-            // @issue the following is resource-specific legacy code
-            // Build the selection from the IFile of the editor
-            Class<?> resourceClass = LegacyResourceSupport.getResourceClass();
-            if (resourceClass != null) {
-                IWorkbenchPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
-                        .getActivePart();
-                if (part instanceof IEditorPart) {
-                    IEditorInput input = ((IEditorPart) part).getEditorInput();
-                    Object resource = Util.getAdapter(input, resourceClass);
-                    if (resource != null) {
-                        selectionToPass = new StructuredSelection(resource);
-                    }
-                }
-            }
+        if (modelFile != null) {
+            selectionToPass = new StructuredSelection(modelFile);
         }
         newWizard.init(PlatformUI.getWorkbench(), selectionToPass);
         WizardDialog dialog = new WizardDialog(shell, newWizard);

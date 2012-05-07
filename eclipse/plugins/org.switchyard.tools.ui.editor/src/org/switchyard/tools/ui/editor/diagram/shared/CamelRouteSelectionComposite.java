@@ -76,6 +76,7 @@ import org.switchyard.tools.models.switchyard1_0.camel.JavaDSLType;
 import org.switchyard.tools.models.switchyard1_0.camel.XMLDSLType;
 import org.switchyard.tools.ui.editor.core.ModelHandler;
 import org.switchyard.tools.ui.editor.core.ModelHandlerLocator;
+import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 
 /**
  * @author bfitzpat
@@ -470,9 +471,9 @@ public class CamelRouteSelectionComposite {
             CamelImplementationType camelImpl = (CamelImplementationType) this._implementation;
             if (camelImpl.getJava() != null) {
                 this._mClassText.setText(camelImpl.getJava().getClass_());
-                handleModify();
             } else if (camelImpl.getXml() != null) {
                 this._mXMLText.setText(camelImpl.getXml().getPath());
+            } else {
                 handleModify();
             }
         }
@@ -645,6 +646,10 @@ public class CamelRouteSelectionComposite {
         dialog.setAllowMultiple(false);
         dialog.setDoubleClickSelects(true);
         dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
+        IFile modelFile = SwitchyardSCAEditor.getActiveEditor().getModelFile();
+        if (modelFile != null) {
+            dialog.setInitialSelection(modelFile.getParent());
+        }
         if (dialog.open() == Window.OK) {
             IResource sel = (IResource) dialog.getFirstResult();
             if (sel.getType() == IResource.FILE) {
@@ -685,11 +690,10 @@ public class CamelRouteSelectionComposite {
 
     private static String getPathToNewXML(final Shell shell, String defaultName) {
         NewRouteFileWizard newWizard = new NewRouteFileWizard();
-        ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService()
-                .getSelection();
+        IFile modelFile = SwitchyardSCAEditor.getActiveEditor().getModelFile();
         IStructuredSelection selectionToPass = StructuredSelection.EMPTY;
-        if (selection instanceof IStructuredSelection) {
-            selectionToPass = (IStructuredSelection) selection;
+        if (modelFile != null) {
+            selectionToPass = new StructuredSelection(modelFile);
         }
         newWizard.init(PlatformUI.getWorkbench(), selectionToPass);
         newWizard.setCreatedFilePath(defaultName);
