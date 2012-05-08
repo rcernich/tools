@@ -44,9 +44,6 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.switchyard.tools.models.switchyard1_0.hornetq.BindingType;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType;
 import org.switchyard.tools.ui.editor.ImageProvider;
-import org.switchyard.tools.ui.editor.diagram.component.SCADiagramDoubleClickComponentFeature;
-import org.switchyard.tools.ui.editor.diagram.compositereference.SCADiagramDoubleClickCompositeReferenceFeature;
-import org.switchyard.tools.ui.editor.diagram.service.SCADiagramDoubleClickServiceFeature;
 
 /**
  * @author bfitzpat
@@ -249,17 +246,12 @@ public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider 
             if (elements.length > 0) {
                 PictogramElement firstOne = elements[0];
                 Object bo = getFeatureProvider().getBusinessObjectForPictogramElement(firstOne);
-                if (bo instanceof Component) {
-                    return new SCADiagramDoubleClickComponentFeature(getFeatureProvider());
-                } else if (bo instanceof Service) {
-                    return new SCADiagramDoubleClickCompositeReferenceFeature(getFeatureProvider());
-                } else if (bo instanceof Reference) {
-                    return new SCADiagramDoubleClickServiceFeature(getFeatureProvider());
+                if (bo instanceof Component || bo instanceof Service || bo instanceof Reference) {
+                    return new SCADiagramOpenOnDoubleClickFeature(getFeatureProvider());
                 }
             }
         }
         return super.getDoubleClickFeature(context);
     }
-
 
 }

@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.graphiti,
  org.eclipse.jdt.core,
  org.eclipse.jdt.ui,
  org.eclipse.wst.common.ui;bundle-version="1.1.500",
- org.eclipse.wst.wsdl.ui;bundle-version="1.2.403"
+ org.eclipse.wst.wsdl.ui;bundle-version="1.2.403",
+ org.eclipse.jface.text
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.switchyard.tools.ui.editor,
