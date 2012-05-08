@@ -24,7 +24,7 @@ import org.switchyard.tools.ui.editor.diagram.internal.wizards.BaseWizard;
  * @author bfitzpat
  *
  */
-public class SCADiagramAddInterfaceWizard extends BaseWizard {
+public class SCADiagramAddServiceInterfaceWizard extends BaseWizard {
 
     @Override
     public boolean canFinish() {
@@ -34,7 +34,7 @@ public class SCADiagramAddInterfaceWizard extends BaseWizard {
         return super.canFinish();
     }
 
-    private SCADiagramAddInterfaceStartPage _startPage = null;
+    private SCADiagramAddServiceInterfaceStartPage _startPage = null;
     private SCADiagramAddCompositeServiceJavaPage _javaPage = null;
     private SCADiagramAddCompositeServiceWSDLPage _wsdlPage = null;
     
@@ -44,10 +44,10 @@ public class SCADiagramAddInterfaceWizard extends BaseWizard {
     /**
      * Constructor.
      */
-    public SCADiagramAddInterfaceWizard() {
+    public SCADiagramAddServiceInterfaceWizard() {
         super();
         initPages();
-        setWindowTitle("New Implementation");
+        setWindowTitle("New Service Interface");
     }
 
     /**
@@ -88,9 +88,9 @@ public class SCADiagramAddInterfaceWizard extends BaseWizard {
     }
 
     private void initPages() {
-        _startPage = new SCADiagramAddInterfaceStartPage("start");
+        _startPage = new SCADiagramAddServiceInterfaceStartPage("start");
         _javaPage = new SCADiagramAddCompositeServiceJavaPage(_startPage, "camel");
-        _wsdlPage = new SCADiagramAddCompositeServiceWSDLPage("wsdl");
+        _wsdlPage = new SCADiagramAddCompositeServiceWSDLPage(_startPage, "wsdl");
     }
 
     @Override

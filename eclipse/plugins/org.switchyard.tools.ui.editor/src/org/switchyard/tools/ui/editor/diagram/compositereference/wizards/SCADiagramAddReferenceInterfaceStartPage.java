@@ -10,7 +10,7 @@
  *
  * @author bfitzpat
  ******************************************************************************/
-package org.switchyard.tools.ui.editor.diagram.service.wizards;
+package org.switchyard.tools.ui.editor.diagram.compositereference.wizards;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +35,9 @@ import org.switchyard.tools.ui.editor.diagram.internal.wizards.BaseWizardPage;
 
 /**
  * @author bfitzpat
- *
+ * 
  */
-public class SCADiagramAddInterfaceStartPage extends BaseWizardPage {
+public class SCADiagramAddReferenceInterfaceStartPage extends BaseWizardPage {
 
     private ListViewer _listViewer;
     private Interface _interface = null;
@@ -53,10 +53,10 @@ public class SCADiagramAddInterfaceStartPage extends BaseWizardPage {
      */
     private final static int LIST_HEIGHT = 10;
 
-    protected SCADiagramAddInterfaceStartPage(String pageName) {
+    protected SCADiagramAddReferenceInterfaceStartPage(String pageName) {
         super(pageName);
         setTitle("Specify an Interface");
-        setDescription("Specify the interface type details for the new promoted service.");
+        setDescription("Specify the interface type details for the new promoted reference.");
     }
 
     @Override
@@ -90,14 +90,14 @@ public class SCADiagramAddInterfaceStartPage extends BaseWizardPage {
                     if (javaInterface.getInterface() == null || javaInterface.getInterface().trim().length() == 0) {
                         return "Java";
                     } else {
-                        return "Java (Inherited from Component Service)";
+                        return "Inherited (" + javaInterface.getInterface() + ")";
                     }
                 } else if (interfaceType instanceof WSDLPortType) {
                     WSDLPortType wsdlInterface = (WSDLPortType) interfaceType;
                     if (wsdlInterface.getInterface() == null || wsdlInterface.getInterface().trim().length() == 0) {
                         return "WSDL";
                     } else {
-                        return ("WSDL (Inherited from Component Service");
+                        return "Inherited (" + wsdlInterface.getInterface() + ")";
                     }
                 } else {
                     return "";
@@ -176,7 +176,49 @@ public class SCADiagramAddInterfaceStartPage extends BaseWizardPage {
      * @param inheritedInterface interface from the component service to promote
      */
     public void setInheritedInterface(Interface inheritedInterface) {
-        this._inheritedInterface = inheritedInterface;
+        this._inheritedInterface = copyInterface(inheritedInterface);
     }
 
+    private Interface copyInterface(Interface incoming) {
+        if (incoming instanceof JavaInterface) {
+            JavaInterface oldInterface = (JavaInterface) incoming;
+            JavaInterface newInterface = ScaFactory.eINSTANCE.createJavaInterface();
+            newInterface.setInterface(oldInterface.getInterface());
+            return newInterface;
+        } else if (incoming instanceof WSDLPortType) {
+            WSDLPortType oldInterface = (WSDLPortType) incoming;
+            WSDLPortType newInterface = ScaFactory.eINSTANCE.createWSDLPortType();
+            newInterface.setInterface(oldInterface.getInterface());
+            return newInterface;
+        }
+        return null;
+    }
+
+    /**
+     * @param source Interface 1
+     * @param target Interface 2
+     * @return true/false are they equal?
+     */
+    protected boolean interfaceIsEqual(Interface source, Interface target) {
+        if (source instanceof JavaInterface && target instanceof JavaInterface) {
+            JavaInterface oldInterface = (JavaInterface) source;
+            JavaInterface newInterface = (JavaInterface) target;
+            if (oldInterface.getInterface() == null || newInterface.getInterface() == null) {
+                return false;
+            } else if (!oldInterface.getInterface().equals(newInterface.getInterface())) {
+                return false;
+            }
+            return true;
+        } else if (source instanceof WSDLPortType && target instanceof WSDLPortType) {
+            WSDLPortType oldInterface = (WSDLPortType) source;
+            WSDLPortType newInterface = (WSDLPortType) target;
+            if (oldInterface.getInterface() == null || newInterface.getInterface() == null) {
+                return false;
+            } else if (!oldInterface.getInterface().equals(newInterface.getInterface())) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
 }

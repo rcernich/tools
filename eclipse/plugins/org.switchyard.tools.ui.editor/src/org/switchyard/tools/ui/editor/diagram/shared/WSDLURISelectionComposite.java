@@ -83,6 +83,7 @@ public class WSDLURISelectionComposite {
     private Label _portLabel;
     private String _bindingPort = null;
     private GridData _rootGridData = null;
+    private boolean _canEdit = true;
 
     private Button _browseBtnWorkspace;
     private Button _browseBtnFile;
@@ -112,6 +113,7 @@ public class WSDLURISelectionComposite {
         _newWSDLLink = new Link(_panel, SWT.NONE);
         String message = "<a>WSDL URI:</a>";
         _newWSDLLink.setText(message);
+        _newWSDLLink.setEnabled(_canEdit);
         // link.setSize(400, 100);
         _newWSDLLink.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -128,6 +130,7 @@ public class WSDLURISelectionComposite {
         if (_interface != null && _interface instanceof WSDLPortType) {
             _mWSDLInterfaceURIText.setText(((WSDLPortType) _interface).getInterface());
         }
+        _mWSDLInterfaceURIText.setEnabled(_canEdit);
         _mWSDLInterfaceURIText.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 handleModify();
@@ -140,6 +143,7 @@ public class WSDLURISelectionComposite {
 
         _browseBtnWorkspace = new Button(_panel, SWT.PUSH);
         _browseBtnWorkspace.setText("Workspace...");
+        _browseBtnWorkspace.setEnabled(_canEdit);
         GridData btnGD = new GridData();
         _browseBtnWorkspace.setLayoutData(btnGD);
         _browseBtnWorkspace.addSelectionListener(new SelectionAdapter() {
@@ -155,6 +159,7 @@ public class WSDLURISelectionComposite {
 
         _browseBtnFile = new Button(_panel, SWT.PUSH);
         _browseBtnFile.setText("File System...");
+        _browseBtnFile.setEnabled(_canEdit);
         GridData btnGD2 = new GridData();
         _browseBtnFile.setLayoutData(btnGD2);
         _browseBtnFile.addSelectionListener(new SelectionAdapter() {
@@ -270,6 +275,8 @@ public class WSDLURISelectionComposite {
             WSDLPortType wPortType = (WSDLPortType) this._interface;
             if (wPortType.getInterface() != null) {
                 _mWSDLInterfaceURIText.setText(wPortType.getInterface());
+            } else {
+                _mWSDLInterfaceURIText.setText("MyService.wsdl");
             }
         }
     }
@@ -489,5 +496,31 @@ public class WSDLURISelectionComposite {
             return newWizard.getNewFile().getFullPath().makeRelative().toPortableString();
         }
         return null;
+    }
+
+    /**
+     * @return flag
+     */
+    public boolean canEdit() {
+        return _canEdit;
+    }
+
+    /**
+     * @param canEdit flag
+     */
+    public void setCanEdit(boolean canEdit) {
+        this._canEdit = canEdit;
+        if (this._mWSDLInterfaceURIText != null && !this._mWSDLInterfaceURIText.isDisposed()) {
+            this._mWSDLInterfaceURIText.setEnabled(_canEdit);
+        }
+        if (this._newWSDLLink != null && !this._newWSDLLink.isDisposed()) {
+            this._newWSDLLink.setEnabled(_canEdit);
+        }
+        if (this._browseBtnFile != null && !this._browseBtnFile.isDisposed()) {
+            this._browseBtnFile.setEnabled(_canEdit);
+        }
+        if (this._browseBtnWorkspace != null && !this._browseBtnWorkspace.isDisposed()) {
+            this._browseBtnWorkspace.setEnabled(_canEdit);
+        }
     }
 }

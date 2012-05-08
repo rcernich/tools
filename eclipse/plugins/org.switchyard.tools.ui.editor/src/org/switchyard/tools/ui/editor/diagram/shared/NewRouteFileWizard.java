@@ -1,3 +1,15 @@
+/******************************************************************************* 
+ * Copyright (c) 2012 Red Hat, Inc. 
+ *  All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ *
+ * @author bfitzpat
+ ******************************************************************************/
 package org.switchyard.tools.ui.editor.diagram.shared;
 
 import java.io.IOException;
@@ -10,6 +22,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -19,6 +32,10 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewFileResourceWizard;
 import org.switchyard.tools.ui.editor.Activator;
 
+/**
+ * @author bfitzpat
+ * 
+ */
 class NewRouteFileWizard extends BasicNewFileResourceWizard {
 
     private boolean _openFileAfterCreate = false;
@@ -33,7 +50,7 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
      */
     @Override
     public boolean performFinish() {
-        WizardNewFileCreationPage filePage = (WizardNewFileCreationPage) getPage("newFilePage1");
+        RouteFileCreationPage filePage = (RouteFileCreationPage) getPage("newFilePage1");
         if (filePage != null) {
             IFile file = filePage.createNewFile();
             if (file == null) {
@@ -41,10 +58,10 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
             }
 
             _createdFilePath = file.getProjectRelativePath().toPortableString();
-            
+
             try {
-                InputStream inputStream = FileLocator.openStream(
-                        Activator.getDefault().getBundle(), new Path("resources/RouteXMLTemplate.xml"), false);
+                InputStream inputStream = FileLocator.openStream(Activator.getDefault().getBundle(), new Path(
+                        "resources/RouteXMLTemplate.xml"), false);
                 file.setContents(inputStream, true, true, null);
             } catch (CoreException e1) {
                 e1.printStackTrace();
@@ -52,20 +69,9 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
                 e2.printStackTrace();
             }
 
-//            String input = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-//                    + "<route xmlns=\"http://camel.apache.org/schema/spring\">\n"
-//                    + "    <from uri=\"switchyard://${service.name}\"/>\n"
-//                    + "    <log message=\"${service.name} - message received: ${body}\"/>\n" + "</route>";
-//            ByteArrayInputStream bais = new ByteArrayInputStream(input.getBytes());
-//            try {
-//                file.setContents(bais, true, true, null);
-//            } catch (CoreException e1) {
-//                e1.printStackTrace();
-//            }
-
-            selectAndReveal(file);
-
             if (_openFileAfterCreate) {
+                selectAndReveal(file);
+
                 // Open editor on new file.
                 IWorkbenchWindow dw = getWorkbench().getActiveWorkbenchWindow();
                 try {
@@ -80,14 +86,15 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
                             .log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getLocalizedMessage()));
                 }
             }
+            return true;
         }
-        return super.performFinish();
+        return false;
     }
 
     public String getCreatedFilePath() {
         return _createdFilePath;
     }
-    
+
     public void setCreatedFilePath(String inPath) {
         this._createdFilePath = inPath;
     }
@@ -100,8 +107,9 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
      */
     @Override
     public void addPages() {
-        super.addPages();
-        WizardNewFileCreationPage filePage = (WizardNewFileCreationPage) getPage("newFilePage1");
+        RouteFileCreationPage filePage = new RouteFileCreationPage("newFilePage1", getSelection());
+        // WizardNewFileCreationPage filePage = (WizardNewFileCreationPage)
+        // getPage("newFilePage1");
         if (filePage != null) {
             filePage.setTitle("Route File");
             filePage.setDescription("Create a new Camel Route file resource.");
@@ -110,6 +118,8 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
                 filePage.setFileName(_createdFilePath);
             }
         }
+        // super.addPages();
+        addPage(filePage);
     }
 
     /*
@@ -123,6 +133,29 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
     public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
         super.init(workbench, currentSelection);
         setWindowTitle("New Route File");
+    }
+
+    private class RouteFileCreationPage extends WizardNewFileCreationPage {
+
+        public RouteFileCreationPage(String pageName, IStructuredSelection selection) {
+            super(pageName, selection);
+        }
+
+        @Override
+        protected void createAdvancedControls(Composite parent) {
+            // empty - no controls
+        }
+
+        @Override
+        protected IStatus validateLinkedResource() {
+            return Status.OK_STATUS;
+        }
+
+        @Override
+        protected void createLinkTarget() {
+            // empty
+        }
+
     }
 
 }

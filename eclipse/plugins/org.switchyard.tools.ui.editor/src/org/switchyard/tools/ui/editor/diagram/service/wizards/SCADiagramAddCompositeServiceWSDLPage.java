@@ -15,6 +15,8 @@ package org.switchyard.tools.ui.editor.diagram.service.wizards;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.soa.sca.sca1_1.model.sca.Interface;
 import org.eclipse.soa.sca.sca1_1.model.sca.WSDLPortType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -28,14 +30,15 @@ import org.switchyard.tools.ui.editor.diagram.shared.WSDLURISelectionComposite;
  */
 public class SCADiagramAddCompositeServiceWSDLPage extends BaseWizardPage implements IRefreshablePage {
 
-    private SCADiagramAddCompositeServiceStartPage _startPage = null;
+    private WizardPage _startPage = null;
     private WSDLURISelectionComposite _uriComposite = null;
+    private boolean _canEdit = true;
 
     /**
      * @param start start page
      * @param pageName page name
      */
-    public SCADiagramAddCompositeServiceWSDLPage(SCADiagramAddCompositeServiceStartPage start, String pageName) {
+    public SCADiagramAddCompositeServiceWSDLPage(WizardPage start, String pageName) {
         this(pageName);
         this._startPage = start;
     }
@@ -49,8 +52,9 @@ public class SCADiagramAddCompositeServiceWSDLPage extends BaseWizardPage implem
     @Override
     public void createControl(Composite parent) {
         _uriComposite = new WSDLURISelectionComposite();
-        if (_startPage != null && _startPage.getInterface() != null) {
-            _uriComposite.setInterface(_startPage.getInterface());
+        if (_startPage != null && getInterfaceFromStartPage() != null) {
+            _uriComposite.setInterface(getInterfaceFromStartPage());
+            _uriComposite.setCanEdit(_canEdit);
         }
         _uriComposite.addChangeListener(new ChangeListener() {
             @Override
@@ -75,8 +79,8 @@ public class SCADiagramAddCompositeServiceWSDLPage extends BaseWizardPage implem
 
     @Override
     public boolean getSkippable() {
-        if (this._startPage != null && this._startPage.getInterface() != null) {
-            if (_startPage.getInterface() instanceof WSDLPortType) {
+        if (this._startPage != null && getInterfaceFromStartPage() != null) {
+            if (getInterfaceFromStartPage() instanceof WSDLPortType) {
                 return false;
             }
         }
@@ -85,11 +89,30 @@ public class SCADiagramAddCompositeServiceWSDLPage extends BaseWizardPage implem
 
     @Override
     public void refresh() {
-        if (_startPage != null && _startPage.getInterface() instanceof WSDLPortType) {
+        if (_startPage != null && getInterfaceFromStartPage() instanceof WSDLPortType) {
             if (_uriComposite != null && _uriComposite.getcPanel() != null) {
-                _uriComposite.setInterface(_startPage.getInterface());
+                _uriComposite.setInterface(getInterfaceFromStartPage());
+                _uriComposite.setCanEdit(_canEdit);
             }
         }
     }
 
+    private Interface getInterfaceFromStartPage() {
+        if (_startPage != null) {
+            if (_startPage instanceof SCADiagramAddCompositeServiceStartPage) {
+                SCADiagramAddCompositeServiceStartPage compositeSvcStart = (SCADiagramAddCompositeServiceStartPage) _startPage;
+                return compositeSvcStart.getInterface();
+            } else if (_startPage instanceof SCADiagramAddServiceInterfaceStartPage) {
+                SCADiagramAddServiceInterfaceStartPage compositeSvcStart = (SCADiagramAddServiceInterfaceStartPage) _startPage;
+                if (((SCADiagramAddServiceInterfaceStartPage) _startPage).interfaceIsEqual(
+                        compositeSvcStart.getInterface(), compositeSvcStart.getInheritedInterface())) {
+                    _canEdit = false;
+                } else {
+                    _canEdit = true;
+                }
+                return compositeSvcStart.getInterface();
+            }
+        }
+        return null;
+    }
 }
