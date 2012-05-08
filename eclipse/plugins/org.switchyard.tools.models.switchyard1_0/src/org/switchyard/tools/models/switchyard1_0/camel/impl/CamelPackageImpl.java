@@ -1634,11 +1634,27 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
              "kind", "elementOnly"
            });		
         addAnnotation
+          (getCamelImplementationType_Route(), 
+           source, 
+           new String[] {
+             "kind", "element",
+             "name", "route",
+             "namespace", "##targetNamespace"
+           });		
+        addAnnotation
           (getCamelImplementationType_Java(), 
            source, 
            new String[] {
              "kind", "element",
              "name", "java",
+             "namespace", "##targetNamespace"
+           });		
+        addAnnotation
+          (getCamelImplementationType_Xml(), 
+           source, 
+           new String[] {
+             "kind", "element",
+             "name", "xml",
              "namespace", "##targetNamespace"
            });		
         addAnnotation
@@ -2161,7 +2177,7 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
           (xmldslTypeEClass, 
            source, 
            new String[] {
-             "name", "JavaDSLType",
+             "name", "XMLDSLType",
              "kind", "elementOnly"
            });		
         addAnnotation
@@ -2169,7 +2185,7 @@ public class CamelPackageImpl extends EPackageImpl implements CamelPackage {
            source, 
            new String[] {
              "kind", "attribute",
-             "name", "class"
+             "name", "path"
            });
     }
 

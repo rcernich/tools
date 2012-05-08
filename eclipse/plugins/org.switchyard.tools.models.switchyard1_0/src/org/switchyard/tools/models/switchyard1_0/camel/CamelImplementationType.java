@@ -41,6 +41,7 @@ public interface CamelImplementationType extends Implementation {
      * @see #setRoute(RouteDefinition)
      * @see org.switchyard.tools.models.switchyard1_0.camel.CamelPackage#getCamelImplementationType_Route()
      * @model containment="true"
+     *        extendedMetaData="kind='element' name='route' namespace='##targetNamespace'"
      * @generated
      */
 	RouteDefinition getRoute();
@@ -94,6 +95,7 @@ public interface CamelImplementationType extends Implementation {
      * @see #setXml(XMLDSLType)
      * @see org.switchyard.tools.models.switchyard1_0.camel.CamelPackage#getCamelImplementationType_Xml()
      * @model containment="true"
+     *        extendedMetaData="kind='element' name='xml' namespace='##targetNamespace'"
      * @generated
      */
     XMLDSLType getXml();
