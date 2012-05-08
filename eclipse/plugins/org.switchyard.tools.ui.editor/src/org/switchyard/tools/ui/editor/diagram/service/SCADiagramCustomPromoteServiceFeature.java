@@ -26,14 +26,23 @@ import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
+import org.eclipse.soa.sca.sca1_1.model.sca.Interface;
+import org.eclipse.soa.sca.sca1_1.model.sca.JavaInterface;
+import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
+import org.eclipse.soa.sca.sca1_1.model.sca.WSDLPortType;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.switchyard.tools.ui.editor.ImageProvider;
 import org.switchyard.tools.ui.editor.core.ModelHandler;
 import org.switchyard.tools.ui.editor.core.ModelHandlerLocator;
 import org.switchyard.tools.ui.editor.diagram.di.DIImport;
+import org.switchyard.tools.ui.editor.diagram.service.wizards.SCADiagramAddInterfaceWizard;
 
 /**
  * @author bfitzpat
@@ -67,7 +76,31 @@ public class SCADiagramCustomPromoteServiceFeature extends AbstractCustomFeature
                             if (testObj instanceof Service) {
                                 Service service = (Service) testObj;
                                 service.setPromote(cservice);
+
+                                Interface newInterface = null;
+                                SCADiagramAddInterfaceWizard wizard = new SCADiagramAddInterfaceWizard();
+                                if (cservice.getInterface() != null) {
+                                    wizard.setInheritedInterface(cservice.getInterface());
+                                }
+                                Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                                WizardDialog wizDialog = new WizardDialog(shell, wizard);
+                                int rtn_code = wizDialog.open();
+                                if (rtn_code == Window.OK) {
+                                    newInterface = wizard.getInterface();
+                                    if (newInterface != null) {
+                                        // do something with it
+                                        if (newInterface instanceof JavaInterface) {
+                                            service.getInterfaceGroup().set(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceJava(),
+                                                    newInterface);
+                                        } else if (newInterface instanceof WSDLPortType) {
+                                            service.getInterfaceGroup().set(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceWsdl(),
+                                                    newInterface);
+                                        }
+                                    }
+                                }
+                                
                                 this._hasDoneChanges = true;
+                                break;
                             }
                         }
                         if (!this._hasDoneChanges) {

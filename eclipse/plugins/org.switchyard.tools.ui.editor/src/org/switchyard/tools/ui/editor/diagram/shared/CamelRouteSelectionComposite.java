@@ -228,7 +228,8 @@ public class CamelRouteSelectionComposite {
         _mClassText = new Text(_panel, SWT.BORDER);
         _mClassText.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
-                // edit class name
+                handleModify();
+                fireChangedEvent(_mClassText);
             }
         });
         GridData uriGD = new GridData(GridData.FILL_HORIZONTAL);
@@ -349,14 +350,11 @@ public class CamelRouteSelectionComposite {
         IProject project = null;
         IJavaProject javaProject = null;
         OpenNewClassWizardAction action = new OpenNewClassWizardAction();
-        ISelection selection = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService()
-                .getSelection();
+        IFile modelFile = SwitchyardSCAEditor.getActiveEditor().getModelFile();
         IStructuredSelection selectionToPass = StructuredSelection.EMPTY;
-        if (selection instanceof IStructuredSelection) {
-            selectionToPass = (IStructuredSelection) selection;
-            if (selectionToPass.getFirstElement() instanceof IFile) {
-                project = ((IFile) selectionToPass.getFirstElement()).getProject();
-            }
+        if (modelFile != null) {
+            selectionToPass = new StructuredSelection(modelFile);
+            project = ((IFile) selectionToPass.getFirstElement()).getProject();
         }
         if (project != null) { //$NON-NLS-1$
             javaProject = JavaCore.create(project);
@@ -493,10 +491,12 @@ public class CamelRouteSelectionComposite {
      */
     private void fireChangedEvent(Object source) {
         ChangeEvent e = new ChangeEvent(source);
-        // inform any listeners of the resize event
-        Object[] listeners = this._changeListeners.getListeners();
-        for (int i = 0; i < listeners.length; ++i) {
-            ((ChangeListener) listeners[i]).stateChanged(e);
+        // inform any listeners of the change event
+        if (this._changeListeners != null && !this._changeListeners.isEmpty()) {
+            Object[] listeners = this._changeListeners.getListeners();
+            for (int i = 0; i < listeners.length; ++i) {
+                ((ChangeListener) listeners[i]).stateChanged(e);
+            }
         }
     }
 

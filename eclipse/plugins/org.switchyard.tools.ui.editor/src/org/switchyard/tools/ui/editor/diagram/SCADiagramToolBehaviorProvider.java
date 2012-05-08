@@ -66,10 +66,10 @@ public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider 
         IFeatureProvider featureProvider = getFeatureProvider();
         Object bo = featureProvider.getBusinessObjectForPictogramElement(pe);
         if (bo instanceof Service) {
+            ArrayList<IDecorator> decorators = new ArrayList<IDecorator>();
             Service service = (Service) bo;
             if (!service.getBinding().isEmpty()) {
                 EList<Binding> bindings = service.getBinding();
-                ArrayList<IDecorator> decorators = new ArrayList<IDecorator>();
                 for (Binding binding : bindings) {
                     IDecorator imageRenderingDecorator = new ImageDecorator(ImageProvider.IMG_16_CHAIN);
                     String text = binding.getClass().getSimpleName();
@@ -85,8 +85,8 @@ public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider 
                     imageRenderingDecorator.setMessage(text);
                     decorators.add(imageRenderingDecorator);
                 }
-                return decorators.toArray(new IDecorator[decorators.size()]);
             }
+            return decorators.toArray(new IDecorator[decorators.size()]);
         } else if (bo instanceof Reference) {
             Reference reference = (Reference) bo;
             if (!reference.getBinding().isEmpty()) {
