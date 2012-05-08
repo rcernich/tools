@@ -19,7 +19,6 @@ import org.eclipse.jdt.internal.ui.JavaUIMessages;
 import org.eclipse.jdt.internal.ui.dialogs.OpenTypeSelectionDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.soa.sca.sca1_1.model.sca.JavaInterface;
-import org.eclipse.soa.sca.sca1_1.model.sca.WSDLPortType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -118,7 +117,7 @@ public class SCADiagramAddComponentServiceJavaPage extends BaseWizardPage implem
 
     private void handleModify() {
         _javaInterface = _javaInterfaceNameText.getText().trim();
-        if (_startPage != null && _startPage.getInterface() instanceof WSDLPortType) {
+        if (_startPage != null && _startPage.getInterface() instanceof JavaInterface) {
             ((JavaInterface) _startPage.getInterface()).setInterface(_javaInterface);
         }
         validate();
