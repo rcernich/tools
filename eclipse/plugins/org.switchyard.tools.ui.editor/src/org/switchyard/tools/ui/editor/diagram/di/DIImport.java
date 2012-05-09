@@ -526,6 +526,9 @@ public class DIImport {
     }
 
     private ContainerShape findShapeWithName(IFeatureProvider fp, ContainerShape root, String name) {
+        if (name == null) {
+            return null;
+        }
         if (root instanceof Diagram) {
             Collection<Shape> shapes = _peService.getAllContainedShapes(root);
             for (Shape shape : shapes) {
