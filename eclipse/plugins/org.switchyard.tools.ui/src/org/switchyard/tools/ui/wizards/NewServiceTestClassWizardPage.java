@@ -524,7 +524,7 @@ public class NewServiceTestClassWizardPage extends NewTypeWizardPage {
                 }
                 for (ComponentServiceModel service : services) {
                     InterfaceModel interfaceModel = service.getInterface();
-                    if ("java".equals(interfaceModel.getType())) {
+                    if (interfaceModel != null && "java".equals(interfaceModel.getType())) {
                         String interfaceName = interfaceModel.getInterface();
                         if (interfaceName != null && interfaceName.length() > 0) {
                             _configuredServices.add(interfaceName);

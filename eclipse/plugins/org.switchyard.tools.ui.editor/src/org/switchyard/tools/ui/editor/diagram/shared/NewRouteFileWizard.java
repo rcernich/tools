@@ -82,7 +82,7 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
 
             try {
                 InputStream inputStream = FileLocator.openStream(Activator.getDefault().getBundle(), new Path(
-                        "resources/RouteXMLTemplate.xml"), false);
+                        "resources/RouteXmlTemplate.xml"), false);
                 file.setContents(inputStream, true, true, null);
             } catch (CoreException e1) {
                 Activator.logError(e1);
