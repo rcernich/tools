@@ -12,7 +12,6 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.diagram.shared;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +50,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.soa.sca.sca1_1.model.sca.Implementation;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -71,11 +69,10 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.dialogs.SelectionDialog;
+import org.switchyard.tools.models.switchyard1_0.camel.CamelFactory;
 import org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType;
 import org.switchyard.tools.models.switchyard1_0.camel.JavaDSLType;
 import org.switchyard.tools.models.switchyard1_0.camel.XMLDSLType;
-import org.switchyard.tools.ui.editor.core.ModelHandler;
-import org.switchyard.tools.ui.editor.core.ModelHandlerLocator;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 
 /**
@@ -88,7 +85,7 @@ public class CamelRouteSelectionComposite {
     private ListenerList _changeListeners;
 
     private Composite _panel;
-    private Implementation _implementation = null;
+    private CamelImplementationType _implementation = null;
     private String _errorMessage = null;
     private String _camelRouteFilePath = null;
     private String _routeClassName = null;
@@ -398,34 +395,27 @@ public class CamelRouteSelectionComposite {
         _camelRouteFilePath = _mXMLText.getText().trim();
         _routeClassName = _mClassText.getText().trim();
         validate();
-        Diagram diagram = _diagram;
-        if (diagram != null) {
-            ModelHandler mh;
-            try {
-                mh = ModelHandlerLocator.getModelHandler(diagram.eResource());
-                Implementation impl = _implementation;
-                if (impl instanceof CamelImplementationType) {
-                    CamelImplementationType camelImpl = (CamelImplementationType) impl;
-                    if (_mXMLText != null && !_mXMLText.isDisposed() && _mXMLText.isEnabled()) {
-                        // handle xml file path
-                        XMLDSLType xmltype = camelImpl.getXml();
-                        if (xmltype == null) {
-                            xmltype = mh.createCamelXMLDSLType(camelImpl);
-                        }
-//                        camelImpl.getXml().eSet(CamelPackage.eINSTANCE.getXMLDSLType().getEStructuralFeature(CamelPackage.XMLDSL_TYPE__PATH), _mXMLText.getText());
-                        xmltype.setPath(_mXMLText.getText());
-                    } else if (_mClassText != null && !_mClassText.isDisposed() && _mClassText.isEnabled()) {
-                        // handle java class name
-                        JavaDSLType javatype = camelImpl.getJava();
-                        if (javatype == null) {
-                            javatype = mh.createCamelJavaDSLType(camelImpl);
-                        }
-                        javatype.setClass(_mClassText.getText());
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (_implementation == null) {
+            return;
+        }
+        if (_mXMLText != null && !_mXMLText.isDisposed() && _mXMLText.isEnabled()) {
+            // handle xml file path
+            XMLDSLType xmltype = _implementation.getXml();
+            if (xmltype == null) {
+                xmltype = CamelFactory.eINSTANCE.createXMLDSLType();
+                _implementation.setXml(xmltype);
             }
+            // camelImpl.getXml().eSet(CamelPackage.eINSTANCE.getXMLDSLType().getEStructuralFeature(CamelPackage.XMLDSL_TYPE__PATH),
+            // _mXMLText.getText());
+            xmltype.setPath(_mXMLText.getText());
+        } else if (_mClassText != null && !_mClassText.isDisposed() && _mClassText.isEnabled()) {
+            // handle java class name
+            JavaDSLType javatype = _implementation.getJava();
+            if (javatype == null) {
+                javatype = CamelFactory.eINSTANCE.createJavaDSLType();
+                _implementation.setJava(javatype);
+            }
+            javatype.setClass(_mClassText.getText());
         }
     }
 
@@ -456,21 +446,20 @@ public class CamelRouteSelectionComposite {
     /**
      * @return interface
      */
-    public Implementation getImplementation() {
+    public CamelImplementationType getImplementation() {
         return _implementation;
     }
 
     /**
      * @param cImplementation implementation coming in
      */
-    public void setImplementation(Implementation cImplementation) {
-        this._implementation = cImplementation;
-        if (this._implementation != null && this._implementation instanceof CamelImplementationType) {
-            CamelImplementationType camelImpl = (CamelImplementationType) this._implementation;
-            if (camelImpl.getJava() != null) {
-                this._mClassText.setText(camelImpl.getJava().getClass_());
-            } else if (camelImpl.getXml() != null) {
-                this._mXMLText.setText(camelImpl.getXml().getPath());
+    public void setImplementation(CamelImplementationType cImplementation) {
+        _implementation = cImplementation;
+        if (_implementation != null && _mClassText != null) {
+            if (_implementation.getJava() != null) {
+                this._mClassText.setText(_implementation.getJava().getClass_());
+            } else if (_implementation.getXml() != null) {
+                this._mXMLText.setText(_implementation.getXml().getPath());
             } else {
                 handleModify();
             }
@@ -540,13 +529,6 @@ public class CamelRouteSelectionComposite {
      */
     public String getCamelRouteClass() {
         return this._routeClassName;
-    }
-
-    /**
-     * @param diagram the _diagram to set
-     */
-    public void setDiagram(Diagram diagram) {
-        this._diagram = diagram;
     }
 
     /**
