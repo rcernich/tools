@@ -50,7 +50,7 @@
 	         id="switchyard.main.tab.names">
 	        </propertySection>
          <propertySection
-               class="org.switchyard.tools.ui.editor.property.SwitchyardSCAPropertiesBindings"
+               class="org.switchyard.tools.ui.editor.property.SwitchyardSCAPropertiesSOAPBindingsSection"
                filter="org.switchyard.tools.ui.editor.property.SwitchyardSCAPropertiesBindingsFilter"
                id="switchyard.binding.tab.details"
                tab="switchyard.binding.tab">
