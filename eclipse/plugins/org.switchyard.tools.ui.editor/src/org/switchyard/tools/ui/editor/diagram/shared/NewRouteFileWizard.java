@@ -16,11 +16,15 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbench;
@@ -57,16 +61,34 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
                 return false;
             }
 
-            _createdFilePath = file.getProjectRelativePath().toPortableString();
+            if (getSelection().getFirstElement() instanceof IPackageFragmentRoot) {
+                IPackageFragmentRoot root = (IPackageFragmentRoot) getSelection().getFirstElement();
+                IResource resource = root.getResource();
+                if (resource == null) {
+                    IJavaElement element = root.getParent();
+                    resource = element.getResource();
+                }
+                if (resource instanceof IFile) {
+                    resource = ((IFile)resource).getParent();
+                }
+                if (resource instanceof IFolder) {
+                    IFolder folder = (IFolder) resource;
+                    IFolder parent = (IFolder) folder.getParent();
+                    _createdFilePath = file.getProjectRelativePath().makeRelativeTo(parent.getProjectRelativePath()).toPortableString();
+                }
+            } else {
+                _createdFilePath = file.getProjectRelativePath().toPortableString();
+            }
 
             try {
                 InputStream inputStream = FileLocator.openStream(Activator.getDefault().getBundle(), new Path(
                         "resources/RouteXMLTemplate.xml"), false);
                 file.setContents(inputStream, true, true, null);
             } catch (CoreException e1) {
-                e1.printStackTrace();
+                Activator.logError(e1);
             } catch (IOException e2) {
                 e2.printStackTrace();
+                Activator.logError(e2);
             }
 
             if (_openFileAfterCreate) {
@@ -82,8 +104,8 @@ class NewRouteFileWizard extends BasicNewFileResourceWizard {
                         }
                     }
                 } catch (PartInitException e) {
-                    Activator.getDefault().getLog()
-                            .log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getLocalizedMessage()));
+                    e.printStackTrace();
+                    Activator.logError(e);
                 }
             }
             return true;
