@@ -32,6 +32,12 @@
 	        <propertyTab label="Main" category="SwitchyardSCA" 
 	            id="switchyard.main.tab">
 	        </propertyTab>
+        <propertyTab
+              afterTab="switchyard.main.tab"
+              category="SwitchyardSCA"
+              id="switchyard.binding.tab"
+              label="Binding">
+        </propertyTab>
 	    </propertyTabs>
 	</extension>
 	 
@@ -43,6 +49,12 @@
 	         filter="org.switchyard.tools.ui.editor.property.SwitchyardSCAPropertiesFilter"
 	         id="switchyard.main.tab.names">
 	        </propertySection>
+         <propertySection
+               class="org.switchyard.tools.ui.editor.property.SwitchyardSCAPropertiesBindings"
+               filter="org.switchyard.tools.ui.editor.property.SwitchyardSCAPropertiesBindingsFilter"
+               id="switchyard.binding.tab.details"
+               tab="switchyard.binding.tab">
+         </propertySection>
 	    </propertySections>
 	</extension>
  <extension
