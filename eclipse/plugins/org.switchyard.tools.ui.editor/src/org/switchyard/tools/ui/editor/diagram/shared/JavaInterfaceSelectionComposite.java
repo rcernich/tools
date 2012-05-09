@@ -69,6 +69,7 @@ public class JavaInterfaceSelectionComposite {
     private Link _newClassLink;
     private Text _mClassText;
     private Button _browseClassBtn;
+    private boolean _canEdit = true;
 
     /**
      * Constructor.
@@ -286,6 +287,8 @@ public class JavaInterfaceSelectionComposite {
             JavaInterface javaIntfc = (JavaInterface) this._interface;
             if (javaIntfc.getInterface() != null) {
                 this._mClassText.setText(javaIntfc.getInterface());
+            } else {
+                this._mClassText.setText("org.example.IServiceInterface");
             }
         }
     }
@@ -353,5 +356,28 @@ public class JavaInterfaceSelectionComposite {
      */
     public void setRootGridData(GridData rootGridData) {
         this._rootGridData = rootGridData;
+    }
+
+    /**
+     * @return flag
+     */
+    public boolean canEdit() {
+        return _canEdit;
+    }
+
+    /**
+     * @param canEdit flag
+     */
+    public void setCanEdit(boolean canEdit) {
+        this._canEdit = canEdit;
+        if (this._mClassText != null && !this._mClassText.isDisposed()) {
+            this._mClassText.setEnabled(_canEdit);
+        }
+        if (this._newClassLink != null && !this._newClassLink.isDisposed()) {
+            this._newClassLink.setEnabled(_canEdit);
+        }
+        if (this._browseClassBtn != null && !this._browseClassBtn.isDisposed()) {
+            this._browseClassBtn.setEnabled(_canEdit);
+        }
     }
 }

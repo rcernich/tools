@@ -24,8 +24,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
@@ -35,6 +35,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
+import org.eclipse.jdt.internal.core.PackageFragment;
 import org.eclipse.jdt.ui.IJavaElementSearchConstants;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jdt.ui.actions.OpenNewClassWizardAction;
@@ -79,6 +80,7 @@ import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
  * @author bfitzpat
  * 
  */
+@SuppressWarnings("restriction")
 public class CamelRouteSelectionComposite {
 
     // change listeners
@@ -89,7 +91,6 @@ public class CamelRouteSelectionComposite {
     private String _errorMessage = null;
     private String _camelRouteFilePath = null;
     private String _routeClassName = null;
-    private Diagram _diagram;
     private GridData _rootGridData = null;
     private Button _optBtnXML;
     private Button _optBtnClass;
@@ -353,27 +354,36 @@ public class CamelRouteSelectionComposite {
             selectionToPass = new StructuredSelection(modelFile);
             project = ((IFile) selectionToPass.getFirstElement()).getProject();
         }
+        IPackageFragmentRoot packRoot = null;
         if (project != null) { //$NON-NLS-1$
             javaProject = JavaCore.create(project);
-        }
-        action.setSelection(selectionToPass);
-        NewClassWizardPage page = new NewClassWizardPage();
-        if (javaProject != null) {
-            IPackageFragmentRoot[] roots = javaProject.getAllPackageFragmentRoots();
-            IPackageFragmentRoot packRoot = null;
-            if (roots.length > 0) {
-                packRoot = roots[0];
-                page.setPackageFragmentRoot(packRoot, true);
-            }
-            IPackageFragment pack = null;
-            for (int i = 0; i < javaProject.getAllPackageFragmentRoots().length; i++) {
-                pack = javaProject.getPackageFragmentRoots()[i].getPackageFragment("");
-                if (pack != null) {
+            IPackageFragment[] packages = javaProject.getPackageFragments();
+            for (IPackageFragment mypackage : packages) {
+                if (mypackage.getKind() == IPackageFragmentRoot.K_SOURCE) {
+                    selectionToPass = new StructuredSelection(mypackage);
+                    packRoot = (IPackageFragmentRoot) mypackage.getParent();
                     break;
                 }
             }
-            if (pack != null) {
-                page.setPackageFragment(pack, true);
+        }
+        action.setSelection(selectionToPass);
+        MyClassWizardPage page = new MyClassWizardPage();
+        action.setConfiguredWizardPage(page);
+        if (javaProject != null) {
+            IJavaElement[] roots = packRoot.getChildren();
+            PackageFragment stashFrag = null;
+            for (int i = 0; i < roots.length; i++) {
+                PackageFragment frag = (PackageFragment) roots[i];
+                if (!frag.isDefaultPackage() && !frag.hasSubpackages()) {
+                    stashFrag = frag;
+                    break;
+                }
+            }
+            if (stashFrag != null) {
+                page.setPackageFragment(stashFrag, true);
+            }
+            if (packRoot != null) {
+                page.setPackageFragmentRoot(packRoot, true);
             }
         }
         page.setSuperClass("org.apache.camel.builder.RouteBuilder", false);
@@ -404,9 +414,8 @@ public class CamelRouteSelectionComposite {
             if (xmltype == null) {
                 xmltype = CamelFactory.eINSTANCE.createXMLDSLType();
                 _implementation.setXml(xmltype);
+                _implementation.setJava(null);
             }
-            // camelImpl.getXml().eSet(CamelPackage.eINSTANCE.getXMLDSLType().getEStructuralFeature(CamelPackage.XMLDSL_TYPE__PATH),
-            // _mXMLText.getText());
             xmltype.setPath(_mXMLText.getText());
         } else if (_mClassText != null && !_mClassText.isDisposed() && _mClassText.isEnabled()) {
             // handle java class name
@@ -416,6 +425,7 @@ public class CamelRouteSelectionComposite {
                 _implementation.setJava(javatype);
             }
             javatype.setClass(_mClassText.getText());
+            _implementation.setXml(null);
         }
     }
 
@@ -675,7 +685,11 @@ public class CamelRouteSelectionComposite {
         IFile modelFile = SwitchyardSCAEditor.getActiveEditor().getModelFile();
         IStructuredSelection selectionToPass = StructuredSelection.EMPTY;
         if (modelFile != null) {
-            selectionToPass = new StructuredSelection(modelFile);
+            if (modelFile.getProject() != null) { //$NON-NLS-1$
+                IJavaProject javaProject = JavaCore.create(modelFile.getProject());
+                IPackageFragmentRoot folder = javaProject.getPackageFragmentRoot(modelFile);
+                selectionToPass = new StructuredSelection(folder);
+            }
         }
         newWizard.init(PlatformUI.getWorkbench(), selectionToPass);
         newWizard.setCreatedFilePath(defaultName);
@@ -684,5 +698,32 @@ public class CamelRouteSelectionComposite {
             return newWizard.getCreatedFilePath();
         }
         return null;
+    }
+
+    private class MyClassWizardPage extends NewClassWizardPage {
+
+        @Override
+        protected void createTypeMembers(IType type, ImportsManager imports, IProgressMonitor monitor)
+                throws CoreException {
+            super.createTypeMembers(type, imports, monitor);
+
+            StringBuffer buf = new StringBuffer();
+            final String lineDelim = "\n"; // OK, since content is formatted afterwards //$NON-NLS-1$
+            String comment = "/**" + lineDelim + " * The Camel route is configured via this method.  The from:"
+                    + lineDelim + " * endpoint is required to be a SwitchYard service." + lineDelim + " */" + lineDelim;
+            if (comment != null) {
+                buf.append(comment);
+                buf.append(lineDelim);
+            }
+            buf.append("public void configure() {"); //$NON-NLS-1$
+            buf.append(lineDelim);
+            buf.append("from(\"switchyard://${service.name}\")");
+            buf.append(lineDelim);
+            buf.append(".log(\"Received message for ${service.name} : ${body}\");");
+            buf.append(lineDelim);
+            buf.append("}"); //$NON-NLS-1$
+            type.createMethod(buf.toString(), null, false, null);
+        }
+
     }
 }

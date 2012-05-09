@@ -26,16 +26,26 @@ import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
+import org.eclipse.soa.sca.sca1_1.model.sca.Interface;
+import org.eclipse.soa.sca.sca1_1.model.sca.JavaInterface;
 import org.eclipse.soa.sca.sca1_1.model.sca.Multiplicity;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
+import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
+import org.eclipse.soa.sca.sca1_1.model.sca.WSDLPortType;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.switchyard.tools.ui.editor.ImageProvider;
 import org.switchyard.tools.ui.editor.core.ModelHandler;
 import org.switchyard.tools.ui.editor.core.ModelHandlerLocator;
 import org.switchyard.tools.ui.editor.diagram.StyleUtil;
+import org.switchyard.tools.ui.editor.diagram.compositereference.wizards.SCADiagramAddReferenceInterfaceWizard;
 import org.switchyard.tools.ui.editor.diagram.di.DIImport;
+import org.switchyard.tools.ui.editor.diagram.service.wizards.SCADiagramAddServiceInterfaceWizard;
 
 /**
  * @author bfitzpat
@@ -68,20 +78,68 @@ public class SCADiagramCustomPromoteReferenceFeature extends AbstractCustomFeatu
                             if (testObj instanceof Reference) {
                                 Reference reference = (Reference) testObj;
                                 reference.getPromote().add(cref);
+
+                                Interface newInterface = null;
+                                SCADiagramAddServiceInterfaceWizard wizard = new SCADiagramAddServiceInterfaceWizard();
+                                if (reference.getInterface() != null) {
+                                    wizard.setInheritedInterface(reference.getInterface());
+                                }
+                                Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                                WizardDialog wizDialog = new WizardDialog(shell, wizard);
+                                wizDialog.setTitle("Specify Promoted Reference Interface");
+                                int rtn_code = wizDialog.open();
+                                if (rtn_code == Window.OK) {
+                                    newInterface = wizard.getInterface();
+                                    if (newInterface != null) {
+                                        // do something with it
+                                        if (newInterface instanceof JavaInterface) {
+                                            reference.getInterfaceGroup().set(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceJava(),
+                                                    newInterface);
+                                        } else if (newInterface instanceof WSDLPortType) {
+                                            reference.getInterfaceGroup().set(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceWsdl(),
+                                                    newInterface);
+                                        }
+                                    }
+                                }
+
                                 this._hasDoneChanges = true;
                             }
                         }
                         getDiagramEditor().refresh();
                     } else {
                         try {
-                            // ContainerShape componentShape = (ContainerShape)
-                            // pes[0];
+
+                            Interface newInterface = null;
+                            SCADiagramAddReferenceInterfaceWizard wizard = new SCADiagramAddReferenceInterfaceWizard();
+                            if (cref.getInterface() != null) {
+                                wizard.setInheritedInterface(cref.getInterface());
+                            }
+                            Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                            WizardDialog wizDialog = new WizardDialog(shell, wizard);
+                            wizDialog.setTitle("Specify Promoted Reference Interface");
+                            int rtn_code = wizDialog.open();
+                            if (rtn_code == Window.OK) {
+                                newInterface = wizard.getInterface();
+                            } else {
+                                this._hasDoneChanges = false;
+                                return;
+                            }
                             Composite composite = (Composite) component.eContainer();
                             ModelHandler handler = ModelHandlerLocator.getModelHandler(getDiagram().eResource());
                             Reference newReference = handler.createCompositeReference(composite);
                             newReference.setName(cref.getName());
                             newReference.getPromote().add(cref);
                             newReference.setMultiplicity(Multiplicity._01);
+                            if (newInterface != null) {
+                                // do something with it
+                                if (newInterface instanceof JavaInterface) {
+                                    newReference.getInterfaceGroup().set(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceJava(),
+                                            newInterface);
+                                } else if (newInterface instanceof WSDLPortType) {
+                                    newReference.getInterfaceGroup().set(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceWsdl(),
+                                            newInterface);
+                                }
+                            }
 
                             ContainerShape cshape = (ContainerShape) getFeatureProvider()
                                     .getPictogramElementForBusinessObject(composite);
@@ -141,6 +199,7 @@ public class SCADiagramCustomPromoteReferenceFeature extends AbstractCustomFeatu
                                 }
 
                             }
+                            this._hasDoneChanges = true;
 
                         } catch (IOException e) {
                             e.printStackTrace();

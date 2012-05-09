@@ -42,7 +42,7 @@ import org.switchyard.tools.ui.editor.ImageProvider;
 import org.switchyard.tools.ui.editor.core.ModelHandler;
 import org.switchyard.tools.ui.editor.core.ModelHandlerLocator;
 import org.switchyard.tools.ui.editor.diagram.di.DIImport;
-import org.switchyard.tools.ui.editor.diagram.service.wizards.SCADiagramAddInterfaceWizard;
+import org.switchyard.tools.ui.editor.diagram.service.wizards.SCADiagramAddServiceInterfaceWizard;
 
 /**
  * @author bfitzpat
@@ -78,12 +78,13 @@ public class SCADiagramCustomPromoteServiceFeature extends AbstractCustomFeature
                                 service.setPromote(cservice);
 
                                 Interface newInterface = null;
-                                SCADiagramAddInterfaceWizard wizard = new SCADiagramAddInterfaceWizard();
+                                SCADiagramAddServiceInterfaceWizard wizard = new SCADiagramAddServiceInterfaceWizard();
                                 if (cservice.getInterface() != null) {
                                     wizard.setInheritedInterface(cservice.getInterface());
                                 }
                                 Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
                                 WizardDialog wizDialog = new WizardDialog(shell, wizard);
+                                wizDialog.setTitle("Specify Promoted Service Interface");
                                 int rtn_code = wizDialog.open();
                                 if (rtn_code == Window.OK) {
                                     newInterface = wizard.getInterface();
@@ -109,6 +110,7 @@ public class SCADiagramCustomPromoteServiceFeature extends AbstractCustomFeature
                         getDiagramEditor().refresh();
                     } else {
                         createAndConnectService(component, cservice, pes);
+                        getDiagramEditor().refresh();
                     }
                 }
             }
@@ -117,11 +119,39 @@ public class SCADiagramCustomPromoteServiceFeature extends AbstractCustomFeature
 
     private void createAndConnectService(Component component, ComponentService cservice, PictogramElement[] pes) {
         try {
+            Interface newInterface = null;
+            SCADiagramAddServiceInterfaceWizard wizard = new SCADiagramAddServiceInterfaceWizard();
+            if (cservice.getInterface() != null) {
+                wizard.setInheritedInterface(cservice.getInterface());
+            }
+            Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+            WizardDialog wizDialog = new WizardDialog(shell, wizard);
+            wizDialog.setTitle("Specify Promoted Service Interface");
+            int rtn_code = wizDialog.open();
+            if (rtn_code == Window.OK) {
+                newInterface = wizard.getInterface();
+            } else {
+                this._hasDoneChanges = false;
+                return;
+            }
+
             Composite composite = (Composite) component.eContainer();
             ModelHandler handler = ModelHandlerLocator.getModelHandler(getDiagram().eResource());
             Service newService = handler.createService(composite);
+
             newService.setName(cservice.getName());
             newService.setPromote(cservice);
+
+            if (newInterface != null) {
+                // do something with it
+                if (newInterface instanceof JavaInterface) {
+                    newService.getInterfaceGroup().set(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceJava(),
+                            newInterface);
+                } else if (newInterface instanceof WSDLPortType) {
+                    newService.getInterfaceGroup().set(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceWsdl(),
+                            newInterface);
+                }
+            }
 
             ContainerShape cshape = (ContainerShape) getFeatureProvider().getPictogramElementForBusinessObject(
                     composite);
@@ -179,6 +209,7 @@ public class SCADiagramCustomPromoteServiceFeature extends AbstractCustomFeature
                 }
 
             }
+            this._hasDoneChanges = true;
 
         } catch (IOException e) {
             e.printStackTrace();

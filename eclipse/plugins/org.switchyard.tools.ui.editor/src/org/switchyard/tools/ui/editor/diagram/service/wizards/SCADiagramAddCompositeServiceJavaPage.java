@@ -12,6 +12,7 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.diagram.service.wizards;
 
+import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.soa.sca.sca1_1.model.sca.Interface;
 import org.eclipse.soa.sca.sca1_1.model.sca.JavaInterface;
 import org.eclipse.swt.SWT;
@@ -26,26 +27,17 @@ import org.switchyard.tools.ui.editor.diagram.shared.JavaInterfaceSelectionCompo
  */
 public class SCADiagramAddCompositeServiceJavaPage extends BaseWizardPage implements IRefreshablePage {
 
-    private SCADiagramAddCompositeServiceStartPage _startPage = null;
-    private SCADiagramAddInterfaceStartPage _intfcStartPage = null;
+    private WizardPage _startPage = null;
     private JavaInterfaceSelectionComposite _javaInterfaceComposite = null;
+    private boolean _canEdit = true;
 
     /**
      * @param start start page
      * @param pageName page name
      */
-    public SCADiagramAddCompositeServiceJavaPage(SCADiagramAddCompositeServiceStartPage start, String pageName) {
+    public SCADiagramAddCompositeServiceJavaPage(WizardPage start, String pageName) {
         this(pageName);
         this._startPage = start;
-    }
-
-    /**
-     * @param start start page
-     * @param pageName page name
-     */
-    public SCADiagramAddCompositeServiceJavaPage(SCADiagramAddInterfaceStartPage start, String pageName) {
-        this(pageName);
-        this._intfcStartPage = start;
     }
 
     protected SCADiagramAddCompositeServiceJavaPage(String pageName) {
@@ -75,7 +67,7 @@ public class SCADiagramAddCompositeServiceJavaPage extends BaseWizardPage implem
 
     @Override
     public boolean getSkippable() {
-        if (this._startPage != null || this._intfcStartPage != null) {
+        if (this._startPage != null) {
             Interface intfc = getInterfaceFromStartPage();
             if (intfc instanceof JavaInterface) {
                 return false;
@@ -86,10 +78,11 @@ public class SCADiagramAddCompositeServiceJavaPage extends BaseWizardPage implem
 
     @Override
     public void refresh() {
-        if (this._startPage != null || this._intfcStartPage != null) {
+        if (this._startPage != null) {
             Interface intfc = getInterfaceFromStartPage();
             if (intfc instanceof JavaInterface) {
                 _javaInterfaceComposite.setInterface(intfc);
+                _javaInterfaceComposite.setCanEdit(_canEdit);
             }
         }
     }
@@ -99,10 +92,14 @@ public class SCADiagramAddCompositeServiceJavaPage extends BaseWizardPage implem
             if (_startPage instanceof SCADiagramAddCompositeServiceStartPage) {
                 SCADiagramAddCompositeServiceStartPage compositeSvcStart = (SCADiagramAddCompositeServiceStartPage) _startPage;
                 return compositeSvcStart.getInterface();
-            }
-        } else if (_intfcStartPage != null) {
-            if (_intfcStartPage instanceof SCADiagramAddInterfaceStartPage) {
-                SCADiagramAddInterfaceStartPage compositeSvcStart = (SCADiagramAddInterfaceStartPage) _intfcStartPage;
+            } else if (_startPage instanceof SCADiagramAddServiceInterfaceStartPage) {
+                SCADiagramAddServiceInterfaceStartPage compositeSvcStart = (SCADiagramAddServiceInterfaceStartPage) _startPage;
+                if (((SCADiagramAddServiceInterfaceStartPage) _startPage).interfaceIsEqual(
+                        compositeSvcStart.getInterface(), compositeSvcStart.getInheritedInterface())) {
+                    _canEdit = false;
+                } else {
+                    _canEdit = true;
+                }
                 return compositeSvcStart.getInterface();
             }
         }

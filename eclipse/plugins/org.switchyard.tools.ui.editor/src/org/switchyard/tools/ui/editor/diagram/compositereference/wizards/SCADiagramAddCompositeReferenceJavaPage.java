@@ -12,6 +12,7 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.diagram.compositereference.wizards;
 
+import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.soa.sca.sca1_1.model.sca.Interface;
 import org.eclipse.soa.sca.sca1_1.model.sca.JavaInterface;
 import org.eclipse.swt.SWT;
@@ -26,16 +27,15 @@ import org.switchyard.tools.ui.editor.diagram.shared.JavaInterfaceSelectionCompo
  */
 public class SCADiagramAddCompositeReferenceJavaPage extends BaseWizardPage implements IRefreshablePage {
 
-//    private Text _javaInterfaceNameText;
-//    private String _javaInterface = null;
-    private SCADiagramAddCompositeReferenceStartPage _startPage = null;
+    private WizardPage _startPage = null;
     private JavaInterfaceSelectionComposite _javaInterfaceComposite = null;
+    private boolean _canEdit = true;
 
     /**
      * @param start start page
      * @param pageName page name
      */
-    public SCADiagramAddCompositeReferenceJavaPage(SCADiagramAddCompositeReferenceStartPage start, String pageName) {
+    public SCADiagramAddCompositeReferenceJavaPage(WizardPage start, String pageName) {
         this(pageName);
         this._startPage = start;
     }
@@ -56,49 +56,6 @@ public class SCADiagramAddCompositeReferenceJavaPage extends BaseWizardPage impl
         _javaInterfaceComposite.createContents(parent, SWT.NONE);
 
         setControl(_javaInterfaceComposite.getcPanel());
-        
-//        Composite composite = new Composite(parent, SWT.NONE);
-//        GridLayout gl = new GridLayout();
-//        gl.numColumns = 3;
-//        composite.setLayout(gl);
-//        // Component service name
-//        new Label(composite, SWT.NONE).setText("Name:");
-//        _javaInterfaceNameText = new Text(composite, SWT.BORDER);
-//        if (_startPage != null && _startPage.getInterface() instanceof JavaInterface) {
-//            _javaInterfaceNameText.setText(((JavaInterface) _startPage.getInterface()).getInterface());
-//        }
-//        _javaInterfaceNameText.addModifyListener(new ModifyListener() {
-//            public void modifyText(ModifyEvent e) {
-//                handleModify();
-//            }
-//        });
-//        _javaInterfaceNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-//
-//        Button browseBtn = new Button(composite, SWT.PUSH);
-//        browseBtn.setText("...");
-//        browseBtn.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-//        browseBtn.addSelectionListener(new SelectionListener() {
-//            @Override
-//            public void widgetSelected(SelectionEvent e) {
-//                String out = browseForClass();
-//                if (out != null) {
-//                    _javaInterfaceNameText.setText(out);
-//                    if (_startPage != null && _startPage.getInterface() instanceof JavaInterface) {
-//                        ((JavaInterface) _startPage.getInterface()).setInterface(out);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void widgetDefaultSelected(SelectionEvent e) {
-//                widgetSelected(e);
-//            }
-//        });
-//
-//        setControl(composite);
-//
-//        validate();
-//        setErrorMessage(null);
     }
 
     /**
@@ -107,41 +64,6 @@ public class SCADiagramAddCompositeReferenceJavaPage extends BaseWizardPage impl
     public String getJavaInterfaceString() {
         return _javaInterfaceComposite.getInterfaceClassName();
     }
-
-//    private void handleModify() {
-//        _javaInterface = _javaInterfaceNameText.getText().trim();
-//        if (_startPage != null && _startPage.getInterface() instanceof JavaInterface) {
-//            ((JavaInterface) _startPage.getInterface()).setInterface(_javaInterface);
-//        }
-//        validate();
-//    }
-//
-//    private void validate() {
-//        String errorMessage = null;
-//        String cpName = _javaInterfaceNameText.getText();
-//
-//        if (cpName == null || cpName.trim().length() == 0) {
-//            errorMessage = "No name specified";
-//        } else if (cpName.trim().length() < cpName.length()) {
-//            errorMessage = "No spaces allowed in name";
-//        }
-//        setErrorMessage(errorMessage);
-//        setPageComplete(errorMessage == null);
-//    }
-//
-//    private String browseForClass() {
-//        Shell parent = JavaPlugin.getActiveWorkbenchShell();
-//        SelectionDialog dialog = new OpenTypeSelectionDialog(parent, false, PlatformUI.getWorkbench()
-//                .getProgressService(), null, IJavaSearchConstants.INTERFACE);
-//        dialog.setTitle(JavaUIMessages.OpenTypeAction_dialogTitle);
-//        dialog.setMessage(JavaUIMessages.OpenTypeAction_dialogMessage);
-//        int rtn_code = dialog.open();
-//        if (rtn_code == Window.OK) {
-//            SourceType result = (SourceType) dialog.getResult()[0];
-//            return result.getFullyQualifiedName();
-//        }
-//        return null;
-//    }
 
     @Override
     public boolean getSkippable() {
@@ -160,6 +82,7 @@ public class SCADiagramAddCompositeReferenceJavaPage extends BaseWizardPage impl
             Interface intfc = getInterfaceFromStartPage();
             if (intfc instanceof JavaInterface) {
                 _javaInterfaceComposite.setInterface(intfc);
+                _javaInterfaceComposite.setCanEdit(_canEdit);
             }
         }
     }
@@ -168,6 +91,15 @@ public class SCADiagramAddCompositeReferenceJavaPage extends BaseWizardPage impl
         if (_startPage != null) {
             if (_startPage instanceof SCADiagramAddCompositeReferenceStartPage) {
                 SCADiagramAddCompositeReferenceStartPage compositeSvcStart = (SCADiagramAddCompositeReferenceStartPage) _startPage;
+                return compositeSvcStart.getInterface();
+            } else if (_startPage instanceof SCADiagramAddReferenceInterfaceStartPage) {
+                SCADiagramAddReferenceInterfaceStartPage compositeSvcStart = (SCADiagramAddReferenceInterfaceStartPage) _startPage;
+                if (((SCADiagramAddReferenceInterfaceStartPage) _startPage).interfaceIsEqual(
+                        compositeSvcStart.getInterface(), compositeSvcStart.getInheritedInterface())) {
+                    _canEdit = false;
+                } else {
+                    _canEdit = true;
+                }
                 return compositeSvcStart.getInterface();
             }
         }
