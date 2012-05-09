@@ -109,14 +109,16 @@ public class BeanImplementationWizard extends LinkedWizardBase implements ICompo
                             service = ScaFactory.eINSTANCE.createComponentService();
                         }
                         try {
-                            String[][] serviceTypes = type.resolveType((String) pair.getValue());
+                            String interfaceName = (String) pair.getValue();
+                            String[][] serviceTypes = type.resolveType(interfaceName);
                             if (serviceTypes != null && serviceTypes.length > 0) {
-                                String interfaceName;
                                 if (serviceTypes[0][0].length() == 0) {
                                     interfaceName = serviceTypes[0][1];
                                 } else {
                                     interfaceName = serviceTypes[0][0] + '.' + serviceTypes[0][1];
                                 }
+                            }
+                            if (interfaceName != null) {
                                 JavaInterface intf = ScaFactory.eINSTANCE.createJavaInterface();
                                 intf.setInterface(interfaceName);
                                 service.getInterfaceGroup().add(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceJava(),
@@ -138,7 +140,9 @@ public class BeanImplementationWizard extends LinkedWizardBase implements ICompo
                     }
                 }
                 if (service != null) {
-                    _services.add(service);
+                    if (service.getName() != null) {
+                        _services.add(service);
+                    }
                     break;
                 }
             }
@@ -161,20 +165,20 @@ public class BeanImplementationWizard extends LinkedWizardBase implements ICompo
 
                         reference = ScaFactory.eINSTANCE.createComponentReference();
 
-                        String[][] referenceTypes = type.resolveType(Signature.toString(field.getTypeSignature()));
+                        String interfaceName = Signature.toString(field.getTypeSignature());
+                        String[][] referenceTypes = type.resolveType(interfaceName);
                         if (referenceTypes != null && referenceTypes.length > 0) {
-                            String interfaceName;
                             if (referenceTypes[0][0].length() == 0) {
                                 interfaceName = referenceTypes[0][1];
                             } else {
                                 interfaceName = referenceTypes[0][0] + '.' + referenceTypes[0][1];
                             }
-                            JavaInterface intf = ScaFactory.eINSTANCE.createJavaInterface();
-                            intf.setInterface(interfaceName);
-                            reference.getInterfaceGroup().add(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceJava(),
-                                    intf);
-                            reference.setName(getSimpleNameFromQualifiedName(interfaceName));
                         }
+                        JavaInterface intf = ScaFactory.eINSTANCE.createJavaInterface();
+                        intf.setInterface(interfaceName);
+                        reference.getInterfaceGroup().add(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceJava(),
+                                intf);
+                        reference.setName(getSimpleNameFromQualifiedName(interfaceName));
 
                         for (IMemberValuePair pair : annotation.getMemberValuePairs()) {
                             if ("value".equals(pair.getMemberName())) {
@@ -184,7 +188,9 @@ public class BeanImplementationWizard extends LinkedWizardBase implements ICompo
                                 }
                             }
                         }
-                        _references.add(reference);
+                        if (reference.getName() != null) {
+                            _references.add(reference);
+                        }
                         break;
                     }
                 } catch (Exception e) {
