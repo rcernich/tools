@@ -96,7 +96,6 @@ public class SwitchyardSCAPropertiesMainSection extends GFPropertySection implem
                 @Override
                 protected void doExecute() {
                     composite.setName(value.trim());
-                    getDiagramEditor().refresh(_pe);
                 }
             });
         } else if (bo instanceof Component) {
@@ -114,7 +113,6 @@ public class SwitchyardSCAPropertiesMainSection extends GFPropertySection implem
                 @Override
                 protected void doExecute() {
                     service.setName(value.trim());
-                    getDiagramEditor().refresh(_pe);
                 }
             });
         } else if (bo instanceof Reference) {
@@ -123,12 +121,17 @@ public class SwitchyardSCAPropertiesMainSection extends GFPropertySection implem
                 @Override
                 protected void doExecute() {
                     reference.setName(value.trim());
-                    getDiagramEditor().refresh(_pe);
                 }
             });
         }
-        IUpdateContext updateContext = new UpdateContext(_pe);
-        getDiagramTypeProvider().getFeatureProvider().updateIfPossible(updateContext);
+        if (_pe != null) {
+            IUpdateContext updateContext = new UpdateContext(_pe);
+            if (SwitchyardSCAEditor.getActiveEditor().getDiagramTypeProvider() != null) {
+                if (SwitchyardSCAEditor.getActiveEditor().getDiagramTypeProvider().getFeatureProvider() != null) {
+                    SwitchyardSCAEditor.getActiveEditor().getDiagramTypeProvider().getFeatureProvider().updateIfPossible(updateContext);        
+                }
+            }
+        }
     }
 
     @Override

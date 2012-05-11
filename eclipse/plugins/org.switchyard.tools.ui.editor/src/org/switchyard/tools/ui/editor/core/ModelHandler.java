@@ -101,10 +101,47 @@ public class ModelHandler {
                         DocumentRoot docRoot = createDocumentRoot();
                         SwitchYardType switchYardRoot = createSY(SwitchYardType.class);
                         docRoot.setSwitchyard(switchYardRoot);
+                        Composite composite = createSCA(Composite.class);
+                        composite.setTargetNamespace(switchYardRoot.getTargetNamespace());
+                        composite.setName(switchYardRoot.getName());
+                        switchYardRoot.setComposite(composite);
                         _resource.getContents().add(docRoot);
                     }
                 });
                 return;
+            }
+        } else if (contents.get(0) instanceof DocumentRoot) {
+            TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(_resource);
+            final DocumentRoot docRoot = (DocumentRoot) contents.get(0);
+            if (docRoot.getSwitchyard() == null) {
+                if (domain != null) {
+                    domain.getCommandStack().execute(new RecordingCommand(domain) {
+                        @Override
+                        protected void doExecute() {
+                            SwitchYardType switchYardRoot = createSY(SwitchYardType.class);
+                            docRoot.setSwitchyard(switchYardRoot);
+                            Composite composite = createSCA(Composite.class);
+                            composite.setTargetNamespace(switchYardRoot.getTargetNamespace());
+                            composite.setName(switchYardRoot.getName());
+                            switchYardRoot.setComposite(composite);
+                        }
+                    });
+                    return;
+                }
+            } else if (docRoot.getSwitchyard().getComposite() == null) {
+                if (domain != null) {
+                    domain.getCommandStack().execute(new RecordingCommand(domain) {
+                        @Override
+                        protected void doExecute() {
+                            SwitchYardType switchYardRoot = docRoot.getSwitchyard();
+                            Composite composite = createSCA(Composite.class);
+                            composite.setTargetNamespace(switchYardRoot.getTargetNamespace());
+                            composite.setName(switchYardRoot.getName());
+                            switchYardRoot.setComposite(composite);
+                        }
+                    });
+                    return;
+                }
             }
         }
     }
