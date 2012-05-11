@@ -322,6 +322,9 @@ public class CamelRouteSelectionComposite {
                 project = ((IFile) selectionToPass.getFirstElement()).getProject();
             }
         }
+        if (selectionToPass == StructuredSelection.EMPTY) {
+            project = SwitchyardSCAEditor.getActiveEditor().getModelFile().getProject();
+        }
         if (project != null && classname != null) { //$NON-NLS-1$
             IJavaProject javaProject = JavaCore.create(project);
             IType superType = javaProject.findType(classname);
