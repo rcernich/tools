@@ -10,7 +10,7 @@
  *
  * @author bfitzpat
  ******************************************************************************/
-package org.switchyard.tools.ui.editor.diagram.composite;
+package org.switchyard.tools.ui.editor.diagram.component;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
@@ -21,27 +21,27 @@ import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
+import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.switchyard.tools.ui.editor.diagram.di.DIImport;
 
 /**
  * @author bfitzpat
  *
  */
-public class SCADiagramUpdateCompositeFeature extends AbstractUpdateFeature {
+public class SCADiagramUpdateComponentFeature extends AbstractUpdateFeature {
 
     /**
      * @param fp the feature provider
      */
-    public SCADiagramUpdateCompositeFeature(IFeatureProvider fp) {
+    public SCADiagramUpdateComponentFeature(IFeatureProvider fp) {
         super(fp);
     }
 
     @Override
     public boolean canUpdate(IUpdateContext context) {
-        // return true, if linked business object is a Composite
+        // return true, if linked business object is a Component
         Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-        return (bo instanceof Composite);
+        return (bo instanceof Component);
     }
 
     private Text findText(GraphicsAlgorithm root) {
@@ -73,15 +73,15 @@ public class SCADiagramUpdateCompositeFeature extends AbstractUpdateFeature {
         // retrieve name from business model
         String businessName = null;
         Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-        if (bo instanceof Composite) {
-            Composite eClass = (Composite) bo;
+        if (bo instanceof Component) {
+            Component eClass = (Component) bo;
             businessName = eClass.getName();
 
             // update needed, if names are different
             boolean updateNameNeeded = ((pictogramName == null && businessName != null) || (pictogramName != null && !pictogramName
                     .contentEquals(businessName)));
             if (updateNameNeeded) {
-                return Reason.createTrueReason("Composite name is out of date");
+                return Reason.createTrueReason("Component name is out of date");
             } else {
                 return Reason.createFalseReason();
             }
@@ -96,8 +96,8 @@ public class SCADiagramUpdateCompositeFeature extends AbstractUpdateFeature {
         String businessName = null;
         PictogramElement pictogramElement = context.getPictogramElement();
         Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-        if (bo instanceof Composite) {
-            Composite eClass = (Composite) bo;
+        if (bo instanceof Component) {
+            Component eClass = (Component) bo;
             businessName = eClass.getName();
         }
 

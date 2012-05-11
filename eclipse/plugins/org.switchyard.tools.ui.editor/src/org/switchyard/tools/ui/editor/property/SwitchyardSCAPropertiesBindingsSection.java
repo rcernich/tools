@@ -15,8 +15,6 @@ package org.switchyard.tools.ui.editor.property;
 import java.beans.PropertyChangeEvent;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.transaction.RecordingCommand;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
@@ -31,38 +29,33 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardBindingType;
-import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
+import org.switchyard.tools.ui.editor.diagram.shared.WSDLURISelectionComposite;
 
 /**
  * @author bfitzpat
  * 
  */
-public class SwitchyardSCAPropertiesSOAPBindingsSection extends GFPropertySection implements ITabbedPropertyConstants {
+public class SwitchyardSCAPropertiesBindingsSection extends GFPropertySection implements ITabbedPropertyConstants {
 
-    private Text _wsdlText;
-    private Text _portText;
     private Binding _binding;
-
     private PageBook _compositeRight;
-    private Composite _soapControlsPage;
     private ListViewer _listViewer;
+    private WSDLURISelectionComposite _wsdlComposite = null;
+    private Composite _blank = null;
 
     /**
      * Constructor.
      */
-    public SwitchyardSCAPropertiesSOAPBindingsSection() {
+    public SwitchyardSCAPropertiesBindingsSection() {
         super();
     }
 
@@ -83,79 +76,85 @@ public class SwitchyardSCAPropertiesSOAPBindingsSection extends GFPropertySectio
         composite.setLayout(new GridLayout(3, false));
 
         Composite compositeLeft = factory.createFlatFormComposite(composite);
-        compositeLeft.setLayout(new GridLayout());
-        GridData leftGD = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
+        GridData leftGD = new GridData(SWT.FILL, SWT.FILL, true, true);
         compositeLeft.setLayoutData(leftGD);
+        compositeLeft.setLayout(new GridLayout());
 
-        factory.createLabel(compositeLeft, "Binding Type:");
+        factory.createLabel(compositeLeft, "Bindings:");
         _listViewer = new ListViewer(compositeLeft, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-        GridData data = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
-        data.verticalSpan = 5;
-        _listViewer.getList().setLayoutData(data);
+        GridData lvGD = new GridData(SWT.FILL, SWT.FILL, true, true);
+        _listViewer.getControl().setLayoutData(lvGD);
 
         Composite separator = factory.createCompositeSeparator(composite);
-        GridData sepGD = new GridData();
+        GridData sepGD = new GridData(SWT.FILL, SWT.FILL, false, true);
         sepGD.widthHint = 1;
         separator.setLayoutData(sepGD);
 
         _compositeRight = new PageBook(composite, SWT.NONE);
-        _compositeRight.setLayout(new GridLayout(2, false));
-        GridData rightGD = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
-        rightGD.verticalSpan = 6;
+        GridData rightGD = new GridData(SWT.FILL, SWT.FILL, true, true);
         _compositeRight.setLayoutData(rightGD);
+        _compositeRight.setLayout(new GridLayout());
         factory.adapt(_compositeRight);
 
-        _soapControlsPage = factory.createFlatFormComposite(_compositeRight);
-        _soapControlsPage.setLayout(new GridLayout(2, false));
-        GridData soapGD = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
-        soapGD.verticalSpan = 3;
-        _soapControlsPage.setLayoutData(soapGD);
-        factory.createLabel(_soapControlsPage, "WSDL Path:");
-        _wsdlText = factory.createText(_soapControlsPage, "");
-        GridData wsdlGD = new GridData(GridData.FILL_HORIZONTAL);
-        _wsdlText.setLayoutData(wsdlGD);
-        // createLabelAndTextField(soapControlsPage, "WSDL Path:");
-        _wsdlText.addModifyListener(new ModifyListener() {
-            @SuppressWarnings("restriction")
-            @Override
-            public void modifyText(ModifyEvent e) {
-                if (_binding != null && _binding instanceof SOAPBindingType) {
-                    final SOAPBindingType soapBinding = (SOAPBindingType) _binding;
-                    if (!soapBinding.getWsdl().contentEquals(_wsdlText.getText().trim())) {
-                        TransactionalEditingDomain domain = SwitchyardSCAEditor.getActiveEditor().getEditingDomain();
-                        domain.getCommandStack().execute(new RecordingCommand(domain) {
-                            @Override
-                            protected void doExecute() {
-                                soapBinding.setWsdl(_wsdlText.getText().trim());
-                            }
-                        });
-                    }
-                }
-            }
-        });
-        factory.createLabel(_soapControlsPage, "Port:");
-        _portText = factory.createText(_soapControlsPage, "");
-        GridData portGD = new GridData(GridData.FILL_HORIZONTAL);
-        _portText.setLayoutData(portGD);
-        // _portText = createLabelAndTextField(soapControlsPage, "Port:");
-        _portText.addModifyListener(new ModifyListener() {
-            @SuppressWarnings("restriction")
-            @Override
-            public void modifyText(ModifyEvent e) {
-                if (_binding != null && _binding instanceof SOAPBindingType) {
-                    final SOAPBindingType soapBinding = (SOAPBindingType) _binding;
-                    if (!soapBinding.getSocketAddr().contentEquals(_portText.getText().trim())) {
-                        TransactionalEditingDomain domain = SwitchyardSCAEditor.getActiveEditor().getEditingDomain();
-                        domain.getCommandStack().execute(new RecordingCommand(domain) {
-                            @Override
-                            protected void doExecute() {
-                                soapBinding.setSocketAddr(_portText.getText().trim());
-                            }
-                        });
-                    }
-                }
-            }
-        });
+        createWSDLInterfaceComposite(_compositeRight);
+
+        // _soapControlsPage = factory.createFlatFormComposite(_compositeRight);
+        // _soapControlsPage.setLayout(new GridLayout(2, false));
+        // GridData soapGD = new GridData(GridData.FILL_BOTH |
+        // GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
+        // soapGD.verticalSpan = 3;
+        // _soapControlsPage.setLayoutData(soapGD);
+        // factory.createLabel(_soapControlsPage, "WSDL Path:");
+        // _wsdlText = factory.createText(_soapControlsPage, "");
+        // GridData wsdlGD = new GridData(GridData.FILL_HORIZONTAL);
+        // _wsdlText.setLayoutData(wsdlGD);
+        // // createLabelAndTextField(soapControlsPage, "WSDL Path:");
+        // _wsdlText.addModifyListener(new ModifyListener() {
+        // @SuppressWarnings("restriction")
+        // @Override
+        // public void modifyText(ModifyEvent e) {
+        // if (_binding != null && _binding instanceof SOAPBindingType) {
+        // final SOAPBindingType soapBinding = (SOAPBindingType) _binding;
+        // if (!soapBinding.getWsdl().contentEquals(_wsdlText.getText().trim()))
+        // {
+        // TransactionalEditingDomain domain =
+        // SwitchyardSCAEditor.getActiveEditor().getEditingDomain();
+        // domain.getCommandStack().execute(new RecordingCommand(domain) {
+        // @Override
+        // protected void doExecute() {
+        // soapBinding.setWsdl(_wsdlText.getText().trim());
+        // }
+        // });
+        // }
+        // }
+        // }
+        // });
+        // factory.createLabel(_soapControlsPage, "Port:");
+        // _portText = factory.createText(_soapControlsPage, "");
+        // GridData portGD = new GridData(GridData.FILL_HORIZONTAL);
+        // _portText.setLayoutData(portGD);
+        // // _portText = createLabelAndTextField(soapControlsPage, "Port:");
+        // _portText.addModifyListener(new ModifyListener() {
+        // @SuppressWarnings("restriction")
+        // @Override
+        // public void modifyText(ModifyEvent e) {
+        // if (_binding != null && _binding instanceof SOAPBindingType) {
+        // final SOAPBindingType soapBinding = (SOAPBindingType) _binding;
+        // if
+        // (!soapBinding.getSocketAddr().contentEquals(_portText.getText().trim()))
+        // {
+        // TransactionalEditingDomain domain =
+        // SwitchyardSCAEditor.getActiveEditor().getEditingDomain();
+        // domain.getCommandStack().execute(new RecordingCommand(domain) {
+        // @Override
+        // protected void doExecute() {
+        // soapBinding.setSocketAddr(_portText.getText().trim());
+        // }
+        // });
+        // }
+        // }
+        // }
+        // });
 
         _listViewer.setLabelProvider(new LabelProvider() {
             public String getText(Object element) {
@@ -193,24 +192,33 @@ public class SwitchyardSCAPropertiesSOAPBindingsSection extends GFPropertySectio
 
             }
         });
-        
-        Composite blank = factory.createFlatFormComposite(_compositeRight);
-        _compositeRight.showPage(blank);
+
+        _blank = factory.createFlatFormComposite(_compositeRight);
+        _compositeRight.showPage(_blank);
+    }
+
+    private void createWSDLInterfaceComposite(Composite parent) {
+        TabbedPropertySheetWidgetFactory factory = getWidgetFactory();
+        _wsdlComposite = new WSDLURISelectionComposite();
+        GridData wsdlGD = new GridData(SWT.FILL, SWT.FILL, true, true);
+        _wsdlComposite.setRootGridData(wsdlGD);
+        _wsdlComposite.createContents(parent, SWT.NONE);
+        factory.adapt(_wsdlComposite.getcPanel());
     }
 
     private void handleSelectListItem() {
         if (_binding != null && _binding instanceof SOAPBindingType) {
-            _compositeRight.showPage(_soapControlsPage);
             SOAPBindingType soapBinding = (SOAPBindingType) _binding;
-            String wsdlFile = soapBinding.getWsdl();
-            _wsdlText.setText(wsdlFile == null ? "" : wsdlFile); //$NON-NLS-1$
-            String port = soapBinding.getSocketAddr();
-            _portText.setText(port == null ? "" : port); //$NON-NLS-1$
+            _wsdlComposite.setcBinding(soapBinding);
+            _compositeRight.showPage(_wsdlComposite.getcPanel());
+        } else {
+            _compositeRight.showPage(_blank);
         }
     }
 
     @Override
     public void refresh() {
+        _binding = null;
         PictogramElement pe = getSelectedPictogramElement();
         if (pe != null) {
             Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
@@ -227,6 +235,7 @@ public class SwitchyardSCAPropertiesSOAPBindingsSection extends GFPropertySectio
                 EList<Binding> bindings = reference.getBinding();
                 _listViewer.setInput(bindings);
             }
+            handleSelectListItem();
         }
     }
 

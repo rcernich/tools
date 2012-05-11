@@ -215,7 +215,12 @@ public class DIImport {
         layoutAll();
     }
 
-    private GraphicsAlgorithm findChildGA(GraphicsAlgorithm parent, Class<?> gaSearchType) {
+    /**
+     * @param parent Graphics Algorithm
+     * @param gaSearchType Graphics Algorithm class to look for
+     * @return found GA
+     */
+    public static GraphicsAlgorithm findChildGA(GraphicsAlgorithm parent, Class<?> gaSearchType) {
         EList<GraphicsAlgorithm> childGAs = parent.getGraphicsAlgorithmChildren();
         for (GraphicsAlgorithm graphicsAlgorithm : childGAs) {
             if (graphicsAlgorithm.getClass().getCanonicalName().contentEquals(gaSearchType.getCanonicalName())) {
