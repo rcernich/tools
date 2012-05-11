@@ -202,6 +202,7 @@ public class SwitchyardSCAPropertiesBindingsSection extends GFPropertySection im
         _wsdlComposite = new WSDLURISelectionComposite();
         GridData wsdlGD = new GridData(SWT.FILL, SWT.FILL, true, true);
         _wsdlComposite.setRootGridData(wsdlGD);
+        _wsdlComposite.setOpenOnCreate(true);
         _wsdlComposite.createContents(parent, SWT.NONE);
         factory.adapt(_wsdlComposite.getcPanel());
     }

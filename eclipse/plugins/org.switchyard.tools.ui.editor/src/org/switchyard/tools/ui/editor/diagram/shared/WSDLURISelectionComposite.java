@@ -26,9 +26,13 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -57,11 +61,11 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
-import org.eclipse.wst.wsdl.ui.internal.wizards.NewWSDLWizard;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.ContextMapperType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
+import org.switchyard.tools.ui.editor.util.OpenFileUtil;
 
 /**
  * @author bfitzpat
@@ -87,6 +91,7 @@ public class WSDLURISelectionComposite {
     private GridData _rootGridData = null;
     private boolean _canEdit = true;
     private boolean _inUpdate = false;
+    private boolean _openOnCreate = false;
 
     private Button _browseBtnWorkspace;
     private Button _browseBtnFile;
@@ -121,11 +126,21 @@ public class WSDLURISelectionComposite {
         _newWSDLLink.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String result = getPathToNewWSDL(_panel.getShell());
-                if (result != null) {
-                    _mWSDLInterfaceURIText.setText(result);
-                    handleModify();
-                    fireChangedEvent(_newWSDLLink);
+                String oldResult = _mWSDLInterfaceURIText.getText().trim();
+                IFile modelFile = SwitchyardSCAEditor.getActiveEditor().getModelFile();
+                IPath wsdlPath = modelFile.getParent().getParent().getProjectRelativePath();
+                wsdlPath = wsdlPath.append(oldResult);
+                IProject project = SwitchyardSCAEditor.getActiveEditor().getModelFile().getProject();
+                if (project.exists(wsdlPath)) {
+                    IResource wsdlFile = project.findMember(wsdlPath);
+                    OpenFileUtil.openFile(wsdlFile);
+                } else {
+                    String result = getPathToNewWSDL(_panel.getShell(), wsdlPath, _openOnCreate);
+                    if (result != null) {
+                        _mWSDLInterfaceURIText.setText(result);
+                        handleModify();
+                        fireChangedEvent(_newWSDLLink);
+                    }
                 }
             }
         });
@@ -198,20 +213,21 @@ public class WSDLURISelectionComposite {
         _mWSDLPortText.setLayoutData(portGD);
 
         setVisibilityOfPortControls(this._binding != null);
-        
-//        _mWSDLInterfaceURIText.setText("MyService.wsdl");
-//        _sWSDLURI = _mWSDLInterfaceURIText.getText();
+
+        // _mWSDLInterfaceURIText.setText("MyService.wsdl");
+        // _sWSDLURI = _mWSDLInterfaceURIText.getText();
     }
 
     private void setVisibilityOfPortControls(boolean flag) {
         _portLabel.setVisible(flag);
         _mWSDLPortText.setVisible(flag);
-//        if (_portLabel.getVisible()) {
-//            if (_mWSDLPortText.getText() != null || _mWSDLPortText.getText().trim().isEmpty()) {
-//                _mWSDLPortText.setText("18001");
-//                _bindingPort = _mWSDLPortText.getText();
-//            }
-//        }
+        // if (_portLabel.getVisible()) {
+        // if (_mWSDLPortText.getText() != null ||
+        // _mWSDLPortText.getText().trim().isEmpty()) {
+        // _mWSDLPortText.setText("18001");
+        // _bindingPort = _mWSDLPortText.getText();
+        // }
+        // }
     }
 
     private void handleModify() {
@@ -225,7 +241,7 @@ public class WSDLURISelectionComposite {
                         ((WSDLPortType) _interface).setInterface(_sWSDLURI);
                     }
                 });
-                
+
             } else {
                 ((WSDLPortType) _interface).setInterface(_sWSDLURI);
             }
@@ -315,6 +331,7 @@ public class WSDLURISelectionComposite {
     public SOAPBindingType getBinding() {
         return _binding;
     }
+
     /**
      * @param cInterface interface
      */
@@ -408,6 +425,13 @@ public class WSDLURISelectionComposite {
      */
     public String getsBindingPort() {
         return _bindingPort;
+    }
+
+    /**
+     * @param flag open on create? true/false
+     */
+    public void setOpenOnCreate(boolean flag) {
+        this._openOnCreate = flag;
     }
 
     /**
@@ -545,17 +569,25 @@ public class WSDLURISelectionComposite {
         return fileDialog.open();
     }
 
-    private static String getPathToNewWSDL(final Shell shell) {
-        NewWSDLWizard newWizard = new NewWSDLWizard();
-        IFile modelFile = SwitchyardSCAEditor.getActiveEditor().getModelFile();
+    private static String getPathToNewWSDL(final Shell shell, final IPath path, boolean _openWhenFinish) {
+        NewWSDLFileWizard newWizard = new NewWSDLFileWizard();
         IStructuredSelection selectionToPass = StructuredSelection.EMPTY;
+        IFile modelFile = SwitchyardSCAEditor.getActiveEditor().getModelFile();
         if (modelFile != null) {
-            selectionToPass = new StructuredSelection(modelFile);
+            if (modelFile.getProject() != null) { //$NON-NLS-1$
+                IJavaProject javaProject = JavaCore.create(modelFile.getProject());
+                IPackageFragmentRoot folder = javaProject.getPackageFragmentRoot(modelFile);
+                selectionToPass = new StructuredSelection(folder);
+            }
         }
+        if (path != null) {
+            newWizard.setStartingFileName(path.lastSegment());
+        }
+        newWizard.setOpenOnFinish(_openWhenFinish);
         newWizard.init(PlatformUI.getWorkbench(), selectionToPass);
         WizardDialog dialog = new WizardDialog(shell, newWizard);
         if (dialog.open() == Window.OK) {
-            return newWizard.getNewFile().getFullPath().makeRelative().toPortableString();
+            return newWizard.getCreatedFilePath();
         }
         return null;
     }
