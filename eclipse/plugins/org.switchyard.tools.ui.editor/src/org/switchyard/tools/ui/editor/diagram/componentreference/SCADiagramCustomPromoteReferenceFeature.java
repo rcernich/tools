@@ -28,7 +28,6 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Interface;
@@ -67,145 +66,139 @@ public class SCADiagramCustomPromoteReferenceFeature extends AbstractCustomFeatu
         PictogramElement[] pes = context.getPictogramElements();
         if (pes != null && pes.length == 1) {
             Object bo = getBusinessObjectForPictogramElement(pes[0]);
-            if (bo instanceof Component) {
-                Component component = (Component) bo;
-                if (!component.getReference().isEmpty()) {
-                    ComponentReference cref = component.getReference().get(0);
-                    Shape[] shapes = DIImport.findShapesWithName(getFeatureProvider(), getDiagram(), cref.getName());
-                    if (shapes != null && shapes.length > 0) {
-                        for (int i = 0; i < shapes.length; i++) {
-                            Object testObj = getFeatureProvider().getBusinessObjectForPictogramElement(shapes[i]);
-                            if (testObj instanceof Reference) {
-                                Reference reference = (Reference) testObj;
-                                reference.getPromote().add(cref);
-
-                                Interface newInterface = null;
-                                SCADiagramAddServiceInterfaceWizard wizard = new SCADiagramAddServiceInterfaceWizard();
-                                if (reference.getInterface() != null) {
-                                    wizard.setInheritedInterface(reference.getInterface());
-                                }
-                                Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-                                WizardDialog wizDialog = new WizardDialog(shell, wizard);
-                                wizDialog.setTitle("Specify Promoted Reference Interface");
-                                int rtn_code = wizDialog.open();
-                                if (rtn_code == Window.OK) {
-                                    newInterface = wizard.getInterface();
-                                    if (newInterface != null) {
-                                        // do something with it
-                                        if (newInterface instanceof JavaInterface) {
-                                            reference.getInterfaceGroup().set(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceJava(),
-                                                    newInterface);
-                                        } else if (newInterface instanceof WSDLPortType) {
-                                            reference.getInterfaceGroup().set(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceWsdl(),
-                                                    newInterface);
-                                        }
-                                    }
-                                }
-
-                                this._hasDoneChanges = true;
-                            }
-                        }
-                        getDiagramEditor().refresh();
-                    } else {
-                        try {
-
-                            Interface newInterface = null;
-                            SCADiagramAddReferenceInterfaceWizard wizard = new SCADiagramAddReferenceInterfaceWizard();
-                            if (cref.getInterface() != null) {
-                                wizard.setInheritedInterface(cref.getInterface());
-                            }
-                            Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-                            WizardDialog wizDialog = new WizardDialog(shell, wizard);
-                            wizDialog.setTitle("Specify Promoted Reference Interface");
-                            int rtn_code = wizDialog.open();
-                            if (rtn_code == Window.OK) {
-                                newInterface = wizard.getInterface();
-                            } else {
-                                this._hasDoneChanges = false;
-                                return;
-                            }
-                            Composite composite = (Composite) component.eContainer();
-                            ModelHandler handler = ModelHandlerLocator.getModelHandler(getDiagram().eResource());
-                            Reference newReference = handler.createCompositeReference(composite);
-                            newReference.setName(cref.getName());
-                            newReference.getPromote().add(cref);
-                            newReference.setMultiplicity(Multiplicity._01);
-                            if (newInterface != null) {
-                                // do something with it
-                                if (newInterface instanceof JavaInterface) {
-                                    newReference.getInterfaceGroup().set(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceJava(),
-                                            newInterface);
-                                } else if (newInterface instanceof WSDLPortType) {
-                                    newReference.getInterfaceGroup().set(ScaPackage.eINSTANCE.getDocumentRoot_InterfaceWsdl(),
-                                            newInterface);
-                                }
-                            }
-
-                            ContainerShape cshape = (ContainerShape) getFeatureProvider()
-                                    .getPictogramElementForBusinessObject(composite);
-
-                            AddContext addRefContext = new AddContext();
-                            addRefContext.setNewObject(newReference);
-                            addRefContext.setTargetContainer(cshape);
-                            addRefContext.setX(cshape.getGraphicsAlgorithm().getX()
-                                    + cshape.getGraphicsAlgorithm().getWidth() - StyleUtil.LARGE_RIGHT_ARROW_WIDTH);
-                            addRefContext.setY(pes[0].getGraphicsAlgorithm().getY());
-
-                            IAddFeature addRefFeature = getFeatureProvider().getAddFeature(addRefContext);
-                            if (addRefFeature.canAdd(addRefContext)) {
-                                Shape referenceShape = (Shape) addRefFeature.add(addRefContext);
-                                getDiagramEditor().refresh(referenceShape);
-
-                                String referencedShapeName = cref.getName();
-                                Anchor targetAnchor = null;
-                                Anchor sourceAnchor = null;
-                                Anchor[] anchors = DIImport.findAnchorsWithName(getFeatureProvider(), getDiagram(),
-                                        referencedShapeName);
-                                for (Anchor anchor : anchors) {
-                                    Object anchorObj = getFeatureProvider()
-                                            .getBusinessObjectForPictogramElement(anchor);
-                                    if (anchorObj instanceof ComponentReference) {
-                                        ComponentReference cref2 = (ComponentReference) anchorObj;
-                                        if (cref2.getName().contentEquals(referencedShapeName)) {
-                                            targetAnchor = anchor;
-                                        }
-                                    }
-                                    if (anchorObj instanceof Reference) {
-                                        Reference reference = (Reference) anchorObj;
-                                        if (reference.getName().contentEquals(referencedShapeName)) {
-                                            sourceAnchor = anchor;
-                                        }
-                                    }
-                                }
-                                if (sourceAnchor != null && targetAnchor != null) {
-                                    if (sourceAnchor.getParent() != targetAnchor.getParent()) {
-                                        // now define the connection between the
-                                        // componentreference and the new
-                                        // reference shape
-                                        AddConnectionContext addReferenceContext = new AddConnectionContext(
-                                                sourceAnchor, targetAnchor);
-                                        ArrayList<String> targetRef = new ArrayList<String>();
-                                        targetRef.add(referencedShapeName);
-                                        addReferenceContext.setNewObject(cref);
-                                        addReferenceContext.setTargetContainer(cshape);
-
-                                        IAddFeature addConnectionFeature = getFeatureProvider().getAddFeature(
-                                                addReferenceContext);
-                                        if (addConnectionFeature != null
-                                                && addConnectionFeature.canAdd(addReferenceContext)) {
-                                            addConnectionFeature.add(addReferenceContext);
-                                        }
-                                    }
-                                }
-
-                            }
-                            this._hasDoneChanges = true;
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
+            if (bo instanceof ComponentReference) {
+                Shape referenceShape = null;
+                ComponentReference cref = (ComponentReference) bo;
+                ContainerShape cshape = (ContainerShape) getFeatureProvider().getPictogramElementForBusinessObject(
+                        cref.eContainer().eContainer());
+                Reference targetReference = null;
+                for (Reference reference : ((Composite) cref.eContainer().eContainer()).getReference()) {
+                    if (cref.getName().equals(reference.getName())) {
+                        targetReference = reference;
+                        break;
                     }
+                }
+                if (targetReference != null) {
+                    targetReference.getPromote().add(cref);
+                    Interface newInterface = null;
+                    SCADiagramAddServiceInterfaceWizard wizard = new SCADiagramAddServiceInterfaceWizard();
+                    if (targetReference.getInterface() != null) {
+                        wizard.setInheritedInterface(targetReference.getInterface());
+                    }
+                    Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                    WizardDialog wizDialog = new WizardDialog(shell, wizard);
+                    wizDialog.setTitle("Specify Promoted Reference Interface");
+                    int rtn_code = wizDialog.open();
+                    if (rtn_code == Window.OK) {
+                        newInterface = wizard.getInterface();
+                        if (newInterface != null) {
+                            // do something with it
+                            if (newInterface instanceof JavaInterface) {
+                                targetReference.getInterfaceGroup().set(
+                                        ScaPackage.eINSTANCE.getDocumentRoot_InterfaceJava(), newInterface);
+                            } else if (newInterface instanceof WSDLPortType) {
+                                targetReference.getInterfaceGroup().set(
+                                        ScaPackage.eINSTANCE.getDocumentRoot_InterfaceWsdl(), newInterface);
+                            }
+                        }
+                    }
+                    referenceShape = (Shape) getFeatureProvider().getPictogramElementForBusinessObject(targetReference);
+                    this._hasDoneChanges = true;
+                    getDiagramEditor().refresh();
+                } else {
+                    try {
+                        Interface newInterface = null;
+                        SCADiagramAddReferenceInterfaceWizard wizard = new SCADiagramAddReferenceInterfaceWizard();
+                        if (cref.getInterface() != null) {
+                            wizard.setInheritedInterface(cref.getInterface());
+                        }
+                        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+                        WizardDialog wizDialog = new WizardDialog(shell, wizard);
+                        wizDialog.setTitle("Specify Promoted Reference Interface");
+                        int rtn_code = wizDialog.open();
+                        if (rtn_code == Window.OK) {
+                            newInterface = wizard.getInterface();
+                        } else {
+                            this._hasDoneChanges = false;
+                            return;
+                        }
+                        Composite composite = (Composite) cref.eContainer().eContainer();
+                        ModelHandler handler = ModelHandlerLocator.getModelHandler(getDiagram().eResource());
+                        Reference newReference = handler.createCompositeReference(composite);
+                        newReference.setName(cref.getName());
+                        newReference.getPromote().add(cref);
+                        newReference.setMultiplicity(Multiplicity._01);
+                        if (newInterface != null) {
+                            // do something with it
+                            if (newInterface instanceof JavaInterface) {
+                                newReference.getInterfaceGroup().set(
+                                        ScaPackage.eINSTANCE.getDocumentRoot_InterfaceJava(), newInterface);
+                            } else if (newInterface instanceof WSDLPortType) {
+                                newReference.getInterfaceGroup().set(
+                                        ScaPackage.eINSTANCE.getDocumentRoot_InterfaceWsdl(), newInterface);
+                            }
+                        }
+
+                        AddContext addRefContext = new AddContext();
+                        addRefContext.setNewObject(newReference);
+                        addRefContext.setTargetContainer(cshape);
+                        addRefContext.setX(cshape.getGraphicsAlgorithm().getWidth()
+                                - StyleUtil.COMPOSITE_REFERENCE_WIDTH);
+                        addRefContext.setY(cshape.getGraphicsAlgorithm().getY() + 3 * StyleUtil.COMPOSITE_EDGE);
+
+                        referenceShape = (Shape) addGraphicalRepresentation(addRefContext, newReference);
+                        if (referenceShape != null) {
+                            // make sure the new reference is positioned
+                            // correctly.
+                            layoutPictogramElement(cshape);
+                        }
+                        this._hasDoneChanges = true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (referenceShape != null) {
+                    getDiagramEditor().refresh(referenceShape);
+
+                    String referencedShapeName = cref.getName();
+                    Anchor targetAnchor = null;
+                    Anchor sourceAnchor = null;
+                    Anchor[] anchors = DIImport.findAnchorsWithName(getFeatureProvider(), getDiagram(),
+                            referencedShapeName);
+                    for (Anchor anchor : anchors) {
+                        Object anchorObj = getFeatureProvider().getBusinessObjectForPictogramElement(anchor);
+                        if (anchorObj instanceof ComponentReference) {
+                            ComponentReference cref2 = (ComponentReference) anchorObj;
+                            if (cref2.getName().contentEquals(referencedShapeName)) {
+                                targetAnchor = anchor;
+                            }
+                        }
+                        if (anchorObj instanceof Reference) {
+                            Reference reference = (Reference) anchorObj;
+                            if (reference.getName().contentEquals(referencedShapeName)) {
+                                sourceAnchor = anchor;
+                            }
+                        }
+                    }
+                    if (sourceAnchor != null && targetAnchor != null) {
+                        if (sourceAnchor.getParent() != targetAnchor.getParent()) {
+                            // now define the connection between the
+                            // componentreference and the new
+                            // reference shape
+                            AddConnectionContext addReferenceContext = new AddConnectionContext(sourceAnchor,
+                                    targetAnchor);
+                            ArrayList<String> targetRef = new ArrayList<String>();
+                            targetRef.add(referencedShapeName);
+                            addReferenceContext.setNewObject(cref);
+                            addReferenceContext.setTargetContainer(cshape);
+
+                            IAddFeature addConnectionFeature = getFeatureProvider().getAddFeature(addReferenceContext);
+                            if (addConnectionFeature != null && addConnectionFeature.canAdd(addReferenceContext)) {
+                                addConnectionFeature.add(addReferenceContext);
+                            }
+                        }
+                    }
+
                 }
             }
         }
@@ -220,13 +213,7 @@ public class SCADiagramCustomPromoteReferenceFeature extends AbstractCustomFeatu
     public boolean canExecute(ICustomContext context) {
         PictogramElement[] pes = context.getPictogramElements();
         if (pes != null && pes.length == 1) {
-            Object bo = getBusinessObjectForPictogramElement(pes[0]);
-            if (bo instanceof Component) {
-                Component component = (Component) bo;
-                if (!component.getReference().isEmpty()) {
-                    return true;
-                }
-            }
+            return getBusinessObjectForPictogramElement(pes[0]) instanceof ComponentReference;
         }
 
         return false;

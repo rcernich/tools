@@ -17,6 +17,8 @@ import java.io.IOException;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
@@ -91,7 +93,11 @@ public class SCADiagramCreateServiceFeature extends AbstractCreateFeature {
         }
 
         // do the add
-        addGraphicalRepresentation(context, newService);
+        PictogramElement pe = addGraphicalRepresentation(context, newService);
+        if (pe instanceof Shape) {
+            // make sure the new service is positioned correctly.
+            layoutPictogramElement(((Shape) pe).getContainer());
+        }
 
         // activate direct editing after object creation
         getFeatureProvider().getDirectEditingInfo().setActive(true);

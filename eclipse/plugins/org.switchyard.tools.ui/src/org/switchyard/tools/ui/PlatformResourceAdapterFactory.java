@@ -19,6 +19,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.soa.sca.sca1_1.model.sca.Component;
+import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
+import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
 import org.eclipse.soa.sca.sca1_1.model.sca.Implementation;
 import org.eclipse.soa.sca.sca1_1.model.sca.JavaInterface;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
@@ -82,10 +84,10 @@ public class PlatformResourceAdapterFactory implements IAdapterFactory {
                 if (service.getPromote() == null) {
                     return null;
                 }
-                if (service.getPromote().getInterface() == null) {
+                if (service.getPromote() == null) {
                     return null;
                 }
-                return getAdapter(service.getPromote().getInterface(), adapterType);
+                return getAdapter(service.getPromote(), adapterType);
             }
             return getAdapter(service.getInterface(), adapterType);
         } else if (adaptableObject instanceof Reference) {
@@ -94,12 +96,24 @@ public class PlatformResourceAdapterFactory implements IAdapterFactory {
                 if (reference.getPromote() == null) {
                     return null;
                 }
-                // TODO: model problem, is promote really a list?
-                // if (reference.getPromote().getInterface() == null) {
-                // return null;
-                // }
-                // return getAdapter(reference.getPromote().getInterface(),
-                // adapterType);
+                for (ComponentReference promoted : reference.getPromote()) {
+                    if (promoted.getInterface() == null) {
+                        continue;
+                    }
+                    return getAdapter(promoted, adapterType);
+                }
+                return null;
+            }
+            return getAdapter(reference.getInterface(), adapterType);
+        } else if (adaptableObject instanceof ComponentService) {
+            ComponentService service = (ComponentService) adaptableObject;
+            if (service.getInterface() == null) {
+                return null;
+            }
+            return getAdapter(service.getInterface(), adapterType);
+        } else if (adaptableObject instanceof ComponentReference) {
+            ComponentReference reference = (ComponentReference) adaptableObject;
+            if (reference.getInterface() == null) {
                 return null;
             }
             return getAdapter(reference.getInterface(), adapterType);

@@ -246,7 +246,8 @@ public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider 
             if (elements.length > 0) {
                 PictogramElement firstOne = elements[0];
                 Object bo = getFeatureProvider().getBusinessObjectForPictogramElement(firstOne);
-                if (bo instanceof Component || bo instanceof Service || bo instanceof Reference) {
+                if (bo instanceof Component || bo instanceof Service || bo instanceof Reference
+                        || bo instanceof ComponentService || bo instanceof ComponentReference) {
                     return new SCADiagramOpenOnDoubleClickFeature(getFeatureProvider());
                 }
             }
