@@ -18,16 +18,22 @@ import javax.swing.event.ChangeListener;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
+import org.eclipse.jdt.internal.core.PackageFragment;
 import org.eclipse.jdt.ui.IJavaElementSearchConstants;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jdt.ui.actions.OpenNewInterfaceWizardAction;
+import org.eclipse.jdt.ui.wizards.NewInterfaceWizardPage;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -56,6 +62,7 @@ import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
  * @author bfitzpat
  * 
  */
+@SuppressWarnings("restriction")
 public class JavaInterfaceSelectionComposite {
 
     // change listeners
@@ -70,6 +77,7 @@ public class JavaInterfaceSelectionComposite {
     private Text _mClassText;
     private Button _browseClassBtn;
     private boolean _canEdit = true;
+    private boolean _inUpdate = false;
 
     /**
      * Constructor.
@@ -122,8 +130,10 @@ public class JavaInterfaceSelectionComposite {
         _mClassText = new Text(_panel, SWT.BORDER);
         _mClassText.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
-                handleModify();
-                fireChangedEvent(_mClassText);
+                if (!_inUpdate) {
+                    handleModify();
+                    fireChangedEvent(_mClassText);
+                }
             }
         });
         GridData uriGD = new GridData(GridData.FILL_HORIZONTAL);
@@ -206,6 +216,9 @@ public class JavaInterfaceSelectionComposite {
                 project = ((IFile) selectionToPass.getFirstElement()).getProject();
             }
         }
+        if (selectionToPass == StructuredSelection.EMPTY) {
+            project = SwitchyardSCAEditor.getActiveEditor().getModelFile().getProject();
+        }
         if (project != null && classname != null) { //$NON-NLS-1$
             IJavaProject javaProject = JavaCore.create(project);
             IType superType = javaProject.findType(classname);
@@ -229,13 +242,52 @@ public class JavaInterfaceSelectionComposite {
     }
 
     private String handleCreateJavaClass() throws JavaModelException {
+        IProject project = null;
+        IJavaProject javaProject = null;
         OpenNewInterfaceWizardAction action = new OpenNewInterfaceWizardAction();
         IFile modelFile = SwitchyardSCAEditor.getActiveEditor().getModelFile();
         IStructuredSelection selectionToPass = StructuredSelection.EMPTY;
         if (modelFile != null) {
             selectionToPass = new StructuredSelection(modelFile);
+            project = ((IFile) selectionToPass.getFirstElement()).getProject();
+        }
+        String className = _mClassText.getText().trim();
+        NewInterfaceWizardPage page = new NewInterfaceWizardPage();
+        IPackageFragmentRoot packRoot = null;
+        if (project != null) { //$NON-NLS-1$
+            javaProject = JavaCore.create(project);
+            if (!className.isEmpty()) {
+                if (className.contains(".")) {
+                    className = className.substring(className.lastIndexOf('.') + 1);
+                }
+                page.setTypeName(className, true);
+            }
+            IPackageFragment[] packages = javaProject.getPackageFragments();
+            for (IPackageFragment mypackage : packages) {
+                if (mypackage.getKind() == IPackageFragmentRoot.K_SOURCE) {
+                    selectionToPass = new StructuredSelection(mypackage);
+                    packRoot = (IPackageFragmentRoot) mypackage.getParent();
+                    break;
+                }
+            }
+            page.setPackageFragmentRoot(packRoot, true);
         }
         action.setSelection(selectionToPass);
+        if (javaProject != null) {
+            IJavaElement[] roots = packRoot.getChildren();
+            PackageFragment stashFrag = null;
+            for (int i = 0; i < roots.length; i++) {
+                PackageFragment frag = (PackageFragment) roots[i];
+                if (!frag.isDefaultPackage() && !frag.hasSubpackages()) {
+                    stashFrag = frag;
+                    break;
+                }
+            }
+            if (stashFrag != null) {
+                page.setPackageFragment(stashFrag, true);
+            }
+        }
+        action.setConfiguredWizardPage(page);
         action.setOpenEditorOnFinish(false);
         action.run();
         IJavaElement createdElement = action.getCreatedElement();
@@ -254,7 +306,17 @@ public class JavaInterfaceSelectionComposite {
         validate();
         if (_interface instanceof JavaInterface) {
             if (_mClassText != null && !_mClassText.isDisposed() && _mClassText.isEnabled()) {
-                ((JavaInterface) _interface).setInterface(_interfaceClassName);
+                if (_interface.eContainer() != null) {
+                    TransactionalEditingDomain domain = SwitchyardSCAEditor.getActiveEditor().getEditingDomain();
+                    domain.getCommandStack().execute(new RecordingCommand(domain) {
+                        @Override
+                        protected void doExecute() {
+                            ((JavaInterface) _interface).setInterface(_interfaceClassName);
+                        }
+                    });
+                } else {
+                    ((JavaInterface) _interface).setInterface(_interfaceClassName);
+                }
             }
         }
     }
@@ -285,11 +347,13 @@ public class JavaInterfaceSelectionComposite {
         this._interface = cInterface;
         if (this._interface != null && this._interface instanceof JavaInterface) {
             JavaInterface javaIntfc = (JavaInterface) this._interface;
+            _inUpdate = true;
             if (javaIntfc.getInterface() != null) {
                 this._mClassText.setText(javaIntfc.getInterface());
             } else {
                 this._mClassText.setText("org.example.IServiceInterface");
             }
+            _inUpdate = false;
         }
     }
 

@@ -23,10 +23,18 @@ Require-Bundle: org.eclipse.graphiti,
  org.eclipse.jdt,
  org.eclipse.jdt.core,
  org.eclipse.jdt.ui,
- org.eclipse.wst.common.ui;bundle-version="1.1.0",
- org.eclipse.wst.wsdl.ui;bundle-version="1.2.0",
+ org.eclipse.wst.common.ui,
+ org.eclipse.wst.wsdl.ui,
  org.eclipse.jface.text,
- org.eclipse.m2e.maven.runtime;bundle-version="1.0.0"
+ org.eclipse.m2e.maven.runtime;bundle-version="1.0.0",
+ org.eclipse.wst.xml.core,
+ org.eclipse.wst.wsdl,
+ org.eclipse.wst.ws,
+ org.eclipse.wst.ws.service.policy,
+ org.eclipse.wst.sse.core,
+ org.eclipse.wst.ws.service.policy.ui,
+ javax.wsdl;bundle-version="1.6.2",
+ org.eclipse.wst.xml.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.switchyard.tools.ui.editor,

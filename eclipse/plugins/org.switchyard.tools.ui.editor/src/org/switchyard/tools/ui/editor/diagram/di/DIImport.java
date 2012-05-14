@@ -24,6 +24,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.impl.AddContext;
 import org.eclipse.graphiti.features.context.impl.CustomContext;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
@@ -130,6 +131,27 @@ public class DIImport {
                         layoutFeature.execute(context);
                     }
                 }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param parent Graphics Algorithm
+     * @param gaSearchType Graphics Algorithm class to look for
+     * @return found GA
+     */
+    public static GraphicsAlgorithm findChildGA(GraphicsAlgorithm parent, Class<?> gaSearchType) {
+        EList<GraphicsAlgorithm> childGAs = parent.getGraphicsAlgorithmChildren();
+        for (GraphicsAlgorithm graphicsAlgorithm : childGAs) {
+            if (graphicsAlgorithm.getClass().getCanonicalName().contentEquals(gaSearchType.getCanonicalName())) {
+                return graphicsAlgorithm;
+            } else if (graphicsAlgorithm.getClass() != gaSearchType
+                    && gaSearchType.isAssignableFrom(graphicsAlgorithm.getClass())) {
+                return graphicsAlgorithm;
+            }
+            if (graphicsAlgorithm.getGraphicsAlgorithmChildren().size() > 0) {
+                return findChildGA(graphicsAlgorithm, gaSearchType);
             }
         }
         return null;

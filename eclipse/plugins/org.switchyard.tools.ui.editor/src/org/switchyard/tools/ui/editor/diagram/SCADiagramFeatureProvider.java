@@ -50,6 +50,7 @@ import org.switchyard.tools.ui.editor.diagram.component.SCADiagramAddComponentFe
 import org.switchyard.tools.ui.editor.diagram.component.SCADiagramCreateComponentFeature;
 import org.switchyard.tools.ui.editor.diagram.component.SCADiagramDirectEditComponentFeature;
 import org.switchyard.tools.ui.editor.diagram.component.SCADiagramLayoutComponentFeature;
+import org.switchyard.tools.ui.editor.diagram.component.SCADiagramUpdateComponentFeature;
 import org.switchyard.tools.ui.editor.diagram.componentreference.SCADiagramAddComponentReferenceFeature;
 import org.switchyard.tools.ui.editor.diagram.componentreference.SCADiagramCreateComponentReferenceFeature;
 import org.switchyard.tools.ui.editor.diagram.componentreference.SCADiagramCustomPromoteReferenceFeature;
@@ -66,6 +67,7 @@ import org.switchyard.tools.ui.editor.diagram.compositereference.SCADiagramDirec
 import org.switchyard.tools.ui.editor.diagram.compositereference.SCADiagramLayoutCompositeReferenceFeature;
 import org.switchyard.tools.ui.editor.diagram.compositereference.SCADiagramMoveCompositeReferenceFeature;
 import org.switchyard.tools.ui.editor.diagram.compositereference.SCADiagramResizeCompositeReferenceFeature;
+import org.switchyard.tools.ui.editor.diagram.compositereference.SCADiagramUpdateCompositeReferenceFeature;
 import org.switchyard.tools.ui.editor.diagram.connections.SCADiagramAddComponentServiceLinkFeature;
 import org.switchyard.tools.ui.editor.diagram.connections.SCADiagramAddReferenceLinkFeature;
 import org.switchyard.tools.ui.editor.diagram.connections.SCADiagramCreateComponentServiceLinkFeature;
@@ -79,6 +81,7 @@ import org.switchyard.tools.ui.editor.diagram.service.SCADiagramDirectEditServic
 import org.switchyard.tools.ui.editor.diagram.service.SCADiagramLayoutServiceFeature;
 import org.switchyard.tools.ui.editor.diagram.service.SCADiagramMoveServiceFeature;
 import org.switchyard.tools.ui.editor.diagram.service.SCADiagramResizeServiceFeature;
+import org.switchyard.tools.ui.editor.diagram.service.SCADiagramUpdateServiceFeature;
 
 /**
  * @author bfitzpat
@@ -157,6 +160,15 @@ public class SCADiagramFeatureProvider extends DefaultFeatureProvider {
             Object bo = getBusinessObjectForPictogramElement(pictogramElement);
             if (bo instanceof Composite) {
                 return new SCADiagramUpdateCompositeFeature(this);
+            }
+            if (bo instanceof Service) {
+                return new SCADiagramUpdateServiceFeature(this);
+            }
+            if (bo instanceof Reference) {
+                return new SCADiagramUpdateCompositeReferenceFeature(this);
+            }
+            if (bo instanceof Component) {
+                return new SCADiagramUpdateComponentFeature(this);
             }
         }
         return super.getUpdateFeature(context);
