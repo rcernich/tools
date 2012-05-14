@@ -93,10 +93,14 @@ public class AutoLayoutFeature extends AbstractCustomFeature {
         getLayoutEntities(shape, shapes, relationships);
 
         try {
+            final int width = ga.getWidth() - ga.getX() - 2 * StyleUtil.COMPOSITE_INVISIBLE_RECT_RIGHT - 2
+                    * StyleUtil.COMPOSITE_EDGE;
+            final int height = ga.getHeight() - ga.getY() - StyleUtil.COMPOSITE_INVISIBLE_RECT_RIGHT - 2
+                    * StyleUtil.COMPOSITE_EDGE;
             final LayoutAlgorithm layoutAlgo = new HorizontalTreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
             layoutAlgo.applyLayout(shapes.values().toArray(new LayoutEntity[shapes.size()]),
-                    relationships.toArray(new LayoutRelationship[relationships.size()]), 0, 0, ga.getWidth(),
-                    ga.getHeight(), false, false);
+                    relationships.toArray(new LayoutRelationship[relationships.size()]), ga.getX(), ga.getY(), width,
+                    height, false, false);
         } catch (InvalidLayoutConfiguration e) {
             e.printStackTrace();
             return;

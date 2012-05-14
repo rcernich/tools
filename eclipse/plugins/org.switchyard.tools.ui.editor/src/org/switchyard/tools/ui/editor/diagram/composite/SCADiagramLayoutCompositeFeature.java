@@ -30,6 +30,7 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
+import org.switchyard.tools.ui.editor.diagram.StyleUtil;
 
 /**
  * @author bfitzpat
@@ -69,9 +70,12 @@ public class SCADiagramLayoutCompositeFeature extends AbstractLayoutFeature {
 
         for (Shape child : containerShape.getChildren()) {
             final GraphicsAlgorithm ga = child.getGraphicsAlgorithm();
-            int extra = getBusinessObjectForPictogramElement(child) instanceof Component ? 20 : 0;
-            containerWidth = Math.max(containerWidth, ga.getX() + ga.getWidth() + extra);
-            containerHeight = Math.max(containerHeight, ga.getY() + ga.getHeight() + 20);
+            if (getBusinessObjectForPictogramElement(child) instanceof Component) {
+                // only need to check width for components as services and
+                // references are fixed to the edges.
+                containerWidth = Math.max(containerWidth, ga.getX() + ga.getWidth() + 2 * StyleUtil.COMPONENT_EDGE);
+            }
+            containerHeight = Math.max(containerHeight, ga.getY() + ga.getHeight() + 2 * StyleUtil.COMPONENT_EDGE);
         }
         // height
         if (containerGa.getHeight() < containerHeight) {
