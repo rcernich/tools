@@ -62,7 +62,6 @@ import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.TransformsType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.ValidatesType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchyardResourceFactoryImpl;
-import org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchyardResourceImpl;
 
 import com.google.common.base.Predicate;
 
@@ -87,10 +86,11 @@ public class MergedModelAdapterFactory extends AdapterFactoryImpl {
      * Create a new MergedModelAdapterFactory.
      * 
      * @param source the source SwitchYard resource
+     * @param generated the generated SwitchYard resource
      */
-    public MergedModelAdapterFactory(SwitchyardResourceImpl source) {
+    public MergedModelAdapterFactory(Resource source, Resource generated) {
         _source = source;
-        _generated = source.getGeneratedResource();
+        _generated = generated;
         if (_source.getContents().isEmpty()) {
             _switchYard = null;
         } else {
