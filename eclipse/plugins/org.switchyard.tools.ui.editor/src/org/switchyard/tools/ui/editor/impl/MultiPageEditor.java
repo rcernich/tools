@@ -270,7 +270,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IGotoMarker,
 
         @Override
         public boolean isEditable() {
-            return false;
+            return super.isEditable();
         }
 
         @Override

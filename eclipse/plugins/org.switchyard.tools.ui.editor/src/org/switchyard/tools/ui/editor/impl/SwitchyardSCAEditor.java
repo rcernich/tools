@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -298,20 +300,39 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
         return touched;
     }
 
+    private final Pattern _oldURIMatcher = Pattern.compile("\\A[/]*switchyard(\\.0)?/");
+
     private EObject getTargetObject(IMarker marker, MergedModelAdapterFactory mergeAdapter) {
         final String uriString = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
         final URI uri = uriString == null ? null : URI.createURI(uriString);
         if (uri == null) {
             return null;
         }
-        final EObject generated = getEditingDomain().getResourceSet().getEObject(uri, false);
-        if (generated != null && mergeAdapter != null) {
-            final EObject source = mergeAdapter.getSource(generated);
-            if (source != null) {
-                return source;
+        try {
+            final EObject generated = getEditingDomain().getResourceSet().getEObject(uri, false);
+            if (generated != null && mergeAdapter != null) {
+                final EObject source = mergeAdapter.getSource(generated);
+                if (source != null) {
+                    return source;
+                }
+            }
+            return generated;
+        } catch (Exception e) {
+            // allow old markers to resolve properly (those created with a DocumentRoot)
+            final Matcher matcher = _oldURIMatcher.matcher(uri.fragment());
+            if (matcher.find()) {
+                final EObject generated = getEditingDomain().getResourceSet().getEObject(
+                        uri.trimFragment().appendFragment(matcher.replaceFirst("//")), false);
+                if (generated != null && mergeAdapter != null) {
+                    final EObject source = mergeAdapter.getSource(generated);
+                    if (source != null) {
+                        return source;
+                    }
+                }
+                return generated;
             }
         }
-        return generated;
+        return null;
     }
 
     private IStatus convertMarker(IMarker marker, EObject target, MergedModelAdapterFactory mergeAdapter) {
@@ -712,10 +733,12 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
             _modelUri = modelUri;
 
             // load switchyard.xml
-//            final SwitchyardResourceImpl switchYardResource = (SwitchyardResourceImpl) getEditingDomain()
-//                    .getResourceSet().createResource(modelUri.trimFragment(),
-//                            SwitchyardResourceFactoryImpl.CONTENT_TYPE);
-            final SwitchYardTranslatorResourceImpl switchYardResource = new SwitchYardTranslatorResourceImpl(modelUri.trimFragment());
+            // final SwitchyardResourceImpl switchYardResource =
+            // (SwitchyardResourceImpl) getEditingDomain()
+            // .getResourceSet().createResource(modelUri.trimFragment(),
+            // SwitchyardResourceFactoryImpl.CONTENT_TYPE);
+            final SwitchYardTranslatorResourceImpl switchYardResource = new SwitchYardTranslatorResourceImpl(
+                    modelUri.trimFragment());
             getEditingDomain().getResourceSet().getResources().add(switchYardResource);
 
             _modelFile = WorkspaceSynchronizer.getFile(switchYardResource);
@@ -733,7 +756,8 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
                         Messages.error_errorLoadingFile, _modelFile.getName(), e.getLocalizedMessage()), e));
             }
 
-            _mergedModelAdapterFactory = new MergedModelAdapterFactory(switchYardResource, switchYardResource.getGeneratedResource());
+            _mergedModelAdapterFactory = new MergedModelAdapterFactory(switchYardResource,
+                    switchYardResource.getGeneratedResource());
             getEditingDomain().getResourceSet().getAdapterFactories().add(_mergedModelAdapterFactory);
 
             // read in the markers

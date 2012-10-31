@@ -116,17 +116,17 @@ public class SwitchYardTranslatorResourceImpl extends TranslatorResourceImpl {
 
     @Override
     protected String getDefaultPublicId() {
-        return null;
+        return "urn:switchyard-config:switchyard:1.0";
     }
 
     @Override
     protected String getDefaultSystemId() {
-        return null;
+        return "switchyard-v1.xsd";
     }
 
     @Override
     protected int getDefaultVersionID() {
-        return 0;
+        return 100;
     }
 
 }

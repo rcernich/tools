@@ -118,13 +118,8 @@ public class ExtendedMetaDataTranslator extends Translator {
                     if (ignoreFeature(element)) {
                         continue;
                     }
-                    if (ExtendedMetaData.INSTANCE.getFeatureKind(element) == ExtendedMetaData.SIMPLE_FEATURE) {
-                        translators.add(new ExtendedMetaDataTranslator(getDomName(element).toString(), element,
-                                NO_STYLE, _extensionsManager));
-                    } else {
-                        translators.add(ExtendableFeatureTranslator.create((EClass) type, element, NO_STYLE,
-                                _extensionsManager));
-                    }
+                    translators.add(ExtendableFeatureTranslator.create((EClass) type, element, NO_STYLE,
+                            _extensionsManager));
                 }
                 for (EStructuralFeature attribute : ExtendedMetaData.INSTANCE.getAllAttributes((EClass) type)) {
                     if (ignoreFeature(attribute)) {
