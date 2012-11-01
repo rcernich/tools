@@ -97,20 +97,18 @@ public class MergedModelUpdateAdapter extends EContentAdapter implements Adapter
                     case Notification.ADD:
                         if (feature instanceof EReference
                                 && (((EReference) feature).isContainment() || ((EReference) feature).isContainer())) {
-                            ((EList<Object>) generated.eGet(feature)).add(notification.getPosition(), copy(newValue));
+                            ((EList<Object>) generated.eGet(feature)).add(copy(newValue));
                         } else {
-                            ((EList<Object>) generated.eGet(feature)).add(notification.getPosition(),
-                                    getGeneratedReference(newValue));
+                            ((EList<Object>) generated.eGet(feature)).add(getGeneratedReference(newValue));
                         }
                         break;
                     case Notification.ADD_MANY:
                         if (feature instanceof EReference
                                 && (((EReference) feature).isContainment() || ((EReference) feature).isContainer())) {
-                            ((EList<Object>) generated.eGet(feature)).addAll(notification.getPosition(),
-                                    (Collection<?>) copy(newValue));
+                            ((EList<Object>) generated.eGet(feature)).addAll((Collection<?>) copy(newValue));
                         } else {
-                            ((EList<Object>) generated.eGet(feature)).addAll(notification.getPosition(),
-                                    (Collection<?>) getGeneratedReference(newValue));
+                            ((EList<Object>) generated.eGet(feature))
+                                    .addAll((Collection<?>) getGeneratedReference(newValue));
                         }
                         break;
                     case Notification.REMOVE:

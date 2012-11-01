@@ -14,10 +14,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.operations.AbstractOperation;
+import org.eclipse.core.commands.operations.ICompositeOperation;
+import org.eclipse.core.commands.operations.IOperationHistory;
+import org.eclipse.core.commands.operations.IUndoableOperation;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.workspace.IWorkspaceCommandStack;
 import org.eclipse.wst.common.internal.emf.resource.EMF2DOMAdapter;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.xml.core.internal.emf2xml.EMF2DOMSSERenderer;
 
 /**
@@ -28,6 +40,8 @@ import org.eclipse.wst.xml.core.internal.emf2xml.EMF2DOMSSERenderer;
  */
 @SuppressWarnings("restriction")
 public class SwitchYardEMF2DOMSSERenderer extends EMF2DOMSSERenderer {
+
+    private CompositeOperation _compositeOperation;
 
     /**
      * Create a new SwitchYardEMF2DOMSSERenderer.
@@ -56,7 +70,60 @@ public class SwitchYardEMF2DOMSSERenderer extends EMF2DOMSSERenderer {
         if (domain != null) {
             // share the command stack
             getXMLModel().getUndoManager().setCommandStack(domain.getCommandStack());
+            // TODO: should add listener to trigger about to change and changed in response to graphiti commands
         }
     }
 
+    @Override
+    public void modelAboutToBeChanged(IStructuredModel model) {
+        final CommandStack stack = getXMLModel().getUndoManager().getCommandStack();
+        if (_compositeOperation == null && stack instanceof IWorkspaceCommandStack) {
+            final IOperationHistory history = ((IWorkspaceCommandStack) stack).getOperationHistory();
+            _compositeOperation = new CompositeOperation();
+            history.openOperation(_compositeOperation, IOperationHistory.EXECUTE);
+        }
+        super.modelAboutToBeChanged(model);
+    }
+
+    @Override
+    public void modelChanged(IStructuredModel model) {
+        super.modelChanged(model);
+        final CommandStack stack = getXMLModel().getUndoManager().getCommandStack();
+        if (_compositeOperation != null) {
+            final IOperationHistory history = ((IWorkspaceCommandStack) stack).getOperationHistory();
+            _compositeOperation = null;
+            history.closeOperation(true, false, IOperationHistory.EXECUTE);
+        }
+    }
+
+    private static final class CompositeOperation extends AbstractOperation implements ICompositeOperation {
+
+        private CompositeOperation() {
+            super("");
+        }
+
+        @Override
+        public void add(IUndoableOperation operation) {
+        }
+
+        @Override
+        public void remove(IUndoableOperation operation) {
+        }
+
+        @Override
+        public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+            return Status.OK_STATUS;
+        }
+
+        @Override
+        public IStatus redo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+            return Status.OK_STATUS;
+        }
+
+        @Override
+        public IStatus undo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+            return Status.OK_STATUS;
+        }
+
+    }
 }

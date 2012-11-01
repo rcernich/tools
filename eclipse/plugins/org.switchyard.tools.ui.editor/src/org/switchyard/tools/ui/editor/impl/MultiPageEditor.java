@@ -105,6 +105,12 @@ public class MultiPageEditor extends MultiPageEditorPart implements IGotoMarker,
         super();
     }
 
+    @Override
+    public boolean isDirty() {
+        // TODO: we should really figure out why the text editor doesn't undo correctly
+        return _diagramEditor == null || !_diagramEditor.isAlive() ? super.isDirty() : _diagramEditor.isDirty();
+    }
+
     /**
      * The <code>MultiPageEditorPart</code> implementation of this
      * <code>IWorkbenchPart</code> method disposes all nested editors.
