@@ -306,6 +306,14 @@ public class SwitchYardEMF2DOMSSEAdapter extends EMF2DOMSSEAdapter {
         return new SwitchYardEMF2DOMSSEAdapter(node, fRenderer, childMap);
     }
 
+    /**
+     * Make accessible to {@link SwitchYardTranslatorResourceImpl}
+     */
+    @Override
+    protected Translator findTranslator(String tagName, boolean attributeMap) {
+        return super.findTranslator(tagName, attributeMap);
+    }
+
     private QName getQName(Node node) {
         return new QName(node.getNamespaceURI(), node.getLocalName());
     }

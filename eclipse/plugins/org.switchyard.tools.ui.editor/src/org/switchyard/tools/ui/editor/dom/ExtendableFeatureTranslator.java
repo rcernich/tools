@@ -49,7 +49,10 @@ public final class ExtendableFeatureTranslator extends MultiObjectTranslator {
         final StringBuffer names = new StringBuffer();
         if (true) {
             final String domName = ExtendedMetaDataTranslator.getDomName(feature).toString();
-            final Translator translator = new ExtendedMetaDataTranslator(domName, feature, style, extensions);
+            Translator translator = TranslatorExtensionRegistry.instance().getTranslatorForType(feature, extensions);
+            if (translator == null) {
+                translator = new ExtendedMetaDataTranslator(domName, feature, style, extensions);
+            }
             typeToTranslators.put(feature.getEType(), translator);
             nameToTranslators.put(domName, translator);
             names.append(domName);
@@ -59,7 +62,10 @@ public final class ExtendableFeatureTranslator extends MultiObjectTranslator {
                 continue;
             }
             final String domName = ExtendedMetaDataTranslator.getDomName(extension).toString();
-            final Translator translator = new ExtendedMetaDataTranslator(domName, extension, style, extensions);
+            Translator translator = TranslatorExtensionRegistry.instance().getTranslatorForType(extension, extensions);
+            if (translator == null) {
+                translator = new ExtendedMetaDataTranslator(domName, extension, style, extensions);
+            }
             typeToTranslators.put(extension.getEType(), translator);
             nameToTranslators.put(domName, translator);
             names.append(",").append(domName);

@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -26,6 +27,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.wst.common.internal.emf.resource.Translator;
+import org.eclipse.wst.common.internal.emf.resource.TranslatorResource;
 
 /**
  * ExtendedMetaDataTranslator
@@ -125,8 +127,14 @@ public class ExtendedMetaDataTranslator extends Translator {
                     if (ignoreFeature(attribute)) {
                         continue;
                     }
-                    translators.add(new ExtendedMetaDataTranslator(getDomName(attribute).toString(), attribute,
-                            DOM_ATTRIBUTE, _extensionsManager));
+                    final String domName = ExtendedMetaDataTranslator.getDomName(attribute).toString();
+                    Translator translator = TranslatorExtensionRegistry.instance().getTranslatorForType(attribute,
+                            _extensionsManager);
+                    if (translator == null) {
+                        translator = new ExtendedMetaDataTranslator(domName, attribute, DOM_ATTRIBUTE,
+                                _extensionsManager);
+                    }
+                    translators.add(translator);
                 }
                 _children = translators.toArray(new Translator[translators.size()]);
             } else {
@@ -141,12 +149,13 @@ public class ExtendedMetaDataTranslator extends Translator {
         if (getFeature().getEType() instanceof EDataType) {
             return EcoreUtil.createFromString(((EDataType) getFeature().getEType()), strValue);
         } else if (isShared()) {
-            // TODO: reference handling
-            System.err.println("Need to add reference handling for " + getFeature().getName() + " = " + strValue);
-
-            // maybe something like:
-            // if !foundReference then note reference details so the value can
-            // be processed later
+            final URI uri = URI.createURI(strValue);
+            final TranslatorResource resource = (TranslatorResource) owner.eResource();
+            if (uri.isCurrentDocumentReference()) {
+                return resource.getEObject(uri.fragment());
+            } else if (resource.getResourceSet() != null) {
+                return resource.getResourceSet().getEObject(uri, false);
+            }
             return null;
         }
         return super.convertStringToValue(strValue, owner);
