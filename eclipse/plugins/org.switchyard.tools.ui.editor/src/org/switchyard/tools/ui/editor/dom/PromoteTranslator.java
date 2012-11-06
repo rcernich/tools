@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
@@ -53,8 +54,8 @@ public class PromoteTranslator extends ExtendedMetaDataTranslator {
         }
         final int separator = strValue.indexOf("/");
         if (separator < 0) {
-            // TODO: figure this out
-            System.err.println("TODO: need to resolve promotions when no component name is specified: " + strValue);
+            // No component name, so search through all the component
+            // services/references
             final Composite composite = (Composite) owner.eContainer();
             loadChildren(composite, ScaPackage.eINSTANCE.getComposite_Component());
             for (Component component : composite.getComponent()) {
@@ -72,6 +73,17 @@ public class PromoteTranslator extends ExtendedMetaDataTranslator {
                     if (strValue.equals(contract.getName())) {
                         return contract;
                     }
+                }
+            }
+            // couldn't find it, so see if we can resolve it by id
+            final Resource resource = owner.eResource();
+            if (resource instanceof SwitchYardTranslatorResourceImpl) {
+                // we just searched this model, so see if we can find it in the
+                // associated generated resource
+                final Resource generated = ((SwitchYardTranslatorResourceImpl) resource).getGeneratedResource();
+                if (generated != null) {
+                    return generated
+                            .getEObject((_isService ? "ComponentService::" : "ComponentReference::") + strValue);
                 }
             }
             return null;
@@ -107,6 +119,7 @@ public class PromoteTranslator extends ExtendedMetaDataTranslator {
             if (component instanceof Component) {
                 return "" + ((Component) component).getName() + "/" + contractName;
             }
+            return contractName;
         }
         return null;
     }

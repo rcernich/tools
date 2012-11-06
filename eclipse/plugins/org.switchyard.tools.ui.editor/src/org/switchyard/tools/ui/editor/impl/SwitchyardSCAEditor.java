@@ -318,7 +318,8 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
             }
             return generated;
         } catch (Exception e) {
-            // allow old markers to resolve properly (those created with a DocumentRoot)
+            // allow old markers to resolve properly (those created with a
+            // DocumentRoot)
             final Matcher matcher = _oldURIMatcher.matcher(uri.fragment());
             if (matcher.find()) {
                 final EObject generated = getEditingDomain().getResourceSet().getEObject(
@@ -992,6 +993,19 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
             getEditingDomain().getResourceSet().eAdapters().remove(_editorAdapter);
             getEditingDomain().removeResourceSetListener(_listener);
             super.dispose();
+        }
+
+        @Override
+        protected void disposeEditingDomain() {
+            super.disposeEditingDomain();
+            // TODO: might want to do this in reverse order
+            for (Resource resource : getEditingDomain().getResourceSet().getResources()) {
+                if (resource.isLoaded()) {
+                    resource.eAdapters().clear();
+                    resource.unload();
+                }
+            }
+            getEditingDomain().getResourceSet().getResources().clear();
         }
 
     }

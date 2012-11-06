@@ -12,7 +12,9 @@ package org.switchyard.tools.ui.editor.dom;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -105,6 +107,40 @@ public class SwitchYardTranslatorResourceImpl extends TranslatorResourceImpl {
         EObject object = super.getEObject(uriFragment);
         if (object == null && _generated != null) {
             object = _generated.getEObject(uriFragment);
+        }
+        return object;
+    }
+
+    /**
+     * This method is overridden in CompatibilityXMIResource, but for whatever
+     * reason does not walk the contents like ResourceImpl does (and
+     * XMIResourceImpl and XMLResourceImpl which delegate to super).
+     */
+    @Override
+    protected EObject getEObjectByID(String id) {
+        final EObject object = super.getEObjectByID(id);
+        if (object == null) {
+            // copied from ResourceImpl.getEObjectByID()
+            Map<String, EObject> map = getIntrinsicIDToEObjectMap();
+            EObject result = null;
+            for (TreeIterator<EObject> i = getAllProperContents(getContents()); i.hasNext();) {
+                EObject eObject = i.next();
+                String eObjectId = EcoreUtil.getID(eObject);
+                if (eObjectId != null) {
+                    if (map != null) {
+                        map.put(eObjectId, eObject);
+                    }
+
+                    if (eObjectId.equals(id)) {
+                        result = eObject;
+                        if (map == null) {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
         return object;
     }
