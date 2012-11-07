@@ -120,6 +120,7 @@ import org.switchyard.tools.models.switchyard1_0.clojure.ClojurePackage;
 import org.switchyard.tools.models.switchyard1_0.rules.RulesPackage;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPPackage;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
+import org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchYardResource;
 import org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchyardResourceFactoryImpl;
 import org.switchyard.tools.models.switchyard1_0.transform.TransformPackage;
 import org.switchyard.tools.models.switchyard1_0.validate.ValidatePackage;
@@ -130,7 +131,7 @@ import org.switchyard.tools.ui.editor.Activator;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.PropertiesDialogFeature;
 import org.switchyard.tools.ui.editor.diagram.SynchronizeGeneratedModelFeature;
-import org.switchyard.tools.ui.editor.dom.SwitchYardTranslatorResourceImpl;
+import org.switchyard.tools.ui.editor.dom.SwitchYardTranslatorResourceFactory;
 import org.switchyard.tools.ui.editor.model.merge.MergedModelAdapterFactory;
 import org.switchyard.tools.ui.editor.model.merge.MergedModelUtil;
 import org.switchyard.tools.ui.validation.SwitchYardProjectValidator;
@@ -734,12 +735,8 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
             _modelUri = modelUri;
 
             // load switchyard.xml
-            // final SwitchyardResourceImpl switchYardResource =
-            // (SwitchyardResourceImpl) getEditingDomain()
-            // .getResourceSet().createResource(modelUri.trimFragment(),
-            // SwitchyardResourceFactoryImpl.CONTENT_TYPE);
-            final SwitchYardTranslatorResourceImpl switchYardResource = new SwitchYardTranslatorResourceImpl(
-                    modelUri.trimFragment());
+            final SwitchYardResource switchYardResource = (SwitchYardResource) getEditingDomain().getResourceSet()
+                    .createResource(modelUri.trimFragment(), SwitchyardResourceFactoryImpl.CONTENT_TYPE);
             getEditingDomain().getResourceSet().getResources().add(switchYardResource);
 
             _modelFile = WorkspaceSynchronizer.getFile(switchYardResource);
@@ -970,7 +967,7 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
 
         @Override
         protected void initializeEditingDomain(TransactionalEditingDomain domain) {
-            ResourceSet resourceSet = domain.getResourceSet();
+            final ResourceSet resourceSet = domain.getResourceSet();
 
             // add the adapter factory for tracking validation status
             resourceSet.getAdapterFactories().add(new ValidationStatusAdapterFactory());
@@ -978,6 +975,9 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
             // add the editor adapter
             _editorAdapter = new SwitchyardSCAEditorAdapter();
             resourceSet.eAdapters().add(_editorAdapter);
+            
+            resourceSet.getResourceFactoryRegistry().getContentTypeToFactoryMap()
+                    .put(SwitchyardResourceFactoryImpl.CONTENT_TYPE, new SwitchYardTranslatorResourceFactory());
 
             if (domain instanceof AdapterFactoryEditingDomain
                     && ((AdapterFactoryEditingDomain) domain).getResourceToReadOnlyMap() == null) {

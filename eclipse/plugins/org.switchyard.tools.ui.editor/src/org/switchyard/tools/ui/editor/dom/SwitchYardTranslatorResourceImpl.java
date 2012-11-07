@@ -41,6 +41,7 @@ import org.switchyard.tools.models.switchyard1_0.rules.RulesPackage;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPPackage;
 import org.switchyard.tools.models.switchyard1_0.spring.SpringPackage;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
+import org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchYardResource;
 import org.switchyard.tools.models.switchyard1_0.transform.TransformPackage;
 import org.switchyard.tools.models.switchyard1_0.validate.ValidatePackage;
 import org.switchyard.tools.ui.editor.dom.generic.DocumentRootTranslator;
@@ -54,7 +55,7 @@ import org.switchyard.tools.ui.editor.dom.generic.PackageExtensionsManager;
  * Resource that supports integration with SSE.
  */
 @SuppressWarnings({"restriction", "unchecked" })
-public class SwitchYardTranslatorResourceImpl extends EMF2DOMSSETranslatorResourceImpl {
+public class SwitchYardTranslatorResourceImpl extends EMF2DOMSSETranslatorResourceImpl implements SwitchYardResource {
 
     /**
      * The known packages to SwitchYard. Ideally, these would be contributed
@@ -83,17 +84,12 @@ public class SwitchYardTranslatorResourceImpl extends EMF2DOMSSETranslatorResour
         super(uri, new SwitchYardEMF2DOMSSERenderer());
     }
 
-    /**
-     * @param generated the generated SwitchYard resource.
-     */
+    @Override
     public void setGeneratedResource(Resource generated) {
         _generated = generated;
     }
 
-    /**
-     * @return the generated SwitchYard resource associated with this source
-     *         resource.
-     */
+    @Override
     public Resource getGeneratedResource() {
         return _generated;
     }

@@ -22,6 +22,9 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Contract;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
 import org.eclipse.wst.common.internal.emf.resource.EMF2DOMAdapter;
 import org.eclipse.wst.common.internal.emf.resource.Translator;
+import org.switchyard.tools.models.switchyard1_0.switchyard.DocumentRoot;
+import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
+import org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchYardResource;
 import org.switchyard.tools.ui.editor.dom.generic.EMF2DOMSSEAdapterNS;
 import org.switchyard.tools.ui.editor.dom.generic.ExtendedMetaDataTranslator;
 
@@ -77,15 +80,31 @@ public class PromoteTranslator extends ExtendedMetaDataTranslator {
                     }
                 }
             }
-            // couldn't find it, so see if we can resolve it by id
             final Resource resource = owner.eResource();
-            if (resource instanceof SwitchYardTranslatorResourceImpl) {
-                // we just searched this model, so see if we can find it in the
-                // associated generated resource
-                final Resource generated = ((SwitchYardTranslatorResourceImpl) resource).getGeneratedResource();
+            if (resource instanceof SwitchYardResource) {
+                /*
+                 * we just searched this model, so see if we can find it in the
+                 * associated generated resource.
+                 */
+                final Resource generated = ((SwitchYardResource) resource).getGeneratedResource();
                 if (generated != null) {
-                    return generated
-                            .getEObject((_isService ? "ComponentService::" : "ComponentReference::") + strValue);
+                    final Composite generatedComposite = getComposite(generated);
+                    if (generatedComposite == null) {
+                        return null;
+                    }
+                    for (Component component : generatedComposite.getComponent()) {
+                        final List<? extends Contract> contracts;
+                        if (_isService) {
+                            contracts = component.getService();
+                        } else {
+                            contracts = component.getReference();
+                        }
+                        for (Contract contract : contracts) {
+                            if (strValue.equals(contract.getName())) {
+                                return contract;
+                            }
+                        }
+                    }
                 }
             }
             return null;
@@ -94,6 +113,20 @@ public class PromoteTranslator extends ExtendedMetaDataTranslator {
                 _isService ? "#//@composite/@component[name=\"%s\"]/@service[name=\"%s\"]"
                         : "#//@composite/@component[name=\"%s\"]/@reference[name=\"%s\"]", strValue.substring(0,
                         separator), strValue.substring(separator + 1)), owner);
+    }
+
+    private Composite getComposite(Resource resource) {
+        if (resource.getContents().size() == 0) {
+            return null;
+        }
+        final EObject root = resource.getContents().get(0);
+        if (root instanceof DocumentRoot) {
+            final SwitchYardType switchYard = ((DocumentRoot) root).getSwitchyard();
+            return switchYard == null ? null : switchYard.getComposite();
+        } else if (root instanceof SwitchYardType) {
+            return ((SwitchYardType) root).getComposite();
+        }
+        return null;
     }
 
     private void loadChildren(EObject parent, EStructuralFeature feature) {

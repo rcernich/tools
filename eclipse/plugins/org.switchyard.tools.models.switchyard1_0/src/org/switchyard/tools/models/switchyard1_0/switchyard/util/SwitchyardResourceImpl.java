@@ -18,7 +18,7 @@ import org.eclipse.soa.sca.sca1_1.model.sca.util.ScaResourceImpl;
  * @see org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchyardResourceFactoryImpl
  * @generated NOT
  */
-public class SwitchyardResourceImpl extends ScaResourceImpl {
+public class SwitchyardResourceImpl extends ScaResourceImpl implements SwitchYardResource {
     
     private Resource _generated;
 	/**
@@ -33,18 +33,17 @@ public class SwitchyardResourceImpl extends ScaResourceImpl {
 	}
 
 	/**
-	 * @param generated the generated SwitchYard resource.
 	 * @generated NOT
 	 */
+    @Override
 	public void setGeneratedResource(Resource generated) {
 	    _generated = generated;
 	}
 
     /**
-     * @return the generated SwitchYard resource associated with this source
-     *         resource.
      * @generated NOT
      */
+    @Override
 	public Resource getGeneratedResource() {
 	    return _generated;
 	}

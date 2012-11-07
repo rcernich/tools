@@ -71,8 +71,6 @@ public class SwitchYardEMF2DOMSSERenderer extends EMF2DOMSSERendererNS {
         if (domain != null) {
             // share the command stack
             getXMLModel().getUndoManager().setCommandStack(domain.getCommandStack());
-            // TODO: should add listener to trigger about to change and changed
-            // in response to graphiti commands
         }
     }
 
@@ -81,8 +79,12 @@ public class SwitchYardEMF2DOMSSERenderer extends EMF2DOMSSERendererNS {
         final CommandStack stack = getXMLModel().getUndoManager().getCommandStack();
         if (_compositeOperation == null && stack instanceof IWorkspaceCommandStack) {
             final IOperationHistory history = ((IWorkspaceCommandStack) stack).getOperationHistory();
-            _compositeOperation = new CompositeOperation();
-            history.openOperation(_compositeOperation, IOperationHistory.EXECUTE);
+            try {
+                _compositeOperation = new CompositeOperation();
+                history.openOperation(_compositeOperation, IOperationHistory.EXECUTE);
+            } catch (Exception e) {
+                _compositeOperation = null;
+            }
         }
         super.modelAboutToBeChanged(model);
     }
@@ -93,8 +95,11 @@ public class SwitchYardEMF2DOMSSERenderer extends EMF2DOMSSERendererNS {
         final CommandStack stack = getXMLModel().getUndoManager().getCommandStack();
         if (_compositeOperation != null) {
             final IOperationHistory history = ((IWorkspaceCommandStack) stack).getOperationHistory();
-            _compositeOperation = null;
-            history.closeOperation(true, false, IOperationHistory.EXECUTE);
+            try {
+                history.closeOperation(true, false, IOperationHistory.EXECUTE);
+            } finally {
+                _compositeOperation = null;
+            }
         }
     }
 

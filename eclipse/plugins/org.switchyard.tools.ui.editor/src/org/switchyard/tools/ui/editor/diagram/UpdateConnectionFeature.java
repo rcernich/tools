@@ -67,7 +67,7 @@ public class UpdateConnectionFeature extends AbstractUpdateFeature implements IU
     @Override
     public boolean hasDoneChanges() {
         // these changes do not need to be persisted.
-        return false;
+        return true;
     }
 
 }
