@@ -30,16 +30,17 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.workspace.IWorkspaceCommandStack;
 import org.eclipse.wst.common.internal.emf.resource.EMF2DOMAdapter;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
-import org.eclipse.wst.xml.core.internal.emf2xml.EMF2DOMSSERenderer;
+import org.switchyard.tools.ui.editor.dom.generic.EMF2DOMSSERendererNS;
 
 /**
  * SwitchYardEMF2DOMSSERenderer
  * 
  * <p/>
- * Overrides basic renderer by creating SwitchYardEMF2DOMSSEAdapter instances.
+ * Merges the command stack declared on the editing domain contained on the
+ * resource into the SSE model.
  */
 @SuppressWarnings("restriction")
-public class SwitchYardEMF2DOMSSERenderer extends EMF2DOMSSERenderer {
+public class SwitchYardEMF2DOMSSERenderer extends EMF2DOMSSERendererNS {
 
     private CompositeOperation _compositeOperation;
 
@@ -70,7 +71,8 @@ public class SwitchYardEMF2DOMSSERenderer extends EMF2DOMSSERenderer {
         if (domain != null) {
             // share the command stack
             getXMLModel().getUndoManager().setCommandStack(domain.getCommandStack());
-            // TODO: should add listener to trigger about to change and changed in response to graphiti commands
+            // TODO: should add listener to trigger about to change and changed
+            // in response to graphiti commands
         }
     }
 

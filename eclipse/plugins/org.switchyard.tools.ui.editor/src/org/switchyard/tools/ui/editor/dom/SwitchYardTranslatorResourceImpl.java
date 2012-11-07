@@ -11,19 +11,12 @@
 package org.switchyard.tools.ui.editor.dom;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
-import org.eclipse.wst.common.internal.emf.resource.EMF2DOMAdapter;
 import org.eclipse.wst.common.internal.emf.resource.Translator;
 import org.eclipse.wst.common.internal.emf.resource.TranslatorResourceImpl;
 import org.switchyard.tools.models.switchyard1_0.bean.BeanPackage;
@@ -50,6 +43,9 @@ import org.switchyard.tools.models.switchyard1_0.spring.SpringPackage;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
 import org.switchyard.tools.models.switchyard1_0.transform.TransformPackage;
 import org.switchyard.tools.models.switchyard1_0.validate.ValidatePackage;
+import org.switchyard.tools.ui.editor.dom.generic.DocumentRootTranslator;
+import org.switchyard.tools.ui.editor.dom.generic.EMF2DOMSSETranslatorResourceImpl;
+import org.switchyard.tools.ui.editor.dom.generic.PackageExtensionsManager;
 
 /**
  * SwitchYardTranslatorResourceImpl
@@ -58,7 +54,7 @@ import org.switchyard.tools.models.switchyard1_0.validate.ValidatePackage;
  * Resource that supports integration with SSE.
  */
 @SuppressWarnings({"restriction", "unchecked" })
-public class SwitchYardTranslatorResourceImpl extends TranslatorResourceImpl {
+public class SwitchYardTranslatorResourceImpl extends EMF2DOMSSETranslatorResourceImpl {
 
     /**
      * The known packages to SwitchYard. Ideally, these would be contributed
@@ -109,98 +105,6 @@ public class SwitchYardTranslatorResourceImpl extends TranslatorResourceImpl {
             object = _generated.getEObject(uriFragment);
         }
         return object;
-    }
-
-    /**
-     * This method is overridden in CompatibilityXMIResource, but for whatever
-     * reason does not walk the contents like ResourceImpl does (and
-     * XMIResourceImpl and XMLResourceImpl which delegate to super).
-     */
-    @Override
-    protected EObject getEObjectByID(String id) {
-        final EObject object = super.getEObjectByID(id);
-        if (object == null) {
-            // copied from ResourceImpl.getEObjectByID()
-            Map<String, EObject> map = getIntrinsicIDToEObjectMap();
-            EObject result = null;
-            for (TreeIterator<EObject> i = getAllProperContents(getContents()); i.hasNext();) {
-                EObject eObject = i.next();
-                String eObjectId = EcoreUtil.getID(eObject);
-                if (eObjectId != null) {
-                    if (map != null) {
-                        map.put(eObjectId, eObject);
-                    }
-
-                    if (eObjectId.equals(id)) {
-                        result = eObject;
-                        if (map == null) {
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-        return object;
-    }
-
-    protected EObject getEObject(List<String> uriFragmentPath) {
-        final int size = uriFragmentPath.size();
-        // this should always return the one and only root object
-        EObject eObject = getEObjectForURIFragmentRootSegment(size == 0 ? "" : uriFragmentPath.get(0));
-        for (int i = 1; i < size && eObject != null; ++i) {
-            final String segment = uriFragmentPath.get(i);
-            final EObject child = ((InternalEObject) eObject).eObjectForURIFragmentSegment(segment);
-            if (child == null) {
-                // maybe the dom node hasn't been processed. do it now.
-                final String featureName = getFeatureNameFromURISegment(segment);
-                final EStructuralFeature feature = featureName == null ? null : eObject.eClass().getEStructuralFeature(
-                        featureName);
-                if (feature == null) {
-                    throw new IllegalArgumentException("Invalid uri segment\"" + segment + "\" for class: "
-                            + eObject.eClass().getName());
-                }
-                final EMF2DOMAdapter adapter = (EMF2DOMAdapter) EcoreUtil.getExistingAdapter(eObject,
-                        EMF2DOMAdapter.ADAPTER_CLASS);
-                final Translator translator = adapter instanceof SwitchYardEMF2DOMSSEAdapter ? ((SwitchYardEMF2DOMSSEAdapter) adapter)
-                        .findTranslator(ExtendedMetaDataTranslator.getDomName(feature).toString(), false) : null;
-                if (translator == null) {
-                    continue;
-                }
-                final boolean notificationFlag = adapter.isNotificationEnabled();
-                try {
-                    adapter.setNotificationEnabled(true);
-                    adapter.updateMOFFeature(translator, adapter.getNode(), eObject);
-                } finally {
-                    adapter.setNotificationEnabled(notificationFlag);
-                }
-                eObject = ((InternalEObject) eObject).eObjectForURIFragmentSegment(segment);
-            } else {
-                eObject = child;
-            }
-        }
-
-        return eObject;
-    }
-
-    private String getFeatureNameFromURISegment(String segment) {
-        if (segment.endsWith("]")) {
-            final int index = segment.indexOf('[');
-            if (index > 1) {
-                return segment.substring(1, index);
-            }
-        } else {
-            if (Character.isDigit(segment.charAt(segment.length() - 1))) {
-                final int index = segment.lastIndexOf('.');
-                if (index > 1) {
-                    return segment.substring(1, index);
-                }
-            }
-
-            return segment.substring(1);
-        }
-        return null;
     }
 
     @Override

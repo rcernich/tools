@@ -8,7 +8,7 @@
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
  ************************************************************************************/
-package org.switchyard.tools.ui.editor.dom;
+package org.switchyard.tools.ui.editor.dom.generic;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.wst.common.internal.emf.resource.RootTranslator;
 import org.eclipse.wst.common.internal.emf.resource.Translator;
-import org.switchyard.tools.ui.editor.dom.ExtendedMetaDataTranslator.IExtensionsManager;
+import org.switchyard.tools.ui.editor.dom.generic.ExtendedMetaDataTranslator.ISpecializedTypesProvider;
 import org.w3c.dom.Node;
 
 /**
@@ -35,10 +35,10 @@ public final class DocumentRootTranslator extends RootTranslator {
 
     /**
      * @param basePackage the base package from which to load the document root.
-     * @param extensions the extensions manager.
+     * @param specializations the specialized type provider.
      * @return the translator for the document root.
      */
-    public static Translator create(EPackage basePackage, IExtensionsManager extensions) {
+    public static Translator create(EPackage basePackage, ISpecializedTypesProvider specializations) {
         final EClass root = ExtendedMetaData.INSTANCE.getDocumentRoot(basePackage);
         final Map<EClassifier, Translator> typeToTranslators = new HashMap<EClassifier, Translator>();
         final Map<String, Translator> nameToTranslators = new HashMap<String, Translator>();
@@ -48,7 +48,7 @@ public final class DocumentRootTranslator extends RootTranslator {
                 continue;
             }
             final String domName = ExtendedMetaDataTranslator.getDomName(element).toString();
-            final Translator translator = new ExtendedMetaDataTranslator(domName, element, NO_STYLE, extensions);
+            final Translator translator = new ExtendedMetaDataTranslator(domName, element, NO_STYLE, specializations);
             typeToTranslators.put(element.getEType(), translator);
             nameToTranslators.put(domName, translator);
             names.append(domName).append(",");

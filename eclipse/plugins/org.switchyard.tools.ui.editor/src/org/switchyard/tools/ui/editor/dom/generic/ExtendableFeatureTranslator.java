@@ -8,7 +8,7 @@
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
  ************************************************************************************/
-package org.switchyard.tools.ui.editor.dom;
+package org.switchyard.tools.ui.editor.dom.generic;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.wst.common.internal.emf.resource.MultiObjectTranslator;
 import org.eclipse.wst.common.internal.emf.resource.Translator;
-import org.switchyard.tools.ui.editor.dom.ExtendedMetaDataTranslator.IExtensionsManager;
+import org.switchyard.tools.ui.editor.dom.generic.ExtendedMetaDataTranslator.ISpecializedTypesProvider;
 import org.w3c.dom.Node;
 
 /**
@@ -39,32 +39,32 @@ public final class ExtendableFeatureTranslator extends MultiObjectTranslator {
      * @param containerType the type containing the feature.
      * @param feature the base feature.
      * @param style the style (e.g. DOM_ATTRIBUTE)
-     * @param extensions the extensions manager.
+     * @param specializations the specialized type provider.
      * @return a translator
      */
     public static Translator create(EClass containerType, EStructuralFeature feature, int style,
-            IExtensionsManager extensions) {
+            ISpecializedTypesProvider specializations) {
         final Map<EClassifier, Translator> typeToTranslators = new HashMap<EClassifier, Translator>();
         final Map<String, Translator> nameToTranslators = new HashMap<String, Translator>();
         final StringBuffer names = new StringBuffer();
         if (true) {
             final String domName = ExtendedMetaDataTranslator.getDomName(feature).toString();
-            Translator translator = TranslatorExtensionRegistry.instance().getTranslatorForType(feature, extensions);
+            Translator translator = FeatureTranslatorExtensionRegistry.instance().getTranslatorForType(feature, specializations);
             if (translator == null) {
-                translator = new ExtendedMetaDataTranslator(domName, feature, style, extensions);
+                translator = new ExtendedMetaDataTranslator(domName, feature, style, specializations);
             }
             typeToTranslators.put(feature.getEType(), translator);
             nameToTranslators.put(domName, translator);
             names.append(domName);
         }
-        for (EStructuralFeature extension : extensions.getExtensions(containerType, feature)) {
+        for (EStructuralFeature extension : specializations.getSpecializations(containerType, feature)) {
             if (ExtendedMetaData.INSTANCE.getFeatureKind(extension) == ExtendedMetaData.GROUP_FEATURE) {
                 continue;
             }
             final String domName = ExtendedMetaDataTranslator.getDomName(extension).toString();
-            Translator translator = TranslatorExtensionRegistry.instance().getTranslatorForType(extension, extensions);
+            Translator translator = FeatureTranslatorExtensionRegistry.instance().getTranslatorForType(extension, specializations);
             if (translator == null) {
-                translator = new ExtendedMetaDataTranslator(domName, extension, style, extensions);
+                translator = new ExtendedMetaDataTranslator(domName, extension, style, specializations);
             }
             typeToTranslators.put(extension.getEType(), translator);
             nameToTranslators.put(domName, translator);

@@ -8,7 +8,7 @@
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
  ************************************************************************************/
-package org.switchyard.tools.ui.editor.dom;
+package org.switchyard.tools.ui.editor.dom.generic;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,51 +25,51 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.wst.common.internal.emf.resource.Translator;
 import org.switchyard.tools.ui.editor.Activator;
-import org.switchyard.tools.ui.editor.dom.ExtendedMetaDataTranslator.IExtensionsManager;
+import org.switchyard.tools.ui.editor.dom.generic.ExtendedMetaDataTranslator.ISpecializedTypesProvider;
 
 /**
- * TranslatorExtensionRegistry
+ * FeatureTranslatorExtensionRegistry
  * 
  * <p/>
  * Manages registered extensions for specific type/feature pairs.
  */
 @SuppressWarnings("restriction")
-public final class TranslatorExtensionRegistry {
+public final class FeatureTranslatorExtensionRegistry {
 
     /**
      * Interface to be implemented by extension providers.
      */
-    public interface ITranslatorFactory {
+    public interface IFeatureTranslatorFactory {
         /**
          * Create a new Translator instance for the specified feature.
          * 
          * @param feature the feature on which the translator should act.
-         * @param extensions the extensions for any specialized child types.
+         * @param specializations the provider for any specialized child types.
          * 
          * @return a new Translator
          */
-        public Translator create(EStructuralFeature feature, IExtensionsManager extensions);
+        public Translator create(EStructuralFeature feature, ISpecializedTypesProvider specializations);
     }
 
     /**
      * @return the translator extensions registry.
      */
-    public static TranslatorExtensionRegistry instance() {
+    public static FeatureTranslatorExtensionRegistry instance() {
         return INSTANCE;
     }
 
-    private static final TranslatorExtensionRegistry INSTANCE = new TranslatorExtensionRegistry();
+    private static final FeatureTranslatorExtensionRegistry INSTANCE = new FeatureTranslatorExtensionRegistry();
 
-    private static final String EXTENSION_ID = "translatorExtension";
+    private static final String EXTENSION_ID = "featureTranslator";
     private static final String FACTORY_ATTRIBUTE = "factory";
-    private static final String TRANSLATOR_ELEMENT = "translator";
+    private static final String FEATURE_ELEMENT = "feature";
 
-    private Map<QName, TranslatorExtension> _extensions = new HashMap<QName, TranslatorExtension>();
+    private Map<QName, FeatureExtension> _extensions = new HashMap<QName, FeatureExtension>();
 
     /**
-     * Create a new TranslatorExtensionRegistry.
+     * Create a new FeatureTranslatorExtensionRegistry.
      */
-    private TranslatorExtensionRegistry() {
+    private FeatureTranslatorExtensionRegistry() {
         final IExtensionPoint extensionPoint = Platform.getExtensionRegistry().getExtensionPoint(Activator.PLUGIN_ID,
                 EXTENSION_ID);
         for (final IExtension extension : extensionPoint.getExtensions()) {
@@ -80,18 +80,18 @@ public final class TranslatorExtensionRegistry {
                             + element));
                     continue;
                 }
-                for (final IConfigurationElement translator : element.getChildren(TRANSLATOR_ELEMENT)) {
-                    final TranslatorExtension translatorExtension = new TranslatorExtension(translator);
-                    final QName key = translatorExtension.getKey();
+                for (final IConfigurationElement translator : element.getChildren(FEATURE_ELEMENT)) {
+                    final FeatureExtension featureExtension = new FeatureExtension(translator);
+                    final QName key = featureExtension.getKey();
                     if (_extensions.containsKey(key)) {
-                        final TranslatorExtension existing = _extensions.get(key);
+                        final FeatureExtension existing = _extensions.get(key);
                         Activator.logStatus(new Status(Status.ERROR, Activator.PLUGIN_ID,
                                 "Duplicate translator extension: " + key + ", decalred in: "
                                         + translator.getContributor().getName() + ", already declared by: "
                                         + existing.getConfig().getContributor().getName()));
                         continue;
                     }
-                    _extensions.put(key, translatorExtension);
+                    _extensions.put(key, featureExtension);
                 }
             }
         }
@@ -99,17 +99,17 @@ public final class TranslatorExtensionRegistry {
 
     /**
      * @param feature the feature needing specialization.
-     * @param extensions the extensions manager for resolving specialized child
+     * @param specializations the provider for resolving specialized child
      *            types.
      * @return the specialized translator; null if no specialized translator has
      *         been registered for the feature.
      */
-    public Translator getTranslatorForType(EStructuralFeature feature, IExtensionsManager extensions) {
+    public Translator getTranslatorForType(EStructuralFeature feature, ISpecializedTypesProvider specializations) {
         final QName key = createQName(feature);
         if (_extensions.containsKey(key)) {
-            final TranslatorExtension extension = _extensions.get(key);
+            final FeatureExtension extension = _extensions.get(key);
             try {
-                return extension.createTranslator(feature, extensions);
+                return extension.createTranslator(feature, specializations);
             } catch (CoreException e) {
                 Activator.logStatus(e.getStatus());
                 _extensions.remove(key);
@@ -127,7 +127,7 @@ public final class TranslatorExtensionRegistry {
         return new QName(namespace, type + "::" + feature);
     }
 
-    private static final class TranslatorExtension {
+    private static final class FeatureExtension {
 
         private static final String NAMESPACE = "namespace";
         private static final String TYPE = "type";
@@ -136,7 +136,7 @@ public final class TranslatorExtensionRegistry {
         private final IConfigurationElement _config;
         private final QName _translatorType;
 
-        private TranslatorExtension(IConfigurationElement config) {
+        private FeatureExtension(IConfigurationElement config) {
             _config = config;
             _translatorType = createQNameFromConfig(config);
         }
@@ -149,11 +149,11 @@ public final class TranslatorExtensionRegistry {
             return _config;
         }
 
-        public Translator createTranslator(EStructuralFeature feature, IExtensionsManager extensions)
+        public Translator createTranslator(EStructuralFeature feature, ISpecializedTypesProvider specializations)
                 throws CoreException {
-            final ITranslatorFactory factory = (ITranslatorFactory) ((IConfigurationElement) _config.getParent())
-                    .createExecutableExtension(FACTORY_ATTRIBUTE);
-            return factory.create(feature, extensions);
+            final IFeatureTranslatorFactory factory = (IFeatureTranslatorFactory) ((IConfigurationElement) _config
+                    .getParent()).createExecutableExtension(FACTORY_ATTRIBUTE);
+            return factory.create(feature, specializations);
         }
 
         private static QName createQNameFromConfig(IConfigurationElement config) {

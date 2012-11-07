@@ -8,7 +8,7 @@
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
  ************************************************************************************/
-package org.switchyard.tools.ui.editor.dom;
+package org.switchyard.tools.ui.editor.dom.generic;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,20 +23,20 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
-import org.switchyard.tools.ui.editor.dom.ExtendedMetaDataTranslator.IExtensionsManager;
+import org.switchyard.tools.ui.editor.dom.generic.ExtendedMetaDataTranslator.ISpecializedTypesProvider;
 
 /**
  * PackageExtensionsManager
  * 
  * <p/>
- * An extensions manager that scans the specified packages for extended types.
+ * An specialized type provider that scans the specified packages for
+ * specialized types.
  */
-public class PackageExtensionsManager implements IExtensionsManager {
+public class PackageExtensionsManager implements ISpecializedTypesProvider {
 
     /**
-     * The known packages to SwitchYard. Ideally, these would be contributed
-     * through an extension point for better extensibility, but this suffices
-     * for now.
+     * The known packages. Ideally, these would be contributed through an
+     * extension point for better extensibility, but this suffices for now.
      */
     private final Collection<EPackage> _packages;
     /**
@@ -56,7 +56,7 @@ public class PackageExtensionsManager implements IExtensionsManager {
     }
 
     @Override
-    public Collection<EStructuralFeature> getExtensions(EClass type, EStructuralFeature feature) {
+    public Collection<EStructuralFeature> getSpecializations(EClass type, EStructuralFeature feature) {
         List<EStructuralFeature> extensions = _extensions.get(feature);
         if (extensions == null) {
             extensions = findExtensions((EClass) type, feature);

@@ -22,6 +22,8 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Contract;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
 import org.eclipse.wst.common.internal.emf.resource.EMF2DOMAdapter;
 import org.eclipse.wst.common.internal.emf.resource.Translator;
+import org.switchyard.tools.ui.editor.dom.generic.EMF2DOMSSEAdapterNS;
+import org.switchyard.tools.ui.editor.dom.generic.ExtendedMetaDataTranslator;
 
 /**
  * PromoteTranslator
@@ -38,12 +40,12 @@ public class PromoteTranslator extends ExtendedMetaDataTranslator {
      * Create a new PromoteTranslator.
      * 
      * @param feature the feature
-     * @param extensions the extensions manager
+     * @param specializations the specialized type provider.
      * @param isService true if this is for service promotions, false for
      *            reference promotions.
      */
-    public PromoteTranslator(EStructuralFeature feature, IExtensionsManager extensions, boolean isService) {
-        super(getDomName(feature).toString(), feature, DOM_ATTRIBUTE, extensions);
+    public PromoteTranslator(EStructuralFeature feature, ISpecializedTypesProvider specializations, boolean isService) {
+        super(getDomName(feature).toString(), feature, DOM_ATTRIBUTE, specializations);
         _isService = isService;
     }
 
@@ -97,7 +99,7 @@ public class PromoteTranslator extends ExtendedMetaDataTranslator {
     private void loadChildren(EObject parent, EStructuralFeature feature) {
         final EMF2DOMAdapter adapter = (EMF2DOMAdapter) EcoreUtil.getExistingAdapter(parent,
                 EMF2DOMAdapter.ADAPTER_CLASS);
-        final Translator translator = adapter instanceof SwitchYardEMF2DOMSSEAdapter ? ((SwitchYardEMF2DOMSSEAdapter) adapter)
+        final Translator translator = adapter instanceof EMF2DOMSSEAdapterNS ? ((EMF2DOMSSEAdapterNS) adapter)
                 .findTranslator(ExtendedMetaDataTranslator.getDomName(feature).toString(), false) : null;
         if (translator == null) {
             return;

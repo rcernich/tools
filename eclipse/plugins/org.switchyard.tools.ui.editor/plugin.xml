@@ -4,6 +4,7 @@
    <extension-point id="editorExtension" name="editorExtension" schema="schema/editorExtension.exsd"/>
    <extension-point id="jcaResourceAdapterExtension" name="jcaResourceAdapterExtension" schema="schema/jcaResourceAdapterExtension.exsd"/>
    <extension-point id="translatorExtension" name="translatorExtension" schema="schema/translatorExtension.exsd"/>
+   <extension-point id="featureTranslator" name="EMF2DOM Specialized Feature Translator" schema="schema/featureTranslator.exsd"/>
    <extension
          point="org.eclipse.graphiti.ui.diagramTypes">
       <diagramType
@@ -380,19 +381,19 @@
     </modelQueryExtension>
  </extension>
  <extension
-       point="org.switchyard.tools.ui.editor.translatorExtension">
+       point="org.switchyard.tools.ui.editor.featureTranslator">
     <translators
           factory="org.switchyard.tools.ui.editor.dom.TranslatorFactory">
-       <translator
+       <feature
              feature="promote"
              namespace="http://docs.oasis-open.org/ns/opencsa/sca/200912"
              type="Service">
-       </translator>
-       <translator
+       </feature>
+       <feature
              feature="promote"
              namespace="http://docs.oasis-open.org/ns/opencsa/sca/200912"
              type="Reference">
-       </translator>
+       </feature>
     </translators>
  </extension>
 

@@ -8,7 +8,7 @@
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
  ************************************************************************************/
-package org.switchyard.tools.ui.editor.dom;
+package org.switchyard.tools.ui.editor.dom.generic;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,7 +33,7 @@ import org.eclipse.wst.common.internal.emf.resource.TranslatorResource;
  * ExtendedMetaDataTranslator
  * 
  * <p/>
- * A translator based on the extended meta-data defined on the model.
+ * A translator based on the extended meta-data defined on the EMF model.
  */
 @SuppressWarnings("restriction")
 public class ExtendedMetaDataTranslator extends Translator {
@@ -41,14 +41,14 @@ public class ExtendedMetaDataTranslator extends Translator {
     /**
      * Interface for retrieving extended types associated with type and feature.
      */
-    public interface IExtensionsManager {
+    public interface ISpecializedTypesProvider {
         /**
          * @param type the source type.
          * @param feature the base feature.
-         * @return a collection of features which represent extensions of the
-         *         base feature.
+         * @return a collection of features which represent specializations of
+         *         the base feature.
          */
-        Collection<EStructuralFeature> getExtensions(EClass type, EStructuralFeature feature);
+        Collection<EStructuralFeature> getSpecializations(EClass type, EStructuralFeature feature);
     }
 
     /**
@@ -72,7 +72,7 @@ public class ExtendedMetaDataTranslator extends Translator {
     /** Pattern for matching path segments containing QName strings. */
     public static final Pattern PATH_AND_NAME_PATTERN = Pattern.compile("\\G(([{][^}]*[}][^/,]*)|([^{}/,]*))[/]");
 
-    private final IExtensionsManager _extensionsManager;
+    private final ISpecializedTypesProvider _specializedTypesProvider;
     private Translator[] _children;
 
     /**
@@ -81,11 +81,12 @@ public class ExtendedMetaDataTranslator extends Translator {
      * @param name the qname for the element (QName.toString())
      * @param feature the associated feature
      * @param style the dom style
-     * @param extensions the extension manager
+     * @param specializations the specialized type provider.
      */
-    public ExtendedMetaDataTranslator(String name, EStructuralFeature feature, int style, IExtensionsManager extensions) {
+    public ExtendedMetaDataTranslator(String name, EStructuralFeature feature, int style,
+            ISpecializedTypesProvider specializations) {
         super(name, feature, style);
-        _extensionsManager = extensions;
+        _specializedTypesProvider = specializations;
         // internalSetFeature(feature);
     }
 
@@ -121,18 +122,18 @@ public class ExtendedMetaDataTranslator extends Translator {
                         continue;
                     }
                     translators.add(ExtendableFeatureTranslator.create((EClass) type, element, NO_STYLE,
-                            _extensionsManager));
+                            _specializedTypesProvider));
                 }
                 for (EStructuralFeature attribute : ExtendedMetaData.INSTANCE.getAllAttributes((EClass) type)) {
                     if (ignoreFeature(attribute)) {
                         continue;
                     }
                     final String domName = ExtendedMetaDataTranslator.getDomName(attribute).toString();
-                    Translator translator = TranslatorExtensionRegistry.instance().getTranslatorForType(attribute,
-                            _extensionsManager);
+                    Translator translator = FeatureTranslatorExtensionRegistry.instance().getTranslatorForType(
+                            attribute, _specializedTypesProvider);
                     if (translator == null) {
                         translator = new ExtendedMetaDataTranslator(domName, attribute, DOM_ATTRIBUTE,
-                                _extensionsManager);
+                                _specializedTypesProvider);
                     }
                     translators.add(translator);
                 }
@@ -174,96 +175,6 @@ public class ExtendedMetaDataTranslator extends Translator {
         final Translator[] children = getChildren(null, -1);
         return children == null || children.length == 0;
     }
-
-    // @Override
-    // public boolean isMultiValued() {
-    // return getAffiliate().isMany();
-    // }
-    //
-    // @Override
-    // public boolean isMapFor(Object aFeature, Object oldValue, Object
-    // newValue) {
-    // return super.isMapFor(aFeature, oldValue, newValue)
-    // || (getAffiliate() == aFeature &&
-    // (getFeature().getEType().isInstance(oldValue) || getFeature()
-    // .getEType().isInstance(newValue)));
-    // }
-    //
-    // @Override
-    // public boolean featureExists(EObject emfObject) {
-    // if (emfObject == null) {
-    // return false;
-    // }
-    //
-    // return ExtendedMetaData.INSTANCE.getAffiliation(emfObject.eClass(),
-    // feature) != null;
-    // }
-    //
-    // @Override
-    // public Object getMOFValue(EObject mofObject) {
-    // if (mofObject == null) {
-    // return null;
-    // }
-    // return mofObject.eGet(getAffiliate());
-    // }
-    //
-    // @Override
-    // public void setMOFValue(Notifier owner, Object value, int newIndex) {
-    // if ((fStyle & UNSET_IF_NULL) != 0 && value == null) {
-    // ExtendedEcoreUtil.eUnsetOrRemove((EObject) owner, getAffiliate(), value);
-    // } else {
-    // ExtendedEcoreUtil.eSetOrAdd((EObject) owner, getAffiliate(), value,
-    // newIndex);
-    // }
-    // }
-    //
-    // @Override
-    // public void removeMOFValue(Notifier owner, Object value) {
-    // ExtendedEcoreUtil.eUnsetOrRemove((EObject) owner, getAffiliate(), value);
-    // }
-    //
-    // @Override
-    // public boolean isSetMOFValue(EObject emfObject) {
-    // boolean isSet = emfObject.eIsSet(getAffiliate());
-    // if (isEmptyTag()) {
-    // return isSet && ((Boolean)
-    // emfObject.eGet(getAffiliate())).booleanValue();
-    // }
-    // return isSet;
-    // }
-    //
-    // @Override
-    // public void unSetMOFValue(EObject emfObject) {
-    // emfObject.eUnset(getAffiliate());
-    // }
-    //
-    // @Override
-    // public void clearList(EObject mofObject) {
-    // ((List<?>) mofObject.eGet(getAffiliate())).clear();
-    // }
-    //
-    // protected void setFeature(EStructuralFeature aFeature) {
-    // /*
-    // * Do nothing as the affiliate type won't be available until after super
-    // * is initialized.
-    // */
-    // }
-    //
-    // private void internalSetFeature(EStructuralFeature feature) {
-    // this.feature = feature;
-    //
-    // final EStructuralFeature affiliate = getAffiliate();
-    // if (affiliate instanceof EReference) {
-    // fStyle |= OBJECT_MAP;
-    // if (!((EReference) affiliate).isContainment()) {
-    // fStyle |= SHARED_REFERENCE;
-    // }
-    // }
-    //
-    // if (getEcorePackage().getEBoolean() == feature.getEType()) {
-    // fStyle |= BOOLEAN_FEATURE;
-    // }
-    // }
 
     private boolean ignoreFeature(EStructuralFeature feature) {
         final int featureKind = ExtendedMetaData.INSTANCE.getFeatureKind(feature);

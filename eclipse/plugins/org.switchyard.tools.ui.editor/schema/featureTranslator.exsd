@@ -3,7 +3,7 @@
 <schema targetNamespace="org.switchyard.tools.ui.editor" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.switchyard.tools.ui.editor" id="translatorExtension" name="EMF2DOM Translator Extension"/>
+         <meta.schema plugin="org.switchyard.tools.ui.editor" id="featureTranslator" name="EMF2DOM Specialized Feature Translator"/>
       </appinfo>
       <documentation>
          This extension point gives contributors the ability to provide custom translators for EMF2DOM SSE mappings.
@@ -50,7 +50,7 @@
    <element name="translators">
       <complexType>
          <choice minOccurs="1" maxOccurs="unbounded">
-            <element ref="translator"/>
+            <element ref="feature"/>
          </choice>
          <attribute name="factory" type="string" use="required">
             <annotation>
@@ -58,14 +58,14 @@
                   Factory for creating Translator types for the specified features.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.switchyard.tools.ui.editor.dom.TranslatorExtensionRegistry.ITranslatorFactory"/>
+                  <meta.attribute kind="java" basedOn=":org.switchyard.tools.ui.editor.dom.generic.FeatureTranslatorExtensionRegistry.IFeatureTranslatorFactory"/>
                </appinfo>
             </annotation>
          </attribute>
       </complexType>
    </element>
 
-   <element name="translator">
+   <element name="feature">
       <complexType>
          <attribute name="namespace" type="string" use="required">
             <annotation>
@@ -105,21 +105,21 @@
          <meta.section type="examples"/>
       </appinfo>
       <documentation>
-      &lt;pre&gt;
+         &lt;pre&gt;
  &lt;extension
-       point=&quot;org.switchyard.tools.ui.editor.translatorExtension&quot;&gt;
+       point=&quot;org.switchyard.tools.ui.editor.featureTranslator&quot;&gt;
     &lt;translators
           factory=&quot;org.switchyard.tools.ui.editor.dom.TranslatorFactory&quot;&gt;
-       &lt;translator
+       &lt;feature
              feature=&quot;promote&quot;
              namespace=&quot;http://docs.oasis-open.org/ns/opencsa/sca/200912&quot;
              type=&quot;Service&quot;&gt;
-       &lt;/translator&gt;
-       &lt;translator
+       &lt;/feature&gt;
+       &lt;feature
              feature=&quot;promote&quot;
              namespace=&quot;http://docs.oasis-open.org/ns/opencsa/sca/200912&quot;
              type=&quot;Reference&quot;&gt;
-       &lt;/translator&gt;
+       &lt;/feature&gt;
     &lt;/translators&gt;
  &lt;/extension&gt;
       &lt;/pre&gt;

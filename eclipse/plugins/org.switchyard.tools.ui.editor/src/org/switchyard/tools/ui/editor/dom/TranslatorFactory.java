@@ -13,7 +13,8 @@ package org.switchyard.tools.ui.editor.dom;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
 import org.eclipse.wst.common.internal.emf.resource.Translator;
-import org.switchyard.tools.ui.editor.dom.ExtendedMetaDataTranslator.IExtensionsManager;
+import org.switchyard.tools.ui.editor.dom.generic.FeatureTranslatorExtensionRegistry;
+import org.switchyard.tools.ui.editor.dom.generic.ExtendedMetaDataTranslator.ISpecializedTypesProvider;
 
 /**
  * TranslatorFactory
@@ -23,20 +24,20 @@ import org.switchyard.tools.ui.editor.dom.ExtendedMetaDataTranslator.IExtensions
  * features, specifically Service.promote and Reference.promote.
  */
 @SuppressWarnings("restriction")
-public class TranslatorFactory implements TranslatorExtensionRegistry.ITranslatorFactory {
+public class TranslatorFactory implements FeatureTranslatorExtensionRegistry.IFeatureTranslatorFactory {
 
     /**
-     * Create a new ITranslatorFactory.
+     * Create a new IFeatureTranslatorFactory.
      */
     public TranslatorFactory() {
     }
 
     @Override
-    public Translator create(EStructuralFeature feature, IExtensionsManager extensions) {
+    public Translator create(EStructuralFeature feature, ISpecializedTypesProvider specializations) {
         if (ScaPackage.eINSTANCE.getService_Promote() == feature) {
-            return new PromoteTranslator(feature, extensions, true);
+            return new PromoteTranslator(feature, specializations, true);
         } else if (ScaPackage.eINSTANCE.getReference_Promote() == feature) {
-            return new PromoteTranslator(feature, extensions, false);
+            return new PromoteTranslator(feature, specializations, false);
         }
         return null;
     }
