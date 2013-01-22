@@ -77,6 +77,7 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
     @Override
     public void setBinding(Binding impl) {
         if (impl instanceof CamelJmsBindingType) {
+            setTargetObject(impl.eContainer());
             this._binding = (CamelJmsBindingType) impl;
             setInUpdate(true);
             if (this._binding.getQueue() != null && !this._binding.getQueue().trim().isEmpty()) {
@@ -184,7 +185,7 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
         _tabFolder = new TabFolder(_panel, SWT.NONE);
 
         TabItem one = new TabItem(_tabFolder, SWT.NONE);
-        if (getTargetObject() == null && this._binding.eContainer() != null) {
+        if (getTargetObject() == null && _binding != null && this._binding.eContainer() != null) {
             setTargetObject(this._binding.eContainer());
         }
         if (getTargetObject() != null && getTargetObject() instanceof Service) {
