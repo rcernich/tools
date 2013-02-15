@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <!-- BPMN2 editor integration -->
    <extension
          point="org.eclipse.bpmn2.modeler.runtime">
 
 		<propertyTab
-			id="org.switchyard.tools.ui.bpmn2.switchYardServiceTask.tab"
-            runtimeId="org.jboss.runtime.jbpm5"
-			replaceTab="bpmn2.jbpm.task.tab org.eclipse.bpmn2.modeler.task.tab"
-			afterTab="org.eclipse.bpmn2.modeler.description.tab"
-			class="org.switchyard.tools.ui.bpmn2.SwitchYardServiceTaskPropertySection"
-			label="SwitchYard Service Task">
+        afterTab="org.eclipse.bpmn2.modeler.description.tab"
+        class="org.switchyard.tools.ui.bpmn2.SwitchYardServiceTaskPropertySection"
+        id="org.switchyard.tools.ui.bpmn2.switchYardServiceTask.tab"
+        label="SwitchYard Service Task"
+        replaceTab="bpmn2.jbpm.task.tab org.eclipse.bpmn2.modeler.task.tab"
+        runtimeId="org.jboss.runtime.jbpm5"
+        type="org.eclipse.bpmn2.Task">
 		</propertyTab>
+  <featureContainer
+        class="org.switchyard.tools.ui.bpmn2.SwitchYardServiceTaskFeatureContainer"
+        runtimeId="org.jboss.runtime.jbpm5"
+        type="org.eclipse.bpmn2.Task">
+  </featureContainer>
 
-      <customTask
+      <modelExtension
             description="This task represents the invocation of a SwitchYard service."
-            featureContainer="org.switchyard.tools.ui.bpmn2.SwitchYardServiceTaskFeatureContainer"
             id="org.switchyard.tools.ui.bpmn2.switchYardServiceTask"
-            name="SwitchYard Service"
-            icon="switchyard_task.png"
-            propertyTabs="org.switchyard.tools.ui.bpmn2.switchYardServiceTask.tab"
-            category="Switchyard"
+            name="SwitchYard Service Task"
             runtimeId="org.jboss.runtime.jbpm5"
             type="Task">
 
@@ -54,6 +57,22 @@
 					<property name="dataInputs">
 						<value>
 							<property
+             description="The name of the variable used to store the input message to be passed to the SwitchYard servce.  It must match the &quot;ContentInputName&quot; property."
+             name="name"
+             value="messageContentIn"/>
+						</value>
+					</property>
+					<property name="dataInputs">
+						<value>
+							<property
+             description="The name of the variable used to store the output message from the SwitchYard servce.  It must match the &quot;ContentOutputName&quot; property."
+             name="name"
+             value="messageContentOut"/>
+						</value>
+					</property>
+					<property name="dataInputs">
+						<value>
+							<property
              description="The name of the fault result to be invoked on the SwitchYard service."
              name="name"
              value="FaultResultName"/>
@@ -75,14 +94,6 @@
              value="FaultWorkItemAction"/>
 						</value>
 					</property>
-					<property name="dataInputs">
-						<value>
-							<property
-             description="This is used to store the input message to be passed to the SwitchYard servce.  It must match the &quot;MessageContentInName&quot; property."
-             name="name"
-             value="messageContentIn"/>
-						</value>
-					</property>
 
 					<property name="inputSets">
 						<value>
@@ -92,6 +103,7 @@
 							<property name="dataInputRefs" ref="ioSpecification/dataInputs#3"/>
 							<property name="dataInputRefs" ref="ioSpecification/dataInputs#4"/>
 							<property name="dataInputRefs" ref="ioSpecification/dataInputs#5"/>
+							<property name="dataInputRefs" ref="ioSpecification/dataInputs#6"/>
 						</value>
 					</property>
 					<property name="outputSets">
@@ -128,8 +140,14 @@
 					<property name="targetRef" ref="ioSpecification/dataInputs#5"/>
 				</value>
 			</property>
-      </customTask>
+			<property name="dataInputAssociations">
+				<value>
+					<property name="targetRef" ref="ioSpecification/dataInputs#6"/>
+				</value>
+			</property>
+      </modelExtension>
    </extension>
+   <!-- SwitchYard integration -->
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
 	    <propertyTabs contributorId="org.switchyard.tools.ui.editor.diagram.PropertyContributor">

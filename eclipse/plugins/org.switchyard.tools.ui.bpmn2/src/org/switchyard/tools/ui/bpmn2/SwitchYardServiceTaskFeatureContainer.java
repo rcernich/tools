@@ -37,6 +37,7 @@ public class SwitchYardServiceTaskFeatureContainer extends JbpmCustomTaskFeature
 
     @Override
     public boolean isAvailable(IFeatureProvider fp) {
+        // set this to false to remove from the tool palette
         return isSwitchYardProject(fp);
     }
 
