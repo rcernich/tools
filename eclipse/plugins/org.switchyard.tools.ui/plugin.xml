@@ -1192,4 +1192,29 @@
 	      class="org.switchyard.tools.ui.actions.OpenShiftProjectTester">
 	    </propertyTester>
 	  </extension>
+ <extension
+       point="org.eclipse.emf.compare.match.engine">
+    <matchengine
+          contentType="org.switchyard.tools.ui.editor.content-type.xml"
+          engineClass="org.switchyard.tools.ui.model.merge.SwitchYardMatchEngine"
+          label="org.switchyard.tools.ui.model.merge.SwitchYardMatchEngine"
+          priority="normal">
+    </matchengine>
+ </extension>
+ <extension
+       point="org.eclipse.emf.compare.diff.engine">
+    <diffengine
+          contentType="org.switchyard.tools.ui.editor.content-type.xml"
+          engineClass="org.switchyard.tools.ui.model.merge.SwitchYardDiffEngine"
+          label="org.switchyard.tools.ui.model.merge.SwitchYardDiffEngine"
+          priority="normal">
+    </diffengine>
+ </extension>
+ <extension
+       point="org.eclipse.emf.compare.diff.mergerprovider">
+    <mergerprovider
+          mergerProviderClass="org.switchyard.tools.ui.model.merge.SwitchYardMergerProvider"
+          priority="normal">
+    </mergerprovider>
+ </extension>
 </plugin>

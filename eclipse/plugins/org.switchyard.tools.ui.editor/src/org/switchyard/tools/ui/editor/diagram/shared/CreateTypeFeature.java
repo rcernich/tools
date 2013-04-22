@@ -32,7 +32,7 @@ import org.eclipse.ui.PlatformUI;
 import org.switchyard.tools.ui.common.ISwitchYardComponentExtension;
 import org.switchyard.tools.ui.common.SwitchYardComponentExtensionManager;
 import org.switchyard.tools.ui.editor.Activator;
-import org.switchyard.tools.ui.editor.model.merge.MergedModelUtil;
+import org.switchyard.tools.ui.model.merge.MergedModelUtil;
 import org.switchyard.tools.ui.operations.AbstractSwitchYardProjectOperation;
 
 /**

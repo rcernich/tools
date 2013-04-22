@@ -35,9 +35,9 @@ import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.TransformType;
 import org.switchyard.tools.ui.PlatformResourceAdapterFactory;
 import org.switchyard.tools.ui.editor.diagram.shared.NewContractWizardPage;
-import org.switchyard.tools.ui.editor.model.merge.MergedModelUtil;
 import org.switchyard.tools.ui.editor.transform.NewTransformWizard;
 import org.switchyard.tools.ui.editor.transform.TransformDetails;
+import org.switchyard.tools.ui.model.merge.MergedModelUtil;
 
 /**
  * PromoteReferenceWizardPage

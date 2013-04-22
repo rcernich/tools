@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.switchyard.tools.ui.editor.model.merge;
+package org.switchyard.tools.ui.model.merge;
 
 import java.util.Iterator;
 import java.util.List;

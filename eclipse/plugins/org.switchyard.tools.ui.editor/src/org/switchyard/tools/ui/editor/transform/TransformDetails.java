@@ -37,7 +37,7 @@ import org.switchyard.tools.ui.JavaUtil;
 import org.switchyard.tools.ui.PlatformResourceAdapterFactory;
 import org.switchyard.tools.ui.SwitchYardModelUtils;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
-import org.switchyard.tools.ui.editor.model.merge.SwitchYardMergedModelAdapter;
+import org.switchyard.tools.ui.model.merge.SwitchYardMergedModelAdapter;
 
 /**
  * TransformDetails

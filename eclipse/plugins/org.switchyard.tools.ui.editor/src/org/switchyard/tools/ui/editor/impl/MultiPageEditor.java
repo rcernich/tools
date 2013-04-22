@@ -88,8 +88,8 @@ import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.diagram.shared.DomainPropertyInputDialog;
 import org.switchyard.tools.ui.editor.diagram.shared.DomainPropertyTable;
-import org.switchyard.tools.ui.editor.model.merge.MergedModelUtil;
-import org.switchyard.tools.ui.editor.model.merge.SwitchYardMergedModelAdapter;
+import org.switchyard.tools.ui.model.merge.MergedModelUtil;
+import org.switchyard.tools.ui.model.merge.SwitchYardMergedModelAdapter;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 

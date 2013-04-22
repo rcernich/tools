@@ -36,9 +36,9 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.switchyard.tools.ui.editor.diagram.StyleUtil;
-import org.switchyard.tools.ui.editor.model.merge.CompositeMergedModelAdapter;
-import org.switchyard.tools.ui.editor.model.merge.MergedModelUtil;
 import org.switchyard.tools.ui.editor.util.GraphitiUtil;
+import org.switchyard.tools.ui.model.merge.CompositeMergedModelAdapter;
+import org.switchyard.tools.ui.model.merge.MergedModelUtil;
 
 /**
  * @author bfitzpat

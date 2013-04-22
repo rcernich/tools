@@ -51,9 +51,9 @@ import org.switchyard.tools.models.switchyard1_0.transform.TransformFactory;
 import org.switchyard.tools.ui.JavaUtil;
 import org.switchyard.tools.ui.SwitchYardModelUtils;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
-import org.switchyard.tools.ui.editor.model.merge.MergedModelUtil;
-import org.switchyard.tools.ui.editor.model.merge.SwitchYardMergedModelAdapter;
 import org.switchyard.tools.ui.editor.transform.NewTransformWizard;
+import org.switchyard.tools.ui.model.merge.MergedModelUtil;
+import org.switchyard.tools.ui.model.merge.SwitchYardMergedModelAdapter;
 
 /**
  * @author bfitzpat

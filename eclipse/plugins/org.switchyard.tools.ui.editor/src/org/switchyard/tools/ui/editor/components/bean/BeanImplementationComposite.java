@@ -62,7 +62,7 @@ import org.switchyard.tools.models.switchyard1_0.bean.BeanImplementationType;
 import org.switchyard.tools.ui.JavaUtil;
 import org.switchyard.tools.ui.editor.Activator;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
-import org.switchyard.tools.ui.editor.model.merge.MergedModelUtil;
+import org.switchyard.tools.ui.model.merge.MergedModelUtil;
 import org.switchyard.tools.ui.wizards.NewBeanServiceWizard;
 
 /**

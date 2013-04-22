@@ -37,7 +37,7 @@ import org.switchyard.tools.models.switchyard1_0.switchyard.TransformsType;
 import org.switchyard.tools.ui.editor.ImageProvider;
 import org.switchyard.tools.ui.editor.diagram.composite.SCADiagramAddCompositeFeature;
 import org.switchyard.tools.ui.editor.diagram.compositereference.PromoteReferenceWizard;
-import org.switchyard.tools.ui.editor.model.merge.MergedModelUtil;
+import org.switchyard.tools.ui.model.merge.MergedModelUtil;
 
 /**
  * @author bfitzpat

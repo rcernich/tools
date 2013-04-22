@@ -28,8 +28,8 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
 import org.switchyard.tools.ui.editor.ImageProvider;
 import org.switchyard.tools.ui.editor.diagram.StyleUtil;
-import org.switchyard.tools.ui.editor.model.merge.ComponentMergedModelAdapter;
-import org.switchyard.tools.ui.editor.model.merge.MergedModelUtil;
+import org.switchyard.tools.ui.model.merge.ComponentMergedModelAdapter;
+import org.switchyard.tools.ui.model.merge.MergedModelUtil;
 
 /**
  * @author bfitzpat

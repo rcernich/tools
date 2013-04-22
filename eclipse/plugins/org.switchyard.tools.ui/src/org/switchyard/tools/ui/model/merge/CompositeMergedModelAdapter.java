@@ -8,7 +8,7 @@
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
  ************************************************************************************/
-package org.switchyard.tools.ui.editor.model.merge;
+package org.switchyard.tools.ui.model.merge;
 
 import java.util.Collections;
 import java.util.List;

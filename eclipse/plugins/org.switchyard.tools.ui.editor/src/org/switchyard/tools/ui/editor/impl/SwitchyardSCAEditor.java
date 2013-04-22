@@ -123,8 +123,8 @@ import org.switchyard.tools.ui.common.impl.SwitchYardProjectManager.ISwitchYardP
 import org.switchyard.tools.ui.editor.Activator;
 import org.switchyard.tools.ui.editor.diagram.PropertiesDialogFeature;
 import org.switchyard.tools.ui.editor.diagram.SynchronizeGeneratedModelFeature;
-import org.switchyard.tools.ui.editor.model.merge.MergedModelAdapterFactory;
-import org.switchyard.tools.ui.editor.model.merge.MergedModelUtil;
+import org.switchyard.tools.ui.model.merge.MergedModelAdapterFactory;
+import org.switchyard.tools.ui.model.merge.MergedModelUtil;
 import org.switchyard.tools.ui.validation.SwitchYardProjectValidator;
 import org.switchyard.tools.ui.validation.ValidationProblem;
 import org.switchyard.tools.ui.validation.ValidationStatusAdapter;

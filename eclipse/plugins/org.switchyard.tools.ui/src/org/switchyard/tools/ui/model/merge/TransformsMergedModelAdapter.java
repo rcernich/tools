@@ -8,38 +8,38 @@
  * Contributors:
  *     JBoss by Red Hat - Initial implementation.
  ************************************************************************************/
-package org.switchyard.tools.ui.editor.model.merge;
+package org.switchyard.tools.ui.model.merge;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.switchyard.tools.models.switchyard1_0.switchyard.ArtifactType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
+import org.switchyard.tools.models.switchyard1_0.switchyard.TransformType;
 
 /**
- * ArtifactsMergedModelAdapter
+ * TransformsMergedModelAdapter
  * 
  * <p/>
  * Presents a merged view of artifacts.
  */
-public class ArtifactsMergedModelAdapter extends AbstractMergedModelAdapter {
+public class TransformsMergedModelAdapter extends AbstractMergedModelAdapter {
 
     /**
-     * Create a new ArtifactsMergedModelAdapter.
+     * Create a new TransformsMergedModelAdapter.
      * 
      * @param factory the factory that manages the differences.
      */
-    public ArtifactsMergedModelAdapter(MergedModelAdapterFactory factory) {
+    public TransformsMergedModelAdapter(MergedModelAdapterFactory factory) {
         super(factory);
     }
 
     /**
-     * @return the merged artifacts list.
+     * @return the merged transforms list.
      */
-    public List<ArtifactType> getArtifacts() {
+    public List<TransformType> getTransforms() {
         @SuppressWarnings("unchecked")
-        List<ArtifactType> retVal = (List<ArtifactType>) getAggregatedValue(SwitchyardPackage.eINSTANCE
-                .getArtifactsType_Artifact());
+        List<TransformType> retVal = (List<TransformType>) getAggregatedValue(SwitchyardPackage.eINSTANCE
+                .getTransformsType_Transform());
         if (retVal == null) {
             return Collections.emptyList();
         }

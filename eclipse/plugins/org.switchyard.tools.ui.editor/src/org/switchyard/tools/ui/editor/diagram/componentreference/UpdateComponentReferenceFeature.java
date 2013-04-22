@@ -34,9 +34,9 @@ import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
 import org.eclipse.soa.sca.sca1_1.model.sca.Contract;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
-import org.switchyard.tools.ui.editor.model.merge.CompositeMergedModelAdapter;
-import org.switchyard.tools.ui.editor.model.merge.ContractMergedModelAdapter;
-import org.switchyard.tools.ui.editor.model.merge.MergedModelUtil;
+import org.switchyard.tools.ui.model.merge.CompositeMergedModelAdapter;
+import org.switchyard.tools.ui.model.merge.ContractMergedModelAdapter;
+import org.switchyard.tools.ui.model.merge.MergedModelUtil;
 
 /**
  * UpdateComponentReferenceFeature

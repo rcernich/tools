@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
@@ -44,7 +45,9 @@ import org.switchyard.metadata.InOutOperation;
 import org.switchyard.metadata.InOutService;
 import org.switchyard.metadata.ServiceInterface;
 import org.switchyard.metadata.java.JavaService;
+import org.switchyard.tools.models.switchyard1_0.switchyard.DocumentRoot;
 import org.switchyard.tools.models.switchyard1_0.switchyard.EsbInterface;
+import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
 import org.switchyard.tools.ui.common.ISwitchYardProject;
 import org.switchyard.tools.ui.common.impl.SwitchYardProjectManager;
 
@@ -261,6 +264,22 @@ public final class SwitchYardModelUtils {
         throw new IllegalArgumentException("Interface type is not supported: "
                 + (intf == null ? "null" : intf.eClass().getInstanceTypeName()));
 
+    }
+
+    /**
+     * Returns the root SwitchYard object in the resource.
+     * 
+     * @param resource the EMF resource
+     * @return the SwitchYard object; null if not found.
+     */
+    public static SwitchYardType getSwitchYard(Resource resource) {
+        if (resource != null) {
+            DocumentRoot docroot = (DocumentRoot) resource.getContents().get(0);
+            if (docroot != null) {
+                return docroot.getSwitchyard();
+            }
+        }
+        return null;
     }
 
     private static IFile getSwitchYardConfigurationFile(IProject project) {
