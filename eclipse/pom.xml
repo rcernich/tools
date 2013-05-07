@@ -57,7 +57,7 @@
     </repository>
     <repository>
       <id>graphiti-update-site</id>
-      <url>http://download.eclipse.org/graphiti/updates/0.9.0/</url>
+      <url>http://download.eclipse.org/graphiti/updates/milestones/</url>
       <layout>p2</layout>
       <snapshots>
         <enabled>true</enabled>
@@ -153,6 +153,17 @@
         <version>${tycho-version}</version>
         <configuration>
           <resolver>p2</resolver>
+          <!--
+          <target>
+            <artifact>
+              <groupId>org.jboss.tools.integration-stack</groupId>
+              <artifactId>target-platform</artifactId>
+              <version>4.1.0-SNAPSHOT</version>
+              <type>target</type>
+              <classifier>base</classifier>
+            </artifact>
+          </target>
+          -->
           <environments>
             <environment>
               <os>linux</os>
