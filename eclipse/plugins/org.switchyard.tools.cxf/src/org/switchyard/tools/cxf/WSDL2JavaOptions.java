@@ -32,6 +32,8 @@ public class WSDL2JavaOptions {
     private boolean _overwrite = false; // !-keep
     private boolean _wrapped = false; // -bareMethods
     private boolean _generateTypes = true; // !-noTypes
+    private String _jaxbTargetVersion = null; // -xjc-target,2.0
+    private boolean _jaxbSuppressPackageAnnotations = false; // -xjc-npa
 
     /**
      * Get the WSDL file.
@@ -157,12 +159,32 @@ public class WSDL2JavaOptions {
         }
         args.add("-fe");
         args.add("switchyard");
+        args.add("-db");
+        args.add("jaxb");
         args.add("-p");
         args.add(_targetPackage.getElementName());
         args.add("-d");
         args.add(_outputFolder.getLocation().toOSString());
+        final String jaxbArgs = getJAXBArgs();
+        if (jaxbArgs.length() > 0) {
+            args.add("-xjc" + jaxbArgs);
+        }
         args.add(_wsdlFile.getLocation().toOSString());
         return args.toArray(new String[args.size()]);
+    }
+
+    private String getJAXBArgs() {
+        final StringBuffer sb = new StringBuffer();
+        if (_jaxbSuppressPackageAnnotations) {
+            sb.append("-npa");
+        }
+        if (_jaxbTargetVersion != null) {
+            if (sb.length() > 0) {
+                sb.append(',');
+            }
+            sb.append("-target").append(',').append(_jaxbTargetVersion);
+        }
+        return sb.toString();
     }
 
 }
