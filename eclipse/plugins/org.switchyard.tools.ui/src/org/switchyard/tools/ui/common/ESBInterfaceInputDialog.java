@@ -15,8 +15,6 @@ import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
@@ -121,14 +119,9 @@ public class ESBInterfaceInputDialog extends TitleAreaDialog {
                 getButton(IDialogConstants.OK_ID).setEnabled(validate());
             }
         });
-        newText.addKeyListener(new KeyListener() {
+        newText.addModifyListener(new ModifyListener() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                // ignore
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
+            public void modifyText(ModifyEvent e) {
                 getButton(IDialogConstants.OK_ID).setEnabled(validate());
             }
         });
