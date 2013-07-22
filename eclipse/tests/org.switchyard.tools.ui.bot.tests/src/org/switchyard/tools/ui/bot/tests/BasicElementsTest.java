@@ -13,36 +13,14 @@ package org.switchyard.tools.ui.bot.tests;
 
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.withItem;
 
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.draw2d.FigureCanvas;
-import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Item;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditPart;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
-import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefFigureCanvas;
-import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
-import org.eclipse.swtbot.swt.finder.finders.EventContextMenuFinder;
-import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.matchers.AbstractMatcher;
-import org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory;
-import org.eclipse.swtbot.swt.finder.results.Result;
-import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
 import org.hamcrest.Description;
 import org.junit.Test;
 
@@ -152,6 +130,7 @@ public class BasicElementsTest extends SwitchYardBotTestCase {
 
         // save
         bot.menu("File").menu("Save").click();
+        waitForSave();
 
         assertXMLFilesMatch("switchyard.xml file does not match expected.", getSwitchYardFile(), getClass()
                 .getSimpleName() + ".testCompositeService.switchyard.xml");
@@ -289,19 +268,7 @@ public class BasicElementsTest extends SwitchYardBotTestCase {
         editor.activateDefaultTool();
         compositeEditPart.click(compositeCenter);
         bot.sleep(1000); // wait for context pad
-        EventContextMenuFinder contextMenuFinder = new EventContextMenuFinder();
-        try {
-            contextMenuFinder.register();
-            initiateContextPadAction(editor, "Component");
-            bot.sleep(1000);
-            new SWTBotMenu(contextMenuFinder.findMenus(WidgetMatcherFactory.<MenuItem> withText("Component")).get(
-                    0)).click();
-            bot.sleep(1000);
-            // context pad popup puts the display to sleep()
-            SWTUtils.display().wake();
-        } finally {
-            contextMenuFinder.unregister();
-        }
+        initiateContextPadAction(editor, "Component", "Component");
 
         // save
         bot.menu("File").menu("Save").click();
@@ -311,107 +278,4 @@ public class BasicElementsTest extends SwitchYardBotTestCase {
                 .getSimpleName() + ".testComponent.switchyard.xml");
     }
 
-    private static final class FixedSWTBotGefEditor extends SWTBotGefEditor {
-
-        private SWTBotGefFigureCanvas _canvas;
-
-        private FixedSWTBotGefEditor(IEditorReference reference, SWTWorkbenchBot bot) throws WidgetNotFoundException {
-            super(reference, bot);
-            _canvas = UIThreadRunnable.syncExec(new Result<SWTBotGefFigureCanvas>() {
-                public SWTBotGefFigureCanvas run() {
-                    final IEditorPart editor = partReference.getEditor(true);
-                    GraphicalViewer graphicalViewer = (GraphicalViewer) editor.getAdapter(GraphicalViewer.class);
-                    final Control control = graphicalViewer.getControl();
-                    if (control instanceof FigureCanvas) {
-                        return new FixedSWTBotGefFigureCanvas((FigureCanvas) control);
-                    } else if (control instanceof Canvas) {
-                        if (control instanceof IAdaptable) {
-                            IAdaptable adaptable = (IAdaptable) control;
-                            Object adapter = adaptable.getAdapter(LightweightSystem.class);
-                            if (adapter instanceof LightweightSystem) {
-                                return new FixedSWTBotGefFigureCanvas((Canvas) control, (LightweightSystem) adapter);
-                            }
-                        }
-                    }
-                    throw new WidgetNotFoundException("Could not find canvas for editor.");
-                }
-            });
-        }
-
-        @Override
-        public void click(int xPosition, int yPosition) {
-            _canvas.mouseMoveLeftClick(xPosition, yPosition);
-        }
-
-    }
-
-    private static final class FixedSWTBotGefFigureCanvas extends SWTBotGefFigureCanvas {
-
-        private FixedSWTBotGefFigureCanvas(Canvas canvas, LightweightSystem lightweightSystem)
-                throws WidgetNotFoundException {
-            super(canvas, lightweightSystem);
-        }
-
-        private FixedSWTBotGefFigureCanvas(FigureCanvas canvas) throws WidgetNotFoundException {
-            super(canvas);
-        }
-
-        @Override
-        public void mouseMoveLeftClick(final int xPosition, final int yPosition) {
-            UIThreadRunnable.asyncExec(new VoidResult() {
-                public void run() {
-                    eventDispatcher.dispatchMouseMoved(new MouseEvent(createMouseEvent(xPosition, yPosition, 0, 0, 0)));
-                }
-            });
-            UIThreadRunnable.syncExec(new VoidResult() {
-                @Override
-                public void run() {
-                }
-            });
-            UIThreadRunnable.asyncExec(new VoidResult() {
-                public void run() {
-                    eventDispatcher.dispatchMousePressed(new MouseEvent(createMouseEvent(xPosition, yPosition, 1, SWT.BUTTON1, 1)));
-                }
-            });
-//            UIThreadRunnable.syncExec(new VoidResult() {
-//                @Override
-//                public void run() {
-//                }
-//            });
-            UIThreadRunnable.asyncExec(new VoidResult() {
-                public void run() {
-                    eventDispatcher.dispatchMouseReleased(new MouseEvent(createMouseEvent(xPosition, yPosition, 1, SWT.BUTTON1, 1)));
-                }
-            });
-//            UIThreadRunnable.syncExec(new VoidResult() {
-//                @Override
-//                public void run() {
-//                }
-//            });
-        }
-    }
-    private static final class SWTBotPopupMenu extends SWTBotMenu {
-
-        private SWTBotPopupMenu(MenuItem w) throws WidgetNotFoundException {
-            super(w);
-        }
-
-        @Override
-        public SWTBotMenu click() {
-            final Menu menu = syncExec(new Result<Menu>() {
-                public Menu run() {
-                    return widget.getParent();
-                }
-            });
-            super.click();
-            syncExec(new VoidResult() {
-                @Override
-                public void run() {
-                    menu.notifyListeners(SWT.Hide, null);
-                }
-            });
-            return this;
-        };
-
-    }
 }

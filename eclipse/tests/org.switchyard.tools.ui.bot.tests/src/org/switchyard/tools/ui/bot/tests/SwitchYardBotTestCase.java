@@ -34,6 +34,8 @@ import org.eclipse.graphiti.ui.internal.contextbuttons.ContextButton;
 import org.eclipse.graphiti.ui.internal.contextbuttons.ContextButtonPad;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
@@ -43,12 +45,14 @@ import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTBotGefTestCase;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.finders.EventContextMenuFinder;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.results.WidgetResult;
 import org.eclipse.swtbot.swt.finder.utils.MessageFormat;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.TimeoutException;
@@ -200,7 +204,7 @@ public abstract class SwitchYardBotTestCase extends SWTBotGefTestCase {
             lock.notify();
         }
         if (!myJob.getResult().isOK()) {
-            throw new TimeoutException("Timeout after: " + timeout + " ms.: waiting for file save."); 
+            throw new TimeoutException("Timeout after: " + timeout + " ms.: waiting for file save.");
         }
     }
 
@@ -272,19 +276,41 @@ public abstract class SwitchYardBotTestCase extends SWTBotGefTestCase {
      * @param action the name of the tool to invoke
      */
     protected void initiateContextPadAction(SWTBotGefEditor editor, String action) {
-        FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart) editor.getSWTBotGefViewer()
-                .rootEditPart().part();
-        IFigure feedbackLayer = rootEditPart.getLayer(LayerConstants.HANDLE_LAYER);
-        for (Object child : feedbackLayer.getChildren()) {
-            if (child instanceof ContextButtonPad) {
-                for (Object button : ((ContextButtonPad) child).getChildren()) {
-                    ContextButton contextButton = (ContextButton) button;
-                    IContextButtonEntry entry = contextButton.getEntry();
-                    if (action.equals(entry.getText())) {
-                        editor.click(contextButton.getBounds().x, contextButton.getBounds().y);
+        initiateContextPadAction(editor, action, null);
+    }
+
+    /**
+     * Initiate an action using a tool from the palette.
+     * 
+     * @param editor the editor
+     * @param action the name of the tool to invoke
+     * @param menuAction the name of the action in the popup associated with the
+     *            action
+     */
+    protected void initiateContextPadAction(SWTBotGefEditor editor, String action, String menuAction) {
+        EventContextMenuFinder contextMenuFinder = new EventContextMenuFinder();
+        try {
+            contextMenuFinder.register();
+            FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart) editor.getSWTBotGefViewer()
+                    .rootEditPart().part();
+            IFigure feedbackLayer = rootEditPart.getLayer(LayerConstants.HANDLE_LAYER);
+            for (Object child : feedbackLayer.getChildren()) {
+                if (child instanceof ContextButtonPad) {
+                    for (Object button : ((ContextButtonPad) child).getChildren()) {
+                        ContextButton contextButton = (ContextButton) button;
+                        IContextButtonEntry entry = contextButton.getEntry();
+                        if (action.equals(entry.getText())) {
+                            editor.click(contextButton.getBounds().x, contextButton.getBounds().y);
+                        }
                     }
                 }
             }
+            if (menuAction != null) {
+                new SWTBotContextPopupMenu(contextMenuFinder.findMenus(
+                        WidgetMatcherFactory.<MenuItem> withText(menuAction)).get(0)).click();
+            }
+        } finally {
+            contextMenuFinder.unregister();
         }
     }
 
@@ -373,6 +399,38 @@ public abstract class SwitchYardBotTestCase extends SWTBotGefTestCase {
             }
             return null;
         }
+
+    }
+
+    private static final class SWTBotContextPopupMenu extends SWTBotMenu {
+
+        private SWTBotContextPopupMenu(MenuItem w) throws WidgetNotFoundException {
+            super(w);
+        }
+
+        @Override
+        public SWTBotMenu click() {
+            /*
+             * regular click processing does not work, so we need to inject
+             * mouse events to invoke the action.
+             */
+            asyncExec(new VoidResult() {
+                public void run() {
+                    Event event = createMouseEvent(0, 0, 1, SWT.BUTTON1, 1);
+                    event.type = SWT.MouseDown;
+                    display.post(event);
+                    event = createMouseEvent(0, 0, 1, SWT.BUTTON1, 1);
+                    event.type = SWT.MouseUp;
+                    display.post(event);
+                    display.wake();
+                }
+            });
+            syncExec(new VoidResult() {
+                public void run() {
+                }
+            });
+            return this;
+        };
 
     }
 }
