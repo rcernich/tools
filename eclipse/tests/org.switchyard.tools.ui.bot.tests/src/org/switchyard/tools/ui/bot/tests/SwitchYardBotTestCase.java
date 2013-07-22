@@ -21,8 +21,17 @@ import org.custommonkey.xmlunit.XMLUnit;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
+import org.eclipse.graphiti.tb.IContextButtonEntry;
+import org.eclipse.graphiti.ui.internal.contextbuttons.ContextButton;
+import org.eclipse.graphiti.ui.internal.contextbuttons.ContextButtonPad;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Shell;
@@ -32,6 +41,7 @@ import org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTBotGefTestCase;
+import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
@@ -41,6 +51,7 @@ import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.eclipse.swtbot.swt.finder.widgets.TimeoutException;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.junit.After;
@@ -52,6 +63,7 @@ import org.junit.Before;
  * Base test case for SwitchYard bot tests. Creates a clean SwitchYard project
  * for running the test.
  */
+@SuppressWarnings("restriction")
 public abstract class SwitchYardBotTestCase extends SWTBotGefTestCase {
 
     protected static final String TEST_PROJECT = "switchyard-bot-test";
@@ -155,6 +167,44 @@ public abstract class SwitchYardBotTestCase extends SWTBotGefTestCase {
     }
 
     /**
+     * Wait for the save to finish on switchyard.xml
+     * 
+     * @throws Exception if something goes wrong
+     */
+    protected void waitForSave() throws Exception {
+        final long timeout = SWTBotPreferences.TIMEOUT;
+        final Job myJob = new Job("File Exists") {
+            @Override
+            protected IStatus run(IProgressMonitor monitor) {
+                return Status.OK_STATUS;
+            }
+        };
+        myJob.setRule(getSwitchYardFile());
+        final Object lock = new Object();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    synchronized (lock) {
+                        lock.wait(timeout);
+                    }
+                } catch (InterruptedException e) {
+                    e.fillInStackTrace();
+                }
+                myJob.cancel();
+            }
+        }).run();
+        myJob.schedule();
+        myJob.join();
+        synchronized (lock) {
+            lock.notify();
+        }
+        if (!myJob.getResult().isOK()) {
+            throw new TimeoutException("Timeout after: " + timeout + " ms.: waiting for file save."); 
+        }
+    }
+
+    /**
      * Waits for build jobs to complete.
      * 
      * @throws Exception if something goes wrong.
@@ -211,6 +261,29 @@ public abstract class SwitchYardBotTestCase extends SWTBotGefTestCase {
                     e.fillInStackTrace();
                 }
                 expectedReader = null;
+            }
+        }
+    }
+
+    /**
+     * Initiate an action using a tool from the palette.
+     * 
+     * @param editor the editor
+     * @param action the name of the tool to invoke
+     */
+    protected void initiateContextPadAction(SWTBotGefEditor editor, String action) {
+        FreeformGraphicalRootEditPart rootEditPart = (FreeformGraphicalRootEditPart) editor.getSWTBotGefViewer()
+                .rootEditPart().part();
+        IFigure feedbackLayer = rootEditPart.getLayer(LayerConstants.HANDLE_LAYER);
+        for (Object child : feedbackLayer.getChildren()) {
+            if (child instanceof ContextButtonPad) {
+                for (Object button : ((ContextButtonPad) child).getChildren()) {
+                    ContextButton contextButton = (ContextButton) button;
+                    IContextButtonEntry entry = contextButton.getEntry();
+                    if (action.equals(entry.getText())) {
+                        editor.click(contextButton.getBounds().x, contextButton.getBounds().y);
+                    }
+                }
             }
         }
     }

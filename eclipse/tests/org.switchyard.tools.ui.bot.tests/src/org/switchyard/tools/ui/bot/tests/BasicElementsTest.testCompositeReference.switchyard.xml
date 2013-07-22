@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" name="switchyard-bot-test" targetNamespace="urn:org.switchyard.ui.tests.bot:switchyard-bot-test:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912">
+  <sca:composite name="switchyard-bot-test" targetNamespace="urn:org.switchyard.ui.tests.bot:switchyard-bot-test:1.0">
+    <sca:reference name="TestService" multiplicity="0..1">
+      <sca:interface.java interface="org.switchyard.ui.tests.bot.TestService"/>
+    </sca:reference>
+    <sca:reference name="TestService2" multiplicity="0..1">
+      <sca:interface.java interface="org.switchyard.ui.tests.bot.TestService"/>
+    </sca:reference>
+    <sca:reference name="TestService3" multiplicity="0..1">
+      <sca:interface.wsdl interface="TestService.wsdl#wsdl.porttype(TestService)"/>
+    </sca:reference>
+    <sca:reference name="TestService4" multiplicity="0..1">
+      <sca:interface.wsdl interface="TestService.wsdl#wsdl.porttype(TestService)"/>
+    </sca:reference>
+    <sca:reference name="TestService5" multiplicity="0..1">
+      <interface.esb faultType="{tns}fault" inputType="{tns}input" outputType="{tns}output"/>
+    </sca:reference>
+  </sca:composite>
+</switchyard>
