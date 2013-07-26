@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<switchyard xmlns="urn:switchyard-config:switchyard:1.0" name="switchyard-bot-test" targetNamespace="urn:org.switchyard.ui.tests.bot:switchyard-bot-test:1.0">
+    <composite xmlns="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="switchyard-bot-test" targetNamespace="urn:org.switchyard.ui.tests.bot:switchyard-bot-test:1.0"/>
+</switchyard>

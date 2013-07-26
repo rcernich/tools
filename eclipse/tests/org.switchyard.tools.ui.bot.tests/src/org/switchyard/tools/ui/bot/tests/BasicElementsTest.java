@@ -47,8 +47,7 @@ public class BasicElementsTest extends SwitchYardBotTestCase {
     public void testCompositeService() throws Exception {
         final SWTBotGefEditor editor = new SWTBotGefEditor(bot.activeEditor().getReference(), bot);
         final SWTBotGefEditPart compositeEditPart = editor.getEditPart("switchyard-bot-test");
-        final Point compositeCenter = ((GraphicalEditPart) compositeEditPart.part()).getFigure().getBounds()
-                .getCenter();
+        final Point compositeCenter = getPartCenter(compositeEditPart);
 
         SWTBotShell firstWizard = null;
 
@@ -260,15 +259,66 @@ public class BasicElementsTest extends SwitchYardBotTestCase {
         final Point compositeCenter = ((GraphicalEditPart) compositeEditPart.part()).getFigure().getBounds()
                 .getCenter();
 
+        SWTBotShell firstWizard = null;
+
         // tool
         editor.activateTool("Component");
-        compositeEditPart.click(new Point(100, 100));
+        compositeEditPart.click(new Point(100, 200));
 
         // context pad
         editor.activateDefaultTool();
         compositeEditPart.click(compositeCenter);
         bot.sleep(1000); // wait for context pad
         initiateContextPadAction(editor, "Component", "Component");
+
+        // add services
+        final SWTBotGefEditPart component = editor.getEditPart("Component");
+        component.click(getPartCenter(component));
+        bot.sleep(1000); // wait for context pad
+        initiateContextPadAction(editor, "Service");
+        firstWizard = bot.activeShell();
+        bot.link().click();
+        bot.text(3).setText("TestService");
+        finishWizard(bot, 10000);
+        firstWizard.activate();
+        finishWizard(bot);
+
+        final SWTBotGefEditPart component1 = editor.getEditPart("Component1");
+        editor.activateTool("Service");
+        component1.click(getPartCenter(component1));
+        firstWizard = bot.activeShell();
+        radioClick(bot.radio("WSDL"));
+        bot.sleep(1000);
+        bot.link().click();
+        bot.text(1).setText("TestService.wsdl");
+        bot.button("Next >").click();
+        finishWizard(bot);
+        firstWizard.activate();
+        bot.text(1).setText("TestService2");
+        finishWizard(bot);
+
+        // add reference
+        editor.activateDefaultTool();
+        component1.click(getPartCenter(component1));
+        bot.sleep(1000); // wait for context pad
+        initiateContextPadAction(editor, "Reference");
+        firstWizard = bot.activeShell();
+        radioClick(bot.radio("ESB"));
+        bot.link().click();
+        bot.text().setText("{tns}input");
+        bot.text(1).setText("{tns}output");
+        bot.text(2).setText("{tns}fault");
+        bot.button("OK").click();
+        firstWizard.activate();
+        bot.text(1).setText("TestService");
+        finishWizard(bot);
+
+        // validate connection
+        final SWTBotGefEditPart component1Reference = component1.children().get(1);
+        assertEquals(component1Reference.sourceConnections().size(), 1);
+
+        final SWTBotGefEditPart componentService = component.children().get(0);
+        assertEquals(componentService.targetConnections().size(), 1);
 
         // save
         bot.menu("File").menu("Save").click();

@@ -3,8 +3,17 @@
   targetNamespace="urn:org.switchyard.ui.tests.bot:switchyard-bot-test:1.0" xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912">
   <sca:composite name="switchyard-bot-test" targetNamespace="urn:org.switchyard.ui.tests.bot:switchyard-bot-test:1.0">
     <sca:component name="Component">
+      <sca:service name="TestService">
+        <sca:interface.java interface="org.switchyard.ui.tests.bot.TestService" />
+      </sca:service>
     </sca:component>
     <sca:component name="Component1">
+      <sca:service name="TestService2">
+        <sca:interface.wsdl interface="TestService.wsdl#wsdl.porttype(TestService)" />
+      </sca:service>
+      <sca:reference name="TestService">
+        <interface.esb faultType="{tns}fault" inputType="{tns}input" outputType="{tns}output" />
+      </sca:reference>
     </sca:component>
   </sca:composite>
 </switchyard>

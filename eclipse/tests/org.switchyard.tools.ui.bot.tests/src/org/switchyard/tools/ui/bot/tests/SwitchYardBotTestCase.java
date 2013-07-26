@@ -27,6 +27,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.graphiti.tb.IContextButtonEntry;
@@ -43,6 +45,7 @@ import org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.eclipse.gef.finder.SWTBotGefTestCase;
+import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditPart;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditor;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.finders.EventContextMenuFinder;
@@ -312,6 +315,15 @@ public abstract class SwitchYardBotTestCase extends SWTBotGefTestCase {
         } finally {
             contextMenuFinder.unregister();
         }
+    }
+
+    /**
+     * @param part the edit part
+     * @return the center of the part
+     */
+    protected Point getPartCenter(SWTBotGefEditPart part) {
+        return ((GraphicalEditPart) part.part()).getFigure().getBounds()
+                .getCenter();
     }
 
     private final class CloseDialogs implements VoidResult {
