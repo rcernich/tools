@@ -13,7 +13,6 @@
 package org.switchyard.tools.ui.editor.components.camel.file;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
@@ -24,14 +23,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.switchyard.tools.models.switchyard1_0.camel.file.CamelFileBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.file.FileFactory;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ContextMapperType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.MessageComposerType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
 
@@ -48,16 +42,20 @@ public class CamelFileProducerComposite extends AbstractSYBindingComposite {
     private Button _autoCreateButton;
     private Text _fileExistText;
     private Text _tempPrefixText;
-    private TabFolder _tabFolder;
-    private List<String> _advancedPropsFilterList;
 
     @Override
-    public Binding getBinding() {
-        return this._binding;
+    public String getTitle() {
+        return "File Binding Details";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Specify pertinent details for your File Binding.";
     }
 
     @Override
     public void setBinding(Binding impl) {
+        super.setBinding(impl);
         if (impl instanceof CamelFileBindingType) {
             this._binding = (CamelFileBindingType) impl;
             setInUpdate(true);
@@ -84,7 +82,6 @@ public class CamelFileProducerComposite extends AbstractSYBindingComposite {
                 _fileNameText.setText("");
             }
             _autoCreateButton.setSelection(this._binding.isAutoCreate());
-            super.setTabsBinding(_binding);
             setInUpdate(false);
             validate();
         } else {
@@ -101,7 +98,6 @@ public class CamelFileProducerComposite extends AbstractSYBindingComposite {
                 setErrorMessage("Directory may not be empty.");
             }
         }
-        super.validateTabs();
         return (getErrorMessage() == null);
     }
 
@@ -113,16 +109,10 @@ public class CamelFileProducerComposite extends AbstractSYBindingComposite {
             _panel.setLayoutData(getRootGridData());
         }
 
-        _tabFolder = new TabFolder(_panel, SWT.NONE);
-
-        TabItem one = new TabItem(_tabFolder, SWT.NONE);
-        one.setText("Producer");
-        one.setControl(getProducerTabControl(_tabFolder));
-
-        addTabs(_tabFolder);
+        getProducerTabControl(_panel);
     }
 
-    private Control getProducerTabControl(TabFolder tabFolder) {
+    private Control getProducerTabControl(Composite tabFolder) {
         Composite composite = new Composite(tabFolder, SWT.NONE);
         GridLayout gl = new GridLayout(1, false);
         composite.setLayout(gl);
@@ -202,30 +192,4 @@ public class CamelFileProducerComposite extends AbstractSYBindingComposite {
         setHasChanged(false);
     }
 
-    @Override
-    protected List<String> getAdvancedPropertiesFilterList() {
-        if (_advancedPropsFilterList == null) {
-            _advancedPropsFilterList = new ArrayList<String>();
-            _advancedPropsFilterList.add("bufferSize");
-            _advancedPropsFilterList.add("flatten");
-            _advancedPropsFilterList.add("charset");
-            _advancedPropsFilterList.add("tempPrefix");
-            _advancedPropsFilterList.add("tempFileName");
-            _advancedPropsFilterList.add("keepLastModified");
-            _advancedPropsFilterList.add("eagerDeleteTargetFile");
-            _advancedPropsFilterList.add("doneFileName");
-        }
-        return _advancedPropsFilterList;
-    }
-
-    @Override
-    protected ContextMapperType createContextMapper() {
-        return SwitchyardFactory.eINSTANCE.createContextMapperType();
-    }
-
-    @Override
-    protected MessageComposerType createMessageComposer() {
-        return SwitchyardFactory.eINSTANCE.createMessageComposerType();
-    }
-    
 }

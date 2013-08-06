@@ -598,12 +598,9 @@ public abstract class AbstractSwitchyardComposite implements FocusListener, KeyL
     }
 
     protected TransactionalEditingDomain getDomain(EObject object) {
-        TransactionalEditingDomain domain = null;
         if (object != null) {
-            if (object.eContainer() != null) {
-                domain = SwitchyardSCAEditor.getActiveEditor().getEditingDomain();
-                return domain;
-            }
+            SwitchyardSCAEditor editor = SwitchyardSCAEditor.getEditor(object);
+            return editor == null ? null : editor.getEditingDomain();
         }
         return null;
     }

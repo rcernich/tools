@@ -13,7 +13,6 @@
 package org.switchyard.tools.ui.editor.components.camel.mail;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
@@ -24,14 +23,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.switchyard.tools.models.switchyard1_0.camel.mail.CamelMailBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.mail.MailFactory;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ContextMapperType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.MessageComposerType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
 import org.switchyard.tools.ui.editor.util.PropTypeUtil;
@@ -44,8 +38,6 @@ public class CamelMailProducerComposite extends AbstractSYBindingComposite {
 
     private Composite _panel;
     private CamelMailBindingType _binding = null;
-    private TabFolder _tabFolder;
-    private List<String> _advancedPropsFilterList;
     private Text _hostText;
     private Text _portText;
     private Text _usernameText;
@@ -59,12 +51,18 @@ public class CamelMailProducerComposite extends AbstractSYBindingComposite {
     private Button _securedCheckbox;
 
     @Override
-    public Binding getBinding() {
-        return this._binding;
+    public String getTitle() {
+        return "Mail Binding Details";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Specify pertinent details for your Mail Binding.";
     }
 
     @Override
     public void setBinding(Binding impl) {
+        super.setBinding(impl);
         if (impl instanceof CamelMailBindingType) {
             this._binding = (CamelMailBindingType) impl;
             setInUpdate(true);
@@ -122,7 +120,6 @@ public class CamelMailProducerComposite extends AbstractSYBindingComposite {
                 _passwordText.setText("");
             }
             _securedCheckbox.setSelection(this._binding.isSecure());
-            super.setTabsBinding(_binding);
             setInUpdate(false);
             validate();
         } else {
@@ -145,7 +142,6 @@ public class CamelMailProducerComposite extends AbstractSYBindingComposite {
 //                }
             }
         }
-        super.validateTabs();
         return (getErrorMessage() == null);
     }
 
@@ -153,20 +149,11 @@ public class CamelMailProducerComposite extends AbstractSYBindingComposite {
     public void createContents(Composite parent, int style) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
-        if (getRootGridData() != null) {
-            _panel.setLayoutData(getRootGridData());
-        }
 
-        _tabFolder = new TabFolder(_panel, SWT.NONE);
-
-        TabItem one = new TabItem(_tabFolder, SWT.NONE);
-        one.setText("Producer");
-        one.setControl(getProducerTabControl(_tabFolder));
-
-        addTabs(_tabFolder);
+        getProducerTabControl(_panel);
     }
 
-    private Control getProducerTabControl(TabFolder tabFolder) {
+    private Control getProducerTabControl(Composite tabFolder) {
         Composite composite = new Composite(tabFolder, SWT.NONE);
         GridLayout gl = new GridLayout(1, false);
         composite.setLayout(gl);
@@ -288,23 +275,4 @@ public class CamelMailProducerComposite extends AbstractSYBindingComposite {
         setHasChanged(false);
     }
 
-    @Override
-    protected List<String> getAdvancedPropertiesFilterList() {
-        if (_advancedPropsFilterList == null) {
-            _advancedPropsFilterList = new ArrayList<String>();
-            _advancedPropsFilterList.add("connectionTimeout");
-        }
-        return _advancedPropsFilterList;
-    }
-    
-    @Override
-    protected ContextMapperType createContextMapper() {
-        return SwitchyardFactory.eINSTANCE.createContextMapperType();
-    }
-
-    @Override
-    protected MessageComposerType createMessageComposer() {
-        return SwitchyardFactory.eINSTANCE.createMessageComposerType();
-    }
-    
 }

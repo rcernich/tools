@@ -13,7 +13,6 @@
 package org.switchyard.tools.ui.editor.components.camel.ftps;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
@@ -21,18 +20,12 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.switchyard.tools.models.switchyard1_0.camel.ftp.CamelFtpsBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.ftp.FtpFactory;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ContextMapperType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.MessageComposerType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
 import org.switchyard.tools.ui.editor.util.PropTypeUtil;
@@ -55,19 +48,20 @@ public class CamelFTPSProducerComposite extends AbstractSYBindingComposite {
     private Text _fileNameText;
     private Text _fileExistText;
     private Text _tempPrefixText;
-    private TabFolder _tabFolder;
-    private List<String> _advancedPropsFilterList;
-    private Button _isImplicitCheckbox;
-    private Combo _execProtCombo;
-    private Combo _securityProtocolCombo;
 
     @Override
-    public Binding getBinding() {
-        return this._binding;
+    public String getTitle() {
+        return "FTPS Binding Details";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Specify pertinent details for your FTPS Binding.";
     }
 
     @Override
     public void setBinding(Binding impl) {
+        super.setBinding(impl);
         if (impl instanceof CamelFtpsBindingType) {
             this._binding = (CamelFtpsBindingType) impl;
             setInUpdate(true);
@@ -115,18 +109,6 @@ public class CamelFTPSProducerComposite extends AbstractSYBindingComposite {
                 _pwdText.setText("");
             }
             _binaryButton.setSelection(this._binding.isBinary());
-            _isImplicitCheckbox.setSelection(this._binding.isIsImplicit());
-            if (this._binding.getSecurityProtocol() != null) {
-                _securityProtocolCombo.setText(this._binding.getSecurityProtocol());
-            } else {
-                _securityProtocolCombo.setText("");
-            }
-            if (this._binding.getExecProt() != null) {
-                _execProtCombo.setText(this._binding.getExecProt());
-            } else {
-                _execProtCombo.setText("");
-            }
-            super.setTabsBinding(_binding);
             setInUpdate(false);
             validate();
         } else {
@@ -143,7 +125,6 @@ public class CamelFTPSProducerComposite extends AbstractSYBindingComposite {
                 setErrorMessage("Directory may not be empty.");
             }
         }
-        super.validateTabs();
         return (getErrorMessage() == null);
     }
 
@@ -151,49 +132,11 @@ public class CamelFTPSProducerComposite extends AbstractSYBindingComposite {
     public void createContents(Composite parent, int style) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
-        if (getRootGridData() != null) {
-            _panel.setLayoutData(getRootGridData());
-        }
 
-        _tabFolder = new TabFolder(_panel, SWT.NONE);
-
-        TabItem one = new TabItem(_tabFolder, SWT.NONE);
-        one.setText("Producer");
-        one.setControl(getProducerTabControl(_tabFolder));
-
-        TabItem two = new TabItem(_tabFolder, SWT.NONE);
-        two.setText("Secure");
-        two.setControl(getFTPSTabControl(_tabFolder));
-
-        addTabs(_tabFolder);
+        getProducerTabControl(_panel);
     }
 
-    private Control getFTPSTabControl(TabFolder tabFolder) {
-        Composite composite = new Composite(tabFolder, SWT.NONE);
-        GridLayout gl = new GridLayout(1, false);
-        composite.setLayout(gl);
-        
-        Group ftpsGroup = new Group(composite, SWT.NONE);
-        ftpsGroup.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        ftpsGroup.setLayout(new GridLayout(2, false));
-        ftpsGroup.setText("FTPS Options");
-        
-        _securityProtocolCombo = createLabelAndCombo(ftpsGroup, "Security Protocol", true);
-        _securityProtocolCombo.add("TLS");
-        _securityProtocolCombo.add("SSL");
-        
-        _isImplicitCheckbox = createCheckbox(ftpsGroup, "Implicit");
-        
-        _execProtCombo = createLabelAndCombo(ftpsGroup, "Execution Protocol", true);
-        _execProtCombo.add("C");
-        _execProtCombo.add("S");
-        _execProtCombo.add("E");
-        _execProtCombo.add("P");
-        
-        return composite;
-    }
-
-    private Control getProducerTabControl(TabFolder tabFolder) {
+    private Control getProducerTabControl(Composite tabFolder) {
         Composite composite = new Composite(tabFolder, SWT.NONE);
         GridLayout gl = new GridLayout(1, false);
         composite.setLayout(gl);
@@ -260,12 +203,6 @@ public class CamelFTPSProducerComposite extends AbstractSYBindingComposite {
             updateFeature(_binding, "password", _pwdText.getText().trim());
         } else if (control.equals(_binaryButton)) {
             updateFeature(_binding, "binary", new Boolean(_binaryButton.getSelection()));
-        } else if (control.equals(_isImplicitCheckbox)) {
-            updateFeature(_binding, "isImplicit", new Boolean(_isImplicitCheckbox.getSelection()));
-        } else if (control.equals(_securityProtocolCombo)) {
-            updateFeature(_binding, "securityProtocol", _securityProtocolCombo.getText().trim());
-        } else if (control.equals(_execProtCombo)) {
-            updateFeature(_binding, "execProt", _execProtCombo.getText().trim());
         } else if (control.equals(_portText)) {
             try {
                 int port = Integer.parseInt(_portText.getText().trim());
@@ -303,12 +240,6 @@ public class CamelFTPSProducerComposite extends AbstractSYBindingComposite {
                 _pwdText.setText(this._binding.getPassword());
             } else if (control.equals(_binaryButton)) {
                 _binaryButton.setSelection(this._binding.isBinary());
-            } else if (control.equals(_isImplicitCheckbox)) {
-                _isImplicitCheckbox.setSelection(this._binding.isIsImplicit());
-            } else if (control.equals(_securityProtocolCombo)) {
-                _securityProtocolCombo.setText(this._binding.getSecurityProtocol());
-            } else if (control.equals(_execProtCombo)) {
-                _execProtCombo.setText(this._binding.getExecProt());
             } else if (this._binding.getProduce() != null) {
                 if (control.equals(_fileExistText)) {
                     _fileExistText.setText(this._binding.getProduce().getFileExist());
@@ -322,42 +253,4 @@ public class CamelFTPSProducerComposite extends AbstractSYBindingComposite {
         setHasChanged(false);
     }
 
-    @Override
-    protected List<String> getAdvancedPropertiesFilterList() {
-        if (_advancedPropsFilterList == null) {
-            _advancedPropsFilterList = new ArrayList<String>();
-            _advancedPropsFilterList.add("passiveMode");
-            _advancedPropsFilterList.add("timeout");
-            _advancedPropsFilterList.add("soTimeout");
-            _advancedPropsFilterList.add("siteCommand");
-            _advancedPropsFilterList.add("connectTimeout");
-            _advancedPropsFilterList.add("disconnect");
-            _advancedPropsFilterList.add("maximumReconnectAttempts");
-            _advancedPropsFilterList.add("reconnectDelay");
-            _advancedPropsFilterList.add("separator");
-            _advancedPropsFilterList.add("stepwise");
-            _advancedPropsFilterList.add("throwExceptionOnConnectFailed");
-
-            _advancedPropsFilterList.add("tempPrefix");
-            _advancedPropsFilterList.add("tempFileName");
-            _advancedPropsFilterList.add("keepLastModified");
-            _advancedPropsFilterList.add("eagerDeleteTargetFile");
-            _advancedPropsFilterList.add("doneFileName");
-
-            _advancedPropsFilterList.add("execPbsz");
-            _advancedPropsFilterList.add("disableSecureDataChannelDefaults");
-        }
-        return _advancedPropsFilterList;
-    }
-    
-    @Override
-    protected ContextMapperType createContextMapper() {
-        return SwitchyardFactory.eINSTANCE.createContextMapperType();
-    }
-
-    @Override
-    protected MessageComposerType createMessageComposer() {
-        return SwitchyardFactory.eINSTANCE.createMessageComposerType();
-    }
-    
 }

@@ -12,9 +12,6 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.components.camel.jms;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -32,14 +29,9 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.switchyard.tools.models.switchyard1_0.camel.jms.CamelJmsBindingType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ContextMapperType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.MessageComposerType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardOperationSelectorType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorComposite;
 import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorUtil;
@@ -66,17 +58,21 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
     private Text _transactionManagerText;
     private Text _selectorText;
     private Button _transactedButton;
-    private TabFolder _tabFolder;
-    private List<String> _advancedPropsFilterList;
     private OperationSelectorComposite _opSelectorComposite;
 
     @Override
-    public Binding getBinding() {
-        return this._binding;
+    public String getTitle() {
+        return "JMS Binding Details";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Specify pertinent details for your JMS Binding.";
     }
 
     @Override
     public void setBinding(Binding impl) {
+        super.setBinding(impl);
         if (impl instanceof CamelJmsBindingType) {
             setTargetObject(impl.eContainer());
             this._binding = (CamelJmsBindingType) impl;
@@ -139,7 +135,6 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
                 _connectionFactoryText.setText("#ConnectionFactory");
                 handleModify(_connectionFactoryText);
             }
-            super.setTabsBinding(_binding);
             setInUpdate(false);
             validate();
         } else {
@@ -149,7 +144,7 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
     }
 
     @Override
-    public void setTargetObject(Object target) {
+    public void setTargetObject(EObject target) {
         super.setTargetObject(target);
         if (_opSelectorComposite != null && !_opSelectorComposite.isDisposed()) {
             _opSelectorComposite.setTargetObject((EObject) target);
@@ -188,7 +183,6 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
 //                }
 //            }
         }
-        super.validateTabs();
         return (getErrorMessage() == null);
     }
 
@@ -196,31 +190,19 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
     public void createContents(Composite parent, int style) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
-        if (getRootGridData() != null) {
-            _panel.setLayoutData(getRootGridData());
-        }
 
-        _tabFolder = new TabFolder(_panel, SWT.NONE);
-
-        TabItem one = new TabItem(_tabFolder, SWT.NONE);
         if (getTargetObject() == null && _binding != null && this._binding.eContainer() != null) {
             setTargetObject(this._binding.eContainer());
         }
+        getJmsTabControl(_panel);
         if (getTargetObject() != null && getTargetObject() instanceof Service) {
-            one.setText("JMS Consumer");
-            one.setControl(getJmsTabControl(_tabFolder));
             if (_opSelectorComposite != null && !_opSelectorComposite.isDisposed()) {
                 _opSelectorComposite.setTargetObject((EObject) getTargetObject());
             }
-        } else if (getTargetObject() != null && getTargetObject() instanceof Reference) {
-            one.setText("JMS Producer");
-            one.setControl(getJmsTabControl(_tabFolder));
         }
-
-        addTabs(_tabFolder);
     }
 
-    private Control getJmsTabControl(TabFolder tabFolder) {
+    private Control getJmsTabControl(Composite tabFolder) {
         Composite composite = new Composite(tabFolder, SWT.NONE);
         GridLayout gl = new GridLayout(1, false);
         composite.setLayout(gl);
@@ -404,37 +386,4 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
         setHasChanged(false);
     }
 
-    @Override
-    protected List<String> getAdvancedPropertiesFilterList() {
-        if (_advancedPropsFilterList == null) {
-            _advancedPropsFilterList = new ArrayList<String>();
-            _advancedPropsFilterList.add("queue");
-            _advancedPropsFilterList.add("topic");
-            _advancedPropsFilterList.add("username");
-            _advancedPropsFilterList.add("password");
-            _advancedPropsFilterList.add("clientId");
-            _advancedPropsFilterList.add("durableSubscriptionName");
-            _advancedPropsFilterList.add("disableReplyTo");
-            _advancedPropsFilterList.add("preserveMessageQos");
-            _advancedPropsFilterList.add("deliveryPersistent");
-            _advancedPropsFilterList.add("priority");
-            _advancedPropsFilterList.add("explicitQosEnabled");
-            _advancedPropsFilterList.add("replyToType");
-            _advancedPropsFilterList.add("requestTimeout");
-            _advancedPropsFilterList.add("selector");
-            _advancedPropsFilterList.add("timeToLive");
-        }
-        return _advancedPropsFilterList;
-    }
-
-    @Override
-    protected ContextMapperType createContextMapper() {
-        return SwitchyardFactory.eINSTANCE.createContextMapperType();
-    }
-
-    @Override
-    protected MessageComposerType createMessageComposer() {
-        return SwitchyardFactory.eINSTANCE.createMessageComposerType();
-    }
-    
 }

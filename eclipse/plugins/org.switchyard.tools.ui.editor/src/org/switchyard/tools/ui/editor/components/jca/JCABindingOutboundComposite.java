@@ -13,7 +13,6 @@
 package org.switchyard.tools.ui.editor.components.jca;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -32,8 +31,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.switchyard.tools.models.switchyard1_0.jca.Connection;
 import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
@@ -63,16 +60,20 @@ public class JCABindingOutboundComposite extends AbstractSYBindingComposite {
     private enum ENDPOINT_MAPPING_TYPE {
         JMSPROCESSOR, CCIPROCESSOR
     }
-    private TabFolder _tabFolder;
-//    private List<String> _advancedPropsFilterList;
 
     @Override
-    public Binding getBinding() {
-        return this._binding;
+    public String getTitle() {
+        return "JCA Binding Details";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Specify pertinent details for your JCA Binding. Resource adapters may require unique properties.";
     }
 
     @Override
     public void setBinding(Binding impl) {
+        super.setBinding(impl);
         if (impl instanceof JCABinding) {
             this._binding = (JCABinding) impl;
             setInUpdate(true);
@@ -103,7 +104,6 @@ public class JCABindingOutboundComposite extends AbstractSYBindingComposite {
                     }
                 }
             }
-            super.setTabsBinding(_binding);
             setInUpdate(false);
         } else {
             this._binding = null;
@@ -115,9 +115,6 @@ public class JCABindingOutboundComposite extends AbstractSYBindingComposite {
     @Override
     protected boolean validate() {
         setErrorMessage(null);
-        if (getBinding() != null) {
-            super.validateTabs();
-        }
         return (getErrorMessage() == null);
     }
 
@@ -125,19 +122,11 @@ public class JCABindingOutboundComposite extends AbstractSYBindingComposite {
     public void createContents(Composite parent, int style) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
-        if (getRootGridData() != null) {
-            _panel.setLayoutData(getRootGridData());
-        }
-        _tabFolder = new TabFolder(_panel, SWT.NONE);
 
-        TabItem one = new TabItem(_tabFolder, SWT.NONE);
-        one.setText("JCA Outbound Binding");
-        one.setControl(getJCATabControl(_tabFolder));
-
-        addTabs(_tabFolder);
+        getJCATabControl(_panel);
     }
 
-    private Control getJCATabControl(TabFolder tabFolder) {
+    private Control getJCATabControl(Composite tabFolder) {
         Composite composite = new Composite(tabFolder, SWT.NONE);
         GridLayout gl = new GridLayout(1, false);
         composite.setLayout(gl);
@@ -361,19 +350,6 @@ public class JCABindingOutboundComposite extends AbstractSYBindingComposite {
             }
         }
         return null;
-    }
-
-    @Override
-    protected List<String> getAdvancedPropertiesFilterList() {
-        return null;
-//        if (_advancedPropsFilterList == null) {
-//            _advancedPropsFilterList = new ArrayList<String>();
-//            _advancedPropsFilterList.add("jndiURL");
-//            _advancedPropsFilterList.add("initialContextFactory");
-//            _advancedPropsFilterList.add("resAuth");
-//            _advancedPropsFilterList.add("managed");
-//        }
-//        return _advancedPropsFilterList;
     }
 
 }

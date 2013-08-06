@@ -13,7 +13,6 @@
 package org.switchyard.tools.ui.editor.components.camel.ftp;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
@@ -24,14 +23,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.switchyard.tools.models.switchyard1_0.camel.ftp.CamelFtpBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.ftp.FtpFactory;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ContextMapperType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.MessageComposerType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
 import org.switchyard.tools.ui.editor.util.PropTypeUtil;
@@ -54,16 +48,20 @@ public class CamelFTPProducerComposite extends AbstractSYBindingComposite {
     private Text _fileNameText;
     private Text _fileExistText;
     private Text _tempPrefixText;
-    private TabFolder _tabFolder;
-    private List<String> _advancedPropsFilterList;
 
     @Override
-    public Binding getBinding() {
-        return this._binding;
+    public String getTitle() {
+        return "FTP Binding Details";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Specify pertinent details for your FTP Binding.";
     }
 
     @Override
     public void setBinding(Binding impl) {
+        super.setBinding(impl);
         if (impl instanceof CamelFtpBindingType) {
             this._binding = (CamelFtpBindingType) impl;
             setInUpdate(true);
@@ -111,7 +109,6 @@ public class CamelFTPProducerComposite extends AbstractSYBindingComposite {
                 _pwdText.setText("");
             }
             _binaryButton.setSelection(this._binding.isBinary());
-            super.setTabsBinding(_binding);
             setInUpdate(false);
             validate();
         } else {
@@ -128,7 +125,6 @@ public class CamelFTPProducerComposite extends AbstractSYBindingComposite {
                 setErrorMessage("Directory may not be empty.");
             }
         }
-        super.validateTabs();
         return (getErrorMessage() == null);
     }
 
@@ -136,20 +132,11 @@ public class CamelFTPProducerComposite extends AbstractSYBindingComposite {
     public void createContents(Composite parent, int style) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
-        if (getRootGridData() != null) {
-            _panel.setLayoutData(getRootGridData());
-        }
 
-        _tabFolder = new TabFolder(_panel, SWT.NONE);
-
-        TabItem one = new TabItem(_tabFolder, SWT.NONE);
-        one.setText("Producer");
-        one.setControl(getConsumerTabControl(_tabFolder));
-
-        addTabs(_tabFolder);
+        getConsumerTabControl(_panel);
     }
 
-    private Control getConsumerTabControl(TabFolder tabFolder) {
+    private Control getConsumerTabControl(Composite tabFolder) {
         Composite composite = new Composite(tabFolder, SWT.NONE);
         GridLayout gl = new GridLayout(1, false);
         composite.setLayout(gl);
@@ -261,39 +248,4 @@ public class CamelFTPProducerComposite extends AbstractSYBindingComposite {
         setHasChanged(false);
     }
 
-    @Override
-    protected List<String> getAdvancedPropertiesFilterList() {
-        if (_advancedPropsFilterList == null) {
-            _advancedPropsFilterList = new ArrayList<String>();
-            _advancedPropsFilterList.add("passiveMode");
-            _advancedPropsFilterList.add("timeout");
-            _advancedPropsFilterList.add("soTimeout");
-            _advancedPropsFilterList.add("siteCommand");
-            _advancedPropsFilterList.add("connectTimeout");
-            _advancedPropsFilterList.add("disconnect");
-            _advancedPropsFilterList.add("maximumReconnectAttempts");
-            _advancedPropsFilterList.add("reconnectDelay");
-            _advancedPropsFilterList.add("separator");
-            _advancedPropsFilterList.add("stepwise");
-            _advancedPropsFilterList.add("throwExceptionOnConnectFailed");
-
-            _advancedPropsFilterList.add("tempPrefix");
-            _advancedPropsFilterList.add("tempFileName");
-            _advancedPropsFilterList.add("keepLastModified");
-            _advancedPropsFilterList.add("eagerDeleteTargetFile");
-            _advancedPropsFilterList.add("doneFileName");
-        }
-        return _advancedPropsFilterList;
-    }
-    
-    @Override
-    protected ContextMapperType createContextMapper() {
-        return SwitchyardFactory.eINSTANCE.createContextMapperType();
-    }
-
-    @Override
-    protected MessageComposerType createMessageComposer() {
-        return SwitchyardFactory.eINSTANCE.createMessageComposerType();
-    }
-    
 }
