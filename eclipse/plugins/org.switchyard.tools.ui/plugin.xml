@@ -104,7 +104,7 @@
       <project-facet
             id="switchyard.core">
          <default-version
-               version="1.0">
+               version="1.1">
          </default-version>
     	 <property name="hide.version" value="true"/>
          <description>
@@ -132,11 +132,29 @@
             </and>
          </constraint>
       </project-facet-version>
+      <project-facet-version
+            facet="switchyard.core"
+            version="1.1">
+         <constraint>
+         	<and>
+	            <requires
+	                  facet="jst.java"
+	                  version="[6.0">
+	            </requires>
+	            <!-- currently only support maven builds -->
+	            <requires
+                   facet="jboss.m2"
+                   soft="true"
+                   version="*">
+	            </requires>
+            </and>
+         </constraint>
+      </project-facet-version>
       <action
             facet="switchyard.core"
             id="switchyard.core.install"
             type="install"
-            version="1.0">
+            version="[1.0-1.1]">
          <delegate
                class="org.switchyard.tools.ui.facets.SwitchYardFacetInstallActionDelegate">
          </delegate>
@@ -148,7 +166,7 @@
             facet="switchyard.core"
             id="switchyard.core.uninstall"
             type="uninstall"
-            version="1.0">
+            version="[1.0-1.1]">
          <delegate
                class="org.switchyard.tools.ui.facets.SwitchYardFacetUnInstallActionDelegate">
          </delegate>
@@ -168,13 +186,35 @@
   </extension>
   <extension
         point="org.eclipse.wst.common.project.facet.core.runtimes">
+     <runtime-component-type
+           id="switchyard.runtime">
+     </runtime-component-type>
+     <runtime-component-version
+           type="switchyard.runtime"
+           version="1.0">
+     </runtime-component-version>
+     <runtime-component-version
+           type="switchyard.runtime"
+           version="1.1">
+     </runtime-component-version>
      <supported>
         <facet
               id="switchyard.core"
               version="1.0">
         </facet>
         <runtime-component
-              any="true">
+              id="switchyard.runtime"
+              version="[1.0-1.1]">
+        </runtime-component>
+     </supported>
+     <supported>
+        <facet
+              id="switchyard.core"
+              version="1.1">
+        </facet>
+        <runtime-component
+              id="switchyard.runtime"
+              version="1.1">
         </runtime-component>
      </supported>
   </extension>
@@ -193,6 +233,14 @@
      </default-facets>
   </extension>
   -->
+ <extension
+       point="org.eclipse.jst.server.core.internalRuntimeComponentProviders">
+    <runtimeComponentProvider
+          class="org.switchyard.tools.ui.facets.SwitchYardRuntimeComponentProvider"
+          id="org.switchyard.tools.ui.runtimeComponentProvider2"
+          runtimeTypeIds="org.jboss.ide.eclipse.as.runtime.70,org.jboss.ide.eclipse.as.runtime.71,org.jboss.ide.eclipse.as.runtime.wildfly.80,org.jboss.ide.eclipse.as.runtime.eap.60,org.jboss.ide.eclipse.as.runtime.eap.61">
+    </runtimeComponentProvider>
+ </extension>
 
   <extension
         point="org.eclipse.wst.server.core.moduleTypes">
@@ -217,7 +265,7 @@
            projects="true">
         <moduleType
               types="switchyard.core"
-              versions="1.0">
+              versions="1.0,1.1">
         </moduleType>
      </moduleFactory>
   </extension>
