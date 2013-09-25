@@ -174,9 +174,15 @@
    </extension>
 
   <extension point="org.eclipse.wst.common.project.facet.ui.images">
-    <image 
-      facet="switchyard.core" 
-      path="icons/switchyard_icon_16px.png"/>
+    <image
+          facet="switchyard.core"
+          path="icons/switchyard_icon_16px.png"
+          runtime-component-type="switchyard.runtime"/>
+    <!-- TODO: get image for FSW. -->
+    <image
+          path="icons/switchyard_icon_16px.png"
+          runtime-component-type="fuseServiceWorks.runtime">
+    </image>
   </extension>
 
   <extension point="org.eclipse.wst.common.project.facet.ui.wizardPages">
@@ -197,6 +203,13 @@
            type="switchyard.runtime"
            version="1.1">
      </runtime-component-version>
+     <runtime-component-type
+           id="fuseServiceWorks.runtime">
+     </runtime-component-type>
+     <runtime-component-version
+           type="fuseServiceWorks.runtime"
+           version="6.0">
+     </runtime-component-version>
      <supported>
         <facet
               id="switchyard.core"
@@ -206,6 +219,14 @@
               id="switchyard.runtime"
               version="[1.0-1.1]">
         </runtime-component>
+        <runtime-component
+              id="fuseServiceWorks.runtime"
+              version="6.0">
+        </runtime-component>
+        <runtime-component
+              id="org.jboss.ide.eclipse.as.runtime.stripped.component"
+              version="1.0">
+        </runtime-component>
      </supported>
      <supported>
         <facet
@@ -216,7 +237,37 @@
               id="switchyard.runtime"
               version="1.1">
         </runtime-component>
+        <runtime-component
+              id="fuseServiceWorks.runtime"
+              version="6.0">
+        </runtime-component>
+        <runtime-component
+              id="org.jboss.ide.eclipse.as.runtime.stripped.component"
+              version="1.0">
+        </runtime-component>
      </supported>
+     <adapter>
+        <runtime-component
+              id="switchyard.runtime">
+        </runtime-component>
+        <factory
+              class="org.switchyard.tools.ui.facets.SwitchYardFacetsAdapterFactory">
+        </factory>
+        <type
+              class="org.eclipse.wst.common.project.facet.ui.IRuntimeComponentLabelProvider">
+        </type>
+     </adapter>
+     <adapter>
+        <runtime-component
+              id="fuseServiceWorks.runtime">
+        </runtime-component>
+        <factory
+              class="org.switchyard.tools.ui.facets.SwitchYardFacetsAdapterFactory">
+        </factory>
+        <type
+              class="org.eclipse.wst.common.project.facet.ui.IRuntimeComponentLabelProvider">
+        </type>
+     </adapter>
   </extension>
   <!--
   <extension
@@ -234,11 +285,11 @@
   </extension>
   -->
  <extension
-       point="org.eclipse.jst.server.core.internalRuntimeComponentProviders">
+       point="org.eclipse.wst.server.core.runtimeFacetComponentProviders">
     <runtimeComponentProvider
           class="org.switchyard.tools.ui.facets.SwitchYardRuntimeComponentProvider"
           id="org.switchyard.tools.ui.runtimeComponentProvider2"
-          runtimeTypeIds="org.jboss.ide.eclipse.as.runtime.70,org.jboss.ide.eclipse.as.runtime.71,org.jboss.ide.eclipse.as.runtime.wildfly.80,org.jboss.ide.eclipse.as.runtime.eap.60,org.jboss.ide.eclipse.as.runtime.eap.61">
+          runtimeTypeIds="org.jboss.ide.eclipse.as.runtime.eap.61">
     </runtimeComponentProvider>
  </extension>
 
