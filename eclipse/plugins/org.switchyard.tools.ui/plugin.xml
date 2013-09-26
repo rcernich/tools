@@ -77,20 +77,42 @@
    -->
    <extension
          point="org.eclipse.wst.common.project.facet.core.presets">
+      <!-- 1.0 applications -->
       <dynamic-preset
-            id="preset.switchyard.basic">
+            id="preset.switchyard.basic.1_0">
          <factory
                class="org.switchyard.tools.ui.facets.SwitchYardBasicPresetFactory">
          </factory>
       </dynamic-preset>
       <static-preset
-            extends="preset.switchyard.basic"
-            id="preset.switchyard.jar">
+            extends="preset.switchyard.basic.1_0"
+            id="preset.switchyard.jar.1_0">
          <description>
-            Project facet set for SwitchYard JAR applications.
+            Project facet set for SwitchYard 1.0 JAR applications.
          </description>
          <label>
-            SwitchYard Java Application
+            SwitchYard 1.0 Java Application
+         </label>
+         <facet
+               id="jst.utility"
+               version="1.0">
+         </facet>
+      </static-preset>
+      <!-- 1.1 applications -->
+      <dynamic-preset
+            id="preset.switchyard.basic.1_1">
+         <factory
+               class="org.switchyard.tools.ui.facets.SwitchYardBasicPresetFactory">
+         </factory>
+      </dynamic-preset>
+      <static-preset
+            extends="preset.switchyard.basic.1_1"
+            id="preset.switchyard.jar.1_1">
+         <description>
+            Project facet set for SwitchYard 1.1 JAR applications.
+         </description>
+         <label>
+            SwitchYard 1.1 Java Application
          </label>
          <facet
                id="jst.utility"
@@ -161,6 +183,12 @@
          <config-factory
                class="org.switchyard.tools.ui.facets.SwitchYardFacetInstallConfigFactory">
          </config-factory>
+      </action>
+      <action
+            facet="switchyard.core"
+            id="switchyard.core.version"
+            type="version-change"
+            version="[1.0-1.1]">
       </action>
       <action
             facet="switchyard.core"

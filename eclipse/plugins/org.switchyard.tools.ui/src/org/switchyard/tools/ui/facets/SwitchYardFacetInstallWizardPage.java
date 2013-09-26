@@ -78,6 +78,18 @@ public class SwitchYardFacetInstallWizardPage extends AbstractFacetWizardPage im
                 validate();
             }
         });
+        _settingsGroup.getTargetRuntimesList().addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
+                if (event.getSelection().isEmpty()
+                        || ((IStructuredSelection) event.getSelection()).getFirstElement() == SwitchYardSettingsGroup.NULL_RUNTIME) {
+                    _config.setProperty(RUNTIME_TARGET, null);
+                } else {
+                    _config.setProperty(RUNTIME_TARGET, ((IStructuredSelection) event.getSelection()).getFirstElement());
+                }
+                validate();
+            }
+        });
 
         setControl(content);
     }
@@ -115,13 +127,38 @@ public class SwitchYardFacetInstallWizardPage extends AbstractFacetWizardPage im
         // _settingsGroup.getRuntimeProvidedCheckbox().setSelection(
         // (Boolean) _config.getDefaultProperty(RUNTIME_PROVIDED));
         // }
-        if (_config.isPropertySet(RUNTIME_VERSION)) {
-            _settingsGroup.getRuntimeVersionsList().setSelection(
-                    new StructuredSelection(_config.getProperty(RUNTIME_VERSION)), true);
+        if (_config.isPropertySet(RUNTIME_TARGET)) {
+            _settingsGroup.getTargetRuntimesList().setSelection(
+                    new StructuredSelection(_config.getProperty(RUNTIME_TARGET)), true);
+            if (_config.isPropertySet(RUNTIME_VERSION)) {
+                // override the default runtime version if it's already specified in the config
+                _settingsGroup.getRuntimeVersionsList().setSelection(
+                        new StructuredSelection(_config.getProperty(RUNTIME_VERSION)), true);
+            }
         } else {
-            Version defaultVersion = (Version) _config.getDefaultProperty(RUNTIME_VERSION);
-            if (defaultVersion != null) {
-                _settingsGroup.getRuntimeVersionsList().setSelection(new StructuredSelection(defaultVersion), true);
+            if (_config.isPropertySet(RUNTIME_VERSION)) {
+                _settingsGroup.getRuntimeVersionsList().setSelection(
+                        new StructuredSelection(_config.getProperty(RUNTIME_VERSION)), true);
+                _settingsGroup.getTargetRuntimesList().setSelection(
+                        new StructuredSelection(SwitchYardSettingsGroup.NULL_RUNTIME), true);
+            } else if (_settingsGroup.getSelectedTargetRuntime() != null) {
+                /*
+                 * no target or version set so use default selections to
+                 * initialize the config.
+                 */
+                _config.setProperty(RUNTIME_TARGET, _settingsGroup.getSelectedTargetRuntime());
+                _config.setProperty(RUNTIME_VERSION, ((IStructuredSelection) _settingsGroup.getRuntimeVersionsList()
+                        .getSelection()).getFirstElement());
+            } else if (_settingsGroup.getRuntimeVersionsList().getSelection().isEmpty()) {
+                /* no target or version selected by default, so we'll specify one now. */
+                Version defaultVersion = (Version) _config.getDefaultProperty(RUNTIME_VERSION);
+                if (defaultVersion != null) {
+                    _settingsGroup.getRuntimeVersionsList().setSelection(new StructuredSelection(defaultVersion), true);
+                }
+            } else {
+                // update the config to use the default selected version
+                _config.setProperty(RUNTIME_VERSION, ((IStructuredSelection) _settingsGroup.getRuntimeVersionsList()
+                        .getSelection()).getFirstElement());
             }
         }
         if (_config.isPropertySet(RUNTIME_COMPONENTS)) {

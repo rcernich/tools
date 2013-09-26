@@ -10,11 +10,13 @@
  ************************************************************************************/
 package org.switchyard.tools.ui.wizards;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.internal.ui.dialogs.StatusUtil;
@@ -22,6 +24,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.m2e.core.MavenPlugin;
+import org.eclipse.m2e.core.internal.index.SourcedSearchExpression;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -206,9 +210,11 @@ public class ProjectConfigurationWizardPage extends WizardPage implements ILayou
         try {
             // TODO: allow use of preferred version or allow association of
             // server runtime version.
-            _settingsGroup.getRuntimeVersionsList().setSelection(
-                    new StructuredSelection(new GenericVersionScheme()
-                            .parseVersion(NewSwitchYardProjectWizard.DEFAULT_RUNTIME_VERSION)));
+            if (getRuntimeVersion() == null) {
+                _settingsGroup.getRuntimeVersionsList().setSelection(
+                        new StructuredSelection(new GenericVersionScheme()
+                                .parseVersion(NewSwitchYardProjectWizard.DEFAULT_RUNTIME_VERSION)));
+            }
         } catch (InvalidVersionSpecificationException e) {
             e.printStackTrace();
             if (versions != null && versions.size() > 0) {
@@ -218,12 +224,33 @@ public class ProjectConfigurationWizardPage extends WizardPage implements ILayou
     }
 
     private void validate() {
+        setMessage(null);
+        setErrorMessage(null);
+
         IStatus packageNameStatus = JavaConventions.validatePackageName(_packageName, "1.6", "1.6"); //$NON-NLS-1$ //$NON-NLS-2$
-        if (packageNameStatus.isOK()) {
-            setMessage(null);
-            setErrorMessage(null);
-        } else {
+        if (!packageNameStatus.isOK()) {
             StatusUtil.applyToStatusLine(this, packageNameStatus);
+        } else if (getErrorMessage() == null) {
+            final Version version = getRuntimeVersion();
+            if (version == null) {
+                setErrorMessage("Please specify a runtime version.");
+            } else {
+                try {
+                    Collection<?> availableArtifacts = MavenPlugin
+                            .getIndexManager()
+                            .getAllIndexes()
+                            .find(new SourcedSearchExpression("org.switchyard"),
+                                    new SourcedSearchExpression("switchyard-api"),
+                                    new SourcedSearchExpression(version.toString()), null);
+                    if (availableArtifacts == null || availableArtifacts.size() == 0) {
+                        setMessage(
+                                "Specified runtime version not found in index.  This may mean the version does not exist or the Maven repository indexes may be out of date.",
+                                WARNING);
+                    }
+                } catch (CoreException e) {
+                    setMessage("Could not verify runtime version exists in Maven repository.", WARNING);
+                }
+            }
         }
         setPageComplete(getErrorMessage() == null);
     }

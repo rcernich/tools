@@ -50,7 +50,7 @@ public class SwitchYardFacetsAdapterFactory implements IAdapterFactory {
         @Override
         public String getLabel() {
             String label = _runtimeComponent
-                    .getProperty(SwitchYardRuntimeComponentProvider.SWITCHYARD_RUNTIME_LABEL_KEY);
+                    .getProperty(ISwitchYardFacetConstants.SWITCHYARD_RUNTIME_LABEL_KEY);
             if (label == null || label.length() == 0) {
                 label = _runtimeComponent.getRuntimeComponentType().getId() + ' '
                         + _runtimeComponent.getRuntimeComponentVersion().getVersionString();

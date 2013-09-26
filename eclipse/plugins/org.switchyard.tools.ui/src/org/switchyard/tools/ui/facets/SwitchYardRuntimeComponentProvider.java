@@ -11,6 +11,14 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.facets;
 
+import static org.switchyard.tools.ui.facets.ISwitchYardFacetConstants.FSW_RUNTIME_ID;
+import static org.switchyard.tools.ui.facets.ISwitchYardFacetConstants.FSW_RUNTIME_VERSION_6_0;
+import static org.switchyard.tools.ui.facets.ISwitchYardFacetConstants.SWITCHYARD_RUNTIME_ID;
+import static org.switchyard.tools.ui.facets.ISwitchYardFacetConstants.SWITCHYARD_RUNTIME_LABEL_KEY;
+import static org.switchyard.tools.ui.facets.ISwitchYardFacetConstants.SWITCHYARD_RUNTIME_VERSION_1_0;
+import static org.switchyard.tools.ui.facets.ISwitchYardFacetConstants.SWITCHYARD_RUNTIME_VERSION_1_1;
+import static org.switchyard.tools.ui.facets.ISwitchYardFacetConstants.SWITCHYARD_RUNTIME_VERSION_KEY;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -42,17 +50,6 @@ import org.eclipse.wst.server.core.internal.facets.RuntimeFacetComponentProvider
 @SuppressWarnings("restriction")
 public class SwitchYardRuntimeComponentProvider extends RuntimeFacetComponentProviderDelegate {
 
-    /**
-     * Key for retrieving SY runtime version (String) from runtime component
-     * properties.
-     */
-    public static final String SWITCHYARD_RUNTIME_VERSION_KEY = "switchyard.version";
-    /**
-     * Key for retrieving SY runtime label (String) from runtime component
-     * properties.
-     */
-    public static final String SWITCHYARD_RUNTIME_LABEL_KEY = "switchyard.label";
-
     private static final Pattern DEPLOY_JAR_NAME_PATTERN = Pattern.compile("switchyard-deploy-jboss-as7-(.*?)\\.jar");
     private static final String SWITCHYARD_AS_DEPLOY_MODULE_PATH = "modules/system/layers/soa/org/switchyard/main";
     private static final String FSW_PRODUCT_MANIFEST_PATH = "modules/system/layers/soa/org/jboss/as/product/soa/dir/META-INF/MANIFEST.MF";
@@ -61,12 +58,6 @@ public class SwitchYardRuntimeComponentProvider extends RuntimeFacetComponentPro
     private static final Name JBOSS_PRODUCT_RELEASE_VERSION = new Name("JBoss-Product-Release-Version");
 
     // facet framework runtime component ids, versions
-    private static final String SWITCHYARD_RUNTIME_ID = "switchyard.runtime";
-    private static final String SWITCHYARD_RUNTIME_VERSION_1_0 = "1.0";
-    private static final String SWITCHYARD_RUNTIME_VERSION_1_1 = "1.1";
-
-    private static final String FSW_RUNTIME_ID = "fuseServiceWorks.runtime";
-    private static final String FSW_RUNTIME_VERSION_6_0 = "6.0";
 
     @Override
     public List<IRuntimeComponent> getRuntimeComponents(IRuntime runtime) {
