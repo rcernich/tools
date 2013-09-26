@@ -100,7 +100,7 @@ public class SwitchYardFacetInstallActionDelegate implements IDelegate {
                 // project update
                 IMavenProjectFacade projectFacade = MavenPlugin.getMavenProjectRegistry().getProject(getProject());
                 if (projectFacade == null || projectFacade.getMavenProject() == null) {
-                    throw new CoreException(new Status(Status.ERROR, Activator.PLUGIN_ID, "Cannot install SwitchYard facet.  Project must be a Maven project."));
+                    throw new CoreException(new Status(Status.ERROR, Activator.PLUGIN_ID, Messages.SwitchYardFacetInstallActionDelegate_errorMessage_notAMavenProject));
                 }
                 WTPProjectsUtil.removeTestFolderLinks(getProject(), workingCopy.getMavenProject(), monitor, "/"); //$NON-NLS-1$
             }

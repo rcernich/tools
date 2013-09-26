@@ -38,6 +38,7 @@ import org.eclipse.wst.common.project.facet.core.runtime.IRuntimeComponent;
 import org.eclipse.wst.common.project.facet.core.runtime.RuntimeManager;
 import org.eclipse.wst.server.core.IRuntime;
 import org.eclipse.wst.server.core.internal.facets.RuntimeFacetComponentProviderDelegate;
+import org.switchyard.tools.ui.i18n.Messages;
 
 /**
  * SwitchYardRuntimeComponentProvider
@@ -50,12 +51,12 @@ import org.eclipse.wst.server.core.internal.facets.RuntimeFacetComponentProvider
 @SuppressWarnings("restriction")
 public class SwitchYardRuntimeComponentProvider extends RuntimeFacetComponentProviderDelegate {
 
-    private static final Pattern DEPLOY_JAR_NAME_PATTERN = Pattern.compile("switchyard-deploy-jboss-as7-(.*?)\\.jar");
-    private static final String SWITCHYARD_AS_DEPLOY_MODULE_PATH = "modules/system/layers/soa/org/switchyard/main";
-    private static final String FSW_PRODUCT_MANIFEST_PATH = "modules/system/layers/soa/org/jboss/as/product/soa/dir/META-INF/MANIFEST.MF";
+    private static final Pattern DEPLOY_JAR_NAME_PATTERN = Pattern.compile("switchyard-deploy-jboss-as7-(.*?)\\.jar"); //$NON-NLS-1$
+    private static final String SWITCHYARD_AS_DEPLOY_MODULE_PATH = "modules/system/layers/soa/org/switchyard/main"; //$NON-NLS-1$
+    private static final String FSW_PRODUCT_MANIFEST_PATH = "modules/system/layers/soa/org/jboss/as/product/soa/dir/META-INF/MANIFEST.MF"; //$NON-NLS-1$
 
-    private static final Name JBOSS_PRODUCT_RELEASE_NAME = new Name("JBoss-Product-Release-Name");
-    private static final Name JBOSS_PRODUCT_RELEASE_VERSION = new Name("JBoss-Product-Release-Version");
+    private static final Name JBOSS_PRODUCT_RELEASE_NAME = new Name("JBoss-Product-Release-Name"); //$NON-NLS-1$
+    private static final Name JBOSS_PRODUCT_RELEASE_VERSION = new Name("JBoss-Product-Release-Version"); //$NON-NLS-1$
 
     // facet framework runtime component ids, versions
 
@@ -81,14 +82,14 @@ public class SwitchYardRuntimeComponentProvider extends RuntimeFacetComponentPro
                         if (manifest.getMainAttributes().containsKey(JBOSS_PRODUCT_RELEASE_NAME)) {
                             String productName = String.class.cast(manifest.getMainAttributes().get(
                                     JBOSS_PRODUCT_RELEASE_NAME));
-                            if (productName.matches(".* Fuse Service Works")) {
+                            if (productName.matches(".* Fuse Service Works")) { //$NON-NLS-1$
                                 switchYardMetaData._name = productName;
                                 if (manifest.getMainAttributes().containsKey(JBOSS_PRODUCT_RELEASE_VERSION)) {
                                     switchYardMetaData._runtimeVersion = String.class.cast(manifest.getMainAttributes()
                                             .get(JBOSS_PRODUCT_RELEASE_VERSION));
                                 }
                                 if (switchYardMetaData._runtimeVersion != null) {
-                                    if (switchYardMetaData._runtimeVersion.startsWith("6.0.")) {
+                                    if (switchYardMetaData._runtimeVersion.startsWith("6.0.")) { //$NON-NLS-1$
                                         switchYardRuntime = RuntimeManager.createRuntimeComponent(
                                                 RuntimeManager.getRuntimeComponentType(FSW_RUNTIME_ID).getVersion(
                                                         FSW_RUNTIME_VERSION_6_0),
@@ -122,13 +123,13 @@ public class SwitchYardRuntimeComponentProvider extends RuntimeFacetComponentPro
                  * if we don't have the runtime from product, check for
                  * community release
                  */
-                if (switchYardMetaData._runtimeVersion.startsWith("1.0.")
-                        || switchYardMetaData._runtimeVersion.startsWith("0.")) {
+                if (switchYardMetaData._runtimeVersion.startsWith("1.0.") //$NON-NLS-1$
+                        || switchYardMetaData._runtimeVersion.startsWith("0.")) { //$NON-NLS-1$
                     switchYardRuntime = RuntimeManager.createRuntimeComponent(
                             RuntimeManager.getRuntimeComponentType(SWITCHYARD_RUNTIME_ID).getVersion(
                                     SWITCHYARD_RUNTIME_VERSION_1_0),
                             createRuntimeComponentProperties(switchYardMetaData));
-                } else if (switchYardMetaData._runtimeVersion.startsWith("1.1.")) {
+                } else if (switchYardMetaData._runtimeVersion.startsWith("1.1.")) { //$NON-NLS-1$
                     switchYardRuntime = RuntimeManager.createRuntimeComponent(
                             RuntimeManager.getRuntimeComponentType(SWITCHYARD_RUNTIME_ID).getVersion(
                                     SWITCHYARD_RUNTIME_VERSION_1_1),
@@ -206,7 +207,7 @@ public class SwitchYardRuntimeComponentProvider extends RuntimeFacetComponentPro
                         return metadata;
                     } catch (IOException e) {
                         SwitchYardRuntimeMetaData metadata = new SwitchYardRuntimeMetaData();
-                        metadata._name = "SwitchYard";
+                        metadata._name = Messages.SwitchYardRuntimeComponentProvider_label_runtimeComponentName;
                         metadata._libraryVersion = matcher.group(1);
                         metadata._runtimeVersion = metadata._libraryVersion;
                         return metadata;
@@ -241,7 +242,7 @@ public class SwitchYardRuntimeComponentProvider extends RuntimeFacetComponentPro
             } else {
                 version = _runtimeVersion;
             }
-            return "" + _name + ' ' + version;
+            return "" + _name + ' ' + version; //$NON-NLS-1$
         }
     }
 }

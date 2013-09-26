@@ -195,7 +195,8 @@ public class NewSwitchYardProjectWizard extends Wizard implements INewWizard {
 
     private boolean validateVersion(final Version version) {
         if (version == null) {
-            MessageDialog.openError(getShell(), "No Version Specified", "Please specify a SwitchYard version.");
+            MessageDialog.openError(getShell(), Messages.NewSwitchYardProjectWizard_errorTitle_noVersionSpecified,
+                    Messages.NewSwitchYardProjectWizard_errorMessage_noSwitchYardVersionSpecified);
             return false;
         }
         final boolean[] retVal = new boolean[1];
@@ -204,10 +205,9 @@ public class NewSwitchYardProjectWizard extends Wizard implements INewWizard {
                 @Override
                 public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
                     try {
-                        monitor.setTaskName("Trying to resolve SwitchYard artifacts for specified version.");
-                        if (MavenPlugin
-                                .getMaven()
-                                .resolve("org.switchyard", "switchyard-api", version.toString(), "jar", null,
+                        monitor.setTaskName(Messages.NewSwitchYardProjectWizard_taskLabel_resolvingSwitchYardArtifacts);
+                        if (MavenPlugin.getMaven()
+                                .resolve("org.switchyard", "switchyard-api", version.toString(), "jar", null, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                                         MavenPlugin.getMaven().getArtifactRepositories(), monitor).isResolved()) {
                             retVal[0] = true;
                             return;
@@ -215,19 +215,15 @@ public class NewSwitchYardProjectWizard extends Wizard implements INewWizard {
                     } catch (CoreException e) {
                         e.fillInStackTrace();
                     }
-                    retVal[0] = MessageDialog
-                            .openConfirm(
-                                    getShell(),
-                                    "Cannot Resolve SwitchYard Dependencies",
-                                    "The specified SwitchYard version does not appear to be available from any of the configured Maven repositories.\n\nDo you wish to continue with project creation?");
+                    retVal[0] = MessageDialog.openConfirm(getShell(),
+                            Messages.NewSwitchYardProjectWizard_confirmTitle_cannotResolveSwitchYardDependencies,
+                            Messages.NewSwitchYardProjectWizard_confirmText_cannotResolveSwitchYardDependencies);
                 }
             });
         } catch (Exception e) {
-            retVal[0] = MessageDialog
-                    .openConfirm(
-                            getShell(),
-                            "Cannot Resolve SwitchYard Dependencies",
-                            "Could not verify the availability of the specified SwitchYard version.\n\nDo you wish to continue with project creation?");
+            retVal[0] = MessageDialog.openConfirm(getShell(),
+                    Messages.NewSwitchYardProjectWizard_confirmTitle_cannotResolveSwitchYardDependencies,
+                    Messages.NewSwitchYardProjectWizard_confirmText_cannotResolveSwitchYardDependencies);
         }
         return retVal[0];
     }

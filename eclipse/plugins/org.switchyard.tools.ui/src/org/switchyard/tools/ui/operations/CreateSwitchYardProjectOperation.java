@@ -398,7 +398,7 @@ public class CreateSwitchYardProjectOperation implements IWorkspaceRunnable {
     }
 
     private void attachTargetRuntime(IProgressMonitor monitor, MultiStatus status) {
-        monitor.subTask("Attaching target runtime to project.");
+        monitor.subTask(Messages.CreateSwitchYardProjectOperation_taskLabel_attachingTargetRuntimeToProject);
 
         IProgressMonitor subMonitor = new SubProgressMonitor(monitor, 50, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
         IFacetedProjectWorkingCopy ifpwc = null;
@@ -413,7 +413,7 @@ public class CreateSwitchYardProjectOperation implements IWorkspaceRunnable {
             subMonitor = new SubProgressMonitor(monitor, 50, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
             ifpwc.commitChanges(subMonitor);
         } catch (Exception e) {
-            mergeStatus(status, "Error attaching target runtime to project.", e);
+            mergeStatus(status, Messages.CreateSwitchYardProjectOperation_errorMessage_errorAttachingTargetRuntimeToProject, e);
         } finally {
             if (ifpwc != null) {
                 ifpwc.dispose();

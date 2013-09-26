@@ -245,7 +245,7 @@ public class ProjectConfigurationWizardPage extends WizardPage implements ILayou
         } else if (getErrorMessage() == null) {
             final Version version = getRuntimeVersion();
             if (version == null) {
-                setErrorMessage("Please specify a runtime version.");
+                setErrorMessage(Messages.ProjectConfigurationWizardPage_errorMessage_pleaseSpecifySwitchYardVersion);
             }
             /*
              * else {
