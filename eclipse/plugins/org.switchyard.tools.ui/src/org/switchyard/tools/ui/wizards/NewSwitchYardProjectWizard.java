@@ -21,6 +21,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
@@ -100,6 +101,11 @@ public class NewSwitchYardProjectWizard extends Wizard implements INewWizard {
 
     @Override
     public boolean performFinish() {
+        final Version runtimeVersion = _configurationPage.getRuntimeVersion();
+        if (!validateVersion(runtimeVersion)) {
+            return false;
+        }
+
         final NewSwitchYardProjectMetaData projectMetaData = new NewSwitchYardProjectMetaData();
         // get a project handle
         projectMetaData.setNewProjectHandle(_newProjectPage.getProjectHandle());
@@ -113,9 +119,9 @@ public class NewSwitchYardProjectWizard extends Wizard implements INewWizard {
         projectMetaData.setNamespace(_configurationPage.getNamespace());
         projectMetaData.setGroupId(_configurationPage.getGroupId());
         projectMetaData.setProjectVersion(DEFAULT_PROJECT_VERSION);
-        final Version runtimeVersion = _configurationPage.getRuntimeVersion();
         projectMetaData.setRuntimeVersion(runtimeVersion == null ? DEFAULT_RUNTIME_VERSION : runtimeVersion.toString());
         projectMetaData.setComponents(_configurationPage.getSelectedComponents());
+        projectMetaData.setTargetRuntime(_configurationPage.getTargetRuntime());
 
         // create the new project operation
         final CreateSwitchYardProjectOperation op = new CreateSwitchYardProjectOperation(projectMetaData,
@@ -162,10 +168,11 @@ public class NewSwitchYardProjectWizard extends Wizard implements INewWizard {
                 Activator
                         .getDefault()
                         .getLog()
-                        .log(new Status(Status.ERROR, Activator.PLUGIN_ID, Messages.NewSwitchYardProjectWizard_logError_errorCreatingSYProject,
-                                realException));
+                        .log(new Status(Status.ERROR, Activator.PLUGIN_ID,
+                                Messages.NewSwitchYardProjectWizard_logError_errorCreatingSYProject, realException));
             }
-            MessageDialog.openError(getShell(), Messages.NewSwitchYardProjectWizard_errorMessage_errorCreatingProject, realException.getMessage());
+            MessageDialog.openError(getShell(), Messages.NewSwitchYardProjectWizard_errorMessage_errorCreatingProject,
+                    realException.getMessage());
             return projectMetaData.getNewProjectHandle().exists();
         }
 
@@ -181,4 +188,47 @@ public class NewSwitchYardProjectWizard extends Wizard implements INewWizard {
         return initialProjectName;
     }
 
+    @Override
+    public boolean canFinish() {
+        return super.canFinish() && getContainer().getCurrentPage() != _newProjectPage;
+    }
+
+    private boolean validateVersion(final Version version) {
+        if (version == null) {
+            MessageDialog.openError(getShell(), "No Version Specified", "Please specify a SwitchYard version.");
+            return false;
+        }
+        final boolean[] retVal = new boolean[1];
+        try {
+            getContainer().run(false, true, new IRunnableWithProgress() {
+                @Override
+                public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+                    try {
+                        monitor.setTaskName("Trying to resolve SwitchYard artifacts for specified version.");
+                        if (MavenPlugin
+                                .getMaven()
+                                .resolve("org.switchyard", "switchyard-api", version.toString(), "jar", null,
+                                        MavenPlugin.getMaven().getArtifactRepositories(), monitor).isResolved()) {
+                            retVal[0] = true;
+                            return;
+                        }
+                    } catch (CoreException e) {
+                        e.fillInStackTrace();
+                    }
+                    retVal[0] = MessageDialog
+                            .openConfirm(
+                                    getShell(),
+                                    "Cannot Resolve SwitchYard Dependencies",
+                                    "The specified SwitchYard version does not appear to be available from any of the configured Maven repositories.\n\nDo you wish to continue with project creation?");
+                }
+            });
+        } catch (Exception e) {
+            retVal[0] = MessageDialog
+                    .openConfirm(
+                            getShell(),
+                            "Cannot Resolve SwitchYard Dependencies",
+                            "Could not verify the availability of the specified SwitchYard version.\n\nDo you wish to continue with project creation?");
+        }
+        return retVal[0];
+    }
 }

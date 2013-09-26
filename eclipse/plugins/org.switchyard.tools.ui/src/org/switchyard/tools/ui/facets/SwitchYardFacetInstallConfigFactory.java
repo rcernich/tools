@@ -151,12 +151,12 @@ public class SwitchYardFacetInstallConfigFactory extends FacetInstallDataModelPr
             final IFacetedProjectWorkingCopy ifpwc = (IFacetedProjectWorkingCopy)getProperty(FACETED_PROJECT_WORKING_COPY);
             if (ifpwc != null) {
                 final IRuntime primaryRuntime = ifpwc.getPrimaryRuntime();
-                if (!_originalRuntimes.contains(primaryRuntime)) {
+                if (primaryRuntime != null && !_originalRuntimes.contains(primaryRuntime)) {
                     ifpwc.removeTargetedRuntime(primaryRuntime);
                 }
                 if (propertyValue != null) {
-                    ifpwc.addTargetedRuntime((IRuntime)propertyValue);
-                    ifpwc.setPrimaryRuntime((IRuntime)propertyValue);
+                    ifpwc.addTargetedRuntime(((IRuntimeComponent)propertyValue).getRuntime());
+                    ifpwc.setPrimaryRuntime(((IRuntimeComponent)propertyValue).getRuntime());
                 }
             }
             return true;

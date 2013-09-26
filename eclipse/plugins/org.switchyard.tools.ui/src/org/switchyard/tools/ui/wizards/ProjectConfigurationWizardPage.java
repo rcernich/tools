@@ -10,22 +10,20 @@
  ************************************************************************************/
 package org.switchyard.tools.ui.wizards;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.internal.ui.dialogs.StatusUtil;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.m2e.core.MavenPlugin;
-import org.eclipse.m2e.core.internal.index.SourcedSearchExpression;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -35,6 +33,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wst.common.project.facet.core.runtime.IRuntimeComponent;
 import org.sonatype.aether.util.version.GenericVersionScheme;
 import org.sonatype.aether.version.InvalidVersionSpecificationException;
 import org.sonatype.aether.version.Version;
@@ -106,6 +105,13 @@ public class ProjectConfigurationWizardPage extends WizardPage implements ILayou
             return null;
         }
         return (Version) ((IStructuredSelection) runtimeVersionListSelection).getFirstElement();
+    }
+
+    /**
+     * @return the selected target runtime.
+     */
+    public IRuntimeComponent getTargetRuntime() {
+        return _settingsGroup.getSelectedTargetRuntime();
     }
 
     /**
@@ -181,6 +187,12 @@ public class ProjectConfigurationWizardPage extends WizardPage implements ILayou
         settingsContent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         _settingsGroup = new SwitchYardSettingsGroup(settingsContent, this, getContainer());
+        _settingsGroup.getRuntimeVersionsList().addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
+                validate();
+            }
+        });
 
         setControl(content);
         setPageComplete(false);
@@ -234,23 +246,15 @@ public class ProjectConfigurationWizardPage extends WizardPage implements ILayou
             final Version version = getRuntimeVersion();
             if (version == null) {
                 setErrorMessage("Please specify a runtime version.");
-            } else {
-                try {
-                    Collection<?> availableArtifacts = MavenPlugin
-                            .getIndexManager()
-                            .getAllIndexes()
-                            .find(new SourcedSearchExpression("org.switchyard"),
-                                    new SourcedSearchExpression("switchyard-api"),
-                                    new SourcedSearchExpression(version.toString()), null);
-                    if (availableArtifacts == null || availableArtifacts.size() == 0) {
-                        setMessage(
-                                "Specified runtime version not found in index.  This may mean the version does not exist or the Maven repository indexes may be out of date.",
-                                WARNING);
-                    }
-                } catch (CoreException e) {
-                    setMessage("Could not verify runtime version exists in Maven repository.", WARNING);
-                }
             }
+            /*
+             * else {
+             * Don't validate artifact resolution here as this can cause a lot
+             * of junk to build up in the local repository. You basically get a
+             * resolution for every key stroke, which we really don't want. It
+             * might be better to put this into the wizard's performFinish()
+             * logic and fail there instead of here. }
+             */
         }
         setPageComplete(getErrorMessage() == null);
     }

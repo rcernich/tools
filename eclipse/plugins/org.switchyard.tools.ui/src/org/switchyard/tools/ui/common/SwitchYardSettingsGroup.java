@@ -430,6 +430,9 @@ public class SwitchYardSettingsGroup {
     }
 
     private Version parseVersion(final String text) {
+        if (text == null || text.length() == 0) {
+            return null;
+        }
         try {
             return new GenericVersionScheme().parseVersion(text);
         } catch (InvalidVersionSpecificationException e) {
