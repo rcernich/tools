@@ -14,7 +14,7 @@ import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
-import org.switchyard.tools.models.switchyard1_0.switchyard.TransformType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.TransformType;
 
 /**
  * ITransformControl

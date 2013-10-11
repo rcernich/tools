@@ -19,7 +19,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.switchyard.tools.models.switchyard1_0.bpm.BPMOperationType;
+import org.switchyard.tools.models.switchyard1_1.bpm.BPMOperationType;
 import org.switchyard.tools.ui.bpmn2.Messages;
 
 /**

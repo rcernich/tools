@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Implementation;
-import org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType;
+import org.switchyard.tools.models.switchyard1_1.camel.CamelImplementationType;
 import org.switchyard.tools.ui.editor.diagram.component.BaseComponentFactory;
 import org.switchyard.tools.ui.editor.diagram.component.IComponentWizard;
 

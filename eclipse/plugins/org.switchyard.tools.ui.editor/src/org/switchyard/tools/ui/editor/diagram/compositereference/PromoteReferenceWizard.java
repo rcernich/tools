@@ -18,7 +18,7 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Contract;
-import org.switchyard.tools.models.switchyard1_0.switchyard.TransformType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.TransformType;
 import org.switchyard.tools.ui.PlatformResourceAdapterFactory;
 
 /**

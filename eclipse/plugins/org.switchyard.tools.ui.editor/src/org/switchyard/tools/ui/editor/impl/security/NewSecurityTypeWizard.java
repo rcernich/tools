@@ -19,9 +19,9 @@ import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.impl.TransactionalEditingDomainImpl;
 import org.eclipse.jface.wizard.Wizard;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SecuritiesType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SecurityType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SecuritiesType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SecurityType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 

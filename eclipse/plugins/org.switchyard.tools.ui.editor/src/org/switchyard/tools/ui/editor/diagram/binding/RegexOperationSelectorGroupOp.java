@@ -13,8 +13,8 @@
 package org.switchyard.tools.ui.editor.diagram.binding;
 
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
-import org.switchyard.tools.models.switchyard1_0.switchyard.RegexOperationSelectorType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
+import org.switchyard.tools.models.switchyard1_1.switchyard.RegexOperationSelectorType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
 
 /**

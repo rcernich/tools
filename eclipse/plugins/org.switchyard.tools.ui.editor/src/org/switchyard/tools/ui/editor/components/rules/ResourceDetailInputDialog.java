@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
-import org.switchyard.tools.models.switchyard1_0.rules.ResourceType;
+import org.switchyard.tools.models.switchyard1_1.rules.ResourceType;
 import org.switchyard.tools.ui.editor.Messages;
 
 /**

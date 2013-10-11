@@ -14,7 +14,7 @@ import java.util.Collection;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.wizard.IWizard;
-import org.switchyard.tools.models.switchyard1_0.switchyard.TransformType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.TransformType;
 
 /**
  * INewTransformWizard

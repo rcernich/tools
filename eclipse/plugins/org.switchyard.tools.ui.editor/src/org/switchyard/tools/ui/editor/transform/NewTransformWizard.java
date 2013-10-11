@@ -16,7 +16,7 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
-import org.switchyard.tools.models.switchyard1_0.switchyard.TransformType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.TransformType;
 import org.switchyard.tools.ui.editor.Messages;
 
 /**

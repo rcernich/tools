@@ -34,13 +34,6 @@
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
-            uri="urn:switchyard-component-common-rules:config:1.0"
-            class="org.switchyard.tools.models.switchyard1_0.commonrules.CommonRulesPackage"
-            genModel="model/switchyard_1.0.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
             uri="urn:switchyard-config:switchyard:1.0"
             class="org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage"
             genModel="model/switchyard_1.0.genmodel"/>
@@ -50,13 +43,6 @@
       <package
             uri="urn:switchyard-component-clojure:config:1.0"
             class="org.switchyard.tools.models.switchyard1_0.clojure.ClojurePackage"
-            genModel="model/switchyard_1.0.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="urn:switchyard-component-hornetq:config:1.0"
-            class="org.switchyard.tools.models.switchyard1_0.hornetq.HornetQPackage"
             genModel="model/switchyard_1.0.genmodel"/>
    </extension>
 
@@ -314,18 +300,11 @@
             class="org.switchyard.tools.models.switchyard1_0.camel.sql.util.SqlResourceFactoryImpl"/>
    </extension>
 
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <package
-            uri="urn:switchyard-component-remote:config:1.0"
-            class="org.switchyard.tools.models.switchyard1_0.remote.RemotePackage"
-            genModel="model/switchyard_1.0.genmodel"/>
-   </extension>
-
    <extension
          point="org.eclipse.emf.ecore.content_parser">
       <parser
             class="org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchyardResourceFactoryImpl"
-            contentTypeIdentifier="org.switchyard.tools.ui.editor.content-type.xml">
+            contentTypeIdentifier="org.switchyard.content-type.1.0">
       </parser>
    </extension>
 
@@ -333,7 +312,7 @@
          point="org.eclipse.core.contenttype.contentTypes">
       <content-type
             base-type="org.eclipse.core.runtime.xml"
-            id="org.switchyard.tools.ui.editor.content-type.xml"
+            id="org.switchyard.content-type.1.0"
             name="SwitchYard 1.0 XML File"
             priority="normal">
          <describer

@@ -38,11 +38,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
-import org.switchyard.tools.models.switchyard1_0.switchyard.DocumentRoot;
-import org.switchyard.tools.models.switchyard1_0.switchyard.DomainType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.PropertiesType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.PropertyType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
+import org.switchyard.tools.models.switchyard1_1.switchyard.DocumentRoot;
+import org.switchyard.tools.models.switchyard1_1.switchyard.DomainType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.PropertiesType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.PropertyType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 
 /**

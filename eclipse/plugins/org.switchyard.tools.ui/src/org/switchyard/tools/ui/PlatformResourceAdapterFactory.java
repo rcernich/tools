@@ -30,14 +30,14 @@ import org.eclipse.soa.sca.sca1_1.model.sca.JavaInterface;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.eclipse.soa.sca.sca1_1.model.sca.WSDLPortType;
-import org.switchyard.tools.models.switchyard1_0.bean.BeanImplementationType;
-import org.switchyard.tools.models.switchyard1_0.bpm.BPMImplementationType;
-import org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType;
-import org.switchyard.tools.models.switchyard1_0.clojure.ClojureImplementationType;
-import org.switchyard.tools.models.switchyard1_0.rules.RulesImplementationType;
-import org.switchyard.tools.models.switchyard1_0.transform.JavaTransformType1;
-import org.switchyard.tools.models.switchyard1_0.transform.SmooksTransformType1;
-import org.switchyard.tools.models.switchyard1_0.transform.XsltTransformType;
+import org.switchyard.tools.models.switchyard1_1.bean.BeanImplementationType;
+import org.switchyard.tools.models.switchyard1_1.bpm.BPMImplementationType;
+import org.switchyard.tools.models.switchyard1_1.camel.CamelImplementationType;
+import org.switchyard.tools.models.switchyard1_1.clojure.ClojureImplementationType;
+import org.switchyard.tools.models.switchyard1_1.rules.RulesImplementationType;
+import org.switchyard.tools.models.switchyard1_1.transform.JavaTransformType1;
+import org.switchyard.tools.models.switchyard1_1.transform.SmooksTransformType1;
+import org.switchyard.tools.models.switchyard1_1.transform.XsltTransformType;
 
 /**
  * PlatformResourceAdapterFactory
@@ -80,24 +80,24 @@ public class PlatformResourceAdapterFactory implements IAdapterFactory {
             if (impl instanceof BeanImplementationType) {
                 return (IFile) SwitchYardModelUtils.getJavaType(project, ((BeanImplementationType) impl).getClass_());
             } else if (impl instanceof BPMImplementationType) {
-                org.switchyard.tools.models.switchyard1_0.bpm.ManifestType manifest = ((BPMImplementationType) impl)
+                org.switchyard.tools.models.switchyard1_1.bpm.ManifestType manifest = ((BPMImplementationType) impl)
                         .getManifest();
                 if (manifest == null || manifest.getResources() == null) {
                     return null;
                 }
-                for (org.switchyard.tools.models.switchyard1_0.bpm.ResourceType resource : manifest.getResources()
+                for (org.switchyard.tools.models.switchyard1_1.bpm.ResourceType resource : manifest.getResources()
                         .getResource()) {
                     // TODO: should we verify this is a bpmn2 file?
                     return (IFile) SwitchYardModelUtils.getJavaResource(project, resource.getLocation());
                 }
                 return null;
             } else if (impl instanceof RulesImplementationType) {
-                org.switchyard.tools.models.switchyard1_0.rules.ManifestType manifest = ((RulesImplementationType) impl)
+                org.switchyard.tools.models.switchyard1_1.rules.ManifestType manifest = ((RulesImplementationType) impl)
                         .getManifest();
                 if (manifest == null || manifest.getResources() == null) {
                     return null;
                 }
-                for (org.switchyard.tools.models.switchyard1_0.rules.ResourceType resource : manifest.getResources()
+                for (org.switchyard.tools.models.switchyard1_1.rules.ResourceType resource : manifest.getResources()
                         .getResource()) {
                     // TODO: should we verify this is a drl file?
                     return (IFile) SwitchYardModelUtils.getJavaResource(project, resource.getLocation());

@@ -25,12 +25,12 @@ import org.eclipse.emf.compare.scope.IComparisonScope;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
-import org.switchyard.tools.models.switchyard1_0.bean.BeanPackage;
-import org.switchyard.tools.models.switchyard1_0.bpm.BPMPackage;
-import org.switchyard.tools.models.switchyard1_0.camel.CamelPackage;
-import org.switchyard.tools.models.switchyard1_0.rules.RulesPackage;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
-import org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchyardResourceImpl;
+import org.switchyard.tools.models.switchyard1_1.bean.BeanPackage;
+import org.switchyard.tools.models.switchyard1_1.bpm.BPMPackage;
+import org.switchyard.tools.models.switchyard1_1.camel.CamelPackage;
+import org.switchyard.tools.models.switchyard1_1.rules.RulesPackage;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardPackage;
+import org.switchyard.tools.models.switchyard1_1.switchyard.util.SwitchyardResourceImpl;
 
 /**
  * SwitchYardMatchEngineFactory

@@ -1275,7 +1275,7 @@
            <rules>
               <contentType
                     exactMatch="true"
-                    id="org.switchyard.tools.ui.editor.content-type.xml">
+                    id="org.switchyard.content-type.1.1">
               </contentType>
               <file
                     caseSensitive="true"

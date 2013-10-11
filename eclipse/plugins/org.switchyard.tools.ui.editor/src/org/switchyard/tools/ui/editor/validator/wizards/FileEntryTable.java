@@ -40,9 +40,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
-import org.switchyard.tools.models.switchyard1_0.validate.FileEntryType;
-import org.switchyard.tools.models.switchyard1_0.validate.SchemaCatalogsType;
-import org.switchyard.tools.models.switchyard1_0.validate.SchemaFilesType;
+import org.switchyard.tools.models.switchyard1_1.validate.FileEntryType;
+import org.switchyard.tools.models.switchyard1_1.validate.SchemaCatalogsType;
+import org.switchyard.tools.models.switchyard1_1.validate.SchemaFilesType;
 import org.switchyard.tools.ui.editor.Messages;
 
 /**

@@ -13,9 +13,9 @@
 package org.switchyard.tools.ui.editor.validator.wizards;
 
 import org.eclipse.jface.wizard.IWizardPage;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ValidateType;
-import org.switchyard.tools.models.switchyard1_0.validate.JavaValidateType;
-import org.switchyard.tools.models.switchyard1_0.validate.XmlValidateType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.ValidateType;
+import org.switchyard.tools.models.switchyard1_1.validate.JavaValidateType;
+import org.switchyard.tools.models.switchyard1_1.validate.XmlValidateType;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.internal.wizards.BaseWizard;
 

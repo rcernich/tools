@@ -13,8 +13,8 @@ package org.switchyard.tools.ui.editor.components.camel.sql;
 import java.util.List;
 
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
-import org.switchyard.tools.models.switchyard1_0.camel.sql.CamelSqlBindingType;
-import org.switchyard.tools.models.switchyard1_0.camel.sql.SqlFactory;
+import org.switchyard.tools.models.switchyard1_1.camel.sql.CamelSqlBindingType;
+import org.switchyard.tools.models.switchyard1_1.camel.sql.SqlFactory;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractBindingWizard;
 import org.switchyard.tools.ui.editor.diagram.binding.IBindingWizard;
 import org.switchyard.tools.ui.editor.diagram.shared.IBindingComposite;

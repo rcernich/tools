@@ -16,8 +16,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.switchyard.tools.models.switchyard1_0.switchyard.DocumentRoot;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.DocumentRoot;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchYardType;
 
 /**
  * MergedModelUtil

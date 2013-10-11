@@ -18,10 +18,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.m2e.tests.common.AbstractMavenProjectTestCase;
-import org.switchyard.tools.models.switchyard1_0.switchyard.DocumentRoot;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
-import org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchyardResourceFactoryImpl;
+import org.switchyard.tools.models.switchyard1_1.switchyard.DocumentRoot;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchYardType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardPackage;
+import org.switchyard.tools.models.switchyard1_1.switchyard.util.SwitchyardResourceFactoryImpl;
 
 /**
  * SwitchYardModelValidationTest

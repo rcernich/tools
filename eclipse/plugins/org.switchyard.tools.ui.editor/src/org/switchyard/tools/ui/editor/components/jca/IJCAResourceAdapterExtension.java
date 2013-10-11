@@ -13,7 +13,7 @@
 package org.switchyard.tools.ui.editor.components.jca;
 
 import org.eclipse.swt.widgets.Composite;
-import org.switchyard.tools.models.switchyard1_0.jca.Property;
+import org.switchyard.tools.models.switchyard1_1.jca.Property;
 import org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite;
 
 /**

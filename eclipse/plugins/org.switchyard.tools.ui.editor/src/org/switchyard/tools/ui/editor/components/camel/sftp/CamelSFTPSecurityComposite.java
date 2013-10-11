@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
-import org.switchyard.tools.models.switchyard1_0.camel.ftp.CamelSftpBindingType;
+import org.switchyard.tools.models.switchyard1_1.camel.ftp.CamelSftpBindingType;
 import org.switchyard.tools.ui.JavaUtil;
 import org.switchyard.tools.ui.common.ClasspathResourceSelectionDialog;
 import org.switchyard.tools.ui.editor.Messages;

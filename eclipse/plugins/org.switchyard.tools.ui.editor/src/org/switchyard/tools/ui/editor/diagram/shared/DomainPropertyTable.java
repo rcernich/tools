@@ -42,9 +42,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
-import org.switchyard.tools.models.switchyard1_0.switchyard.DomainType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.PropertyType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SecurityType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.DomainType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.PropertyType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SecurityType;
 import org.switchyard.tools.ui.editor.Messages;
 
 /**

@@ -30,8 +30,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.switchyard.tools.models.switchyard1_0.bpm.BPMFactory;
-import org.switchyard.tools.models.switchyard1_0.bpm.ContainerType;
+import org.switchyard.tools.models.switchyard1_1.bpm.BPMFactory;
+import org.switchyard.tools.models.switchyard1_1.bpm.ContainerType;
 import org.switchyard.tools.ui.bpmn2.Messages;
 import org.switchyard.tools.ui.editor.Activator;
 

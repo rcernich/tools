@@ -18,9 +18,9 @@ import java.util.List;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Composite;
-import org.switchyard.tools.models.switchyard1_0.switchyard.TransformType;
-import org.switchyard.tools.models.switchyard1_0.transform.JsonTransformType;
-import org.switchyard.tools.models.switchyard1_0.transform.TransformFactory;
+import org.switchyard.tools.models.switchyard1_1.switchyard.TransformType;
+import org.switchyard.tools.models.switchyard1_1.transform.JsonTransformType;
+import org.switchyard.tools.models.switchyard1_1.transform.TransformFactory;
 import org.switchyard.tools.ui.editor.Activator;
 import org.switchyard.tools.ui.editor.Messages;
 

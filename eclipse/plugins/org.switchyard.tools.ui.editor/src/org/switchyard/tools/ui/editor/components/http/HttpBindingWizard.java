@@ -14,8 +14,8 @@ import java.util.List;
 
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
-import org.switchyard.tools.models.switchyard1_0.http.HTTPBindingType;
-import org.switchyard.tools.models.switchyard1_0.http.HttpFactory;
+import org.switchyard.tools.models.switchyard1_1.http.HTTPBindingType;
+import org.switchyard.tools.models.switchyard1_1.http.HttpFactory;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractBindingWizard;
 import org.switchyard.tools.ui.editor.diagram.binding.IBindingWizard;
 import org.switchyard.tools.ui.editor.diagram.shared.IBindingComposite;

@@ -41,11 +41,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
-import org.switchyard.tools.models.switchyard1_0.switchyard.DomainType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SecuritiesType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SecurityType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
+import org.switchyard.tools.models.switchyard1_1.switchyard.DomainType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SecuritiesType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SecurityType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchYardType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.Messages;
 
 /**

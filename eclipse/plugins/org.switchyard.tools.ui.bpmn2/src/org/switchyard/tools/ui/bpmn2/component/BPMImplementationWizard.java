@@ -17,7 +17,7 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
 import org.eclipse.soa.sca.sca1_1.model.sca.Implementation;
-import org.switchyard.tools.models.switchyard1_0.bpm.BPMImplementationType;
+import org.switchyard.tools.models.switchyard1_1.bpm.BPMImplementationType;
 import org.switchyard.tools.ui.editor.diagram.implementation.IImplementationWizard;
 import org.switchyard.tools.ui.editor.diagram.internal.wizards.LinkedWizardBase;
 

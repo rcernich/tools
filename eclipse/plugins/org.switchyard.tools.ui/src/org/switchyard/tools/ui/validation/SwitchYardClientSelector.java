@@ -12,7 +12,7 @@ package org.switchyard.tools.ui.validation;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.validation.model.IClientSelector;
-import org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchyardResourceImpl;
+import org.switchyard.tools.models.switchyard1_1.switchyard.util.SwitchyardResourceImpl;
 
 /**
  * SwitchYardClientSelector

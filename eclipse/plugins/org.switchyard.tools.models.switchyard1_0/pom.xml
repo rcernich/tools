@@ -9,8 +9,8 @@
   </parent>
   <artifactId>org.switchyard.tools.models.switchyard1_0</artifactId>
   <packaging>eclipse-plugin</packaging>
-  <name>SwitchYard: SwitchYard EMF Model Plugin</name>
-  <description>SwitchYard EMF model.</description>
+  <name>SwitchYard: SwitchYard 1.0 EMF Model Plugin</name>
+  <description>SwitchYard 1.0 EMF model.</description>
 
   <build>
     <plugins>

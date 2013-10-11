@@ -11,8 +11,8 @@
 package org.switchyard.tools.ui.editor.components.camel.java;
 
 import org.eclipse.core.runtime.IAdapterFactory;
-import org.switchyard.tools.models.switchyard1_0.camel.CamelImplementationType;
-import org.switchyard.tools.models.switchyard1_0.camel.JavaDSLType;
+import org.switchyard.tools.models.switchyard1_1.camel.CamelImplementationType;
+import org.switchyard.tools.models.switchyard1_1.camel.JavaDSLType;
 
 /**
  * @author bfitzpat

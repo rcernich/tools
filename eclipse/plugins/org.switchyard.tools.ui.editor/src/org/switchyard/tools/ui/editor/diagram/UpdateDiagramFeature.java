@@ -28,8 +28,8 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaFactory;
-import org.switchyard.tools.models.switchyard1_0.switchyard.DocumentRoot;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.DocumentRoot;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchYardType;
 import org.switchyard.tools.ui.editor.Messages;
 
 /**

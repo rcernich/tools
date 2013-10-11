@@ -41,8 +41,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
-import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
-import org.switchyard.tools.models.switchyard1_0.jca.Property;
+import org.switchyard.tools.models.switchyard1_1.jca.JCABinding;
+import org.switchyard.tools.models.switchyard1_1.jca.Property;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 

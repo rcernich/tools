@@ -12,7 +12,7 @@ package org.switchyard.tools.ui.editor.components.bean;
 
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Implementation;
-import org.switchyard.tools.models.switchyard1_0.bean.BeanImplementationType;
+import org.switchyard.tools.models.switchyard1_1.bean.BeanImplementationType;
 import org.switchyard.tools.ui.editor.diagram.component.BaseComponentFactory;
 import org.switchyard.tools.ui.editor.diagram.component.IComponentWizard;
 

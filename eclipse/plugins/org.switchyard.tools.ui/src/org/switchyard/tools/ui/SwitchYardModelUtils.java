@@ -44,7 +44,7 @@ import org.switchyard.metadata.InOnlyService;
 import org.switchyard.metadata.InOutOperation;
 import org.switchyard.metadata.InOutService;
 import org.switchyard.metadata.ServiceInterface;
-import org.switchyard.tools.models.switchyard1_0.switchyard.EsbInterface;
+import org.switchyard.tools.models.switchyard1_1.switchyard.EsbInterface;
 import org.switchyard.tools.ui.common.ISwitchYardProject;
 import org.switchyard.tools.ui.common.impl.SwitchYardProjectManager;
 import org.switchyard.tools.ui.i18n.Messages;

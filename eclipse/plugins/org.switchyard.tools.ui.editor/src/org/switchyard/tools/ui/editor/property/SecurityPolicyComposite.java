@@ -36,11 +36,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
-import org.switchyard.tools.models.switchyard1_0.switchyard.DomainType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SecuritiesType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SecurityType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
+import org.switchyard.tools.models.switchyard1_1.switchyard.DomainType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SecuritiesType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SecurityType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchYardType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardPackage;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
 

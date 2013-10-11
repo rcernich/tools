@@ -38,7 +38,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeColumn;
-import org.switchyard.tools.models.switchyard1_0.soap.InterceptorType;
+import org.switchyard.tools.models.switchyard1_1.soap.InterceptorType;
 import org.switchyard.tools.ui.editor.Messages;
 
 /**

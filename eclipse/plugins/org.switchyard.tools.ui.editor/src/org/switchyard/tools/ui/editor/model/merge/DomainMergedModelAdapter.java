@@ -10,10 +10,10 @@
  ************************************************************************************/
 package org.switchyard.tools.ui.editor.model.merge;
 
-import org.switchyard.tools.models.switchyard1_0.switchyard.PropertiesType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
-import org.switchyard.tools.models.switchyard1_0.switchyard.TransformsType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ValidatesType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.PropertiesType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardPackage;
+import org.switchyard.tools.models.switchyard1_1.switchyard.TransformsType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.ValidatesType;
 
 /**
  * DomainMergedModelAdapter

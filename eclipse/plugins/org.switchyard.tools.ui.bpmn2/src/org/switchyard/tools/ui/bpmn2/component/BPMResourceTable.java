@@ -42,10 +42,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
-import org.switchyard.tools.models.switchyard1_0.bpm.BPMFactory;
-import org.switchyard.tools.models.switchyard1_0.bpm.BPMImplementationType;
-import org.switchyard.tools.models.switchyard1_0.bpm.ResourceType;
-import org.switchyard.tools.models.switchyard1_0.bpm.ResourceDetailType;
+import org.switchyard.tools.models.switchyard1_1.bpm.BPMFactory;
+import org.switchyard.tools.models.switchyard1_1.bpm.BPMImplementationType;
+import org.switchyard.tools.models.switchyard1_1.bpm.ResourceType;
+import org.switchyard.tools.models.switchyard1_1.bpm.ResourceDetailType;
 import org.switchyard.tools.ui.bpmn2.Messages;
 import org.switchyard.tools.ui.editor.diagram.shared.TableColumnLayout;
 

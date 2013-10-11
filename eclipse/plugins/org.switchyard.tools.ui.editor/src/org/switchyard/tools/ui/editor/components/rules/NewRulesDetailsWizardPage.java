@@ -32,9 +32,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.switchyard.tools.models.switchyard1_0.rules.LoggerType;
-import org.switchyard.tools.models.switchyard1_0.rules.LoggerType1;
-import org.switchyard.tools.models.switchyard1_0.rules.RulesFactory;
+import org.switchyard.tools.models.switchyard1_1.rules.LoggerType;
+import org.switchyard.tools.models.switchyard1_1.rules.LoggerType1;
+import org.switchyard.tools.models.switchyard1_1.rules.RulesFactory;
 import org.switchyard.tools.ui.JavaUtil;
 import org.switchyard.tools.ui.editor.Messages;
 

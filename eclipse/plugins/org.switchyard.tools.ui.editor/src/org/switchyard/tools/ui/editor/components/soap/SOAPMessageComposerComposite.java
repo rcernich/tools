@@ -12,10 +12,10 @@
 package org.switchyard.tools.ui.editor.components.soap;
 
 import org.eclipse.swt.widgets.Button;
-import org.switchyard.tools.models.switchyard1_0.soap.SOAPFactory;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ContextMapperType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.MessageComposerType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardBindingType;
+import org.switchyard.tools.models.switchyard1_1.soap.SOAPFactory;
+import org.switchyard.tools.models.switchyard1_1.switchyard.ContextMapperType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.MessageComposerType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchYardBindingType;
 import org.switchyard.tools.ui.editor.diagram.binding.MessageComposerComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
 
@@ -50,9 +50,9 @@ public class SOAPMessageComposerComposite extends MessageComposerComposite {
         
         protected boolean checkForEmpties(SwitchYardBindingType sybinding) throws Exception {
             ContextMapperType contextMapper = sybinding.getContextMapper();
-            org.switchyard.tools.models.switchyard1_0.soap.ContextMapperType soapContextMapper = null;
-            if (contextMapper instanceof org.switchyard.tools.models.switchyard1_0.soap.ContextMapperType) {
-                soapContextMapper = (org.switchyard.tools.models.switchyard1_0.soap.ContextMapperType) contextMapper;
+            org.switchyard.tools.models.switchyard1_1.soap.ContextMapperType soapContextMapper = null;
+            if (contextMapper instanceof org.switchyard.tools.models.switchyard1_1.soap.ContextMapperType) {
+                soapContextMapper = (org.switchyard.tools.models.switchyard1_1.soap.ContextMapperType) contextMapper;
             } else {
                 throw new Exception("Context Mapper for SOAP binding incorrect.");
             }
@@ -77,9 +77,9 @@ public class SOAPMessageComposerComposite extends MessageComposerComposite {
 
         protected boolean checkForEmpties(SwitchYardBindingType sybinding) throws Exception {
             MessageComposerType messageComposer = sybinding.getMessageComposer();
-            org.switchyard.tools.models.switchyard1_0.soap.MessageComposerType soapMessageComposer = null;
-            if (messageComposer instanceof org.switchyard.tools.models.switchyard1_0.soap.MessageComposerType) {
-                soapMessageComposer = (org.switchyard.tools.models.switchyard1_0.soap.MessageComposerType) messageComposer;
+            org.switchyard.tools.models.switchyard1_1.soap.MessageComposerType soapMessageComposer = null;
+            if (messageComposer instanceof org.switchyard.tools.models.switchyard1_1.soap.MessageComposerType) {
+                soapMessageComposer = (org.switchyard.tools.models.switchyard1_1.soap.MessageComposerType) messageComposer;
             } else {
                 throw new Exception("Message Composer for SOAP binding incorrect.");
             }

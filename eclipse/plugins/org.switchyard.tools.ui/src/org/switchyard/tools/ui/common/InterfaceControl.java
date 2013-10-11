@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Text;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardPackage;
 import org.switchyard.tools.ui.Activator;
 import org.switchyard.tools.ui.common.impl.ESBInterfaceControlAdapter;
 import org.switchyard.tools.ui.common.impl.JavaInterfaceControlAdapter;

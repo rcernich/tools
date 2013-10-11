@@ -13,8 +13,8 @@ package org.switchyard.tools.ui.editor.model.merge;
 import java.util.Collections;
 import java.util.List;
 
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ValidateType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardPackage;
+import org.switchyard.tools.models.switchyard1_1.switchyard.ValidateType;
 
 /**
  * ValidatesMergedModelAdapter

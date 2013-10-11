@@ -13,8 +13,8 @@ package org.switchyard.tools.ui.editor.components.rules;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Implementation;
-import org.switchyard.tools.models.switchyard1_0.rules.ResourceType;
-import org.switchyard.tools.models.switchyard1_0.rules.RulesImplementationType;
+import org.switchyard.tools.models.switchyard1_1.rules.ResourceType;
+import org.switchyard.tools.models.switchyard1_1.rules.RulesImplementationType;
 import org.switchyard.tools.ui.editor.diagram.component.BaseComponentFactory;
 import org.switchyard.tools.ui.editor.diagram.component.IComponentWizard;
 

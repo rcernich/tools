@@ -26,9 +26,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ThrottlingType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardFactory;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardPackage;
+import org.switchyard.tools.models.switchyard1_1.switchyard.ThrottlingType;
 import org.switchyard.tools.ui.editor.Messages;
 
 /**

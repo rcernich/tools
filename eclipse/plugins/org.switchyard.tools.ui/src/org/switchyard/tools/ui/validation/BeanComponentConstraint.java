@@ -35,7 +35,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.Contract;
-import org.switchyard.tools.models.switchyard1_0.bean.BeanImplementationType;
+import org.switchyard.tools.models.switchyard1_1.bean.BeanImplementationType;
 import org.switchyard.tools.ui.JavaTypeScanner;
 import org.switchyard.tools.ui.validation.SwitchYardProjectValidator.ValidationAdapter;
 

@@ -13,8 +13,8 @@ package org.switchyard.tools.ui.editor.model.merge;
 import java.util.Collections;
 import java.util.List;
 
-import org.switchyard.tools.models.switchyard1_0.switchyard.ArtifactType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
+import org.switchyard.tools.models.switchyard1_1.switchyard.ArtifactType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardPackage;
 
 /**
  * ArtifactsMergedModelAdapter

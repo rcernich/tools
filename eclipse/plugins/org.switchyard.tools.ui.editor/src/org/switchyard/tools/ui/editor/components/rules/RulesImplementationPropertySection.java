@@ -51,12 +51,12 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
-import org.switchyard.tools.models.switchyard1_0.rules.ContainerType;
-import org.switchyard.tools.models.switchyard1_0.rules.ResourcesType;
-import org.switchyard.tools.models.switchyard1_0.rules.RulesFactory;
-import org.switchyard.tools.models.switchyard1_0.rules.RulesImplementationType;
-import org.switchyard.tools.models.switchyard1_0.rules.RulesOperationType;
-import org.switchyard.tools.models.switchyard1_0.rules.RulesPackage;
+import org.switchyard.tools.models.switchyard1_1.rules.ContainerType;
+import org.switchyard.tools.models.switchyard1_1.rules.ResourcesType;
+import org.switchyard.tools.models.switchyard1_1.rules.RulesFactory;
+import org.switchyard.tools.models.switchyard1_1.rules.RulesImplementationType;
+import org.switchyard.tools.models.switchyard1_1.rules.RulesOperationType;
+import org.switchyard.tools.models.switchyard1_1.rules.RulesPackage;
 import org.switchyard.tools.ui.editor.Activator;
 import org.switchyard.tools.ui.editor.Messages;
 

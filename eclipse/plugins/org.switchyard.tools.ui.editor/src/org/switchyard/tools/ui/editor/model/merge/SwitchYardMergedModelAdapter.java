@@ -15,14 +15,14 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ArtifactType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ArtifactsType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.DomainType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
-import org.switchyard.tools.models.switchyard1_0.switchyard.TransformType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.TransformsType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ValidateType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ValidatesType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.ArtifactType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.ArtifactsType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.DomainType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchyardPackage;
+import org.switchyard.tools.models.switchyard1_1.switchyard.TransformType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.TransformsType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.ValidateType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.ValidatesType;
 
 /**
  * SwitchYardMergedModelAdapter

@@ -16,11 +16,11 @@ import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
-import org.switchyard.tools.models.switchyard1_0.jca.JCAOutboundInteraction;
-import org.switchyard.tools.models.switchyard1_0.jca.JcaFactory;
-import org.switchyard.tools.models.switchyard1_0.jca.Processor;
-import org.switchyard.tools.models.switchyard1_0.jca.Property;
+import org.switchyard.tools.models.switchyard1_1.jca.JCABinding;
+import org.switchyard.tools.models.switchyard1_1.jca.JCAOutboundInteraction;
+import org.switchyard.tools.models.switchyard1_1.jca.JcaFactory;
+import org.switchyard.tools.models.switchyard1_1.jca.Processor;
+import org.switchyard.tools.models.switchyard1_1.jca.Property;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 
 /**

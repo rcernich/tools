@@ -19,8 +19,8 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
-import org.switchyard.tools.models.switchyard1_0.camel.quartz.CamelQuartzBindingType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardBindingType;
+import org.switchyard.tools.models.switchyard1_1.camel.quartz.CamelQuartzBindingType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchYardBindingType;
 
 /**
  * @author bfitzpat

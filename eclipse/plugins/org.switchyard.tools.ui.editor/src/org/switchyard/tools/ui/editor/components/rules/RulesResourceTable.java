@@ -41,10 +41,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.switchyard.tools.models.switchyard1_0.rules.ResourceDetailType;
-import org.switchyard.tools.models.switchyard1_0.rules.ResourceType;
-import org.switchyard.tools.models.switchyard1_0.rules.RulesFactory;
-import org.switchyard.tools.models.switchyard1_0.rules.RulesImplementationType;
+import org.switchyard.tools.models.switchyard1_1.rules.ResourceDetailType;
+import org.switchyard.tools.models.switchyard1_1.rules.ResourceType;
+import org.switchyard.tools.models.switchyard1_1.rules.RulesFactory;
+import org.switchyard.tools.models.switchyard1_1.rules.RulesImplementationType;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.shared.TableColumnLayout;
 

@@ -33,9 +33,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.switchyard.tools.models.switchyard1_0.bpm.BPMFactory;
-import org.switchyard.tools.models.switchyard1_0.bpm.LoggerType;
-import org.switchyard.tools.models.switchyard1_0.bpm.LoggerType1;
+import org.switchyard.tools.models.switchyard1_1.bpm.BPMFactory;
+import org.switchyard.tools.models.switchyard1_1.bpm.LoggerType;
+import org.switchyard.tools.models.switchyard1_1.bpm.LoggerType1;
 import org.switchyard.tools.ui.JavaUtil;
 import org.switchyard.tools.ui.bpmn2.Messages;
 

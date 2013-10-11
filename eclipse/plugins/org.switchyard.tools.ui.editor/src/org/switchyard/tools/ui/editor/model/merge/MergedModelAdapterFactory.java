@@ -55,14 +55,14 @@ import org.eclipse.emf.transaction.impl.TransactionalEditingDomainImpl;
 import org.eclipse.soa.sca.sca1_1.model.sca.Component;
 import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
 import org.eclipse.soa.sca.sca1_1.model.sca.Contract;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ArtifactsType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.DocumentRoot;
-import org.switchyard.tools.models.switchyard1_0.switchyard.DomainType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.TransformsType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ValidatesType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchyardResourceFactoryImpl;
-import org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchyardResourceImpl;
+import org.switchyard.tools.models.switchyard1_1.switchyard.ArtifactsType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.DocumentRoot;
+import org.switchyard.tools.models.switchyard1_1.switchyard.DomainType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.SwitchYardType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.TransformsType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.ValidatesType;
+import org.switchyard.tools.models.switchyard1_1.switchyard.util.SwitchyardResourceFactoryImpl;
+import org.switchyard.tools.models.switchyard1_1.switchyard.util.SwitchyardResourceImpl;
 
 import com.google.common.base.Predicate;
 

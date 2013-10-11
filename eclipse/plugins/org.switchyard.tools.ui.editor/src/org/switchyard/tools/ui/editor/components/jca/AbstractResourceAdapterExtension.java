@@ -12,8 +12,8 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.components.jca;
 
-import org.switchyard.tools.models.switchyard1_0.jca.JcaFactory;
-import org.switchyard.tools.models.switchyard1_0.jca.Property;
+import org.switchyard.tools.models.switchyard1_1.jca.JcaFactory;
+import org.switchyard.tools.models.switchyard1_1.jca.Property;
 
 /**
  * @author bfitzpat

@@ -42,9 +42,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.SelectionDialog;
-import org.switchyard.tools.models.switchyard1_0.soap.InterceptorType;
-import org.switchyard.tools.models.switchyard1_0.soap.PropertyType;
-import org.switchyard.tools.models.switchyard1_0.soap.SOAPFactory;
+import org.switchyard.tools.models.switchyard1_1.soap.InterceptorType;
+import org.switchyard.tools.models.switchyard1_1.soap.PropertyType;
+import org.switchyard.tools.models.switchyard1_1.soap.SOAPFactory;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 

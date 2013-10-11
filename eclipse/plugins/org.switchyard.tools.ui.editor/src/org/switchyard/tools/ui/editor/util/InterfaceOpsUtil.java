@@ -39,7 +39,7 @@ import org.eclipse.wst.wsdl.Definition;
 import org.eclipse.wst.wsdl.Operation;
 import org.eclipse.wst.wsdl.PortType;
 import org.eclipse.wst.wsdl.util.WSDLResourceImpl;
-import org.switchyard.tools.models.switchyard1_0.switchyard.EsbInterface;
+import org.switchyard.tools.models.switchyard1_1.switchyard.EsbInterface;
 
 /**
  * @author bfitzpat
