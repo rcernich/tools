@@ -98,13 +98,13 @@ public interface ProxyType extends CommonExtensionBase {
      * Proxy Port.
      * <!-- end-model-doc -->
      * @return the value of the '<em>Port</em>' attribute.
-     * @see #setPort(Object)
+     * @see #setPort(BigInteger)
      * @see org.switchyard.tools.models.switchyard1_0.soap.SOAPPackage#getProxyType_Port()
-     * @model dataType="org.switchyard.tools.models.switchyard1_0.switchyard.PropInteger"
+     * @model dataType="org.eclipse.emf.ecore.xml.type.Integer"
      *        extendedMetaData="kind='element' name='port' namespace='##targetNamespace'"
      * @generated
      */
-    Object getPort();
+    BigInteger getPort();
 
     /**
      * Sets the value of the '{@link org.switchyard.tools.models.switchyard1_0.soap.ProxyType#getPort <em>Port</em>}' attribute.
@@ -114,7 +114,7 @@ public interface ProxyType extends CommonExtensionBase {
      * @see #getPort()
      * @generated
      */
-    void setPort(Object value);
+    void setPort(BigInteger value);
 
     /**
      * Returns the value of the '<em><b>User</b></em>' attribute.

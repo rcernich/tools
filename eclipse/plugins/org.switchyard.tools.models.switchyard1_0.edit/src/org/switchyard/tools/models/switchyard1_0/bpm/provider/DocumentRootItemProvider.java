@@ -105,7 +105,6 @@ public class DocumentRootItemProvider
             childrenFeatures.add(BPMPackage.Literals.DOCUMENT_ROOT__PROPERTIES);
             childrenFeatures.add(BPMPackage.Literals.DOCUMENT_ROOT__PROPERTY);
             childrenFeatures.add(BPMPackage.Literals.DOCUMENT_ROOT__RESOURCE);
-            childrenFeatures.add(BPMPackage.Literals.DOCUMENT_ROOT__RESOURCE_DETAIL);
             childrenFeatures.add(BPMPackage.Literals.DOCUMENT_ROOT__RESOURCES);
             childrenFeatures.add(BPMPackage.Literals.DOCUMENT_ROOT__USER_GROUP_CALLBACK);
             childrenFeatures.add(BPMPackage.Literals.DOCUMENT_ROOT__WORK_ITEM_HANDLER);
@@ -183,7 +182,6 @@ public class DocumentRootItemProvider
             case BPMPackage.DOCUMENT_ROOT__PROPERTIES:
             case BPMPackage.DOCUMENT_ROOT__PROPERTY:
             case BPMPackage.DOCUMENT_ROOT__RESOURCE:
-            case BPMPackage.DOCUMENT_ROOT__RESOURCE_DETAIL:
             case BPMPackage.DOCUMENT_ROOT__RESOURCES:
             case BPMPackage.DOCUMENT_ROOT__USER_GROUP_CALLBACK:
             case BPMPackage.DOCUMENT_ROOT__WORK_ITEM_HANDLER:
@@ -314,11 +312,6 @@ public class DocumentRootItemProvider
             (createChildParameter
                 (BPMPackage.Literals.DOCUMENT_ROOT__RESOURCE,
                  BPMFactory.eINSTANCE.createResourceType()));
-
-        newChildDescriptors.add
-            (createChildParameter
-                (BPMPackage.Literals.DOCUMENT_ROOT__RESOURCE_DETAIL,
-                 BPMFactory.eINSTANCE.createResourceDetailType()));
 
         newChildDescriptors.add
             (createChildParameter

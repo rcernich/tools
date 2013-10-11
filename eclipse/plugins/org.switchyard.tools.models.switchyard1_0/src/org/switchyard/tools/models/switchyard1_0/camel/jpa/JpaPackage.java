@@ -217,34 +217,6 @@ public interface JpaPackage extends EPackage {
     JpaPackage eINSTANCE = org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaPackageImpl.init();
 
     /**
-     * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.AdditionalUriParametersTypeImpl <em>Additional Uri Parameters Type</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.AdditionalUriParametersTypeImpl
-     * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaPackageImpl#getAdditionalUriParametersType()
-     * @generated
-     */
-    int ADDITIONAL_URI_PARAMETERS_TYPE = 0;
-
-    /**
-     * The feature id for the '<em><b>Parameter</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ADDITIONAL_URI_PARAMETERS_TYPE__PARAMETER = 0;
-
-    /**
-     * The number of structural features of the '<em>Additional Uri Parameters Type</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ADDITIONAL_URI_PARAMETERS_TYPE_FEATURE_COUNT = 1;
-
-    /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.BaseCamelBindingImpl <em>Base Camel Binding</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -252,7 +224,7 @@ public interface JpaPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaPackageImpl#getBaseCamelBinding()
      * @generated
      */
-    int BASE_CAMEL_BINDING = 1;
+    int BASE_CAMEL_BINDING = 0;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -363,22 +335,13 @@ public interface JpaPackage extends EPackage {
     int BASE_CAMEL_BINDING__MESSAGE_COMPOSER = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 1;
 
     /**
-     * The feature id for the '<em><b>Additional Uri Parameters</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 2;
-
-    /**
      * The number of structural features of the '<em>Base Camel Binding</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int BASE_CAMEL_BINDING_FEATURE_COUNT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 3;
+    int BASE_CAMEL_BINDING_FEATURE_COUNT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.DocumentRootImpl <em>Document Root</em>}' class.
@@ -388,7 +351,7 @@ public interface JpaPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaPackageImpl#getDocumentRoot()
      * @generated
      */
-    int DOCUMENT_ROOT = 3;
+    int DOCUMENT_ROOT = 2;
 
     /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaProducerTypeImpl <em>Producer Type</em>}' class.
@@ -398,7 +361,7 @@ public interface JpaPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaPackageImpl#getJpaProducerType()
      * @generated
      */
-    int JPA_PRODUCER_TYPE = 5;
+    int JPA_PRODUCER_TYPE = 4;
 
     /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.TimeUnitType <em>Time Unit Type</em>}' enum.
@@ -408,7 +371,7 @@ public interface JpaPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaPackageImpl#getTimeUnitType()
      * @generated
      */
-    int TIME_UNIT_TYPE = 7;
+    int TIME_UNIT_TYPE = 5;
 
     /**
      * The meta object id for the '<em>Time Unit Type Object</em>' data type.
@@ -418,29 +381,8 @@ public interface JpaPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaPackageImpl#getTimeUnitTypeObject()
      * @generated
      */
-    int TIME_UNIT_TYPE_OBJECT = 8;
+    int TIME_UNIT_TYPE_OBJECT = 6;
 
-
-    /**
-     * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.AdditionalUriParametersType <em>Additional Uri Parameters Type</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Additional Uri Parameters Type</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.AdditionalUriParametersType
-     * @generated
-     */
-    EClass getAdditionalUriParametersType();
-
-    /**
-     * Returns the meta object for the containment reference list '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.AdditionalUriParametersType#getParameter <em>Parameter</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Parameter</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.AdditionalUriParametersType#getParameter()
-     * @see #getAdditionalUriParametersType()
-     * @generated
-     */
-    EReference getAdditionalUriParametersType_Parameter();
 
     /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.BaseCamelBinding <em>Base Camel Binding</em>}'.
@@ -473,17 +415,6 @@ public interface JpaPackage extends EPackage {
      * @generated
      */
     EReference getBaseCamelBinding_MessageComposer();
-
-    /**
-     * Returns the meta object for the containment reference '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.BaseCamelBinding#getAdditionalUriParameters <em>Additional Uri Parameters</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the containment reference '<em>Additional Uri Parameters</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.BaseCamelBinding#getAdditionalUriParameters()
-     * @see #getBaseCamelBinding()
-     * @generated
-     */
-    EReference getBaseCamelBinding_AdditionalUriParameters();
 
     /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.CamelJpaBindingType <em>Camel Jpa Binding Type</em>}'.
@@ -558,7 +489,7 @@ public interface JpaPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaPackageImpl#getJpaConsumerType()
      * @generated
      */
-    int JPA_CONSUMER_TYPE = 4;
+    int JPA_CONSUMER_TYPE = 3;
 
     /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.CamelJpaBindingTypeImpl <em>Camel Jpa Binding Type</em>}' class.
@@ -568,7 +499,7 @@ public interface JpaPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaPackageImpl#getCamelJpaBindingType()
      * @generated
      */
-    int CAMEL_JPA_BINDING_TYPE = 2;
+    int CAMEL_JPA_BINDING_TYPE = 1;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -677,15 +608,6 @@ public interface JpaPackage extends EPackage {
      * @ordered
      */
     int CAMEL_JPA_BINDING_TYPE__MESSAGE_COMPOSER = BASE_CAMEL_BINDING__MESSAGE_COMPOSER;
-
-    /**
-     * The feature id for the '<em><b>Additional Uri Parameters</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CAMEL_JPA_BINDING_TYPE__ADDITIONAL_URI_PARAMETERS = BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS;
 
     /**
      * The feature id for the '<em><b>Entity Class Name</b></em>' attribute.
@@ -968,44 +890,6 @@ public interface JpaPackage extends EPackage {
 
 
     /**
-     * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.ParameterTypeImpl <em>Parameter Type</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.ParameterTypeImpl
-     * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaPackageImpl#getParameterType()
-     * @generated
-     */
-    int PARAMETER_TYPE = 6;
-
-    /**
-     * The feature id for the '<em><b>Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PARAMETER_TYPE__NAME = 0;
-
-    /**
-     * The feature id for the '<em><b>Value</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PARAMETER_TYPE__VALUE = 1;
-
-    /**
-     * The number of structural features of the '<em>Parameter Type</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PARAMETER_TYPE_FEATURE_COUNT = 2;
-
-
-    /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.DocumentRoot <em>Document Root</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1090,38 +974,6 @@ public interface JpaPackage extends EPackage {
      * @generated
      */
     EAttribute getJpaProducerType_UsePersist();
-
-    /**
-     * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.ParameterType <em>Parameter Type</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Parameter Type</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.ParameterType
-     * @generated
-     */
-    EClass getParameterType();
-
-    /**
-     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.ParameterType#getName <em>Name</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Name</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.ParameterType#getName()
-     * @see #getParameterType()
-     * @generated
-     */
-    EAttribute getParameterType_Name();
-
-    /**
-     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.ParameterType#getValue <em>Value</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Value</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.ParameterType#getValue()
-     * @see #getParameterType()
-     * @generated
-     */
-    EAttribute getParameterType_Value();
 
     /**
      * Returns the meta object for enum '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.TimeUnitType <em>Time Unit Type</em>}'.
@@ -1354,24 +1206,6 @@ public interface JpaPackage extends EPackage {
      */
     interface Literals {
         /**
-         * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.AdditionalUriParametersTypeImpl <em>Additional Uri Parameters Type</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.AdditionalUriParametersTypeImpl
-         * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaPackageImpl#getAdditionalUriParametersType()
-         * @generated
-         */
-        EClass ADDITIONAL_URI_PARAMETERS_TYPE = eINSTANCE.getAdditionalUriParametersType();
-
-        /**
-         * The meta object literal for the '<em><b>Parameter</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference ADDITIONAL_URI_PARAMETERS_TYPE__PARAMETER = eINSTANCE.getAdditionalUriParametersType_Parameter();
-
-        /**
          * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.BaseCamelBindingImpl <em>Base Camel Binding</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -1396,14 +1230,6 @@ public interface JpaPackage extends EPackage {
          * @generated
          */
         EReference BASE_CAMEL_BINDING__MESSAGE_COMPOSER = eINSTANCE.getBaseCamelBinding_MessageComposer();
-
-        /**
-         * The meta object literal for the '<em><b>Additional Uri Parameters</b></em>' containment reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS = eINSTANCE.getBaseCamelBinding_AdditionalUriParameters();
 
         /**
          * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.DocumentRootImpl <em>Document Root</em>}' class.
@@ -1472,32 +1298,6 @@ public interface JpaPackage extends EPackage {
          * @generated
          */
         EAttribute JPA_PRODUCER_TYPE__USE_PERSIST = eINSTANCE.getJpaProducerType_UsePersist();
-
-        /**
-         * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.ParameterTypeImpl <em>Parameter Type</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.ParameterTypeImpl
-         * @see org.switchyard.tools.models.switchyard1_0.camel.jpa.impl.JpaPackageImpl#getParameterType()
-         * @generated
-         */
-        EClass PARAMETER_TYPE = eINSTANCE.getParameterType();
-
-        /**
-         * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute PARAMETER_TYPE__NAME = eINSTANCE.getParameterType_Name();
-
-        /**
-         * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute PARAMETER_TYPE__VALUE = eINSTANCE.getParameterType_Value();
 
         /**
          * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.camel.jpa.TimeUnitType <em>Time Unit Type</em>}' enum.

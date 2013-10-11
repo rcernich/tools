@@ -24,7 +24,6 @@ import org.switchyard.tools.models.switchyard1_0.bean.provider.Switchyard_1EditP
 
 import org.switchyard.tools.models.switchyard1_0.camel.quartz.BaseCamelBinding;
 
-import org.switchyard.tools.models.switchyard1_0.camel.quartz.QuartzFactory;
 import org.switchyard.tools.models.switchyard1_0.camel.quartz.QuartzPackage;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPFactory;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
@@ -83,7 +82,6 @@ public class BaseCamelBindingItemProvider
             super.getChildrenFeatures(object);
             childrenFeatures.add(QuartzPackage.Literals.BASE_CAMEL_BINDING__CONTEXT_MAPPER);
             childrenFeatures.add(QuartzPackage.Literals.BASE_CAMEL_BINDING__MESSAGE_COMPOSER);
-            childrenFeatures.add(QuartzPackage.Literals.BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS);
         }
         return childrenFeatures;
     }
@@ -129,7 +127,6 @@ public class BaseCamelBindingItemProvider
         switch (notification.getFeatureID(BaseCamelBinding.class)) {
             case QuartzPackage.BASE_CAMEL_BINDING__CONTEXT_MAPPER:
             case QuartzPackage.BASE_CAMEL_BINDING__MESSAGE_COMPOSER:
-            case QuartzPackage.BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS:
                 fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
                 return;
         }
@@ -166,11 +163,6 @@ public class BaseCamelBindingItemProvider
             (createChildParameter
                 (QuartzPackage.Literals.BASE_CAMEL_BINDING__MESSAGE_COMPOSER,
                  SOAPFactory.eINSTANCE.createMessageComposerType()));
-
-        newChildDescriptors.add
-            (createChildParameter
-                (QuartzPackage.Literals.BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS,
-                 QuartzFactory.eINSTANCE.createAdditionalUriParametersType()));
     }
 
     /**

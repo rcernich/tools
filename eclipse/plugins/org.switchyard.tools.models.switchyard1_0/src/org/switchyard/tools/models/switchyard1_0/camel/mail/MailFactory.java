@@ -22,15 +22,6 @@ public interface MailFactory extends EFactory {
     MailFactory eINSTANCE = org.switchyard.tools.models.switchyard1_0.camel.mail.impl.MailFactoryImpl.init();
 
     /**
-     * Returns a new object of class '<em>Additional Uri Parameters Type</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Additional Uri Parameters Type</em>'.
-     * @generated
-     */
-    AdditionalUriParametersType createAdditionalUriParametersType();
-
-    /**
      * Returns a new object of class '<em>Base Camel Binding</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -47,15 +38,6 @@ public interface MailFactory extends EFactory {
      * @generated
      */
     DocumentRoot createDocumentRoot();
-
-    /**
-     * Returns a new object of class '<em>Parameter Type</em>'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return a new object of class '<em>Parameter Type</em>'.
-     * @generated
-     */
-    ParameterType createParameterType();
 
     /**
      * Returns a new object of class '<em>Camel Mail Consumer Type</em>'.

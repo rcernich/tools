@@ -73,10 +73,6 @@ public class JmsAdapterFactory extends AdapterFactoryImpl {
     protected JmsSwitch<Adapter> modelSwitch =
         new JmsSwitch<Adapter>() {
             @Override
-            public Adapter caseAdditionalUriParametersType(AdditionalUriParametersType object) {
-                return createAdditionalUriParametersTypeAdapter();
-            }
-            @Override
             public Adapter caseBaseCamelBinding(BaseCamelBinding object) {
                 return createBaseCamelBindingAdapter();
             }
@@ -87,10 +83,6 @@ public class JmsAdapterFactory extends AdapterFactoryImpl {
             @Override
             public Adapter caseDocumentRoot(DocumentRoot object) {
                 return createDocumentRootAdapter();
-            }
-            @Override
-            public Adapter caseParameterType(ParameterType object) {
-                return createParameterTypeAdapter();
             }
             @Override
             public Adapter caseCommonExtensionBase(CommonExtensionBase object) {
@@ -125,20 +117,6 @@ public class JmsAdapterFactory extends AdapterFactoryImpl {
 
 
     /**
-     * Creates a new adapter for an object of class '{@link org.switchyard.tools.models.switchyard1_0.camel.jms.AdditionalUriParametersType <em>Additional Uri Parameters Type</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.jms.AdditionalUriParametersType
-     * @generated
-     */
-    public Adapter createAdditionalUriParametersTypeAdapter() {
-        return null;
-    }
-
-    /**
      * Creates a new adapter for an object of class '{@link org.switchyard.tools.models.switchyard1_0.camel.jms.CamelJmsBindingType <em>Camel Jms Binding Type</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -163,20 +141,6 @@ public class JmsAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createDocumentRootAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link org.switchyard.tools.models.switchyard1_0.camel.jms.ParameterType <em>Parameter Type</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.jms.ParameterType
-     * @generated
-     */
-    public Adapter createParameterTypeAdapter() {
         return null;
     }
 

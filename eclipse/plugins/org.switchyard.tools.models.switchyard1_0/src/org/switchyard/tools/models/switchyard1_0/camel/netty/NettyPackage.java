@@ -215,34 +215,6 @@ public interface NettyPackage extends EPackage {
     NettyPackage eINSTANCE = org.switchyard.tools.models.switchyard1_0.camel.netty.impl.NettyPackageImpl.init();
 
     /**
-     * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.impl.AdditionalUriParametersTypeImpl <em>Additional Uri Parameters Type</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.AdditionalUriParametersTypeImpl
-     * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.NettyPackageImpl#getAdditionalUriParametersType()
-     * @generated
-     */
-    int ADDITIONAL_URI_PARAMETERS_TYPE = 0;
-
-    /**
-     * The feature id for the '<em><b>Parameter</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ADDITIONAL_URI_PARAMETERS_TYPE__PARAMETER = 0;
-
-    /**
-     * The number of structural features of the '<em>Additional Uri Parameters Type</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int ADDITIONAL_URI_PARAMETERS_TYPE_FEATURE_COUNT = 1;
-
-    /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.impl.BaseCamelBindingImpl <em>Base Camel Binding</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -250,7 +222,7 @@ public interface NettyPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.NettyPackageImpl#getBaseCamelBinding()
      * @generated
      */
-    int BASE_CAMEL_BINDING = 1;
+    int BASE_CAMEL_BINDING = 0;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -361,22 +333,13 @@ public interface NettyPackage extends EPackage {
     int BASE_CAMEL_BINDING__MESSAGE_COMPOSER = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 1;
 
     /**
-     * The feature id for the '<em><b>Additional Uri Parameters</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 2;
-
-    /**
      * The number of structural features of the '<em>Base Camel Binding</em>' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int BASE_CAMEL_BINDING_FEATURE_COUNT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 3;
+    int BASE_CAMEL_BINDING_FEATURE_COUNT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 2;
 
     /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.impl.CamelNettyBindingTypeImpl <em>Camel Netty Binding Type</em>}' class.
@@ -386,7 +349,7 @@ public interface NettyPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.NettyPackageImpl#getCamelNettyBindingType()
      * @generated
      */
-    int CAMEL_NETTY_BINDING_TYPE = 2;
+    int CAMEL_NETTY_BINDING_TYPE = 1;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -495,15 +458,6 @@ public interface NettyPackage extends EPackage {
      * @ordered
      */
     int CAMEL_NETTY_BINDING_TYPE__MESSAGE_COMPOSER = BASE_CAMEL_BINDING__MESSAGE_COMPOSER;
-
-    /**
-     * The feature id for the '<em><b>Additional Uri Parameters</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CAMEL_NETTY_BINDING_TYPE__ADDITIONAL_URI_PARAMETERS = BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS;
 
     /**
      * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -693,7 +647,7 @@ public interface NettyPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.NettyPackageImpl#getCamelNettyTcpBindingType()
      * @generated
      */
-    int CAMEL_NETTY_TCP_BINDING_TYPE = 3;
+    int CAMEL_NETTY_TCP_BINDING_TYPE = 2;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -802,15 +756,6 @@ public interface NettyPackage extends EPackage {
      * @ordered
      */
     int CAMEL_NETTY_TCP_BINDING_TYPE__MESSAGE_COMPOSER = CAMEL_NETTY_BINDING_TYPE__MESSAGE_COMPOSER;
-
-    /**
-     * The feature id for the '<em><b>Additional Uri Parameters</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CAMEL_NETTY_TCP_BINDING_TYPE__ADDITIONAL_URI_PARAMETERS = CAMEL_NETTY_BINDING_TYPE__ADDITIONAL_URI_PARAMETERS;
 
     /**
      * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1027,7 +972,7 @@ public interface NettyPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.NettyPackageImpl#getCamelNettyUdpBindingType()
      * @generated
      */
-    int CAMEL_NETTY_UDP_BINDING_TYPE = 4;
+    int CAMEL_NETTY_UDP_BINDING_TYPE = 3;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -1136,15 +1081,6 @@ public interface NettyPackage extends EPackage {
      * @ordered
      */
     int CAMEL_NETTY_UDP_BINDING_TYPE__MESSAGE_COMPOSER = CAMEL_NETTY_BINDING_TYPE__MESSAGE_COMPOSER;
-
-    /**
-     * The feature id for the '<em><b>Additional Uri Parameters</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int CAMEL_NETTY_UDP_BINDING_TYPE__ADDITIONAL_URI_PARAMETERS = CAMEL_NETTY_BINDING_TYPE__ADDITIONAL_URI_PARAMETERS;
 
     /**
      * The feature id for the '<em><b>Host</b></em>' attribute.
@@ -1343,7 +1279,7 @@ public interface NettyPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.NettyPackageImpl#getDocumentRoot()
      * @generated
      */
-    int DOCUMENT_ROOT = 5;
+    int DOCUMENT_ROOT = 4;
 
     /**
      * The feature id for the '<em><b>Mixed</b></em>' attribute list.
@@ -1401,65 +1337,6 @@ public interface NettyPackage extends EPackage {
 
 
     /**
-     * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.impl.ParameterTypeImpl <em>Parameter Type</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.ParameterTypeImpl
-     * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.NettyPackageImpl#getParameterType()
-     * @generated
-     */
-    int PARAMETER_TYPE = 6;
-
-    /**
-     * The feature id for the '<em><b>Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PARAMETER_TYPE__NAME = 0;
-
-    /**
-     * The feature id for the '<em><b>Value</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PARAMETER_TYPE__VALUE = 1;
-
-    /**
-     * The number of structural features of the '<em>Parameter Type</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int PARAMETER_TYPE_FEATURE_COUNT = 2;
-
-
-    /**
-     * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.AdditionalUriParametersType <em>Additional Uri Parameters Type</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Additional Uri Parameters Type</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.netty.AdditionalUriParametersType
-     * @generated
-     */
-    EClass getAdditionalUriParametersType();
-
-    /**
-     * Returns the meta object for the containment reference list '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.AdditionalUriParametersType#getParameter <em>Parameter</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the containment reference list '<em>Parameter</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.netty.AdditionalUriParametersType#getParameter()
-     * @see #getAdditionalUriParametersType()
-     * @generated
-     */
-    EReference getAdditionalUriParametersType_Parameter();
-
-    /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.BaseCamelBinding <em>Base Camel Binding</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1490,17 +1367,6 @@ public interface NettyPackage extends EPackage {
      * @generated
      */
     EReference getBaseCamelBinding_MessageComposer();
-
-    /**
-     * Returns the meta object for the containment reference '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.BaseCamelBinding#getAdditionalUriParameters <em>Additional Uri Parameters</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the containment reference '<em>Additional Uri Parameters</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.netty.BaseCamelBinding#getAdditionalUriParameters()
-     * @see #getBaseCamelBinding()
-     * @generated
-     */
-    EReference getBaseCamelBinding_AdditionalUriParameters();
 
     /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.CamelNettyTcpBindingType <em>Camel Netty Tcp Binding Type</em>}'.
@@ -1851,38 +1717,6 @@ public interface NettyPackage extends EPackage {
     EReference getDocumentRoot_BindingUdp();
 
     /**
-     * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.ParameterType <em>Parameter Type</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Parameter Type</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.netty.ParameterType
-     * @generated
-     */
-    EClass getParameterType();
-
-    /**
-     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.ParameterType#getName <em>Name</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Name</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.netty.ParameterType#getName()
-     * @see #getParameterType()
-     * @generated
-     */
-    EAttribute getParameterType_Name();
-
-    /**
-     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.ParameterType#getValue <em>Value</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Value</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.camel.netty.ParameterType#getValue()
-     * @see #getParameterType()
-     * @generated
-     */
-    EAttribute getParameterType_Value();
-
-    /**
      * Returns the factory that creates the instances of the model.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1904,24 +1738,6 @@ public interface NettyPackage extends EPackage {
      * @generated
      */
     interface Literals {
-        /**
-         * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.impl.AdditionalUriParametersTypeImpl <em>Additional Uri Parameters Type</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.AdditionalUriParametersTypeImpl
-         * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.NettyPackageImpl#getAdditionalUriParametersType()
-         * @generated
-         */
-        EClass ADDITIONAL_URI_PARAMETERS_TYPE = eINSTANCE.getAdditionalUriParametersType();
-
-        /**
-         * The meta object literal for the '<em><b>Parameter</b></em>' containment reference list feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference ADDITIONAL_URI_PARAMETERS_TYPE__PARAMETER = eINSTANCE.getAdditionalUriParametersType_Parameter();
-
         /**
          * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.impl.BaseCamelBindingImpl <em>Base Camel Binding</em>}' class.
          * <!-- begin-user-doc -->
@@ -1947,14 +1763,6 @@ public interface NettyPackage extends EPackage {
          * @generated
          */
         EReference BASE_CAMEL_BINDING__MESSAGE_COMPOSER = eINSTANCE.getBaseCamelBinding_MessageComposer();
-
-        /**
-         * The meta object literal for the '<em><b>Additional Uri Parameters</b></em>' containment reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS = eINSTANCE.getBaseCamelBinding_AdditionalUriParameters();
 
         /**
          * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.impl.CamelNettyTcpBindingTypeImpl <em>Camel Netty Tcp Binding Type</em>}' class.
@@ -2219,32 +2027,6 @@ public interface NettyPackage extends EPackage {
          * @generated
          */
         EReference DOCUMENT_ROOT__BINDING_UDP = eINSTANCE.getDocumentRoot_BindingUdp();
-
-        /**
-         * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.camel.netty.impl.ParameterTypeImpl <em>Parameter Type</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.ParameterTypeImpl
-         * @see org.switchyard.tools.models.switchyard1_0.camel.netty.impl.NettyPackageImpl#getParameterType()
-         * @generated
-         */
-        EClass PARAMETER_TYPE = eINSTANCE.getParameterType();
-
-        /**
-         * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute PARAMETER_TYPE__NAME = eINSTANCE.getParameterType_Name();
-
-        /**
-         * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute PARAMETER_TYPE__VALUE = eINSTANCE.getParameterType_Value();
 
     }
 

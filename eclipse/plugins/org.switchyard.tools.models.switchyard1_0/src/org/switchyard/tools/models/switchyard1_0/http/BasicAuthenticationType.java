@@ -158,13 +158,13 @@ public interface BasicAuthenticationType extends CommonExtensionBase {
      * Authentication Port.
      * <!-- end-model-doc -->
      * @return the value of the '<em>Port</em>' attribute.
-     * @see #setPort(Object)
+     * @see #setPort(Integer)
      * @see org.switchyard.tools.models.switchyard1_0.http.HttpPackage#getBasicAuthenticationType_Port()
-     * @model dataType="org.switchyard.tools.models.switchyard1_0.switchyard.PropInteger"
+     * @model dataType="org.eclipse.emf.ecore.xml.type.IntObject"
      *        extendedMetaData="kind='element' name='port' namespace='##targetNamespace'"
      * @generated
      */
-    Object getPort();
+    Integer getPort();
 
     /**
      * Sets the value of the '{@link org.switchyard.tools.models.switchyard1_0.http.BasicAuthenticationType#getPort <em>Port</em>}' attribute.
@@ -174,6 +174,6 @@ public interface BasicAuthenticationType extends CommonExtensionBase {
      * @see #getPort()
      * @generated
      */
-    void setPort(Object value);
+    void setPort(Integer value);
 
 } // BasicAuthenticationType

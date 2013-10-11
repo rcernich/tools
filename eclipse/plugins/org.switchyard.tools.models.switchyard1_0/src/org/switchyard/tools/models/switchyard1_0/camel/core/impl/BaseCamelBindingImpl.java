@@ -7,7 +7,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.switchyard.tools.models.switchyard1_0.camel.core.AdditionalUriParametersType;
 import org.switchyard.tools.models.switchyard1_0.camel.core.BaseCamelBinding;
 import org.switchyard.tools.models.switchyard1_0.camel.core.CorePackage;
 import org.switchyard.tools.models.switchyard1_0.switchyard.ContextMapperType;
@@ -23,7 +22,6 @@ import org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchYardBindi
  * <ul>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.camel.core.impl.BaseCamelBindingImpl#getContextMapper <em>Context Mapper</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.camel.core.impl.BaseCamelBindingImpl#getMessageComposer <em>Message Composer</em>}</li>
- *   <li>{@link org.switchyard.tools.models.switchyard1_0.camel.core.impl.BaseCamelBindingImpl#getAdditionalUriParameters <em>Additional Uri Parameters</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,15 +46,6 @@ public class BaseCamelBindingImpl extends SwitchYardBindingTypeImpl implements B
      * @ordered
      */
     protected MessageComposerType messageComposer;
-    /**
-     * The cached value of the '{@link #getAdditionalUriParameters() <em>Additional Uri Parameters</em>}' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getAdditionalUriParameters()
-     * @generated
-     * @ordered
-     */
-    protected AdditionalUriParametersType additionalUriParameters;
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -97,8 +86,6 @@ public class BaseCamelBindingImpl extends SwitchYardBindingTypeImpl implements B
                 return basicSetContextMapper(null, msgs);
             case CorePackage.BASE_CAMEL_BINDING__MESSAGE_COMPOSER:
                 return basicSetMessageComposer(null, msgs);
-            case CorePackage.BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS:
-                return basicSetAdditionalUriParameters(null, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -115,8 +102,6 @@ public class BaseCamelBindingImpl extends SwitchYardBindingTypeImpl implements B
                 return getContextMapper();
             case CorePackage.BASE_CAMEL_BINDING__MESSAGE_COMPOSER:
                 return getMessageComposer();
-            case CorePackage.BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS:
-                return getAdditionalUriParameters();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -134,9 +119,6 @@ public class BaseCamelBindingImpl extends SwitchYardBindingTypeImpl implements B
                 return;
             case CorePackage.BASE_CAMEL_BINDING__MESSAGE_COMPOSER:
                 setMessageComposer((MessageComposerType)newValue);
-                return;
-            case CorePackage.BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS:
-                setAdditionalUriParameters((AdditionalUriParametersType)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -156,9 +138,6 @@ public class BaseCamelBindingImpl extends SwitchYardBindingTypeImpl implements B
             case CorePackage.BASE_CAMEL_BINDING__MESSAGE_COMPOSER:
                 setMessageComposer((MessageComposerType)null);
                 return;
-            case CorePackage.BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS:
-                setAdditionalUriParameters((AdditionalUriParametersType)null);
-                return;
         }
         super.eUnset(featureID);
     }
@@ -175,8 +154,6 @@ public class BaseCamelBindingImpl extends SwitchYardBindingTypeImpl implements B
                 return contextMapper != null;
             case CorePackage.BASE_CAMEL_BINDING__MESSAGE_COMPOSER:
                 return messageComposer != null;
-            case CorePackage.BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS:
-                return additionalUriParameters != null;
         }
         return super.eIsSet(featureID);
     }
@@ -256,49 +233,6 @@ public class BaseCamelBindingImpl extends SwitchYardBindingTypeImpl implements B
         }
         else if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, CorePackage.BASE_CAMEL_BINDING__MESSAGE_COMPOSER, newMessageComposer, newMessageComposer));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public AdditionalUriParametersType getAdditionalUriParameters() {
-        return additionalUriParameters;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public NotificationChain basicSetAdditionalUriParameters(AdditionalUriParametersType newAdditionalUriParameters, NotificationChain msgs) {
-        AdditionalUriParametersType oldAdditionalUriParameters = additionalUriParameters;
-        additionalUriParameters = newAdditionalUriParameters;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CorePackage.BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS, oldAdditionalUriParameters, newAdditionalUriParameters);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setAdditionalUriParameters(AdditionalUriParametersType newAdditionalUriParameters) {
-        if (newAdditionalUriParameters != additionalUriParameters) {
-            NotificationChain msgs = null;
-            if (additionalUriParameters != null)
-                msgs = ((InternalEObject)additionalUriParameters).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - CorePackage.BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS, null, msgs);
-            if (newAdditionalUriParameters != null)
-                msgs = ((InternalEObject)newAdditionalUriParameters).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - CorePackage.BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS, null, msgs);
-            msgs = basicSetAdditionalUriParameters(newAdditionalUriParameters, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, CorePackage.BASE_CAMEL_BINDING__ADDITIONAL_URI_PARAMETERS, newAdditionalUriParameters, newAdditionalUriParameters));
     }
 
 } //BaseCamelBindingImpl

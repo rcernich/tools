@@ -59,7 +59,7 @@ public class ProxyTypeImpl extends CommonExtensionBaseImpl implements ProxyType 
      * @generated
      * @ordered
      */
-    protected static final Object PORT_EDEFAULT = null;
+    protected static final BigInteger PORT_EDEFAULT = null;
 
     /**
      * The cached value of the '{@link #getPort() <em>Port</em>}' attribute.
@@ -69,7 +69,7 @@ public class ProxyTypeImpl extends CommonExtensionBaseImpl implements ProxyType 
      * @generated
      * @ordered
      */
-    protected Object port = PORT_EDEFAULT;
+    protected BigInteger port = PORT_EDEFAULT;
 
     /**
      * The default value of the '{@link #getUser() <em>User</em>}' attribute.
@@ -156,7 +156,7 @@ public class ProxyTypeImpl extends CommonExtensionBaseImpl implements ProxyType 
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object getPort() {
+    public BigInteger getPort() {
         return port;
     }
 
@@ -165,8 +165,8 @@ public class ProxyTypeImpl extends CommonExtensionBaseImpl implements ProxyType 
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setPort(Object newPort) {
-        Object oldPort = port;
+    public void setPort(BigInteger newPort) {
+        BigInteger oldPort = port;
         port = newPort;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, HttpPackage.PROXY_TYPE__PORT, oldPort, port));
@@ -246,7 +246,7 @@ public class ProxyTypeImpl extends CommonExtensionBaseImpl implements ProxyType 
                 setHost((String)newValue);
                 return;
             case HttpPackage.PROXY_TYPE__PORT:
-                setPort(newValue);
+                setPort((BigInteger)newValue);
                 return;
             case HttpPackage.PROXY_TYPE__USER:
                 setUser((String)newValue);

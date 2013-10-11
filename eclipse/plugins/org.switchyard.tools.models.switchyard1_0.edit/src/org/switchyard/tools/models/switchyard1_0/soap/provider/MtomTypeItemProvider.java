@@ -87,7 +87,7 @@ public class MtomTypeItemProvider
                  true,
                  false,
                  false,
-                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+                 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
                  null,
                  null));
     }
@@ -131,7 +131,7 @@ public class MtomTypeItemProvider
                  true,
                  false,
                  false,
-                 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+                 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
                  null,
                  null));
     }
@@ -155,11 +155,8 @@ public class MtomTypeItemProvider
      */
     @Override
     public String getText(Object object) {
-        Object labelValue = ((MtomType)object).getEnabled();
-        String label = labelValue == null ? null : labelValue.toString();
-        return label == null || label.length() == 0 ?
-            getString("_UI_MtomType_type") :
-            getString("_UI_MtomType_type") + " " + label;
+        MtomType mtomType = (MtomType)object;
+        return getString("_UI_MtomType_type") + " " + mtomType.isEnabled();
     }
 
     /**

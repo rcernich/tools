@@ -823,22 +823,13 @@ public interface BPMPackage extends EPackage {
 	int DOCUMENT_ROOT__RESOURCE = 24;
 
     /**
-     * The feature id for the '<em><b>Resource Detail</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int DOCUMENT_ROOT__RESOURCE_DETAIL = 25;
-
-    /**
      * The feature id for the '<em><b>Resources</b></em>' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int DOCUMENT_ROOT__RESOURCES = 26;
+    int DOCUMENT_ROOT__RESOURCES = 25;
 
     /**
      * The feature id for the '<em><b>User Group Callback</b></em>' containment reference.
@@ -847,7 +838,7 @@ public interface BPMPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DOCUMENT_ROOT__USER_GROUP_CALLBACK = 27;
+    int DOCUMENT_ROOT__USER_GROUP_CALLBACK = 26;
 
     /**
      * The feature id for the '<em><b>Work Item Handler</b></em>' containment reference.
@@ -856,7 +847,7 @@ public interface BPMPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DOCUMENT_ROOT__WORK_ITEM_HANDLER = 28;
+    int DOCUMENT_ROOT__WORK_ITEM_HANDLER = 27;
 
     /**
      * The feature id for the '<em><b>Work Item Handlers</b></em>' containment reference.
@@ -865,7 +856,7 @@ public interface BPMPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int DOCUMENT_ROOT__WORK_ITEM_HANDLERS = 29;
+    int DOCUMENT_ROOT__WORK_ITEM_HANDLERS = 28;
 
     /**
      * The number of structural features of the '<em>Document Root</em>' class.
@@ -874,7 +865,7 @@ public interface BPMPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int DOCUMENT_ROOT_FEATURE_COUNT = 30;
+	int DOCUMENT_ROOT_FEATURE_COUNT = 29;
 
 	/**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.bpm.impl.GlobalsTypeImpl <em>Globals Type</em>}' class.
@@ -994,7 +985,7 @@ public interface BPMPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.BPMPackageImpl#getResourcesType()
      * @generated
      */
-    int RESOURCES_TYPE = 20;
+    int RESOURCES_TYPE = 19;
 
     /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.bpm.impl.ResourceTypeImpl <em>Resource Type</em>}' class.
@@ -1004,7 +995,7 @@ public interface BPMPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.BPMPackageImpl#getResourceType()
      * @generated
      */
-	int RESOURCE_TYPE = 21;
+	int RESOURCE_TYPE = 20;
 
 	/**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.bpm.impl.WorkItemHandlersTypeImpl <em>Work Item Handlers Type</em>}' class.
@@ -1014,7 +1005,7 @@ public interface BPMPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.BPMPackageImpl#getWorkItemHandlersType()
      * @generated
      */
-    int WORK_ITEM_HANDLERS_TYPE = 23;
+    int WORK_ITEM_HANDLERS_TYPE = 22;
 
     /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.bpm.impl.WorkItemHandlerTypeImpl <em>Work Item Handler Type</em>}' class.
@@ -1024,7 +1015,7 @@ public interface BPMPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.BPMPackageImpl#getWorkItemHandlerType()
      * @generated
      */
-    int WORK_ITEM_HANDLER_TYPE = 24;
+    int WORK_ITEM_HANDLER_TYPE = 23;
 
     /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.bpm.impl.UserGroupCallbackTypeImpl <em>User Group Callback Type</em>}' class.
@@ -1034,7 +1025,7 @@ public interface BPMPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.BPMPackageImpl#getUserGroupCallbackType()
      * @generated
      */
-    int USER_GROUP_CALLBACK_TYPE = 22;
+    int USER_GROUP_CALLBACK_TYPE = 21;
 
     /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.bpm.impl.FaultsTypeImpl <em>Faults Type</em>}' class.
@@ -1650,70 +1641,6 @@ public interface BPMPackage extends EPackage {
     int PROPERTY_TYPE_FEATURE_COUNT = ScaPackage.COMMON_EXTENSION_BASE_FEATURE_COUNT + 2;
 
     /**
-     * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.bpm.impl.ResourceDetailTypeImpl <em>Resource Detail Type</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.ResourceDetailTypeImpl
-     * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.BPMPackageImpl#getResourceDetailType()
-     * @generated
-     */
-    int RESOURCE_DETAIL_TYPE = 19;
-
-    /**
-     * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESOURCE_DETAIL_TYPE__DOCUMENTATION = ScaPackage.COMMON_EXTENSION_BASE__DOCUMENTATION;
-
-    /**
-     * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESOURCE_DETAIL_TYPE__ANY_ATTRIBUTE = ScaPackage.COMMON_EXTENSION_BASE__ANY_ATTRIBUTE;
-
-    /**
-     * The feature id for the '<em><b>Input Type</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESOURCE_DETAIL_TYPE__INPUT_TYPE = ScaPackage.COMMON_EXTENSION_BASE_FEATURE_COUNT + 0;
-
-    /**
-     * The feature id for the '<em><b>Using External Types</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESOURCE_DETAIL_TYPE__USING_EXTERNAL_TYPES = ScaPackage.COMMON_EXTENSION_BASE_FEATURE_COUNT + 1;
-
-    /**
-     * The feature id for the '<em><b>Worksheet Name</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESOURCE_DETAIL_TYPE__WORKSHEET_NAME = ScaPackage.COMMON_EXTENSION_BASE_FEATURE_COUNT + 2;
-
-    /**
-     * The number of structural features of the '<em>Resource Detail Type</em>' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESOURCE_DETAIL_TYPE_FEATURE_COUNT = ScaPackage.COMMON_EXTENSION_BASE_FEATURE_COUNT + 3;
-
-    /**
      * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1768,22 +1695,13 @@ public interface BPMPackage extends EPackage {
     int RESOURCE_TYPE__ANY_ATTRIBUTE = ScaPackage.COMMON_EXTENSION_BASE__ANY_ATTRIBUTE;
 
     /**
-     * The feature id for the '<em><b>Resource Detail</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int RESOURCE_TYPE__RESOURCE_DETAIL = ScaPackage.COMMON_EXTENSION_BASE_FEATURE_COUNT + 0;
-
-    /**
      * The feature id for the '<em><b>Location</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int RESOURCE_TYPE__LOCATION = ScaPackage.COMMON_EXTENSION_BASE_FEATURE_COUNT + 1;
+    int RESOURCE_TYPE__LOCATION = ScaPackage.COMMON_EXTENSION_BASE_FEATURE_COUNT + 0;
 
     /**
      * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -1792,7 +1710,7 @@ public interface BPMPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int RESOURCE_TYPE__TYPE = ScaPackage.COMMON_EXTENSION_BASE_FEATURE_COUNT + 2;
+    int RESOURCE_TYPE__TYPE = ScaPackage.COMMON_EXTENSION_BASE_FEATURE_COUNT + 1;
 
     /**
      * The number of structural features of the '<em>Resource Type</em>' class.
@@ -1801,7 +1719,7 @@ public interface BPMPackage extends EPackage {
      * @generated
      * @ordered
      */
-	int RESOURCE_TYPE_FEATURE_COUNT = ScaPackage.COMMON_EXTENSION_BASE_FEATURE_COUNT + 3;
+	int RESOURCE_TYPE_FEATURE_COUNT = ScaPackage.COMMON_EXTENSION_BASE_FEATURE_COUNT + 2;
 
     /**
      * The feature id for the '<em><b>Documentation</b></em>' containment reference list.
@@ -1937,7 +1855,7 @@ public interface BPMPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.BPMPackageImpl#getOperationType()
      * @generated
      */
-    int OPERATION_TYPE = 26;
+    int OPERATION_TYPE = 25;
 
     /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.bpm.LoggerType <em>Logger Type</em>}' enum.
@@ -1947,7 +1865,7 @@ public interface BPMPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.BPMPackageImpl#getLoggerType()
      * @generated
      */
-    int LOGGER_TYPE = 25;
+    int LOGGER_TYPE = 24;
 
     /**
      * The meta object id for the '<em>Operation Type Object</em>' data type.
@@ -1957,7 +1875,7 @@ public interface BPMPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.BPMPackageImpl#getOperationTypeObject()
      * @generated
      */
-    int OPERATION_TYPE_OBJECT = 28;
+    int OPERATION_TYPE_OBJECT = 27;
 
     /**
      * The meta object id for the '<em>Logger Type Object</em>' data type.
@@ -1967,7 +1885,7 @@ public interface BPMPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.BPMPackageImpl#getLoggerTypeObject()
      * @generated
      */
-    int LOGGER_TYPE_OBJECT = 27;
+    int LOGGER_TYPE_OBJECT = 26;
 
     /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.bpm.OperationsType <em>Operations Type</em>}'.
@@ -2601,17 +2519,6 @@ public interface BPMPackage extends EPackage {
 	EReference getDocumentRoot_Resource();
 
 	/**
-     * Returns the meta object for the containment reference '{@link org.switchyard.tools.models.switchyard1_0.bpm.DocumentRoot#getResourceDetail <em>Resource Detail</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the containment reference '<em>Resource Detail</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.bpm.DocumentRoot#getResourceDetail()
-     * @see #getDocumentRoot()
-     * @generated
-     */
-    EReference getDocumentRoot_ResourceDetail();
-
-    /**
      * Returns the meta object for the containment reference '{@link org.switchyard.tools.models.switchyard1_0.bpm.DocumentRoot#getResources <em>Resources</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2964,49 +2871,6 @@ public interface BPMPackage extends EPackage {
     EAttribute getPropertyType_Value();
 
     /**
-     * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.bpm.ResourceDetailType <em>Resource Detail Type</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for class '<em>Resource Detail Type</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.bpm.ResourceDetailType
-     * @generated
-     */
-    EClass getResourceDetailType();
-
-    /**
-     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.bpm.ResourceDetailType#getInputType <em>Input Type</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Input Type</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.bpm.ResourceDetailType#getInputType()
-     * @see #getResourceDetailType()
-     * @generated
-     */
-    EAttribute getResourceDetailType_InputType();
-
-    /**
-     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.bpm.ResourceDetailType#isUsingExternalTypes <em>Using External Types</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Using External Types</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.bpm.ResourceDetailType#isUsingExternalTypes()
-     * @see #getResourceDetailType()
-     * @generated
-     */
-    EAttribute getResourceDetailType_UsingExternalTypes();
-
-    /**
-     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.bpm.ResourceDetailType#getWorksheetName <em>Worksheet Name</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Worksheet Name</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.bpm.ResourceDetailType#getWorksheetName()
-     * @see #getResourceDetailType()
-     * @generated
-     */
-    EAttribute getResourceDetailType_WorksheetName();
-
-    /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.bpm.ResourcesType <em>Resources Type</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3038,17 +2902,6 @@ public interface BPMPackage extends EPackage {
 	EClass getResourceType();
 
 	/**
-     * Returns the meta object for the containment reference '{@link org.switchyard.tools.models.switchyard1_0.bpm.ResourceType#getResourceDetail <em>Resource Detail</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the containment reference '<em>Resource Detail</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.bpm.ResourceType#getResourceDetail()
-     * @see #getResourceType()
-     * @generated
-     */
-    EReference getResourceType_ResourceDetail();
-
-    /**
      * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.bpm.ResourceType#getLocation <em>Location</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3721,14 +3574,6 @@ public interface BPMPackage extends EPackage {
 		EReference DOCUMENT_ROOT__RESOURCE = eINSTANCE.getDocumentRoot_Resource();
 
 		/**
-         * The meta object literal for the '<em><b>Resource Detail</b></em>' containment reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference DOCUMENT_ROOT__RESOURCE_DETAIL = eINSTANCE.getDocumentRoot_ResourceDetail();
-
-        /**
          * The meta object literal for the '<em><b>Resources</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -4015,40 +3860,6 @@ public interface BPMPackage extends EPackage {
         EAttribute PROPERTY_TYPE__VALUE = eINSTANCE.getPropertyType_Value();
 
         /**
-         * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.bpm.impl.ResourceDetailTypeImpl <em>Resource Detail Type</em>}' class.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.ResourceDetailTypeImpl
-         * @see org.switchyard.tools.models.switchyard1_0.bpm.impl.BPMPackageImpl#getResourceDetailType()
-         * @generated
-         */
-        EClass RESOURCE_DETAIL_TYPE = eINSTANCE.getResourceDetailType();
-
-        /**
-         * The meta object literal for the '<em><b>Input Type</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute RESOURCE_DETAIL_TYPE__INPUT_TYPE = eINSTANCE.getResourceDetailType_InputType();
-
-        /**
-         * The meta object literal for the '<em><b>Using External Types</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute RESOURCE_DETAIL_TYPE__USING_EXTERNAL_TYPES = eINSTANCE.getResourceDetailType_UsingExternalTypes();
-
-        /**
-         * The meta object literal for the '<em><b>Worksheet Name</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute RESOURCE_DETAIL_TYPE__WORKSHEET_NAME = eINSTANCE.getResourceDetailType_WorksheetName();
-
-        /**
          * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.bpm.impl.ResourcesTypeImpl <em>Resources Type</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -4077,14 +3888,6 @@ public interface BPMPackage extends EPackage {
 		EClass RESOURCE_TYPE = eINSTANCE.getResourceType();
 
 		/**
-         * The meta object literal for the '<em><b>Resource Detail</b></em>' containment reference feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EReference RESOURCE_TYPE__RESOURCE_DETAIL = eINSTANCE.getResourceType_ResourceDetail();
-
-        /**
          * The meta object literal for the '<em><b>Location</b></em>' attribute feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->

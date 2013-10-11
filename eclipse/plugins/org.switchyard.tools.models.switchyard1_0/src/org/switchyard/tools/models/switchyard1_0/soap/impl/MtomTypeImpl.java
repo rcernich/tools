@@ -21,9 +21,9 @@ import org.switchyard.tools.models.switchyard1_0.soap.SOAPPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.switchyard.tools.models.switchyard1_0.soap.impl.MtomTypeImpl#getEnabled <em>Enabled</em>}</li>
+ *   <li>{@link org.switchyard.tools.models.switchyard1_0.soap.impl.MtomTypeImpl#isEnabled <em>Enabled</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.soap.impl.MtomTypeImpl#getThreshold <em>Threshold</em>}</li>
- *   <li>{@link org.switchyard.tools.models.switchyard1_0.soap.impl.MtomTypeImpl#getXopExpand <em>Xop Expand</em>}</li>
+ *   <li>{@link org.switchyard.tools.models.switchyard1_0.soap.impl.MtomTypeImpl#isXopExpand <em>Xop Expand</em>}</li>
  * </ul>
  * </p>
  *
@@ -31,24 +31,33 @@ import org.switchyard.tools.models.switchyard1_0.soap.SOAPPackage;
  */
 public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
     /**
-     * The default value of the '{@link #getEnabled() <em>Enabled</em>}' attribute.
+     * The default value of the '{@link #isEnabled() <em>Enabled</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getEnabled()
+     * @see #isEnabled()
      * @generated
      * @ordered
      */
-    protected static final Object ENABLED_EDEFAULT = null;
+    protected static final boolean ENABLED_EDEFAULT = true;
 
     /**
-     * The cached value of the '{@link #getEnabled() <em>Enabled</em>}' attribute.
+     * The cached value of the '{@link #isEnabled() <em>Enabled</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getEnabled()
+     * @see #isEnabled()
      * @generated
      * @ordered
      */
-    protected Object enabled = ENABLED_EDEFAULT;
+    protected boolean enabled = ENABLED_EDEFAULT;
+
+    /**
+     * This is true if the Enabled attribute has been set.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    protected boolean enabledESet;
 
     /**
      * The default value of the '{@link #getThreshold() <em>Threshold</em>}' attribute.
@@ -58,7 +67,7 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
      * @generated
      * @ordered
      */
-    protected static final Object THRESHOLD_EDEFAULT = null;
+    protected static final BigInteger THRESHOLD_EDEFAULT = null;
 
     /**
      * The cached value of the '{@link #getThreshold() <em>Threshold</em>}' attribute.
@@ -68,27 +77,36 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
      * @generated
      * @ordered
      */
-    protected Object threshold = THRESHOLD_EDEFAULT;
+    protected BigInteger threshold = THRESHOLD_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getXopExpand() <em>Xop Expand</em>}' attribute.
+     * The default value of the '{@link #isXopExpand() <em>Xop Expand</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getXopExpand()
+     * @see #isXopExpand()
      * @generated
      * @ordered
      */
-    protected static final Object XOP_EXPAND_EDEFAULT = null;
+    protected static final boolean XOP_EXPAND_EDEFAULT = false;
 
     /**
-     * The cached value of the '{@link #getXopExpand() <em>Xop Expand</em>}' attribute.
+     * The cached value of the '{@link #isXopExpand() <em>Xop Expand</em>}' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getXopExpand()
+     * @see #isXopExpand()
      * @generated
      * @ordered
      */
-    protected Object xopExpand = XOP_EXPAND_EDEFAULT;
+    protected boolean xopExpand = XOP_EXPAND_EDEFAULT;
+
+    /**
+     * This is true if the Xop Expand attribute has been set.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    protected boolean xopExpandESet;
 
     /**
      * <!-- begin-user-doc -->
@@ -114,7 +132,7 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object getEnabled() {
+    public boolean isEnabled() {
         return enabled;
     }
 
@@ -123,11 +141,13 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setEnabled(Object newEnabled) {
-        Object oldEnabled = enabled;
+    public void setEnabled(boolean newEnabled) {
+        boolean oldEnabled = enabled;
         enabled = newEnabled;
+        boolean oldEnabledESet = enabledESet;
+        enabledESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SOAPPackage.MTOM_TYPE__ENABLED, oldEnabled, enabled));
+            eNotify(new ENotificationImpl(this, Notification.SET, SOAPPackage.MTOM_TYPE__ENABLED, oldEnabled, enabled, !oldEnabledESet));
     }
 
     /**
@@ -135,7 +155,30 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object getThreshold() {
+    public void unsetEnabled() {
+        boolean oldEnabled = enabled;
+        boolean oldEnabledESet = enabledESet;
+        enabled = ENABLED_EDEFAULT;
+        enabledESet = false;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.UNSET, SOAPPackage.MTOM_TYPE__ENABLED, oldEnabled, ENABLED_EDEFAULT, oldEnabledESet));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public boolean isSetEnabled() {
+        return enabledESet;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public BigInteger getThreshold() {
         return threshold;
     }
 
@@ -144,8 +187,8 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setThreshold(Object newThreshold) {
-        Object oldThreshold = threshold;
+    public void setThreshold(BigInteger newThreshold) {
+        BigInteger oldThreshold = threshold;
         threshold = newThreshold;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, SOAPPackage.MTOM_TYPE__THRESHOLD, oldThreshold, threshold));
@@ -156,7 +199,7 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
      * <!-- end-user-doc -->
      * @generated
      */
-    public Object getXopExpand() {
+    public boolean isXopExpand() {
         return xopExpand;
     }
 
@@ -165,11 +208,36 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
      * <!-- end-user-doc -->
      * @generated
      */
-    public void setXopExpand(Object newXopExpand) {
-        Object oldXopExpand = xopExpand;
+    public void setXopExpand(boolean newXopExpand) {
+        boolean oldXopExpand = xopExpand;
         xopExpand = newXopExpand;
+        boolean oldXopExpandESet = xopExpandESet;
+        xopExpandESet = true;
         if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SOAPPackage.MTOM_TYPE__XOP_EXPAND, oldXopExpand, xopExpand));
+            eNotify(new ENotificationImpl(this, Notification.SET, SOAPPackage.MTOM_TYPE__XOP_EXPAND, oldXopExpand, xopExpand, !oldXopExpandESet));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void unsetXopExpand() {
+        boolean oldXopExpand = xopExpand;
+        boolean oldXopExpandESet = xopExpandESet;
+        xopExpand = XOP_EXPAND_EDEFAULT;
+        xopExpandESet = false;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.UNSET, SOAPPackage.MTOM_TYPE__XOP_EXPAND, oldXopExpand, XOP_EXPAND_EDEFAULT, oldXopExpandESet));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public boolean isSetXopExpand() {
+        return xopExpandESet;
     }
 
     /**
@@ -181,11 +249,11 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
             case SOAPPackage.MTOM_TYPE__ENABLED:
-                return getEnabled();
+                return isEnabled();
             case SOAPPackage.MTOM_TYPE__THRESHOLD:
                 return getThreshold();
             case SOAPPackage.MTOM_TYPE__XOP_EXPAND:
-                return getXopExpand();
+                return isXopExpand();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -199,13 +267,13 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
             case SOAPPackage.MTOM_TYPE__ENABLED:
-                setEnabled(newValue);
+                setEnabled((Boolean)newValue);
                 return;
             case SOAPPackage.MTOM_TYPE__THRESHOLD:
-                setThreshold(newValue);
+                setThreshold((BigInteger)newValue);
                 return;
             case SOAPPackage.MTOM_TYPE__XOP_EXPAND:
-                setXopExpand(newValue);
+                setXopExpand((Boolean)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -220,13 +288,13 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
     public void eUnset(int featureID) {
         switch (featureID) {
             case SOAPPackage.MTOM_TYPE__ENABLED:
-                setEnabled(ENABLED_EDEFAULT);
+                unsetEnabled();
                 return;
             case SOAPPackage.MTOM_TYPE__THRESHOLD:
                 setThreshold(THRESHOLD_EDEFAULT);
                 return;
             case SOAPPackage.MTOM_TYPE__XOP_EXPAND:
-                setXopExpand(XOP_EXPAND_EDEFAULT);
+                unsetXopExpand();
                 return;
         }
         super.eUnset(featureID);
@@ -241,11 +309,11 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
     public boolean eIsSet(int featureID) {
         switch (featureID) {
             case SOAPPackage.MTOM_TYPE__ENABLED:
-                return ENABLED_EDEFAULT == null ? enabled != null : !ENABLED_EDEFAULT.equals(enabled);
+                return isSetEnabled();
             case SOAPPackage.MTOM_TYPE__THRESHOLD:
                 return THRESHOLD_EDEFAULT == null ? threshold != null : !THRESHOLD_EDEFAULT.equals(threshold);
             case SOAPPackage.MTOM_TYPE__XOP_EXPAND:
-                return XOP_EXPAND_EDEFAULT == null ? xopExpand != null : !XOP_EXPAND_EDEFAULT.equals(xopExpand);
+                return isSetXopExpand();
         }
         return super.eIsSet(featureID);
     }
@@ -261,11 +329,11 @@ public class MtomTypeImpl extends CommonExtensionBaseImpl implements MtomType {
 
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (enabled: ");
-        result.append(enabled);
+        if (enabledESet) result.append(enabled); else result.append("<unset>");
         result.append(", threshold: ");
         result.append(threshold);
         result.append(", xopExpand: ");
-        result.append(xopExpand);
+        if (xopExpandESet) result.append(xopExpand); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

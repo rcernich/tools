@@ -46,7 +46,6 @@ import org.switchyard.tools.models.switchyard1_0.bpm.OperationsType;
 import org.switchyard.tools.models.switchyard1_0.bpm.OutputsType;
 import org.switchyard.tools.models.switchyard1_0.bpm.PropertiesType;
 import org.switchyard.tools.models.switchyard1_0.bpm.PropertyType;
-import org.switchyard.tools.models.switchyard1_0.bpm.ResourceDetailType;
 import org.switchyard.tools.models.switchyard1_0.bpm.ResourceType;
 import org.switchyard.tools.models.switchyard1_0.bpm.ResourcesType;
 import org.switchyard.tools.models.switchyard1_0.bpm.UserGroupCallbackType;
@@ -229,13 +228,6 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
      * @generated
      */
     private EClass propertyTypeEClass = null;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private EClass resourceDetailTypeEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -977,7 +969,7 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_ResourceDetail() {
+    public EReference getDocumentRoot_Resources() {
         return (EReference)documentRootEClass.getEStructuralFeatures().get(25);
     }
 
@@ -986,17 +978,8 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_Resources() {
-        return (EReference)documentRootEClass.getEStructuralFeatures().get(26);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EReference getDocumentRoot_WorkItemHandler() {
-        return (EReference)documentRootEClass.getEStructuralFeatures().get(28);
+        return (EReference)documentRootEClass.getEStructuralFeatures().get(27);
     }
 
     /**
@@ -1005,7 +988,7 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
      * @generated
      */
     public EReference getDocumentRoot_WorkItemHandlers() {
-        return (EReference)documentRootEClass.getEStructuralFeatures().get(29);
+        return (EReference)documentRootEClass.getEStructuralFeatures().get(28);
     }
 
     /**
@@ -1014,7 +997,7 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
      * @generated
      */
     public EReference getDocumentRoot_UserGroupCallback() {
-        return (EReference)documentRootEClass.getEStructuralFeatures().get(27);
+        return (EReference)documentRootEClass.getEStructuralFeatures().get(26);
     }
 
     /**
@@ -1283,42 +1266,6 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EClass getResourceDetailType() {
-        return resourceDetailTypeEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EAttribute getResourceDetailType_InputType() {
-        return (EAttribute)resourceDetailTypeEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EAttribute getResourceDetailType_UsingExternalTypes() {
-        return (EAttribute)resourceDetailTypeEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public EAttribute getResourceDetailType_WorksheetName() {
-        return (EAttribute)resourceDetailTypeEClass.getEStructuralFeatures().get(2);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EClass getResourcesType() {
         return resourcesTypeEClass;
     }
@@ -1346,17 +1293,8 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getResourceType_ResourceDetail() {
-        return (EReference)resourceTypeEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EAttribute getResourceType_Location() {
-        return (EAttribute)resourceTypeEClass.getEStructuralFeatures().get(1);
+        return (EAttribute)resourceTypeEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -1365,7 +1303,7 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
      * @generated
      */
     public EAttribute getResourceType_Type() {
-        return (EAttribute)resourceTypeEClass.getEStructuralFeatures().get(2);
+        return (EAttribute)resourceTypeEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -1576,7 +1514,6 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
         createEReference(documentRootEClass, DOCUMENT_ROOT__PROPERTIES);
         createEReference(documentRootEClass, DOCUMENT_ROOT__PROPERTY);
         createEReference(documentRootEClass, DOCUMENT_ROOT__RESOURCE);
-        createEReference(documentRootEClass, DOCUMENT_ROOT__RESOURCE_DETAIL);
         createEReference(documentRootEClass, DOCUMENT_ROOT__RESOURCES);
         createEReference(documentRootEClass, DOCUMENT_ROOT__USER_GROUP_CALLBACK);
         createEReference(documentRootEClass, DOCUMENT_ROOT__WORK_ITEM_HANDLER);
@@ -1635,16 +1572,10 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
         createEAttribute(propertyTypeEClass, PROPERTY_TYPE__NAME);
         createEAttribute(propertyTypeEClass, PROPERTY_TYPE__VALUE);
 
-        resourceDetailTypeEClass = createEClass(RESOURCE_DETAIL_TYPE);
-        createEAttribute(resourceDetailTypeEClass, RESOURCE_DETAIL_TYPE__INPUT_TYPE);
-        createEAttribute(resourceDetailTypeEClass, RESOURCE_DETAIL_TYPE__USING_EXTERNAL_TYPES);
-        createEAttribute(resourceDetailTypeEClass, RESOURCE_DETAIL_TYPE__WORKSHEET_NAME);
-
         resourcesTypeEClass = createEClass(RESOURCES_TYPE);
         createEReference(resourcesTypeEClass, RESOURCES_TYPE__RESOURCE);
 
         resourceTypeEClass = createEClass(RESOURCE_TYPE);
-        createEReference(resourceTypeEClass, RESOURCE_TYPE__RESOURCE_DETAIL);
         createEAttribute(resourceTypeEClass, RESOURCE_TYPE__LOCATION);
         createEAttribute(resourceTypeEClass, RESOURCE_TYPE__TYPE);
 
@@ -1719,7 +1650,6 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
         outputsTypeEClass.getESuperTypes().add(theScaPackage.getCommonExtensionBase());
         propertiesTypeEClass.getESuperTypes().add(theScaPackage.getCommonExtensionBase());
         propertyTypeEClass.getESuperTypes().add(theScaPackage.getCommonExtensionBase());
-        resourceDetailTypeEClass.getESuperTypes().add(theScaPackage.getCommonExtensionBase());
         resourcesTypeEClass.getESuperTypes().add(theScaPackage.getCommonExtensionBase());
         resourceTypeEClass.getESuperTypes().add(theScaPackage.getCommonExtensionBase());
         userGroupCallbackTypeEClass.getESuperTypes().add(theScaPackage.getCommonExtensionBase());
@@ -1781,7 +1711,6 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
         initEReference(getDocumentRoot_Properties(), this.getPropertiesType(), null, "properties", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_Property(), this.getPropertyType(), null, "property", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_Resource(), this.getResourceType(), null, "resource", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-        initEReference(getDocumentRoot_ResourceDetail(), this.getResourceDetailType(), null, "resourceDetail", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_Resources(), this.getResourcesType(), null, "resources", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_UserGroupCallback(), this.getUserGroupCallbackType(), null, "userGroupCallback", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_WorkItemHandler(), this.getWorkItemHandlerType(), null, "workItemHandler", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
@@ -1840,16 +1769,10 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
         initEAttribute(getPropertyType_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, PropertyType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getPropertyType_Value(), theXMLTypePackage.getString(), "value", null, 1, 1, PropertyType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(resourceDetailTypeEClass, ResourceDetailType.class, "ResourceDetailType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getResourceDetailType_InputType(), theXMLTypePackage.getString(), "inputType", null, 1, 1, ResourceDetailType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getResourceDetailType_UsingExternalTypes(), theXMLTypePackage.getBoolean(), "usingExternalTypes", "false", 0, 1, ResourceDetailType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEAttribute(getResourceDetailType_WorksheetName(), theXMLTypePackage.getString(), "worksheetName", null, 0, 1, ResourceDetailType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
         initEClass(resourcesTypeEClass, ResourcesType.class, "ResourcesType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getResourcesType_Resource(), this.getResourceType(), null, "resource", null, 0, -1, ResourcesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(resourceTypeEClass, ResourceType.class, "ResourceType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getResourceType_ResourceDetail(), this.getResourceDetailType(), null, "resourceDetail", null, 0, 1, ResourceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getResourceType_Location(), theXMLTypePackage.getString(), "location", null, 1, 1, ResourceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getResourceType_Type(), theXMLTypePackage.getString(), "type", null, 1, 1, ResourceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2279,14 +2202,6 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
              "namespace", "##targetNamespace"
            });		
         addAnnotation
-          (getDocumentRoot_ResourceDetail(), 
-           source, 
-           new String[] {
-             "kind", "element",
-             "name", "resourceDetail",
-             "namespace", "##targetNamespace"
-           });		
-        addAnnotation
           (getDocumentRoot_Resources(), 
            source, 
            new String[] {
@@ -2632,34 +2547,6 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
              "name", "value"
            });		
         addAnnotation
-          (resourceDetailTypeEClass, 
-           source, 
-           new String[] {
-             "name", "ResourceDetailType",
-             "kind", "elementOnly"
-           });		
-        addAnnotation
-          (getResourceDetailType_InputType(), 
-           source, 
-           new String[] {
-             "kind", "attribute",
-             "name", "inputType"
-           });		
-        addAnnotation
-          (getResourceDetailType_UsingExternalTypes(), 
-           source, 
-           new String[] {
-             "kind", "attribute",
-             "name", "usingExternalTypes"
-           });		
-        addAnnotation
-          (getResourceDetailType_WorksheetName(), 
-           source, 
-           new String[] {
-             "kind", "attribute",
-             "name", "worksheetName"
-           });		
-        addAnnotation
           (resourcesTypeEClass, 
            source, 
            new String[] {
@@ -2680,14 +2567,6 @@ public class BPMPackageImpl extends EPackageImpl implements BPMPackage {
            new String[] {
              "name", "ResourceType",
              "kind", "elementOnly"
-           });		
-        addAnnotation
-          (getResourceType_ResourceDetail(), 
-           source, 
-           new String[] {
-             "kind", "element",
-             "name", "resourceDetail",
-             "namespace", "##targetNamespace"
            });		
         addAnnotation
           (getResourceType_Location(), 

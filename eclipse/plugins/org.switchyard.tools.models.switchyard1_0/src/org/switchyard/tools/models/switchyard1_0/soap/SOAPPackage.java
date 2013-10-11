@@ -990,22 +990,13 @@ public interface SOAPPackage extends EPackage {
     int SOAP_BINDING_TYPE__ENDPOINT_ADDRESS = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 7;
 
     /**
-     * The feature id for the '<em><b>Timeout</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     * @ordered
-     */
-    int SOAP_BINDING_TYPE__TIMEOUT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 8;
-
-    /**
      * The feature id for the '<em><b>Basic</b></em>' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-    int SOAP_BINDING_TYPE__BASIC = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 9;
+    int SOAP_BINDING_TYPE__BASIC = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 8;
 
     /**
      * The feature id for the '<em><b>Ntlm</b></em>' containment reference.
@@ -1014,7 +1005,7 @@ public interface SOAPPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SOAP_BINDING_TYPE__NTLM = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 10;
+    int SOAP_BINDING_TYPE__NTLM = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 9;
 
     /**
      * The feature id for the '<em><b>Proxy</b></em>' containment reference.
@@ -1023,7 +1014,7 @@ public interface SOAPPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SOAP_BINDING_TYPE__PROXY = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 11;
+    int SOAP_BINDING_TYPE__PROXY = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 10;
 
     /**
      * The feature id for the '<em><b>Mtom</b></em>' containment reference.
@@ -1032,7 +1023,7 @@ public interface SOAPPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SOAP_BINDING_TYPE__MTOM = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 12;
+    int SOAP_BINDING_TYPE__MTOM = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 11;
 
     /**
      * The feature id for the '<em><b>In Interceptors</b></em>' containment reference.
@@ -1041,7 +1032,7 @@ public interface SOAPPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SOAP_BINDING_TYPE__IN_INTERCEPTORS = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 13;
+    int SOAP_BINDING_TYPE__IN_INTERCEPTORS = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 12;
 
     /**
      * The feature id for the '<em><b>Out Interceptors</b></em>' containment reference.
@@ -1050,7 +1041,7 @@ public interface SOAPPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SOAP_BINDING_TYPE__OUT_INTERCEPTORS = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 14;
+    int SOAP_BINDING_TYPE__OUT_INTERCEPTORS = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 13;
 
     /**
      * The number of structural features of the '<em>Binding Type</em>' class.
@@ -1059,7 +1050,7 @@ public interface SOAPPackage extends EPackage {
      * @generated
      * @ordered
      */
-    int SOAP_BINDING_TYPE_FEATURE_COUNT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 15;
+    int SOAP_BINDING_TYPE_FEATURE_COUNT = SwitchyardPackage.SWITCH_YARD_BINDING_TYPE_FEATURE_COUNT + 14;
 
     /**
      * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.soap.impl.BasicAuthenticationTypeImpl <em>Basic Authentication Type</em>}' class.
@@ -1407,17 +1398,6 @@ public interface SOAPPackage extends EPackage {
     EAttribute getSOAPBindingType_EndpointAddress();
 
     /**
-     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType#getTimeout <em>Timeout</em>}'.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @return the meta object for the attribute '<em>Timeout</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType#getTimeout()
-     * @see #getSOAPBindingType()
-     * @generated
-     */
-    EAttribute getSOAPBindingType_Timeout();
-
-    /**
      * Returns the meta object for the containment reference '{@link org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType#getBasic <em>Basic</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1632,11 +1612,11 @@ public interface SOAPPackage extends EPackage {
     EClass getMtomType();
 
     /**
-     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.soap.MtomType#getEnabled <em>Enabled</em>}'.
+     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.soap.MtomType#isEnabled <em>Enabled</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Enabled</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.soap.MtomType#getEnabled()
+     * @see org.switchyard.tools.models.switchyard1_0.soap.MtomType#isEnabled()
      * @see #getMtomType()
      * @generated
      */
@@ -1654,11 +1634,11 @@ public interface SOAPPackage extends EPackage {
     EAttribute getMtomType_Threshold();
 
     /**
-     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.soap.MtomType#getXopExpand <em>Xop Expand</em>}'.
+     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.soap.MtomType#isXopExpand <em>Xop Expand</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute '<em>Xop Expand</em>'.
-     * @see org.switchyard.tools.models.switchyard1_0.soap.MtomType#getXopExpand()
+     * @see org.switchyard.tools.models.switchyard1_0.soap.MtomType#isXopExpand()
      * @see #getMtomType()
      * @generated
      */
@@ -2019,14 +1999,6 @@ public interface SOAPPackage extends EPackage {
          * @generated
          */
         EAttribute SOAP_BINDING_TYPE__ENDPOINT_ADDRESS = eINSTANCE.getSOAPBindingType_EndpointAddress();
-
-        /**
-         * The meta object literal for the '<em><b>Timeout</b></em>' attribute feature.
-         * <!-- begin-user-doc -->
-         * <!-- end-user-doc -->
-         * @generated
-         */
-        EAttribute SOAP_BINDING_TYPE__TIMEOUT = eINSTANCE.getSOAPBindingType_Timeout();
 
         /**
          * The meta object literal for the '<em><b>Basic</b></em>' containment reference feature.

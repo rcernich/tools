@@ -38,7 +38,6 @@ import org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchYardBindi
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.soap.impl.SOAPBindingTypeImpl#getContextPath <em>Context Path</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.soap.impl.SOAPBindingTypeImpl#getEndpointConfig <em>Endpoint Config</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.soap.impl.SOAPBindingTypeImpl#getEndpointAddress <em>Endpoint Address</em>}</li>
- *   <li>{@link org.switchyard.tools.models.switchyard1_0.soap.impl.SOAPBindingTypeImpl#getTimeout <em>Timeout</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.soap.impl.SOAPBindingTypeImpl#getBasic <em>Basic</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.soap.impl.SOAPBindingTypeImpl#getNtlm <em>Ntlm</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.soap.impl.SOAPBindingTypeImpl#getProxy <em>Proxy</em>}</li>
@@ -180,26 +179,6 @@ public class SOAPBindingTypeImpl extends SwitchYardBindingTypeImpl implements SO
      * @ordered
      */
     protected String endpointAddress = ENDPOINT_ADDRESS_EDEFAULT;
-
-    /**
-     * The default value of the '{@link #getTimeout() <em>Timeout</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getTimeout()
-     * @generated
-     * @ordered
-     */
-    protected static final Object TIMEOUT_EDEFAULT = null;
-
-    /**
-     * The cached value of the '{@link #getTimeout() <em>Timeout</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getTimeout()
-     * @generated
-     * @ordered
-     */
-    protected Object timeout = TIMEOUT_EDEFAULT;
 
     /**
      * The cached value of the '{@link #getBasic() <em>Basic</em>}' containment reference.
@@ -469,27 +448,6 @@ public class SOAPBindingTypeImpl extends SwitchYardBindingTypeImpl implements SO
         endpointAddress = newEndpointAddress;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, SOAPPackage.SOAP_BINDING_TYPE__ENDPOINT_ADDRESS, oldEndpointAddress, endpointAddress));
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public Object getTimeout() {
-        return timeout;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public void setTimeout(Object newTimeout) {
-        Object oldTimeout = timeout;
-        timeout = newTimeout;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, SOAPPackage.SOAP_BINDING_TYPE__TIMEOUT, oldTimeout, timeout));
     }
 
     /**
@@ -847,8 +805,6 @@ public class SOAPBindingTypeImpl extends SwitchYardBindingTypeImpl implements SO
                 return getEndpointConfig();
             case SOAPPackage.SOAP_BINDING_TYPE__ENDPOINT_ADDRESS:
                 return getEndpointAddress();
-            case SOAPPackage.SOAP_BINDING_TYPE__TIMEOUT:
-                return getTimeout();
             case SOAPPackage.SOAP_BINDING_TYPE__BASIC:
                 return getBasic();
             case SOAPPackage.SOAP_BINDING_TYPE__NTLM:
@@ -896,9 +852,6 @@ public class SOAPBindingTypeImpl extends SwitchYardBindingTypeImpl implements SO
                 return;
             case SOAPPackage.SOAP_BINDING_TYPE__ENDPOINT_ADDRESS:
                 setEndpointAddress((String)newValue);
-                return;
-            case SOAPPackage.SOAP_BINDING_TYPE__TIMEOUT:
-                setTimeout(newValue);
                 return;
             case SOAPPackage.SOAP_BINDING_TYPE__BASIC:
                 setBasic((BasicAuthenticationType)newValue);
@@ -954,9 +907,6 @@ public class SOAPBindingTypeImpl extends SwitchYardBindingTypeImpl implements SO
             case SOAPPackage.SOAP_BINDING_TYPE__ENDPOINT_ADDRESS:
                 setEndpointAddress(ENDPOINT_ADDRESS_EDEFAULT);
                 return;
-            case SOAPPackage.SOAP_BINDING_TYPE__TIMEOUT:
-                setTimeout(TIMEOUT_EDEFAULT);
-                return;
             case SOAPPackage.SOAP_BINDING_TYPE__BASIC:
                 setBasic((BasicAuthenticationType)null);
                 return;
@@ -1003,8 +953,6 @@ public class SOAPBindingTypeImpl extends SwitchYardBindingTypeImpl implements SO
                 return endpointConfig != null;
             case SOAPPackage.SOAP_BINDING_TYPE__ENDPOINT_ADDRESS:
                 return ENDPOINT_ADDRESS_EDEFAULT == null ? endpointAddress != null : !ENDPOINT_ADDRESS_EDEFAULT.equals(endpointAddress);
-            case SOAPPackage.SOAP_BINDING_TYPE__TIMEOUT:
-                return TIMEOUT_EDEFAULT == null ? timeout != null : !TIMEOUT_EDEFAULT.equals(timeout);
             case SOAPPackage.SOAP_BINDING_TYPE__BASIC:
                 return basic != null;
             case SOAPPackage.SOAP_BINDING_TYPE__NTLM:
@@ -1041,8 +989,6 @@ public class SOAPBindingTypeImpl extends SwitchYardBindingTypeImpl implements SO
         result.append(contextPath);
         result.append(", endpointAddress: ");
         result.append(endpointAddress);
-        result.append(", timeout: ");
-        result.append(timeout);
         result.append(')');
         return result.toString();
     }
