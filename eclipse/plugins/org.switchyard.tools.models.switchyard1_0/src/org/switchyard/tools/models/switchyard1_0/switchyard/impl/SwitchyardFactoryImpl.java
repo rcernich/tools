@@ -97,6 +97,8 @@ public class SwitchyardFactoryImpl extends EFactoryImpl implements SwitchyardFac
     @Override
     public Object createFromString(EDataType eDataType, String initialValue) {
         switch (eDataType.getClassifierID()) {
+            case SwitchyardPackage.VERSION_ENUM:
+                return createVersionEnumFromString(eDataType, initialValue);
             case SwitchyardPackage.PROP_BOOLEAN:
                 return createPropBooleanFromString(eDataType, initialValue);
             case SwitchyardPackage.PROPERTY_VALUE:
@@ -105,6 +107,8 @@ public class SwitchyardFactoryImpl extends EFactoryImpl implements SwitchyardFac
                 return createPropIntegerFromString(eDataType, initialValue);
             case SwitchyardPackage.PROP_LONG:
                 return createPropLongFromString(eDataType, initialValue);
+            case SwitchyardPackage.VERSION_ENUM_OBJECT:
+                return createVersionEnumObjectFromString(eDataType, initialValue);
             default:
                 throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
@@ -118,6 +122,8 @@ public class SwitchyardFactoryImpl extends EFactoryImpl implements SwitchyardFac
     @Override
     public String convertToString(EDataType eDataType, Object instanceValue) {
         switch (eDataType.getClassifierID()) {
+            case SwitchyardPackage.VERSION_ENUM:
+                return convertVersionEnumToString(eDataType, instanceValue);
             case SwitchyardPackage.PROP_BOOLEAN:
                 return convertPropBooleanToString(eDataType, instanceValue);
             case SwitchyardPackage.PROPERTY_VALUE:
@@ -126,6 +132,8 @@ public class SwitchyardFactoryImpl extends EFactoryImpl implements SwitchyardFac
                 return convertPropIntegerToString(eDataType, instanceValue);
             case SwitchyardPackage.PROP_LONG:
                 return convertPropLongToString(eDataType, instanceValue);
+            case SwitchyardPackage.VERSION_ENUM_OBJECT:
+                return convertVersionEnumObjectToString(eDataType, instanceValue);
             default:
                 throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
         }
@@ -312,6 +320,26 @@ public class SwitchyardFactoryImpl extends EFactoryImpl implements SwitchyardFac
     }
 
 	/**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public VersionEnum createVersionEnumFromString(EDataType eDataType, String initialValue) {
+        VersionEnum result = VersionEnum.get(initialValue);
+        if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+        return result;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String convertVersionEnumToString(EDataType eDataType, Object instanceValue) {
+        return instanceValue == null ? null : instanceValue.toString();
+    }
+
+    /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -527,6 +555,24 @@ public class SwitchyardFactoryImpl extends EFactoryImpl implements SwitchyardFac
             }
         }
         throw new IllegalArgumentException("Invalid value: '"+instanceValue+"' for datatype :"+eDataType.getName());
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public VersionEnum createVersionEnumObjectFromString(EDataType eDataType, String initialValue) {
+        return createVersionEnumFromString(SwitchyardPackage.Literals.VERSION_ENUM, initialValue);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String convertVersionEnumObjectToString(EDataType eDataType, Object instanceValue) {
+        return convertVersionEnumToString(SwitchyardPackage.Literals.VERSION_ENUM, instanceValue);
     }
 
     /**

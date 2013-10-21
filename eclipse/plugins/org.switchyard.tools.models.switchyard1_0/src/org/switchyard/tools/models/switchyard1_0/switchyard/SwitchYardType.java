@@ -25,6 +25,7 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Composite;
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType#getArtifacts <em>Artifacts</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType#getName <em>Name</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType#getTargetNamespace <em>Target Namespace</em>}</li>
+ *   <li>{@link org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType#getVersion <em>Version</em>}</li>
  * </ul>
  * </p>
  *
@@ -88,6 +89,65 @@ public interface SwitchYardType extends EObject {
 	void setTargetNamespace(String value);
 
 	/**
+     * Returns the value of the '<em><b>Version</b></em>' attribute.
+     * The default value is <code>"1.0"</code>.
+     * The literals are from the enumeration {@link org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum}.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * <!-- begin-model-doc -->
+     * 
+     *                     Specifies the runtime version targeted by this configuration. @since 1.1.
+     *                 
+     * <!-- end-model-doc -->
+     * @return the value of the '<em>Version</em>' attribute.
+     * @see org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum
+     * @see #isSetVersion()
+     * @see #unsetVersion()
+     * @see #setVersion(VersionEnum)
+     * @see org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage#getSwitchYardType_Version()
+     * @model default="1.0" unsettable="true"
+     *        extendedMetaData="kind='attribute' name='version'"
+     * @generated
+     */
+    VersionEnum getVersion();
+
+    /**
+     * Sets the value of the '{@link org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType#getVersion <em>Version</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Version</em>' attribute.
+     * @see org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum
+     * @see #isSetVersion()
+     * @see #unsetVersion()
+     * @see #getVersion()
+     * @generated
+     */
+    void setVersion(VersionEnum value);
+
+    /**
+     * Unsets the value of the '{@link org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType#getVersion <em>Version</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #isSetVersion()
+     * @see #getVersion()
+     * @see #setVersion(VersionEnum)
+     * @generated
+     */
+    void unsetVersion();
+
+    /**
+     * Returns whether the value of the '{@link org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType#getVersion <em>Version</em>}' attribute is set.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return whether the value of the '<em>Version</em>' attribute is set.
+     * @see #unsetVersion()
+     * @see #getVersion()
+     * @see #setVersion(VersionEnum)
+     * @generated
+     */
+    boolean isSetVersion();
+
+    /**
      * Returns the value of the '<em><b>Composite</b></em>' containment reference.
      * <!-- begin-user-doc -->
 	 * <p>

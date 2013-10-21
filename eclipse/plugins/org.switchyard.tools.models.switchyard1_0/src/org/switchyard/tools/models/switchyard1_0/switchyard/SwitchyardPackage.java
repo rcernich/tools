@@ -9,6 +9,7 @@ package org.switchyard.tools.models.switchyard1_0.switchyard;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -1433,13 +1434,22 @@ public interface SwitchyardPackage extends EPackage {
                 int SWITCH_YARD_TYPE__TARGET_NAMESPACE = 6;
 
                 /**
+     * The feature id for the '<em><b>Version</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int SWITCH_YARD_TYPE__VERSION = 7;
+
+                /**
      * The number of structural features of the '<em>Switch Yard Type</em>' class.
      * <!-- begin-user-doc -->
                  * <!-- end-user-doc -->
      * @generated
      * @ordered
      */
-                int SWITCH_YARD_TYPE_FEATURE_COUNT = 7;
+                int SWITCH_YARD_TYPE_FEATURE_COUNT = 8;
 
                 /**
      * The feature id for the '<em><b>Max Requests</b></em>' attribute.
@@ -1604,6 +1614,16 @@ public interface SwitchyardPackage extends EPackage {
 	int XPATH_OPERATION_SELECTOR_TYPE_FEATURE_COUNT = SWITCH_YARD_OPERATION_SELECTOR_TYPE_FEATURE_COUNT + 1;
 
                 /**
+     * The meta object id for the '{@link org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum <em>Version Enum</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum
+     * @see org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchyardPackageImpl#getVersionEnum()
+     * @generated
+     */
+    int VERSION_ENUM = 24;
+
+                /**
      * The meta object id for the '<em>Prop Boolean</em>' data type.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1611,7 +1631,7 @@ public interface SwitchyardPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchyardPackageImpl#getPropBoolean()
      * @generated
      */
-    int PROP_BOOLEAN = 24;
+    int PROP_BOOLEAN = 25;
 
                 /**
      * The meta object id for the '<em>Property Value</em>' data type.
@@ -1621,7 +1641,7 @@ public interface SwitchyardPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchyardPackageImpl#getPropertyValue()
      * @generated
      */
-    int PROPERTY_VALUE = 25;
+    int PROPERTY_VALUE = 26;
 
                 /**
      * The meta object id for the '<em>Prop Integer</em>' data type.
@@ -1631,7 +1651,7 @@ public interface SwitchyardPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchyardPackageImpl#getPropInteger()
      * @generated
      */
-    int PROP_INTEGER = 26;
+    int PROP_INTEGER = 27;
 
                 /**
      * The meta object id for the '<em>Prop Long</em>' data type.
@@ -1641,7 +1661,18 @@ public interface SwitchyardPackage extends EPackage {
      * @see org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchyardPackageImpl#getPropLong()
      * @generated
      */
-    int PROP_LONG = 27;
+    int PROP_LONG = 28;
+
+
+                /**
+     * The meta object id for the '<em>Version Enum Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum
+     * @see org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchyardPackageImpl#getVersionEnumObject()
+     * @generated
+     */
+    int VERSION_ENUM_OBJECT = 29;
 
 
                 /**
@@ -2348,6 +2379,17 @@ public interface SwitchyardPackage extends EPackage {
 	EAttribute getSwitchYardType_TargetNamespace();
 
 	/**
+     * Returns the meta object for the attribute '{@link org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType#getVersion <em>Version</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for the attribute '<em>Version</em>'.
+     * @see org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType#getVersion()
+     * @see #getSwitchYardType()
+     * @generated
+     */
+    EAttribute getSwitchYardType_Version();
+
+    /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.switchyard.ThrottlingType <em>Throttling Type</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2636,6 +2678,16 @@ public interface SwitchyardPackage extends EPackage {
 	EAttribute getXPathOperationSelectorType_Expression();
 
 	/**
+     * Returns the meta object for enum '{@link org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum <em>Version Enum</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for enum '<em>Version Enum</em>'.
+     * @see org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum
+     * @generated
+     */
+    EEnum getVersionEnum();
+
+    /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.switchyard.SecurityType <em>Security Type</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2751,7 +2803,7 @@ public interface SwitchyardPackage extends EPackage {
      * @return the meta object for data type '<em>Property Value</em>'.
      * @see java.lang.String
      * @model instanceClass="java.lang.String"
-     *        extendedMetaData="name='propertyValue' baseType='http://www.eclipse.org/emf/2003/XMLType#string' pattern='\\$\\{([a-zA-Z0-9])*(:([a-zA-Z0-9])*)?\\}'"
+     *        extendedMetaData="name='propertyValue' baseType='http://www.eclipse.org/emf/2003/XMLType#string' pattern='\\$\\{([a-zA-Z0-9\\.-_])*(:([a-zA-Z0-9])*)?\\}'"
      * @generated
      */
     EDataType getPropertyValue();
@@ -2779,6 +2831,18 @@ public interface SwitchyardPackage extends EPackage {
      * @generated
      */
     EDataType getPropLong();
+
+    /**
+     * Returns the meta object for data type '{@link org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum <em>Version Enum Object</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for data type '<em>Version Enum Object</em>'.
+     * @see org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum
+     * @model instanceClass="org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum"
+     *        extendedMetaData="name='versionEnum:Object' baseType='versionEnum'"
+     * @generated
+     */
+    EDataType getVersionEnumObject();
 
     /**
      * Returns the meta object for class '{@link org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardOperationSelectorType <em>Switch Yard Operation Selector Type</em>}'.
@@ -3357,6 +3421,14 @@ public interface SwitchyardPackage extends EPackage {
 		EAttribute SWITCH_YARD_TYPE__TARGET_NAMESPACE = eINSTANCE.getSwitchYardType_TargetNamespace();
 
 		/**
+         * The meta object literal for the '<em><b>Version</b></em>' attribute feature.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @generated
+         */
+        EAttribute SWITCH_YARD_TYPE__VERSION = eINSTANCE.getSwitchYardType_Version();
+
+        /**
          * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.switchyard.impl.ThrottlingTypeImpl <em>Throttling Type</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -3591,6 +3663,16 @@ public interface SwitchyardPackage extends EPackage {
 		EAttribute XPATH_OPERATION_SELECTOR_TYPE__EXPRESSION = eINSTANCE.getXPathOperationSelectorType_Expression();
 
 								/**
+         * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum <em>Version Enum</em>}' enum.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum
+         * @see org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchyardPackageImpl#getVersionEnum()
+         * @generated
+         */
+        EEnum VERSION_ENUM = eINSTANCE.getVersionEnum();
+
+                                /**
          * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.switchyard.impl.SecurityTypeImpl <em>Security Type</em>}' class.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
@@ -3705,6 +3787,16 @@ public interface SwitchyardPackage extends EPackage {
          * @generated
          */
         EDataType PROP_LONG = eINSTANCE.getPropLong();
+
+                                /**
+         * The meta object literal for the '<em>Version Enum Object</em>' data type.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum
+         * @see org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchyardPackageImpl#getVersionEnumObject()
+         * @generated
+         */
+        EDataType VERSION_ENUM_OBJECT = eINSTANCE.getVersionEnumObject();
 
                                 /**
          * The meta object literal for the '{@link org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchYardOperationSelectorTypeImpl <em>Switch Yard Operation Selector Type</em>}' class.

@@ -23,6 +23,7 @@ import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
 import org.switchyard.tools.models.switchyard1_0.switchyard.TransformsType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.ValidatesType;
+import org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum;
 
 /**
  * <!-- begin-user-doc -->
@@ -38,6 +39,7 @@ import org.switchyard.tools.models.switchyard1_0.switchyard.ValidatesType;
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchYardTypeImpl#getArtifacts <em>Artifacts</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchYardTypeImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchYardTypeImpl#getTargetNamespace <em>Target Namespace</em>}</li>
+ *   <li>{@link org.switchyard.tools.models.switchyard1_0.switchyard.impl.SwitchYardTypeImpl#getVersion <em>Version</em>}</li>
  * </ul>
  * </p>
  *
@@ -135,6 +137,35 @@ public class SwitchYardTypeImpl extends EObjectImpl implements SwitchYardType {
 	protected String targetNamespace = TARGET_NAMESPACE_EDEFAULT;
 
 	/**
+     * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getVersion()
+     * @generated
+     * @ordered
+     */
+    protected static final VersionEnum VERSION_EDEFAULT = VersionEnum._10;
+
+    /**
+     * The cached value of the '{@link #getVersion() <em>Version</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getVersion()
+     * @generated
+     * @ordered
+     */
+    protected VersionEnum version = VERSION_EDEFAULT;
+
+    /**
+     * This is true if the Version attribute has been set.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    protected boolean versionESet;
+
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
@@ -196,6 +227,52 @@ public class SwitchYardTypeImpl extends EObjectImpl implements SwitchYardType {
     }
 
 	/**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public VersionEnum getVersion() {
+        return version;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setVersion(VersionEnum newVersion) {
+        VersionEnum oldVersion = version;
+        version = newVersion == null ? VERSION_EDEFAULT : newVersion;
+        boolean oldVersionESet = versionESet;
+        versionESet = true;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SwitchyardPackage.SWITCH_YARD_TYPE__VERSION, oldVersion, version, !oldVersionESet));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void unsetVersion() {
+        VersionEnum oldVersion = version;
+        boolean oldVersionESet = versionESet;
+        version = VERSION_EDEFAULT;
+        versionESet = false;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.UNSET, SwitchyardPackage.SWITCH_YARD_TYPE__VERSION, oldVersion, VERSION_EDEFAULT, oldVersionESet));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public boolean isSetVersion() {
+        return versionESet;
+    }
+
+    /**
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
      * @generated
@@ -454,6 +531,8 @@ public class SwitchYardTypeImpl extends EObjectImpl implements SwitchYardType {
                 return getName();
             case SwitchyardPackage.SWITCH_YARD_TYPE__TARGET_NAMESPACE:
                 return getTargetNamespace();
+            case SwitchyardPackage.SWITCH_YARD_TYPE__VERSION:
+                return getVersion();
         }
         return super.eGet(featureID, resolve, coreType);
     }
@@ -486,6 +565,9 @@ public class SwitchYardTypeImpl extends EObjectImpl implements SwitchYardType {
                 return;
             case SwitchyardPackage.SWITCH_YARD_TYPE__TARGET_NAMESPACE:
                 setTargetNamespace((String)newValue);
+                return;
+            case SwitchyardPackage.SWITCH_YARD_TYPE__VERSION:
+                setVersion((VersionEnum)newValue);
                 return;
         }
         super.eSet(featureID, newValue);
@@ -520,6 +602,9 @@ public class SwitchYardTypeImpl extends EObjectImpl implements SwitchYardType {
             case SwitchyardPackage.SWITCH_YARD_TYPE__TARGET_NAMESPACE:
                 setTargetNamespace(TARGET_NAMESPACE_EDEFAULT);
                 return;
+            case SwitchyardPackage.SWITCH_YARD_TYPE__VERSION:
+                unsetVersion();
+                return;
         }
         super.eUnset(featureID);
     }
@@ -546,6 +631,8 @@ public class SwitchYardTypeImpl extends EObjectImpl implements SwitchYardType {
                 return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
             case SwitchyardPackage.SWITCH_YARD_TYPE__TARGET_NAMESPACE:
                 return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
+            case SwitchyardPackage.SWITCH_YARD_TYPE__VERSION:
+                return isSetVersion();
         }
         return super.eIsSet(featureID);
     }
@@ -564,6 +651,8 @@ public class SwitchYardTypeImpl extends EObjectImpl implements SwitchYardType {
         result.append(name);
         result.append(", targetNamespace: ");
         result.append(targetNamespace);
+        result.append(", version: ");
+        if (versionESet) result.append(version); else result.append("<unset>");
         result.append(')');
         return result.toString();
     }

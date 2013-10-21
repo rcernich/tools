@@ -9,6 +9,7 @@ package org.switchyard.tools.models.switchyard1_0.switchyard.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -89,6 +90,7 @@ import org.switchyard.tools.models.switchyard1_0.switchyard.TransformType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.TransformsType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.ValidateType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.ValidatesType;
+import org.switchyard.tools.models.switchyard1_0.switchyard.VersionEnum;
 import org.switchyard.tools.models.switchyard1_0.switchyard.XPathOperationSelectorType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.util.SwitchyardValidator;
 import org.switchyard.tools.models.switchyard1_0.transform.TransformPackage;
@@ -255,6 +257,13 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
      * <!-- end-user-doc -->
      * @generated
      */
+    private EEnum versionEnumEEnum = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     private EClass securityTypeEClass = null;
 
     /**
@@ -291,6 +300,13 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
      * @generated
      */
     private EDataType propLongEDataType = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EDataType versionEnumObjectEDataType = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -351,7 +367,6 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
 
         // Obtain or create and register interdependencies
         BeanPackageImpl theBeanPackage = (BeanPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BeanPackage.eNS_URI) instanceof BeanPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BeanPackage.eNS_URI) : BeanPackage.eINSTANCE);
-        BPELPackageImpl theBPELPackage = (BPELPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BPELPackage.eNS_URI) instanceof BPELPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BPELPackage.eNS_URI) : BPELPackage.eINSTANCE);
         BPMPackageImpl theBPMPackage = (BPMPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BPMPackage.eNS_URI) instanceof BPMPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BPMPackage.eNS_URI) : BPMPackage.eINSTANCE);
         ClojurePackageImpl theClojurePackage = (ClojurePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ClojurePackage.eNS_URI) instanceof ClojurePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ClojurePackage.eNS_URI) : ClojurePackage.eINSTANCE);
         RulesPackageImpl theRulesPackage = (RulesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(RulesPackage.eNS_URI) instanceof RulesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(RulesPackage.eNS_URI) : RulesPackage.eINSTANCE);
@@ -381,7 +396,6 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
         // Create package meta-data objects
         theSwitchyardPackage.createPackageContents();
         theBeanPackage.createPackageContents();
-        theBPELPackage.createPackageContents();
         theBPMPackage.createPackageContents();
         theClojurePackage.createPackageContents();
         theRulesPackage.createPackageContents();
@@ -407,7 +421,6 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
         // Initialize created meta-data
         theSwitchyardPackage.initializePackageContents();
         theBeanPackage.initializePackageContents();
-        theBPELPackage.initializePackageContents();
         theBPMPackage.initializePackageContents();
         theClojurePackage.initializePackageContents();
         theRulesPackage.initializePackageContents();
@@ -1041,6 +1054,15 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
      * <!-- end-user-doc -->
      * @generated
      */
+    public EAttribute getSwitchYardType_Version() {
+        return (EAttribute)switchYardTypeEClass.getEStructuralFeatures().get(7);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getThrottlingType() {
         return throttlingTypeEClass;
     }
@@ -1284,6 +1306,15 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
      * <!-- end-user-doc -->
      * @generated
      */
+    public EEnum getVersionEnum() {
+        return versionEnumEEnum;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getSecurityType() {
         return securityTypeEClass;
     }
@@ -1394,6 +1425,15 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
      */
     public EDataType getPropLong() {
         return propLongEDataType;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EDataType getVersionEnumObject() {
+        return versionEnumObjectEDataType;
     }
 
     /**
@@ -1536,6 +1576,7 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
         createEReference(switchYardTypeEClass, SWITCH_YARD_TYPE__ARTIFACTS);
         createEAttribute(switchYardTypeEClass, SWITCH_YARD_TYPE__NAME);
         createEAttribute(switchYardTypeEClass, SWITCH_YARD_TYPE__TARGET_NAMESPACE);
+        createEAttribute(switchYardTypeEClass, SWITCH_YARD_TYPE__VERSION);
 
         throttlingTypeEClass = createEClass(THROTTLING_TYPE);
         createEAttribute(throttlingTypeEClass, THROTTLING_TYPE__MAX_REQUESTS);
@@ -1559,11 +1600,15 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
         xPathOperationSelectorTypeEClass = createEClass(XPATH_OPERATION_SELECTOR_TYPE);
         createEAttribute(xPathOperationSelectorTypeEClass, XPATH_OPERATION_SELECTOR_TYPE__EXPRESSION);
 
+        // Create enums
+        versionEnumEEnum = createEEnum(VERSION_ENUM);
+
         // Create data types
         propBooleanEDataType = createEDataType(PROP_BOOLEAN);
         propertyValueEDataType = createEDataType(PROPERTY_VALUE);
         propIntegerEDataType = createEDataType(PROP_INTEGER);
         propLongEDataType = createEDataType(PROP_LONG);
+        versionEnumObjectEDataType = createEDataType(VERSION_ENUM_OBJECT);
     }
 
 	/**
@@ -1710,6 +1755,7 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
         initEReference(getSwitchYardType_Artifacts(), this.getArtifactsType(), null, "artifacts", null, 0, 1, SwitchYardType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSwitchYardType_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, SwitchYardType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getSwitchYardType_TargetNamespace(), theXMLTypePackage.getString(), "targetNamespace", null, 0, 1, SwitchYardType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getSwitchYardType_Version(), this.getVersionEnum(), "version", "1.0", 0, 1, SwitchYardType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(throttlingTypeEClass, ThrottlingType.class, "ThrottlingType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getThrottlingType_MaxRequests(), this.getPropInteger(), "maxRequests", null, 1, 1, ThrottlingType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1733,11 +1779,17 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
         initEClass(xPathOperationSelectorTypeEClass, XPathOperationSelectorType.class, "XPathOperationSelectorType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getXPathOperationSelectorType_Expression(), theXMLTypePackage.getString(), "expression", null, 1, 1, XPathOperationSelectorType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+        // Initialize enums and add enum literals
+        initEEnum(versionEnumEEnum, VersionEnum.class, "VersionEnum");
+        addEEnumLiteral(versionEnumEEnum, VersionEnum._10);
+        addEEnumLiteral(versionEnumEEnum, VersionEnum._11);
+
         // Initialize data types
         initEDataType(propBooleanEDataType, Object.class, "PropBoolean", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
         initEDataType(propertyValueEDataType, String.class, "PropertyValue", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
         initEDataType(propIntegerEDataType, Object.class, "PropInteger", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
         initEDataType(propLongEDataType, Object.class, "PropLong", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(versionEnumObjectEDataType, VersionEnum.class, "VersionEnumObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
 
         // Create resource
         createResource(eNS_URI);
@@ -2227,7 +2279,7 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
            new String[] {
              "name", "propertyValue",
              "baseType", "http://www.eclipse.org/emf/2003/XMLType#string",
-             "pattern", "\\$\\{([a-zA-Z0-9])*(:([a-zA-Z0-9])*)?\\}"
+             "pattern", "\\$\\{([a-zA-Z0-9\\.-_])*(:([a-zA-Z0-9])*)?\\}"
            });		
         addAnnotation
           (propIntegerEDataType, 
@@ -2433,6 +2485,13 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
              "name", "targetNamespace"
            });			
         addAnnotation
+          (getSwitchYardType_Version(), 
+           source, 
+           new String[] {
+             "kind", "attribute",
+             "name", "version"
+           });			
+        addAnnotation
           (throttlingTypeEClass, 
            source, 
            new String[] {
@@ -2535,6 +2594,19 @@ public class SwitchyardPackageImpl extends EPackageImpl implements SwitchyardPac
            new String[] {
              "kind", "attribute",
              "name", "name"
+           });		
+        addAnnotation
+          (versionEnumEEnum, 
+           source, 
+           new String[] {
+             "name", "versionEnum"
+           });		
+        addAnnotation
+          (versionEnumObjectEDataType, 
+           source, 
+           new String[] {
+             "name", "versionEnum:Object",
+             "baseType", "versionEnum"
            });			
         addAnnotation
           (xPathOperationSelectorTypeEClass, 

@@ -143,7 +143,6 @@ public class BeanPackageImpl extends EPackageImpl implements BeanPackage {
         XMLTypePackage.eINSTANCE.eClass();
 
         // Obtain or create and register interdependencies
-        BPELPackageImpl theBPELPackage = (BPELPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BPELPackage.eNS_URI) instanceof BPELPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BPELPackage.eNS_URI) : BPELPackage.eINSTANCE);
         BPMPackageImpl theBPMPackage = (BPMPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(BPMPackage.eNS_URI) instanceof BPMPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(BPMPackage.eNS_URI) : BPMPackage.eINSTANCE);
         SwitchyardPackageImpl theSwitchyardPackage = (SwitchyardPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SwitchyardPackage.eNS_URI) instanceof SwitchyardPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SwitchyardPackage.eNS_URI) : SwitchyardPackage.eINSTANCE);
         ClojurePackageImpl theClojurePackage = (ClojurePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ClojurePackage.eNS_URI) instanceof ClojurePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ClojurePackage.eNS_URI) : ClojurePackage.eINSTANCE);
@@ -173,7 +172,6 @@ public class BeanPackageImpl extends EPackageImpl implements BeanPackage {
 
         // Create package meta-data objects
         theBeanPackage.createPackageContents();
-        theBPELPackage.createPackageContents();
         theBPMPackage.createPackageContents();
         theSwitchyardPackage.createPackageContents();
         theClojurePackage.createPackageContents();
@@ -199,7 +197,6 @@ public class BeanPackageImpl extends EPackageImpl implements BeanPackage {
 
         // Initialize created meta-data
         theBeanPackage.initializePackageContents();
-        theBPELPackage.initializePackageContents();
         theBPMPackage.initializePackageContents();
         theSwitchyardPackage.initializePackageContents();
         theClojurePackage.initializePackageContents();

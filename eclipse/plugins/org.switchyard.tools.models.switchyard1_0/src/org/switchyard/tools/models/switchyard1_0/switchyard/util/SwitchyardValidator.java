@@ -151,6 +151,8 @@ public class SwitchyardValidator extends EObjectValidator {
                 return validateValidateType((ValidateType)value, diagnostics, context);
             case SwitchyardPackage.XPATH_OPERATION_SELECTOR_TYPE:
                 return validateXPathOperationSelectorType((XPathOperationSelectorType)value, diagnostics, context);
+            case SwitchyardPackage.VERSION_ENUM:
+                return validateVersionEnum((VersionEnum)value, diagnostics, context);
             case SwitchyardPackage.PROP_BOOLEAN:
                 return validatePropBoolean(value, diagnostics, context);
             case SwitchyardPackage.PROPERTY_VALUE:
@@ -159,6 +161,8 @@ public class SwitchyardValidator extends EObjectValidator {
                 return validatePropInteger(value, diagnostics, context);
             case SwitchyardPackage.PROP_LONG:
                 return validatePropLong(value, diagnostics, context);
+            case SwitchyardPackage.VERSION_ENUM_OBJECT:
+                return validateVersionEnumObject((VersionEnum)value, diagnostics, context);
             default:
                 return true;
         }
@@ -367,6 +371,15 @@ public class SwitchyardValidator extends EObjectValidator {
      * <!-- end-user-doc -->
      * @generated
      */
+    public boolean validateVersionEnum(VersionEnum versionEnum, DiagnosticChain diagnostics, Map<Object, Object> context) {
+        return true;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public boolean validateSecurityType(SecurityType securityType, DiagnosticChain diagnostics, Map<Object, Object> context) {
         return validate_EveryDefaultConstraint(securityType, diagnostics, context);
     }
@@ -439,7 +452,7 @@ public class SwitchyardValidator extends EObjectValidator {
     public static final  PatternMatcher [][] PROPERTY_VALUE__PATTERN__VALUES =
         new PatternMatcher [][] {
             new PatternMatcher [] {
-                XMLTypeUtil.createPatternMatcher("\\$\\{([a-zA-Z0-9])*(:([a-zA-Z0-9])*)?\\}")
+                XMLTypeUtil.createPatternMatcher("\\$\\{([a-zA-Z0-9\\.-_])*(:([a-zA-Z0-9])*)?\\}")
             }
         };
 
@@ -531,6 +544,15 @@ public class SwitchyardValidator extends EObjectValidator {
             }
         }
         return false;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public boolean validateVersionEnumObject(VersionEnum versionEnumObject, DiagnosticChain diagnostics, Map<Object, Object> context) {
+        return true;
     }
 
     /**
