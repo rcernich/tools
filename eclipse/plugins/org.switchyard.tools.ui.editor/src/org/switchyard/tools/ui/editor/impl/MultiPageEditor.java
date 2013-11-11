@@ -108,7 +108,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IGotoMarker,
     @Override
     public boolean isDirty() {
         // TODO: we should really figure out why the text editor doesn't undo correctly
-        return _diagramEditor == null || !_diagramEditor.isAlive() ? super.isDirty() : _diagramEditor.isDirty();
+        return _diagramEditor == null || !_diagramEditor.getDiagramBehavior().isAlive() ? super.isDirty() : _diagramEditor.isDirty();
     }
 
     /**

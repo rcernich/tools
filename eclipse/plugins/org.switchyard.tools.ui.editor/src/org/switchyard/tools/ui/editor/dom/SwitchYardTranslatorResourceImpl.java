@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
 import org.eclipse.wst.common.internal.emf.resource.Translator;
-import org.eclipse.wst.common.internal.emf.resource.TranslatorResourceImpl;
 import org.switchyard.tools.models.switchyard1_0.bean.BeanPackage;
 import org.switchyard.tools.models.switchyard1_0.bpm.BPMPackage;
 import org.switchyard.tools.models.switchyard1_0.camel.CamelPackage;
@@ -62,13 +61,13 @@ public class SwitchYardTranslatorResourceImpl extends EMF2DOMSSETranslatorResour
      * through an extension point for better extensibility, but this suffices
      * for now.
      */
-    private static final EPackage[] PACKAGES = {ScaPackage.eINSTANCE, SwitchyardPackage.eINSTANCE,
-            TransformPackage.eINSTANCE, ValidatePackage.eINSTANCE, BeanPackage.eINSTANCE, BPMPackage.eINSTANCE,
-            CamelPackage.eINSTANCE, ClojurePackage.eINSTANCE, RulesPackage.eINSTANCE, SpringPackage.eINSTANCE,
-            SOAPPackage.eINSTANCE, HttpPackage.eINSTANCE, JcaPackage.eINSTANCE, ResteasyPackage.eINSTANCE,
-            CorePackage.eINSTANCE, AmqpPackage.eINSTANCE, AtomPackage.eINSTANCE, FilePackage.eINSTANCE,
-            FtpPackage.eINSTANCE, JmsPackage.eINSTANCE, JpaPackage.eINSTANCE, MailPackage.eINSTANCE,
-            NettyPackage.eINSTANCE, QuartzPackage.eINSTANCE, SqlPackage.eINSTANCE };
+    static final EPackage[] PACKAGES = {ScaPackage.eINSTANCE, SwitchyardPackage.eINSTANCE, TransformPackage.eINSTANCE,
+            ValidatePackage.eINSTANCE, BeanPackage.eINSTANCE, BPMPackage.eINSTANCE, CamelPackage.eINSTANCE,
+            ClojurePackage.eINSTANCE, RulesPackage.eINSTANCE, SpringPackage.eINSTANCE, SOAPPackage.eINSTANCE,
+            HttpPackage.eINSTANCE, JcaPackage.eINSTANCE, ResteasyPackage.eINSTANCE, CorePackage.eINSTANCE,
+            AmqpPackage.eINSTANCE, AtomPackage.eINSTANCE, FilePackage.eINSTANCE, FtpPackage.eINSTANCE,
+            JmsPackage.eINSTANCE, JpaPackage.eINSTANCE, MailPackage.eINSTANCE, NettyPackage.eINSTANCE,
+            QuartzPackage.eINSTANCE, SqlPackage.eINSTANCE };
 
     private static final Translator ROOT_TRANSLATOR = DocumentRootTranslator.create(SwitchyardPackage.eINSTANCE,
             new PackageExtensionsManager(Arrays.asList(PACKAGES)));

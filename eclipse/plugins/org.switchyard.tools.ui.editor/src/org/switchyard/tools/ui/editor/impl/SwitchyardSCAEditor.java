@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.commands.operations.DefaultOperationHistory;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IMarkerDelta;
@@ -59,6 +60,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.ResourceSetChangeEvent;
 import org.eclipse.emf.transaction.ResourceSetListener;
@@ -66,6 +68,7 @@ import org.eclipse.emf.transaction.ResourceSetListenerImpl;
 import org.eclipse.emf.transaction.RollbackException;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.impl.TransactionalEditingDomainImpl;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.emf.validation.marker.MarkerUtil;
 import org.eclipse.emf.validation.model.ConstraintStatus;
@@ -75,6 +78,8 @@ import org.eclipse.emf.validation.service.ConstraintFactory;
 import org.eclipse.emf.validation.service.ConstraintRegistry;
 import org.eclipse.emf.validation.service.IConstraintDescriptor;
 import org.eclipse.emf.validation.service.ModelValidationService;
+import org.eclipse.emf.workspace.IWorkspaceCommandStack;
+import org.eclipse.emf.workspace.WorkspaceEditingDomainFactory;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer.Delegate;
 import org.eclipse.gef.ui.actions.SelectionAction;
@@ -101,6 +106,7 @@ import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
 import org.eclipse.graphiti.ui.editor.IDiagramEditorInput;
 import org.eclipse.graphiti.ui.internal.editor.DomainModelWorkspaceSynchronizerDelegate;
+import org.eclipse.graphiti.ui.internal.editor.GFWorkspaceCommandStackImpl;
 import org.eclipse.graphiti.ui.internal.services.GraphitiUiInternal;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
@@ -132,6 +138,7 @@ import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.PropertiesDialogFeature;
 import org.switchyard.tools.ui.editor.diagram.SynchronizeGeneratedModelFeature;
 import org.switchyard.tools.ui.editor.dom.SwitchYardTranslatorResourceFactory;
+import org.switchyard.tools.ui.editor.dom.generic.ProjectResourceSetImpl;
 import org.switchyard.tools.ui.editor.model.merge.MergedModelAdapterFactory;
 import org.switchyard.tools.ui.editor.model.merge.MergedModelUtil;
 import org.switchyard.tools.ui.validation.SwitchYardProjectValidator;
@@ -263,10 +270,7 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
 
     @Override
     protected DiagramBehavior createDiagramBehavior() {
-        SwitchYardDiagramBehavior diagramBehavior =  new SwitchYardDiagramBehavior(this);
-        diagramBehavior.setParentPart(this);
-        diagramBehavior.initDefaultBehaviors();
-        return diagramBehavior;
+        return new SwitchYardDiagramBehavior(this);
     }
 
     @Override
@@ -852,9 +856,14 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
             if (generatedFile == null) {
                 return null;
             }
-            Resource generatedResource = getEditingDomain().getResourceSet().createResource(
-                    URI.createPlatformResourceURI(generatedFile.getFullPath().toString(), true),
-                    SwitchyardResourceFactoryImpl.CONTENT_TYPE);
+            /*
+             * we make sure we use the EMF factory as opposed to the sse
+             * factory, since we don't want this to be shared and we muck around
+             * with things like the resource URI after it is created.
+             */
+            Resource generatedResource = new SwitchyardResourceFactoryImpl().createResource(URI
+                    .createPlatformResourceURI(generatedFile.getFullPath().toString(), true));
+            getEditingDomain().getResourceSet().getResources().add(generatedResource);
 
             /*
              * we don't want to propagate changes made to the generated file
@@ -939,6 +948,17 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
 
         private SwitchYardUpdateBehavior(DiagramBehavior diagramEditor) {
             super(diagramEditor);
+        }
+
+        @Override
+        protected void createEditingDomain() {
+            final IWorkspaceCommandStack workspaceCommandStack = new GFWorkspaceCommandStackImpl(
+                    new DefaultOperationHistory());
+            final TransactionalEditingDomainImpl editingDomain = new TransactionalEditingDomainImpl(
+                    new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE),
+                    workspaceCommandStack, new ProjectResourceSetImpl());
+            WorkspaceEditingDomainFactory.INSTANCE.mapResourceSet(editingDomain);
+            initializeEditingDomain(editingDomain);
         }
 
         @Override
@@ -1039,23 +1059,6 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
             super(diagramContainer);
         }
         
-        @Override
-        protected boolean isDirty() {
-            return getPersistencyBehavior().isDirty();
-        }
-
-        @Override
-        protected void initDefaultBehaviors() {
-            // this needs to be exposed to our create method in SwitchyardSCAEditor
-            super.initDefaultBehaviors();
-        }
-
-        @Override
-        protected void setParentPart(IWorkbenchPart parentPart) {
-            // this needs to be exposed to our create method in SwitchyardSCAEditor
-            super.setParentPart(parentPart);
-        }
-
         @Override
         protected DefaultPersistencyBehavior createPersistencyBehavior() {
             return new SwitchYardPersistencyBehavior(this);

@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.workspace.IWorkspaceCommandStack;
-import org.eclipse.wst.common.internal.emf.resource.EMF2DOMAdapter;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.switchyard.tools.ui.editor.dom.generic.EMF2DOMSSERendererNS;
 
@@ -50,11 +49,10 @@ public class SwitchYardEMF2DOMSSERenderer extends EMF2DOMSSERendererNS {
     public SwitchYardEMF2DOMSSERenderer() {
     }
 
-    @Override
-    protected EMF2DOMAdapter createRootDOMAdapter() {
-        return new SwitchYardEMF2DOMSSEAdapter(getResource(), document, this, getResource().getRootTranslator());
-    }
-
+    /*
+     * Hackery to ensure command stack is same as the one used by the editing
+     * domain.
+     */
     @SuppressWarnings("rawtypes")
     @Override
     protected void loadDocument(InputStream in, Map options) throws IOException {
@@ -74,6 +72,9 @@ public class SwitchYardEMF2DOMSSERenderer extends EMF2DOMSSERendererNS {
         }
     }
 
+    /*
+     * Hackery to ensure all changes are lumped together as a single operation.
+     */
     @Override
     public void modelAboutToBeChanged(IStructuredModel model) {
         final CommandStack stack = getXMLModel().getUndoManager().getCommandStack();
@@ -89,11 +90,14 @@ public class SwitchYardEMF2DOMSSERenderer extends EMF2DOMSSERendererNS {
         super.modelAboutToBeChanged(model);
     }
 
+    /*
+     * Hackery to ensure all changes are lumped together as a single operation.
+     */
     @Override
     public void modelChanged(IStructuredModel model) {
         super.modelChanged(model);
-        final CommandStack stack = getXMLModel().getUndoManager().getCommandStack();
         if (_compositeOperation != null) {
+            final CommandStack stack = getXMLModel().getUndoManager().getCommandStack();
             final IOperationHistory history = ((IWorkspaceCommandStack) stack).getOperationHistory();
             try {
                 history.closeOperation(true, false, IOperationHistory.EXECUTE);
