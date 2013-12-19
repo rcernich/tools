@@ -365,6 +365,7 @@ public class SCADiagramFeatureProvider extends DefaultFeatureProvider {
             if (bo instanceof Contract) {
                 final Interface intf = ((Contract) bo).getInterface();
                 features.add(new CreateServiceTestCustomFeature(this));
+                features.add(new ToggleBreakpoint(this));
                 if (intf instanceof JavaInterface) {
                     features.add(new Java2WSDLCustomFeature(this));
                 } else if (intf instanceof WSDLPortType) {

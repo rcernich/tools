@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <!-- Marker definitions. -->
+   <extension
+         id="switchYardBreakpointMarker"
+         name="SwitchYard Breakpoint Marker"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.jdt.debug.javaMethodBreakpointMarker">
+      </super>
+   </extension>
+   <extension
+         id="switchYardServiceBreakpointMarker"
+         name="SwitchYard Service Breakpoint"
+         point="org.eclipse.core.resources.markers">
+      <persistent
+            value="true">
+      </persistent>
+      <super
+            type="org.switchyard.tools.ui.debug.switchYardBreakpointMarker">
+      </super>
+      <attribute
+            name="switchYardServiceBreakpoint.trigger">
+      </attribute>
+      <attribute
+            name="switchYardServiceBreakpoint.type">
+      </attribute>
+      <attribute
+            name="switchYardServiceBreakpoint.name">
+      </attribute>
+   </extension>
+   <extension
+         id="switchYardTransformerBreakpointMarker"
+         name="SwitchYard Transformer Breakpoint Marker"
+         point="org.eclipse.core.resources.markers">
+      <persistent
+            value="true">
+      </persistent>
+      <super
+            type="org.switchyard.tools.ui.debug.switchYardBreakpointMarker">
+      </super>
+   </extension>
+   <extension
+         id="switchYardValidatorBreakpointMarker"
+         name="SwitchYard Validator Breakpoint Marker"
+         point="org.eclipse.core.resources.markers">
+      <persistent
+            value="true">
+      </persistent>
+      <super
+            type="org.switchyard.tools.ui.debug.switchYardBreakpointMarker">
+      </super>
+   </extension>
+   <!-- Breakpoint definitions. -->
+   <extension
+         point="org.eclipse.debug.core.breakpoints">
+      <breakpoint
+            class="org.switchyard.tools.ui.debug.ServiceBreakpoint"
+            id="breakpoint.service"
+            markerType="org.switchyard.tools.ui.debug.switchYardServiceBreakpointMarker"
+            name="SwitchYard Service Breakpoint">
+      </breakpoint>
+   </extension>
+   <!-- Breakpoint importers. -->
+   <extension
+         point="org.eclipse.debug.ui.detailPaneFactories">
+      <detailFactories
+            class="org.switchyard.tools.ui.debug.BreakpointDetailPaneFactory"
+            id="org.switchyard.tools.ui.debug.breakpointDetailFactory">
+         <enablement>
+          <with
+                variable="selection">
+             <count
+                   value="1">
+             </count>
+             <iterate>
+                <or>
+                   <instanceof
+                         value="org.switchyard.tools.ui.debug.ServiceBreakpoint">
+                   </instanceof>
+                </or>
+             </iterate>
+          </with>
+         </enablement>
+      </detailFactories>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.debugModelPresentations">
+      <debugModelPresentation
+            class="org.switchyard.tools.ui.debug.SwitchYardDebugModelPresentation"
+            id="org.switchyard.tools.ui.debug">
+      </debugModelPresentation>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.switchyard.tools.ui.debug.ServiceBreakpoint"
+            class="org.switchyard.tools.ui.debug.SwitchYardDebugAdapterFactory">
+         <adapter
+               type="org.eclipse.debug.ui.IBreakpointTypeCategory">
+         </adapter>
+      </factory>
+   </extension>
+</plugin>

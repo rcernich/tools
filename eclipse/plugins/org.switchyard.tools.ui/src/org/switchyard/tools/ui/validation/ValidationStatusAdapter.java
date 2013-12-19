@@ -32,11 +32,33 @@ import org.switchyard.tools.ui.Activator;
 public class ValidationStatusAdapter extends AdapterImpl {
 
     private List<IStatus> _validationStatus = new ArrayList<IStatus>();
+    private boolean _hasBreakpoints = false;
     private Map<EObject, List<IStatus>> _connectionStatus = new HashMap<EObject, List<IStatus>>();
 
     @Override
     public boolean isAdapterForType(Object type) {
         return type instanceof Class && ((Class<?>) type).isAssignableFrom(getClass());
+    }
+
+    /**
+     * @return the validation status for the target object.
+     */
+    public boolean hasBreakpoints() {
+        return _hasBreakpoints;
+    }
+
+    /**
+     * The related object has breakpoints.
+     */
+    public void addBreakpoint() {
+        _hasBreakpoints = true;
+    }
+
+    /**
+     * The related object has no breakpoints.
+     */
+    public void removeBreakpoint() {
+        _hasBreakpoints = false;
     }
 
     /**

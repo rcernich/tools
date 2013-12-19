@@ -350,12 +350,12 @@ public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider 
         ValidationStatusAdapter statusAdapter = (ValidationStatusAdapter) EcoreUtil.getRegisteredAdapter((EObject) bo,
                 ValidationStatusAdapter.class);
         if (statusAdapter != null) {
-            final IImageDecorator decorator = createDecorator(statusAdapter.getValidationStatus());
+            IImageDecorator decorator = createDecorator(statusAdapter.getValidationStatus());
+            GraphicsAlgorithm ga = getSelectionBorder(pe);
+            if (ga == null) {
+                ga = pe.getGraphicsAlgorithm();
+            }
             if (decorator != null) {
-                GraphicsAlgorithm ga = getSelectionBorder(pe);
-                if (ga == null) {
-                    ga = pe.getGraphicsAlgorithm();
-                }
                 if (bo instanceof Composite) {
                     decorator.setX(ga.getX()+5);
                     decorator.setY(ga.getY()+5);
@@ -363,6 +363,13 @@ public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider 
                     decorator.setX(ga.getWidth() - 10 - (needsOffset ? 28 : 0));
                     decorator.setY(ga.getHeight() - 10 - (needsOffset ? 8 : 0));
                 }
+                decorators.add(decorator);
+            }
+            // breakpoints
+            if (statusAdapter.hasBreakpoints()) {
+                decorator = new ImageDecorator(ImageProvider.IMG_16_BREAKPOINT);
+                decorator.setX(-5 + (needsOffset ? 18 : 0));
+                decorator.setY(-8 + (needsOffset ? 8 : 0));
                 decorators.add(decorator);
             }
         }
