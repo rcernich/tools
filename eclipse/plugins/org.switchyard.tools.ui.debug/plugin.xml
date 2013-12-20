@@ -102,4 +102,342 @@
          </adapter>
       </factory>
    </extension>
+   <extension
+         point="org.eclipse.jdt.debug.javaLogicalStructures">
+      <javaLogicalStructure
+            description="SwitchYard Camel Exchange"
+            subtypes="true"
+            type="org.apache.camel.Exchange">
+         <variable
+               name="message"
+               value="return getIn();">
+         </variable>
+         <variable
+               name="context"
+               value="return new org.switchyard.bus.camel.CamelCompositeContext(this, getIn());">
+         </variable>
+         <variable
+               name="state"
+               value="return getProperty(&quot;org.switchyard.bus.camel.fault&quot;, false, Boolean.class).booleanValue() ? org.switchyard.ExchangeState.FAULT.toString() : org.switchyard.ExchangeState.OK.toString();">
+         </variable>
+         <variable
+               name="phase"
+               value="return getProperty(&quot;org.switchyard.bus.camel.phase&quot;, org.switchyard.ExchangePhase.class).toString();">
+         </variable>
+         <variable
+               name="consumer"
+               value="return getProperty(&quot;org.switchyard.bus.camel.consumer&quot;, org.switchyard.ServiceReference.class);">
+         </variable>
+         <variable
+               name="provider"
+               value="return getProperty(&quot;org.switchyard.bus.camel.provider&quot;, org.switchyard.Service.class);">
+         </variable>
+         <variable
+               name="contract"
+               value="return getProperty(&quot;org.switchyard.bus.camel.contract&quot;, org.switchyard.metadata.ExchangeContract.class);">
+         </variable>
+         <variable
+               name="domain"
+               value="return (getContext() instanceof org.switchyard.common.camel.SwitchYardCamelContext) ? ((org.switchyard.common.camel.SwitchYardCamelContext)getContext()).getServiceDomain() : null;">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Exchange"
+            subtypes="true"
+            type="org.switchyard.Exchange">
+         <variable
+               name="message"
+               value="return getMessage();">
+         </variable>
+         <variable
+               name="context"
+               value="return getContext();">
+         </variable>
+         <variable
+               name="state"
+               value="return getState().toString();">
+         </variable>
+         <variable
+               name="phase"
+               value="return getPhase().toString();">
+         </variable>
+         <variable
+               name="consumer"
+               value="return getConsumer();">
+         </variable>
+         <variable
+               name="provider"
+               value="return getProvider();">
+         </variable>
+         <variable
+               name="contract"
+               value="return getContract();">
+         </variable>
+         <variable
+               name="domain"
+               value="return getConsumer() == null ? getProvider() == null ? null : getProvider().getDomain() : getConsumer().getDomain();">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Context"
+            subtypes="true"
+            type="org.switchyard.Context">
+         <variable
+               name="EXCHANGE"
+               value="return getProperties(org.switchyard.Scope.EXCHANGE);">
+         </variable>
+         <variable
+               name="MESSAGE"
+               value="return getProperties(org.switchyard.Scope.MESSAGE);">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Context Property"
+            subtypes="true"
+            type="org.switchyard.Property">
+         <variable
+               name="name"
+               value="return getName();">
+         </variable>
+         <variable
+               name="value"
+               value="return getValue();">
+         </variable>
+         <variable
+               name="scope"
+               value="return getScope().toString();">
+         </variable>
+         <variable
+               name="labels"
+               value="return getLabels();">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Message"
+            subtypes="true"
+            type="org.switchyard.Message">
+         <variable
+               name="content type"
+               value="org.switchyard.Property foo = getContext().getProperty(org.switchyard.Exchange.CONTENT_TYPE); return foo == null || foo.getValue() == null ? null : foo.getValue().toString();">
+         </variable>
+         <variable
+               name="message ID"
+               value="org.switchyard.Property foo = getContext().getProperty(org.switchyard.Exchange.MESSAGE_ID); return foo == null || foo.getValue() == null ? null : foo.getValue().toString();">
+         </variable>
+         <variable
+               name="relates to"
+               value="org.switchyard.Property foo = getContext().getProperty(org.switchyard.Exchange.RELATES_TO); return foo == null || foo.getValue() == null ? null : foo.getValue().toString();">
+         </variable>
+         <variable
+               name="content"
+               value="return getContent();">
+         </variable>
+         <variable
+               name="attachments"
+               value="return getAttachmentMap();">
+         </variable>
+         <variable
+               name="context"
+               value="return getContext();">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Exchange Contract"
+            subtypes="true"
+            type="org.switchyard.metadata.ExchangeContract">
+         <variable
+               name="consumer operation"
+               value="return getConsumerOperation();">
+         </variable>
+         <variable
+               name="provider operation"
+               value="return getProviderOperation();">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Service Operation"
+            subtypes="true"
+            type="org.switchyard.metadata.ServiceOperation">
+         <variable
+               name="name"
+               value="return getName();">
+         </variable>
+         <variable
+               name="exchange pattern"
+               value="return getExchangePattern().toString();">
+         </variable>
+         <variable
+               name="input type"
+               value="return getInputType();">
+         </variable>
+         <variable
+               name="output type"
+               value="return getOutputType();">
+         </variable>
+         <variable
+               name="fault type"
+               value="return getFaultType();">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Service Interface"
+            subtypes="true"
+            type="org.switchyard.metadata.ServiceInterface">
+         <variable
+               name="type"
+               value="return getType();">
+         </variable>
+         <variable
+               name="operations"
+               value="return getOperations();">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Service"
+            subtypes="true"
+            type="org.switchyard.Service">
+         <variable
+               name="name"
+               value="return getName().getLocalPart();">
+         </variable>
+         <variable
+               name="namespace"
+               value="return getName().getNamespaceURI();">
+         </variable>
+         <variable
+               name="interface"
+               value="return getInterface();">
+         </variable>
+         <variable
+               name="metadata"
+               value="return getServiceMetadata();">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Service Reference"
+            subtypes="true"
+            type="org.switchyard.ServiceReference">
+         <variable
+               name="name"
+               value="return getName().getLocalPart();">
+         </variable>
+         <variable
+               name="namespace"
+               value="return getName().getNamespaceURI();">
+         </variable>
+         <variable
+               name="target service"
+               value="return getTargetServiceName().getLocalPart();">
+         </variable>
+         <variable
+               name="target service namespace"
+               value="return getTargetServiceName().getNamespaceURI();">
+         </variable>
+         <variable
+               name="interface"
+               value="return getInterface();">
+         </variable>
+         <variable
+               name="metadata"
+               value="return getServiceMetadata();">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Service Metadata"
+            subtypes="true"
+            type="org.switchyard.ServiceMetadata">
+         <variable
+               name="provided policies"
+               value="return getProvidedPolicies();">
+         </variable>
+         <variable
+               name="required policies"
+               value="return getRequiredPolicies();">
+         </variable>
+         <variable
+               name="security"
+               value="return getSecurity();">
+         </variable>
+         <variable
+               name="throttling"
+               value="return getThrottling();">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Policy"
+            subtypes="true"
+            type="org.switchyard.policy.Policy">
+         <variable
+               name="name"
+               value="return getName();">
+         </variable>
+         <variable
+               name="dependency"
+               value="return getPolicyDependency();">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Service Security"
+            subtypes="true"
+            type="org.switchyard.ServiceSecurity">
+         <variable
+               name="name"
+               value="return getName();">
+         </variable>
+         <variable
+               name="run as"
+               value="return getRunAs();">
+         </variable>
+         <variable
+               name="roles allowed"
+               value="return getRolesAllowed();">
+         </variable>
+         <variable
+               name="domain"
+               value="return getSecurityDomain();">
+         </variable>
+         <variable
+               name="handler"
+               value="return getCallbackHandler();">
+         </variable>
+         <variable
+               name="properties"
+               value="return getProperties();">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Throttling"
+            subtypes="true"
+            type="org.switchyard.metadata.qos.Throttling">
+         <variable
+               name="time period (ms)"
+               value="return getTimePeriod();">
+         </variable>
+         <variable
+               name="max requests"
+               value="return getMaxRequests();">
+         </variable>
+      </javaLogicalStructure>
+      <javaLogicalStructure
+            description="SwitchYard Service Domain"
+            subtypes="true"
+            type="org.switchyard.ServiceDomain">
+         <variable
+               name="name"
+               value="return getName().getLocalPart();">
+         </variable>
+         <variable
+               name="namespace"
+               value="return getName().getNamespaceURI();">
+         </variable>
+         <variable
+               name="services"
+               value="return getServices();">
+         </variable>
+         <variable
+               name="properties"
+               value="return getProperties();">
+         </variable>
+      </javaLogicalStructure>
+   </extension>
 </plugin>
