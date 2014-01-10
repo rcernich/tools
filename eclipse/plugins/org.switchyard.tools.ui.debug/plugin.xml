@@ -440,4 +440,48 @@
          </variable>
       </javaLogicalStructure>
    </extension>
+   <!-- SwitchYard Step support -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.debug.ui.category.run"
+            defaultHandler="org.switchyard.tools.ui.debug.SwitchYardStepCommandHandler"
+            description="Resume execution and break at the next SwitchYard system bus processor."
+            id="org.switchyard.tools.ui.debug.command.RunToBusProcessor"
+            name="Run To Next SwitchYard Bus Processor">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.bindings">
+      <key
+            sequence="M2+F6"
+            contextId="org.eclipse.debug.ui.debugging"
+            commandId="org.switchyard.tools.ui.debug.command.RunToBusProcessor"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.run?before=emptyStepGroup">
+         <separator
+               name="SwitchYard">
+         </separator>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.run?after=SwitchYard">
+         <command
+               commandId="org.switchyard.tools.ui.debug.command.RunToBusProcessor"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <and>
+                  <systemTest
+                        property="org.eclipse.jdt.debug.ui.instanceof.IJavaStackFrame"
+                        value="true">
+                  </systemTest>
+               </and>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
 </plugin>
