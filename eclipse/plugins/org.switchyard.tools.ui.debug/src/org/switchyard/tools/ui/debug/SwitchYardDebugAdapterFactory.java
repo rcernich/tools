@@ -41,7 +41,7 @@ public class SwitchYardDebugAdapterFactory implements IAdapterFactory {
     }
 
     private Object adaptBreakpointCategory(Object adaptableObject) {
-        if (adaptableObject instanceof ServiceBreakpoint) {
+        if (adaptableObject instanceof ServiceInterceptBreakpoint) {
             return new BreakpointTypeCategory("SwitchYard Breakpoints", Activator.getDefault().getImageRegistry()
                     .getDescriptor(IImageDescriptors.SWITCH_YARD_SMALL));
         }

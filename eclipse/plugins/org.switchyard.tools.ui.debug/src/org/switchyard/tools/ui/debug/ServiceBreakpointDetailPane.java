@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.switchyard.tools.ui.debug.SwitchYardDebugUtil.TriggerType;
+import org.switchyard.tools.ui.debug.IInteractionConfiguration.TriggerType;
 
 /**
  * ServiceBreakpointDetailPane
@@ -58,7 +58,7 @@ public class ServiceBreakpointDetailPane extends AbstractDetailPane {
 
     private static final class ServiceBreakpointEditor extends AbstractJavaBreakpointEditor {
 
-        private ServiceBreakpoint _breakpoint;
+        private ServiceInterceptBreakpoint _breakpoint;
         private Button _entryButton;
         private Button _exitButton;
         private Button _faultButton;
@@ -121,8 +121,8 @@ public class ServiceBreakpointDetailPane extends AbstractDetailPane {
 
         @Override
         public void setInput(Object breakpoint) throws CoreException {
-            if (breakpoint instanceof ServiceBreakpoint) {
-                _breakpoint = (ServiceBreakpoint) breakpoint;
+            if (breakpoint instanceof ServiceInterceptBreakpoint) {
+                _breakpoint = (ServiceInterceptBreakpoint) breakpoint;
             } else {
                 breakpoint = null;
             }
@@ -142,7 +142,10 @@ public class ServiceBreakpointDetailPane extends AbstractDetailPane {
                 if (_faultButton.getSelection()) {
                     triggers.add(TriggerType.FAULT);
                 }
-                _breakpoint.update(_breakpoint.getServiceName(), _breakpoint.getServiceType(), triggers);
+                InteractionConfigurationBuilder builder = InteractionConfigurationBuilder.createFrom(_breakpoint
+                        .getInteractionConfiguration());
+                builder.triggers(triggers);
+                _breakpoint.setInteractionConfiguration(builder.build());
             }
             setDirty(false);
         }
@@ -158,16 +161,17 @@ public class ServiceBreakpointDetailPane extends AbstractDetailPane {
                 _faultButton.setEnabled(false);
                 _faultButton.setSelection(false);
             } else {
-                final Set<TriggerType> triggers = _breakpoint.getTriggerTypes();
+                final IInteractionConfiguration config = _breakpoint.getInteractionConfiguration();
+                final Set<TriggerType> triggers = config == null ? null : config.getTriggers();
 
                 _entryButton.setEnabled(true);
-                _entryButton.setSelection(triggers.contains(TriggerType.ENTRY));
+                _entryButton.setSelection(triggers == null ? true : triggers.contains(TriggerType.ENTRY));
 
                 _exitButton.setEnabled(true);
-                _exitButton.setSelection(triggers.contains(TriggerType.EXIT));
+                _exitButton.setSelection(triggers == null ? true : triggers.contains(TriggerType.EXIT));
 
                 _faultButton.setEnabled(!_exitButton.getSelection());
-                _faultButton.setSelection(triggers.contains(TriggerType.FAULT));
+                _faultButton.setSelection(triggers == null ? true : triggers.contains(TriggerType.FAULT));
             }
             setDirty(false);
         }

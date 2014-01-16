@@ -11,8 +11,6 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.debug;
 
-import javax.xml.namespace.QName;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -59,8 +57,8 @@ public class SwitchYardDebugModelPresentation implements IDebugModelPresentation
     @Override
     public IEditorInput getEditorInput(Object element) {
         IResource resource = null;
-        if (element instanceof ServiceBreakpoint) {
-            element = ((ServiceBreakpoint) element).getMarker();
+        if (element instanceof ServiceInterceptBreakpoint) {
+            element = ((ServiceInterceptBreakpoint) element).getMarker();
         }
         if (element instanceof IMarker) {
             resource = ((IMarker) element).getResource();
@@ -100,7 +98,7 @@ public class SwitchYardDebugModelPresentation implements IDebugModelPresentation
         if (element instanceof IMarker) {
             element = DebugPlugin.getDefault().getBreakpointManager().getBreakpoint((IMarker) element);
         }
-        if (element instanceof ServiceBreakpoint) {
+        if (element instanceof ServiceInterceptBreakpoint) {
             return Activator.getDefault().getImageRegistry().get(IImageDescriptors.SWITCH_YARD_SMALL);
         }
         return null;
@@ -111,11 +109,21 @@ public class SwitchYardDebugModelPresentation implements IDebugModelPresentation
         if (element instanceof IMarker) {
             element = DebugPlugin.getDefault().getBreakpointManager().getBreakpoint((IMarker) element);
         }
-        if (element instanceof ServiceBreakpoint) {
-            final ServiceBreakpoint breakpoint = (ServiceBreakpoint) element;
-            final QName name = breakpoint.getServiceName();
-            return String.format("SwitchYard %s: %s {%s} on %s", breakpoint.getServiceType(), name.getLocalPart(),
-                    name.getNamespaceURI(), breakpoint.getTriggerTypes().toArray());
+        if (element instanceof ServiceInterceptBreakpoint) {
+            final ServiceInterceptBreakpoint breakpoint = (ServiceInterceptBreakpoint) element;
+            final IInteractionConfiguration config = breakpoint.getInteractionConfiguration();
+            if (config.getConsumerName() == null) {
+                if (config.getProviderName() == null) {
+                    return String.format("SwitchYard Service: <all> on %s", config.getTriggers().toArray());
+                }
+                return String.format("SwitchYard PROVIDER: %s on %s", config.getProviderName().getLocalPart(), config
+                        .getTriggers().toArray());
+            } else if (config.getProviderName() == null) {
+                return String.format("SwitchYard CONSUMER: %s on %s", config.getConsumerName().getLocalPart(), config
+                        .getTriggers().toArray());
+            }
+            return String.format("SwitchYard Service Intercept: %s to %s on %s", config.getConsumerName()
+                    .getLocalPart(), config.getProviderName().getLocalPart(), config.getTriggers().toArray());
         }
         return element == null ? "" : element.toString();
     }

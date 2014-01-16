@@ -21,6 +21,12 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
+import org.eclipse.soa.sca.sca1_1.model.sca.ComponentService;
+import org.eclipse.soa.sca.sca1_1.model.sca.Contract;
+import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
+import org.eclipse.soa.sca.sca1_1.model.sca.Service;
+import org.switchyard.tools.ui.debug.IInteractionConfiguration.TriggerType;
 
 /**
  * SwitchYardDebugUtil
@@ -45,46 +51,83 @@ public final class SwitchYardDebugUtil {
         PROVIDER,
         /** Consumer breakpoint. */
         CONSUMER;
+
+        /**
+         * The service type based on the contract type.
+         * 
+         * @param contract the contract
+         * @return the service type, may be null.
+         */
+        public static ServiceType fromContract(Contract contract) {
+            if (contract instanceof Service || contract instanceof ComponentReference) {
+                return ServiceType.CONSUMER;
+            } else if (contract instanceof Reference || contract instanceof ComponentService) {
+                return ServiceType.PROVIDER;
+            }
+            return null;
+        }
     }
 
     /**
      * Values for when a service/reference breakpoint should be triggered.
      */
-    public enum TriggerType {
-        /** On entry. */
-        ENTRY,
-        /** On exit. */
-        EXIT,
-        /** On fault. */
-        FAULT;
+    public enum AspectType {
+        /**
+         * Break on consumer invocations (InterceptProcessor._target==consumer).
+         */
+        CONSUMER_INVOCATION,
+        /**
+         * Break on provider invocations (InterceptProcessor._target==provider).
+         */
+        PRODUCER_INVOCATION,
+        /**
+         * Break on transformer invocations
+         * (TransformerSequence.applySequence()).
+         */
+        TRANSFORMATION,
+        /**
+         * Break on validator invocations
+         * (ValidationHandler.handleMessage()/handleFault()).
+         */
+        VALIDATION,
+        /**
+         * Break on security context setup/cleanup
+         * (SecurityHandler.handleMessage()/handleFault()).
+         */
+        SECURITY,
+        /**
+         * Break on transaction setup/cleanup
+         * (TransactionHandler.handleMessage()/handleFault()).
+         */
+        TRANSACTION;
 
         /**
-         * @param value a space separated list of TriggerType strings
-         * @return a set of trigger types
+         * @param value a space separated list of AspectType strings
+         * @return a set of aspect types
          */
-        public static Set<TriggerType> fromString(String value) {
+        public static Set<AspectType> fromString(String value) {
             final StringTokenizer tokens = value == null ? null : new StringTokenizer(value);
             if (tokens == null || !tokens.hasMoreTokens()) {
                 return Collections.emptySet();
             }
-            final Set<TriggerType> triggers = new HashSet<TriggerType>();
+            final Set<AspectType> aspects = new HashSet<AspectType>();
             for (; tokens.hasMoreTokens();) {
-                final TriggerType trigger = TriggerType.valueOf(tokens.nextToken());
-                if (trigger != null) {
-                    triggers.add(trigger);
+                final AspectType aspect = AspectType.valueOf(tokens.nextToken());
+                if (aspect != null) {
+                    aspects.add(aspect);
                 }
             }
-            return EnumSet.copyOf(triggers);
+            return EnumSet.copyOf(aspects);
         }
 
         /**
-         * @param triggers a list of triggers
+         * @param aspects a list of aspects
          * @return a string with a space separated list of values.
          */
-        public static String toString(TriggerType... triggers) {
+        public static String toString(AspectType... aspects) {
             final StringBuffer buffer = new StringBuffer();
-            for (TriggerType trigger : triggers) {
-                buffer.append(trigger.toString()).append(' ');
+            for (AspectType aspect : aspects) {
+                buffer.append(aspect.toString()).append(' ');
             }
             if (buffer.length() > 0) {
                 buffer.deleteCharAt(buffer.length() - 1);
@@ -94,7 +137,7 @@ public final class SwitchYardDebugUtil {
     }
 
     /**
-     * Create a new ServiceBreakpoint.
+     * Create a breakpoint corresponding to a specific service invocation.
      * 
      * @param resource the switchyard.xml file
      * @param service the service name
@@ -105,9 +148,16 @@ public final class SwitchYardDebugUtil {
      * @return a new service breakpoint
      * @throws CoreException if something goes awry.
      */
-    public static ServiceBreakpoint createServiceBreakpoint(IResource resource, QName service, String uri,
+    public static ServiceInterceptBreakpoint createServiceBreakpoint(IResource resource, QName service, String uri,
             ServiceType type, Set<TriggerType> triggers) throws CoreException {
-        return new ServiceBreakpoint(resource, service, uri, type, triggers);
+        final InteractionConfigurationBuilder builder = InteractionConfigurationBuilder.create();
+        builder.triggers(triggers);
+        if (type == ServiceType.CONSUMER) {
+            builder.consumer(service, uri);
+        } else {
+            builder.provider(service, uri);
+        }
+        return new ServiceInterceptBreakpoint(resource, builder.build(), true);
     }
 
     private SwitchYardDebugUtil() {

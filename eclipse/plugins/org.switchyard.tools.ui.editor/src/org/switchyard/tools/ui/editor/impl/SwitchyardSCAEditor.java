@@ -133,6 +133,9 @@ import org.switchyard.tools.models.switchyard1_0.validate.ValidatePackage;
 import org.switchyard.tools.ui.common.ISwitchYardProject;
 import org.switchyard.tools.ui.common.impl.SwitchYardProjectManager;
 import org.switchyard.tools.ui.common.impl.SwitchYardProjectManager.ISwitchYardProjectListener;
+import org.switchyard.tools.ui.debug.DelegatingJavaBreakpoint;
+import org.switchyard.tools.ui.debug.IInteractionConfiguration;
+import org.switchyard.tools.ui.debug.InteractionConfigurationBuilder;
 import org.switchyard.tools.ui.debug.SwitchYardDebugUtil;
 import org.switchyard.tools.ui.editor.Activator;
 import org.switchyard.tools.ui.editor.Messages;
@@ -294,7 +297,7 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
         final MergedModelAdapterFactory mergeAdapter = MergedModelUtil.getAdapterFactory(getResourceSet());
         Set<EObject> touched = new LinkedHashSet<EObject>();
         for (IMarker marker : markers) {
-            EObject markedObject = getTargetObject(marker, mergeAdapter);
+            EObject markedObject = getTargetObject(marker.getAttribute(EValidator.URI_ATTRIBUTE, null), mergeAdapter);
             if (markedObject == null) {
                 continue;
             }
@@ -315,23 +318,29 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
         final MergedModelAdapterFactory mergeAdapter = MergedModelUtil.getAdapterFactory(getResourceSet());
         Set<EObject> touched = new LinkedHashSet<EObject>();
         for (IBreakpoint breakpoint : breakpoints) {
-            final IMarker marker = breakpoint.getMarker();
-            EObject markedObject = getTargetObject(marker, mergeAdapter);
-            if (markedObject == null) {
-                continue;
-            }
-            ValidationStatusAdapter statusAdapter = (ValidationStatusAdapter) EcoreUtil.getRegisteredAdapter(
-                    markedObject, ValidationStatusAdapter.class);
-            if (statusAdapter != null) {
-                statusAdapter.addBreakpoint();
-                touched.add(markedObject);
+            try {
+                final IMarker marker = breakpoint.getMarker();
+                final String consumerUri = marker.getAttribute(InteractionConfigurationBuilder.CONSUMER_URI_KEY, null);
+                EObject markedObject = getTargetObject(
+                        consumerUri == null ? marker.getAttribute(InteractionConfigurationBuilder.PROVIDER_URI_KEY,
+                                null) : consumerUri, mergeAdapter);
+                if (markedObject == null) {
+                    continue;
+                }
+                ValidationStatusAdapter statusAdapter = (ValidationStatusAdapter) EcoreUtil.getRegisteredAdapter(
+                        markedObject, ValidationStatusAdapter.class);
+                if (statusAdapter != null) {
+                    statusAdapter.addBreakpoint();
+                    touched.add(markedObject);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return touched;
     }
 
-    private EObject getTargetObject(IMarker marker, MergedModelAdapterFactory mergeAdapter) {
-        final String uriString = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
+    private EObject getTargetObject(String uriString, MergedModelAdapterFactory mergeAdapter) {
         final URI uri = uriString == null ? null : URI.createURI(uriString);
         if (uri == null) {
             return null;
@@ -458,7 +467,7 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
 
     @Override
     public void gotoMarker(IMarker marker) {
-        final EObject target = getTargetObject(marker, MergedModelUtil.getAdapterFactory(getResourceSet()));
+        final EObject target = getTargetObject(marker.getAttribute(EValidator.URI_ATTRIBUTE, null), MergedModelUtil.getAdapterFactory(getResourceSet()));
         if (target == null) {
             return;
         }
@@ -593,29 +602,38 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
                 }
             };
             _breakpointsListener = new IBreakpointsListener() {
-                
                 @Override
-                public void breakpointsRemoved(IBreakpoint[] breakpoints, IMarkerDelta[] deltas) {
-                    removeBreakpoints(breakpoints);
+                public void breakpointsRemoved(final IBreakpoint[] breakpoints, final IMarkerDelta[] deltas) {
+                    getSite().getShell().getDisplay().asyncExec(new Runnable() {
+                        public void run() {
+                            if (breakpoints == null || getGraphicalControl() == null || getGraphicalControl().isDisposed()) {
+                                return;
+                            }
+                            removeBreakpoints(breakpoints);
+                        };
+                    });
                 }
                 
                 @Override
-                public void breakpointsChanged(IBreakpoint[] breakpoints, IMarkerDelta[] deltas) {
+                public void breakpointsChanged(final IBreakpoint[] breakpoints, final IMarkerDelta[] deltas) {
                 }
                 
                 @Override
-                public void breakpointsAdded(IBreakpoint[] breakpoints) {
-                    if (breakpoints == null || getGraphicalControl() == null || getGraphicalControl().isDisposed()) {
-                        return;
-                    }
-                    final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
-                    for (EObject eobject : loadBreakpointStatus(breakpoints)) {
-                        PictogramElement pe = featureProvider.getPictogramElementForBusinessObject(eobject);
-                        if (pe != null) {
-                            getDiagramBehavior().getRefreshBehavior().refreshRenderingDecorators(pe);
-                        }
-                    }
-
+                public void breakpointsAdded(final IBreakpoint[] breakpoints) {
+                    getSite().getShell().getDisplay().asyncExec(new Runnable() {
+                        public void run() {
+                            if (breakpoints == null || getGraphicalControl() == null || getGraphicalControl().isDisposed()) {
+                                return;
+                            }
+                            final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();
+                            for (EObject eobject : loadBreakpointStatus(breakpoints)) {
+                                PictogramElement pe = featureProvider.getPictogramElementForBusinessObject(eobject);
+                                if (pe != null) {
+                                    getDiagramBehavior().getRefreshBehavior().refreshRenderingDecorators(pe);
+                                }
+                            }
+                        };
+                    });
                 }
             };
         }
@@ -722,7 +740,7 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
             }
         } else {
             for (IMarker marker : deletedMarkers) {
-                final EObject eobject = getTargetObject(marker, mergeAdapter);
+                final EObject eobject = getTargetObject(marker.getAttribute(EValidator.URI_ATTRIBUTE, null), mergeAdapter);
                 if (eobject == null) {
                     continue;
                 }
@@ -754,8 +772,16 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
         final MergedModelAdapterFactory mergeAdapter = MergedModelUtil.getAdapterFactory(getEditingDomain()
                 .getResourceSet());
         for (IBreakpoint breakpoint : breakpoints) {
-            final IMarker marker = breakpoint.getMarker();
-            final EObject eobject = getTargetObject(marker, mergeAdapter);
+            if (!(breakpoint instanceof DelegatingJavaBreakpoint)) {
+                continue;
+            }
+            final IInteractionConfiguration config = ((DelegatingJavaBreakpoint) breakpoint)
+                    .getInteractionConfiguration();
+            if (config == null) {
+                continue;
+            }
+            final String consumerUri = config.getConsumerUri();
+            EObject eobject = getTargetObject(consumerUri == null ? config.getProviderUri() : consumerUri, mergeAdapter);
             if (eobject == null) {
                 continue;
             }

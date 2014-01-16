@@ -39,10 +39,11 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
-import org.switchyard.tools.ui.debug.ServiceBreakpoint;
+import org.switchyard.tools.ui.debug.IInteractionConfiguration.TriggerType;
+import org.switchyard.tools.ui.debug.IInteractionConfiguration;
+import org.switchyard.tools.ui.debug.ServiceInterceptBreakpoint;
 import org.switchyard.tools.ui.debug.SwitchYardDebugUtil;
 import org.switchyard.tools.ui.debug.SwitchYardDebugUtil.ServiceType;
-import org.switchyard.tools.ui.debug.SwitchYardDebugUtil.TriggerType;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 
 /**
@@ -69,13 +70,6 @@ public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFe
         if (bo instanceof Contract) {
             final IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager()
                     .getBreakpoints(SwitchYardDebugUtil.MODEL_IDENTIFIER);
-            final QName name = getServiceName((Contract) bo);
-            final ServiceType type;
-            if (bo instanceof Service || bo instanceof ComponentReference) {
-                type = ServiceType.CONSUMER;
-            } else {
-                type = ServiceType.PROVIDER;
-            }
             IBreakpoint toDelete = null;
             for (IBreakpoint breakpoint : breakpoints) {
                 final IMarker marker = breakpoint.getMarker();
@@ -87,13 +81,11 @@ public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFe
                 }
                 if (marker == null || !project.equals(marker.getResource())
                         || !SwitchYardDebugUtil.SERVICE_BREAKPIONT_MARKER_ID.equals(markerType)
-                        || type != ((ServiceBreakpoint) breakpoint).getServiceType()) {
+                        || !breakpointMatchesSelection((ServiceInterceptBreakpoint) breakpoint, (Contract) bo)) {
                     continue;
                 }
-                if (name.equals(((ServiceBreakpoint) breakpoint).getServiceName())) {
-                    toDelete = breakpoint;
-                    break;
-                }
+                toDelete = breakpoint;
+                break;
             }
             if (toDelete != null) {
                 try {
@@ -113,8 +105,8 @@ public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFe
                 final URI uri = URI.createGenericURI("switchyard", "generated", EcoreUtil.getURI((EObject) bo)
                         .fragment());
                 try {
-                    SwitchYardDebugUtil.createServiceBreakpoint(project, name, uri.toString(), type,
-                            EnumSet.of(TriggerType.ENTRY, TriggerType.EXIT, TriggerType.FAULT));
+                    SwitchYardDebugUtil.createServiceBreakpoint(project, getServiceName((Contract) bo), uri.toString(),
+                            ServiceType.fromContract((Contract) bo), EnumSet.allOf(TriggerType.class));
                 } catch (CoreException e) {
                     final IDiagramContainer container = getDiagramBehavior().getDiagramContainer();
                     final Shell shell;
@@ -129,6 +121,19 @@ public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFe
             }
         }
         getDiagramBehavior().refreshRenderingDecorators(pe);
+    }
+
+    private boolean breakpointMatchesSelection(final ServiceInterceptBreakpoint breakpoint, final Contract contract) {
+        final IInteractionConfiguration config = breakpoint.getInteractionConfiguration();
+        if (config == null) {
+            return false;
+        }
+        final QName name = getServiceName(contract);
+        if (contract instanceof Service || contract instanceof ComponentReference) {
+            return config.getProviderName() == null && name.equals(config.getConsumerName());
+        } else {
+            return config.getConsumerName() == null && name.equals(config.getProviderName());
+        }
     }
 
     @Override

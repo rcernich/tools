@@ -23,8 +23,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.debug.core.breakpoints.JavaMethodBreakpoint;
 import org.eclipse.jdt.internal.debug.core.model.JDIDebugTarget;
+import org.switchyard.tools.ui.debug.IInteractionConfiguration.TriggerType;
 import org.switchyard.tools.ui.debug.SwitchYardDebugUtil.ServiceType;
-import org.switchyard.tools.ui.debug.SwitchYardDebugUtil.TriggerType;
 
 import com.sun.jdi.request.EventRequest;
 import com.sun.jdi.request.MethodExitRequest;
