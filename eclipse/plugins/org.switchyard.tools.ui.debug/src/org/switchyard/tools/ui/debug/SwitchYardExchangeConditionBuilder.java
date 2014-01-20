@@ -43,9 +43,9 @@ public class SwitchYardExchangeConditionBuilder implements IConditionBuilder {
         }
         final StringBuffer buffer = new StringBuffer();
         buffer.append('(');
-        buffer.append(_exchangeVariable).append(".getProvider() != null && ");
+        buffer.append(_exchangeVariable).append(".getConsumer() != null && ");
         buffer.append('"').append(name.toString()).append('"').append(".equals(").append(_exchangeVariable)
-                .append(".getProvider().getName().toString())");
+                .append(".getConsumer().getTargetServiceName().toString())");
         buffer.append(')');
         return buffer.toString();
     }
@@ -69,8 +69,8 @@ public class SwitchYardExchangeConditionBuilder implements IConditionBuilder {
         final StringBuffer buffer = new StringBuffer();
         boolean addOr = false;
         buffer.append("(");
-        if (triggers.contains(TriggerType.ENTRY)) {
-            if (triggers.contains(TriggerType.EXIT)) {
+        if (triggers.contains(TriggerType.IN)) {
+            if (triggers.contains(TriggerType.OUT)) {
                 // no need for a condition on triggers
                 return null;
             }
@@ -78,7 +78,7 @@ public class SwitchYardExchangeConditionBuilder implements IConditionBuilder {
                     .append(".getProperty(\"org.switchyard.bus.camel.phase\", org.switchyard.ExchangePhase.class)");
             addOr = true;
         }
-        if (triggers.contains(TriggerType.EXIT)) {
+        if (triggers.contains(TriggerType.OUT)) {
             if (addOr) {
                 buffer.append("\n            || ");
             }

@@ -30,7 +30,7 @@ import org.switchyard.tools.ui.debug.IInteractionConfiguration.TriggerType;
  * Base implementation for breakpoints relating to Camel Processor types.
  */
 @SuppressWarnings("restriction")
-public abstract class CamelProcessorBreakpoint extends DelegatingJavaBreakpoint {
+public abstract class CamelProcessorBreakpoint extends DelegatingJavaBreakpoint<String> {
 
     private static final String DELEGATE_KEY = CamelProcessorBreakpoint.class.getCanonicalName();
     private static final String SIGNATURE = "(Lorg/apache/camel/Exchange;)V";
@@ -86,6 +86,8 @@ public abstract class CamelProcessorBreakpoint extends DelegatingJavaBreakpoint 
             delegate.setCondition(condition);
             delegate.setConditionEnabled(true);
         }
+
+        delegate.setEnabled(isEnabled());
 
         addDelegate(DELEGATE_KEY, (JavaBreakpoint) delegate);
     }

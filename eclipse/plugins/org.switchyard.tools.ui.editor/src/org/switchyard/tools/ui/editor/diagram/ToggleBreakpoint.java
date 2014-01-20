@@ -11,8 +11,6 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.diagram;
 
-import java.util.EnumSet;
-
 import javax.xml.namespace.QName;
 
 import org.eclipse.core.resources.IMarker;
@@ -39,9 +37,8 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
-import org.switchyard.tools.ui.debug.IInteractionConfiguration.TriggerType;
 import org.switchyard.tools.ui.debug.IInteractionConfiguration;
-import org.switchyard.tools.ui.debug.ServiceInterceptBreakpoint;
+import org.switchyard.tools.ui.debug.ServiceInteractionBreakpoint;
 import org.switchyard.tools.ui.debug.SwitchYardDebugUtil;
 import org.switchyard.tools.ui.debug.SwitchYardDebugUtil.ServiceType;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
@@ -81,7 +78,7 @@ public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFe
                 }
                 if (marker == null || !project.equals(marker.getResource())
                         || !SwitchYardDebugUtil.SERVICE_BREAKPIONT_MARKER_ID.equals(markerType)
-                        || !breakpointMatchesSelection((ServiceInterceptBreakpoint) breakpoint, (Contract) bo)) {
+                        || !breakpointMatchesSelection((ServiceInteractionBreakpoint) breakpoint, (Contract) bo)) {
                     continue;
                 }
                 toDelete = breakpoint;
@@ -106,7 +103,7 @@ public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFe
                         .fragment());
                 try {
                     SwitchYardDebugUtil.createServiceBreakpoint(project, getServiceName((Contract) bo), uri.toString(),
-                            ServiceType.fromContract((Contract) bo), EnumSet.allOf(TriggerType.class));
+                            ServiceType.fromContract((Contract) bo));
                 } catch (CoreException e) {
                     final IDiagramContainer container = getDiagramBehavior().getDiagramContainer();
                     final Shell shell;
@@ -123,7 +120,7 @@ public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFe
         getDiagramBehavior().refreshRenderingDecorators(pe);
     }
 
-    private boolean breakpointMatchesSelection(final ServiceInterceptBreakpoint breakpoint, final Contract contract) {
+    private boolean breakpointMatchesSelection(final ServiceInteractionBreakpoint breakpoint, final Contract contract) {
         final IInteractionConfiguration config = breakpoint.getInteractionConfiguration();
         if (config == null) {
             return false;

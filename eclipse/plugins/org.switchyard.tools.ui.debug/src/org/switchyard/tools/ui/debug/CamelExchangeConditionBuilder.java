@@ -47,7 +47,7 @@ public class CamelExchangeConditionBuilder implements IConditionBuilder {
                 .append('"')
                 .append(".equals(")
                 .append(_exchangeVariable)
-                .append(".getProperty(\"org.switchyard.bus.camel.provider\", org.switchyard.Service.class).getName().toString())");
+                .append(".getProperty(\"org.switchyard.bus.camel.consumer\", org.switchyard.ServiceReference.class).getTargetServiceName().toString())");
         return buffer.toString();
     }
 
@@ -71,8 +71,8 @@ public class CamelExchangeConditionBuilder implements IConditionBuilder {
         final StringBuffer buffer = new StringBuffer();
         boolean addOr = false;
         buffer.append("(");
-        if (triggers.contains(TriggerType.ENTRY)) {
-            if (triggers.contains(TriggerType.EXIT)) {
+        if (triggers.contains(TriggerType.IN)) {
+            if (triggers.contains(TriggerType.OUT)) {
                 // no need for a condition on triggers
                 return null;
             }
@@ -80,7 +80,7 @@ public class CamelExchangeConditionBuilder implements IConditionBuilder {
                     .append(".getProperty(\"org.switchyard.bus.camel.phase\", org.switchyard.ExchangePhase.class)");
             addOr = true;
         }
-        if (triggers.contains(TriggerType.EXIT)) {
+        if (triggers.contains(TriggerType.OUT)) {
             if (addOr) {
                 buffer.append("\n            || ");
             }

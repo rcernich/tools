@@ -55,6 +55,25 @@ public class ServiceInterceptBreakpoint extends CamelProcessorBreakpoint {
             // no condition means neither consumer or provider
             return condition;
         }
+        final String targetCondition = createTargetCondition();
+        if (targetCondition == null) {
+            return condition;
+        }
+        final StringBuffer buffer = new StringBuffer();
+        // type (provider/consumer)
+        buffer.append(targetCondition);
+        buffer.append("\n        && ");
+        buffer.append(condition);
+        buffer.insert(0, '(');
+        buffer.append(')');
+        return buffer.toString();
+    }
+
+    /**
+     * @return the type of intercepts that should be targeted (PROVIDER or
+     *         CONSUMER).
+     */
+    protected ServiceType getTargetType() {
         final IInteractionConfiguration config = getInteractionConfiguration();
         final ServiceType type;
         if (config.getConsumerName() == null) {
@@ -70,15 +89,16 @@ public class ServiceInterceptBreakpoint extends CamelProcessorBreakpoint {
             // both
             type = null;
         }
-        if (type == null) {
-            return condition;
-        }
-        final StringBuffer buffer = new StringBuffer();
-        // type (provider/consumer)
-        buffer.append('"').append(type.toString()).append('"').append(".equalsIgnoreCase(this._target)");
-        buffer.append("\n        && ");
-        buffer.append(condition);
-        return buffer.toString();
+        return type;
     }
 
+    protected String createTargetCondition() {
+        final ServiceType type = getTargetType();
+        if (type == null) {
+            return null;
+        }
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append('"').append(type.toString()).append('"').append(".equalsIgnoreCase(this._target)");
+        return buffer.toString();
+    }
 }

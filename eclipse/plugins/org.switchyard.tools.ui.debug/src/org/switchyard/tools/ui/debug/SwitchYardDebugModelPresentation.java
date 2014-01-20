@@ -57,8 +57,8 @@ public class SwitchYardDebugModelPresentation implements IDebugModelPresentation
     @Override
     public IEditorInput getEditorInput(Object element) {
         IResource resource = null;
-        if (element instanceof ServiceInterceptBreakpoint) {
-            element = ((ServiceInterceptBreakpoint) element).getMarker();
+        if (element instanceof ServiceInteractionBreakpoint) {
+            element = ((ServiceInteractionBreakpoint) element).getMarker();
         }
         if (element instanceof IMarker) {
             resource = ((IMarker) element).getResource();
@@ -98,7 +98,7 @@ public class SwitchYardDebugModelPresentation implements IDebugModelPresentation
         if (element instanceof IMarker) {
             element = DebugPlugin.getDefault().getBreakpointManager().getBreakpoint((IMarker) element);
         }
-        if (element instanceof ServiceInterceptBreakpoint) {
+        if (element instanceof ServiceInteractionBreakpoint) {
             return Activator.getDefault().getImageRegistry().get(IImageDescriptors.SWITCH_YARD_SMALL);
         }
         return null;
@@ -109,21 +109,21 @@ public class SwitchYardDebugModelPresentation implements IDebugModelPresentation
         if (element instanceof IMarker) {
             element = DebugPlugin.getDefault().getBreakpointManager().getBreakpoint((IMarker) element);
         }
-        if (element instanceof ServiceInterceptBreakpoint) {
-            final ServiceInterceptBreakpoint breakpoint = (ServiceInterceptBreakpoint) element;
+        if (element instanceof ServiceInteractionBreakpoint) {
+            final ServiceInteractionBreakpoint breakpoint = (ServiceInteractionBreakpoint) element;
             final IInteractionConfiguration config = breakpoint.getInteractionConfiguration();
             if (config.getConsumerName() == null) {
                 if (config.getProviderName() == null) {
                     return String.format("SwitchYard Service: <all> on %s", config.getTriggers().toArray());
                 }
                 return String.format("SwitchYard PROVIDER: %s on %s", config.getProviderName().getLocalPart(), config
-                        .getTriggers().toArray());
+                        .getTriggers());
             } else if (config.getProviderName() == null) {
                 return String.format("SwitchYard CONSUMER: %s on %s", config.getConsumerName().getLocalPart(), config
-                        .getTriggers().toArray());
+                        .getTriggers());
             }
             return String.format("SwitchYard Service Intercept: %s to %s on %s", config.getConsumerName()
-                    .getLocalPart(), config.getProviderName().getLocalPart(), config.getTriggers().toArray());
+                    .getLocalPart(), config.getProviderName().getLocalPart(), config.getTriggers());
         }
         return element == null ? "" : element.toString();
     }

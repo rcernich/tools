@@ -17,6 +17,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType;
 import org.switchyard.tools.ui.debug.IInteractionConfiguration.TriggerType;
 
 /**
@@ -28,6 +29,8 @@ public class InteractionConfigurationBuilder {
 
     /** Attributes key for trigger type. */
     public static final String TRIGGER_KEY = "switchYardServiceBreakpoint.trigger";
+    /** Attributes key for trigger type. */
+    public static final String ASPECT_KEY = "switchYardServiceBreakpoint.aspect";
     /** Attributes key for consumer name. */
     public static final String CONSUMER_NAME_KEY = "switchYardServiceBreakpoint.consumer.name";
     /** Attributes key for consumer model URI. */
@@ -53,6 +56,15 @@ public class InteractionConfigurationBuilder {
      */
     public InteractionConfigurationBuilder triggers(Set<TriggerType> triggers) {
         _config._triggers = triggers;
+        return this;
+    }
+
+    /**
+     * @param aspects the aspects set to configure
+     * @return this
+     */
+    public InteractionConfigurationBuilder aspects(Set<AspectType> aspects) {
+        _config._aspects = aspects;
         return this;
     }
 
@@ -85,9 +97,10 @@ public class InteractionConfigurationBuilder {
      * @return this
      */
     public InteractionConfigurationBuilder updateFrom(Map<String, Object> attributes) {
-        return triggers(TriggerType.fromString(getString(attributes, TRIGGER_KEY, null))).consumer(
-                getQName(attributes, CONSUMER_NAME_KEY, null), getString(attributes, CONSUMER_URI_KEY, null)).provider(
-                getQName(attributes, PROVIDER_NAME_KEY, null), getString(attributes, PROVIDER_URI_KEY, null));
+        return triggers(SwitchYardDebugUtil.fromString(TriggerType.class, getString(attributes, TRIGGER_KEY, null)))
+                .aspects(SwitchYardDebugUtil.fromString(AspectType.class, getString(attributes, ASPECT_KEY, null)))
+                .consumer(getQName(attributes, CONSUMER_NAME_KEY, null), getString(attributes, CONSUMER_URI_KEY, null))
+                .provider(getQName(attributes, PROVIDER_NAME_KEY, null), getString(attributes, PROVIDER_URI_KEY, null));
     }
 
     /**
@@ -176,74 +189,53 @@ public class InteractionConfigurationBuilder {
 
     protected static class BasicBreakpointConfiguration implements IInteractionConfiguration {
         private Set<TriggerType> _triggers;
+        private Set<AspectType> _aspects;
         private QName _providerName;
         private String _providerUri;
         private QName _consumerName;
         private String _consumerUri;
 
-        /**
-         * Get the triggers.
-         * 
-         * @return the triggers.
-         */
+        @Override
         public Set<TriggerType> getTriggers() {
             return _triggers;
         }
 
-        /**
-         * Get the providerName.
-         * 
-         * @return the providerName.
-         */
+        @Override
         public QName getProviderName() {
             return _providerName;
         }
 
-        /**
-         * Get the providerUri.
-         * 
-         * @return the providerUri.
-         */
+        @Override
         public String getProviderUri() {
             return _providerUri;
         }
 
-        /**
-         * Get the consumerName.
-         * 
-         * @return the consumerName.
-         */
+        @Override
         public QName getConsumerName() {
             return _consumerName;
         }
 
-        /**
-         * Get the consumerUri.
-         * 
-         * @return the consumerUri.
-         */
+        @Override
         public String getConsumerUri() {
             return _consumerUri;
         }
 
         @Override
+        public Set<AspectType> getAspects() {
+            return _aspects;
+        }
+
+        @Override
         public Map<String, Object> toAttributesMap() {
             final Map<String, Object> attributes = new HashMap<String, Object>();
-            if (_consumerName != null) {
-                attributes.put(CONSUMER_NAME_KEY, _consumerName.toString());
-            }
-            if (_consumerUri != null) {
-                attributes.put(CONSUMER_URI_KEY, _consumerUri);
-            }
-            if (_providerName != null) {
-                attributes.put(PROVIDER_NAME_KEY, _providerName.toString());
-            }
-            if (_providerUri != null) {
-                attributes.put(PROVIDER_URI_KEY, _providerUri);
-            }
-            if (_triggers != null && _triggers.size() > 0) {
-                attributes.put(TRIGGER_KEY, TriggerType.toString(_triggers.toArray(new TriggerType[_triggers.size()])));
-            }
+            attributes.put(CONSUMER_NAME_KEY, _consumerName == null ? null : _consumerName.toString());
+            attributes.put(CONSUMER_URI_KEY, _consumerUri);
+            attributes.put(PROVIDER_NAME_KEY, _providerName == null ? null : _providerName.toString());
+            attributes.put(PROVIDER_URI_KEY, _providerUri);
+            attributes.put(TRIGGER_KEY,
+                    _triggers != null && _triggers.size() > 0 ? SwitchYardDebugUtil.toString(_triggers) : null);
+            attributes.put(ASPECT_KEY, _aspects != null && _aspects.size() > 0 ? SwitchYardDebugUtil.toString(_aspects)
+                    : null);
             return attributes;
         }
 

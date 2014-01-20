@@ -36,7 +36,7 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
             try {
                 String type = b.getMarker().getType();
                 if (SwitchYardDebugUtil.SERVICE_BREAKPIONT_MARKER_ID.equals(type)) {
-                    set.add(ServiceBreakpointDetailPane.ID);
+                    set.add(ServiceInteractionDetailPane.ID);
                 }
             } catch (CoreException e) {
                 e.printStackTrace();
@@ -52,7 +52,7 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
             try {
                 String type = b.getMarker().getType();
                 if (SwitchYardDebugUtil.SERVICE_BREAKPIONT_MARKER_ID.equals(type)) {
-                    return ServiceBreakpointDetailPane.ID;
+                    return ServiceInteractionDetailPane.ID;
                 }
             } catch (CoreException e) {
                 e.printStackTrace();
@@ -63,15 +63,15 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
 
     @Override
     public IDetailPane createDetailPane(String paneID) {
-        if (ServiceBreakpointDetailPane.ID.equals(paneID)) {
-            return new ServiceBreakpointDetailPane();
+        if (ServiceInteractionDetailPane.ID.equals(paneID)) {
+            return new ServiceInteractionDetailPane();
         }
         return null;
     }
 
     @Override
     public String getDetailPaneName(String paneID) {
-        if (ServiceBreakpointDetailPane.ID.equals(paneID)) {
+        if (ServiceInteractionDetailPane.ID.equals(paneID)) {
             return "SwitchYard Settings";
         }
         return null;

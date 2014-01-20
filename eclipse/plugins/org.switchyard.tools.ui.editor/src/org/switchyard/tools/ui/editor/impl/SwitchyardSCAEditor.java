@@ -319,6 +319,9 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
         Set<EObject> touched = new LinkedHashSet<EObject>();
         for (IBreakpoint breakpoint : breakpoints) {
             try {
+                if (breakpoint == null) {
+                    continue;
+                }
                 final IMarker marker = breakpoint.getMarker();
                 final String consumerUri = marker.getAttribute(InteractionConfigurationBuilder.CONSUMER_URI_KEY, null);
                 EObject markedObject = getTargetObject(

@@ -12,10 +12,8 @@
 package org.switchyard.tools.ui.debug;
 
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import javax.xml.namespace.QName;
 
@@ -29,44 +27,64 @@ public interface IInteractionConfiguration {
      */
     public enum TriggerType {
         /** On entry. */
-        ENTRY,
+        IN,
         /** On exit. */
-        EXIT,
+        OUT,
         /** On fault. */
         FAULT;
+    }
 
-        /**
-         * @param value a space separated list of TriggerType strings
-         * @return a set of trigger types
-         */
-        public static Set<TriggerType> fromString(String value) {
-            final Set<TriggerType> triggers = new HashSet<TriggerType>();
-            final StringTokenizer tokens = value == null ? null : new StringTokenizer(value);
-            if (tokens == null || !tokens.hasMoreTokens()) {
-                return EnumSet.copyOf(triggers);
-            }
-            for (; tokens.hasMoreTokens();) {
-                final TriggerType trigger = TriggerType.valueOf(tokens.nextToken());
-                if (trigger != null) {
-                    triggers.add(trigger);
-                }
-            }
-            return EnumSet.copyOf(triggers);
+    /**
+     * Used to define which points in the system bus should breaks occur, e.g.
+     * transaction setup/cleanup, security setup/cleanup, transformation,
+     * validation, etc.
+     */
+    public enum AspectType {
+        /** Break upon entering the bus. */
+        ENTRY(EnumSet.of(TriggerType.IN)),
+        /** Break during consumer callback. */
+        RETURN(EnumSet.of(TriggerType.OUT)),
+        /** Break during fault/error handler invocation. */
+        FAULT(EnumSet.of(TriggerType.FAULT)),
+        /** Break during transaction setup/cleanup. */
+        TRANSACTION(null),
+        /** Break during transaction setup/cleanup. */
+        SECURITY(null),
+        /** Break during generic policy check. */
+        POLICY(EnumSet.of(TriggerType.IN)),
+        /** Break during provider invocation. */
+        TARGET_INVOCATION(EnumSet.of(TriggerType.IN)),
+        /** Break during message validation. */
+        VALIDATION(null),
+        /** Break during message transformation. */
+        TRANSFORMATION(null);
+
+        private final Set<TriggerType> _supportedTriggers;
+
+        private AspectType(final Set<TriggerType> supportedTriggers) {
+            _supportedTriggers = supportedTriggers;
         }
 
         /**
-         * @param triggers a list of triggers
-         * @return a string with a space separated list of values.
+         * Aspects may only be enabled during specific exchange phases. For
+         * example, generic policy check (POLICY) is only applicable to the IN
+         * phase.
+         * 
+         * @param triggers the triggers applied
+         * @return true if this aspect should be enabled based on the specified
+         *         triggers.
          */
-        public static String toString(TriggerType... triggers) {
-            final StringBuffer buffer = new StringBuffer();
+        public boolean shouldEnable(Set<TriggerType> triggers) {
+            return triggers == null || _supportedTriggers == null || containsTriggers(triggers);
+        }
+
+        private boolean containsTriggers(Set<TriggerType> triggers) {
             for (TriggerType trigger : triggers) {
-                buffer.append(trigger.toString()).append(' ');
+                if (_supportedTriggers.contains(trigger)) {
+                    return true;
+                }
             }
-            if (buffer.length() > 0) {
-                buffer.deleteCharAt(buffer.length() - 1);
-            }
-            return buffer.toString();
+            return false;
         }
     }
 
@@ -94,6 +112,11 @@ public interface IInteractionConfiguration {
      * @return the triggers
      */
     public Set<TriggerType> getTriggers();
+
+    /**
+     * @return the aspects
+     */
+    public Set<AspectType> getAspects();
 
     /**
      * @return an attributes map corresponding to this configurations settings.

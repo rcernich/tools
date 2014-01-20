@@ -31,11 +31,11 @@ import org.switchyard.tools.ui.debug.IInteractionConfiguration.TriggerType;
  * types.
  */
 @SuppressWarnings("restriction")
-public abstract class ServiceHandlerBreakpoint extends DelegatingJavaBreakpoint {
+public abstract class ServiceHandlerBreakpoint extends DelegatingJavaBreakpoint<String> {
 
     private static final String SIGNATURE = "(Lorg/switchyard/Exchange;)V";
-    private static final String HANDLE_MESSAGE = "handleMessage";
-    private static final String HANDLE_FAULT = "handleFault";
+    protected static final String HANDLE_MESSAGE = "handleMessage";
+    protected static final String HANDLE_FAULT = "handleFault";
 
     private final String _type;
     private final String _exchangeVariable;
@@ -66,8 +66,9 @@ public abstract class ServiceHandlerBreakpoint extends DelegatingJavaBreakpoint 
      * @param markerId the id for the associated marker
      * @throws CoreException if something goes awry
      */
-    public ServiceHandlerBreakpoint(final IResource resource, final IInteractionConfiguration configuration, final boolean register,
-            final String type, final String exchangeVariable, final String markerId) throws CoreException {
+    public ServiceHandlerBreakpoint(final IResource resource, final IInteractionConfiguration configuration,
+            final boolean register, final String type, final String exchangeVariable, final String markerId)
+            throws CoreException {
         super(resource, configuration, register, markerId);
         _type = type;
         _exchangeVariable = exchangeVariable;
@@ -75,21 +76,43 @@ public abstract class ServiceHandlerBreakpoint extends DelegatingJavaBreakpoint 
 
     @Override
     protected void createDelegates() throws CoreException {
-        final Map<String,Object> messageAttributes = new HashMap<String, Object>(getMarker().getAttributes());
+        final Map<String, Object> messageAttributes = new HashMap<String, Object>(getMarker().getAttributes());
         messageAttributes.put(IBreakpoint.PERSISTED, false);
-        final Map<String,Object> faultAttributes = new HashMap<String, Object>(messageAttributes);
+        final Map<String, Object> faultAttributes = new HashMap<String, Object>(messageAttributes);
         faultAttributes.put(IBreakpoint.ENABLED, isEnabled() && triggersOnFault());
 
-        final IJavaMethodBreakpoint handleMessageDelegate = JDIDebugModel.createMethodBreakpoint(getMarker()
-                .getResource(), _type, HANDLE_MESSAGE, SIGNATURE, true, false, false, -1, -1, -1, 0, false, messageAttributes);
-        final IJavaMethodBreakpoint handleFaultDelegate = JDIDebugModel.createMethodBreakpoint(getMarker()
-                .getResource(), _type, HANDLE_FAULT, SIGNATURE, true, false, false, -1, -1, -1, 0, false, faultAttributes);
+        final IJavaMethodBreakpoint handleMessageDelegate = createHandleMessageDelegate(messageAttributes);
+        final IJavaMethodBreakpoint handleFaultDelegate = createHandleFaultDelegate(faultAttributes);
 
         setMessageCondition(handleMessageDelegate);
         setFaultCondition(handleFaultDelegate);
 
         addDelegate(HANDLE_MESSAGE, (JavaBreakpoint) handleMessageDelegate);
         addDelegate(HANDLE_FAULT, (JavaBreakpoint) handleFaultDelegate);
+        
+        updateEnabled(isEnabled());
+    }
+
+    /**
+     * @param attributes the breakpoint attributes.
+     * @return a new breakpoint for the handleMessage() method.
+     * @throws CoreException
+     */
+    protected IJavaMethodBreakpoint createHandleMessageDelegate(final Map<String, Object> attributes)
+            throws CoreException {
+        return JDIDebugModel.createMethodBreakpoint(getMarker().getResource(), _type, HANDLE_MESSAGE, SIGNATURE, true,
+                false, false, -1, -1, -1, 0, false, attributes);
+    }
+
+    /**
+     * @param attributes the breakpoint attributes.
+     * @return a new breakpoint for the handleFault() method.
+     * @throws CoreException
+     */
+    protected IJavaMethodBreakpoint createHandleFaultDelegate(final Map<String, Object> attributes)
+            throws CoreException {
+        return JDIDebugModel.createMethodBreakpoint(getMarker().getResource(), _type, HANDLE_FAULT, SIGNATURE, true,
+                false, false, -1, -1, -1, 0, false, attributes);
     }
 
     /**
@@ -117,15 +140,23 @@ public abstract class ServiceHandlerBreakpoint extends DelegatingJavaBreakpoint 
         final IJavaMethodBreakpoint handleMessageDelegate = getHandleMessageDelegate();
         final IJavaMethodBreakpoint handleFaultDelegate = getHandleFaultDelegate();
         if (enabled) {
-            handleMessageDelegate.setEnabled(true);
-            if (triggersOnFault()) {
-                handleFaultDelegate.setEnabled(true);
-            } else {
-                handleFaultDelegate.setEnabled(false);
+            if (handleMessageDelegate != null) {
+                handleMessageDelegate.setEnabled(true);
+            }
+            if (handleFaultDelegate != null) {
+                if (triggersOnFault()) {
+                    handleFaultDelegate.setEnabled(true);
+                } else {
+                    handleFaultDelegate.setEnabled(false);
+                }
             }
         } else {
-            handleMessageDelegate.setEnabled(false);
-            handleFaultDelegate.setEnabled(false);
+            if (handleMessageDelegate != null) {
+                handleMessageDelegate.setEnabled(false);
+            }
+            if (handleFaultDelegate != null) {
+                handleFaultDelegate.setEnabled(false);
+            }
         }
     }
 
@@ -134,7 +165,7 @@ public abstract class ServiceHandlerBreakpoint extends DelegatingJavaBreakpoint 
      */
     protected boolean triggersOnFault() {
         final Set<TriggerType> triggers = getInteractionConfiguration().getTriggers();
-        return triggers == null || triggers.contains(TriggerType.FAULT) || triggers.contains(TriggerType.EXIT);
+        return triggers == null || triggers.contains(TriggerType.FAULT) || triggers.contains(TriggerType.OUT);
     }
 
     /**
@@ -145,7 +176,7 @@ public abstract class ServiceHandlerBreakpoint extends DelegatingJavaBreakpoint 
         if (config == null) {
             return null;
         }
-        final IConditionBuilder builder = new CamelExchangeConditionBuilder(_exchangeVariable);
+        final IConditionBuilder builder = new SwitchYardExchangeConditionBuilder(_exchangeVariable);
         final Set<TriggerType> triggers = config.getTriggers();
         final String triggerCondition = builder.exchangePhase(triggers == null || triggers.isEmpty() ? EnumSet
                 .allOf(TriggerType.class) : triggers);
@@ -183,7 +214,7 @@ public abstract class ServiceHandlerBreakpoint extends DelegatingJavaBreakpoint 
         if (config == null) {
             return null;
         }
-        final IConditionBuilder builder = new CamelExchangeConditionBuilder(_exchangeVariable);
+        final IConditionBuilder builder = new SwitchYardExchangeConditionBuilder(_exchangeVariable);
         final String providerCondition = builder.provider(config.getProviderName());
         final String consumerCondition = builder.consumer(config.getConsumerName());
         final StringBuffer buffer = new StringBuffer();
@@ -213,13 +244,21 @@ public abstract class ServiceHandlerBreakpoint extends DelegatingJavaBreakpoint 
     }
 
     private void updateCondition(final String newCondition, final IJavaMethodBreakpoint delegate) throws CoreException {
-        final String oldCondition = delegate.getCondition();
-        if (oldCondition == null || oldCondition.equals(newCondition)) {
+        if (delegate == null) {
             return;
         }
+        final String oldCondition = delegate.getCondition();
         if (newCondition == null) {
-            delegate.setConditionEnabled(false);
-            delegate.setCondition(null);
+            if (oldCondition == null) {
+                // nothing to do
+                return;
+            } else {
+                delegate.setConditionEnabled(false);
+                delegate.setCondition(null);
+            }
+        } else if (newCondition.equals(oldCondition)) {
+            // nothing to do
+            return;
         } else {
             delegate.setCondition(newCondition);
             if (!delegate.isConditionEnabled()) {

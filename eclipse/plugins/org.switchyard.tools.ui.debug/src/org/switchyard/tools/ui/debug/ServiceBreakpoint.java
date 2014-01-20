@@ -85,7 +85,7 @@ public class ServiceBreakpoint extends JavaMethodBreakpoint {
 
     @Override
     public boolean isEntry() throws CoreException {
-        return getTriggerTypes().contains(TriggerType.ENTRY);
+        return getTriggerTypes().contains(TriggerType.IN);
     }
 
     @Override
@@ -94,9 +94,9 @@ public class ServiceBreakpoint extends JavaMethodBreakpoint {
         final Set<TriggerType> triggers = getTriggerTypes();
         final boolean update;
         if (entry) {
-            update = triggers.add(TriggerType.ENTRY);
+            update = triggers.add(TriggerType.IN);
         } else {
-            update = triggers.remove(TriggerType.ENTRY);
+            update = triggers.remove(TriggerType.IN);
         }
         if (update) {
             update(getServiceName(), getServiceType(), triggers);
@@ -105,7 +105,7 @@ public class ServiceBreakpoint extends JavaMethodBreakpoint {
 
     @Override
     public boolean isExit() throws CoreException {
-        return getTriggerTypes().contains(TriggerType.EXIT);
+        return getTriggerTypes().contains(TriggerType.OUT);
     }
 
     @Override
@@ -114,9 +114,9 @@ public class ServiceBreakpoint extends JavaMethodBreakpoint {
         final Set<TriggerType> triggers = getTriggerTypes();
         final boolean update;
         if (exit) {
-            update = triggers.add(TriggerType.EXIT);
+            update = triggers.add(TriggerType.OUT);
         } else {
-            update = triggers.remove(TriggerType.EXIT);
+            update = triggers.remove(TriggerType.OUT);
         }
         if (update) {
             update(getServiceName(), getServiceType(), triggers);
@@ -162,7 +162,7 @@ public class ServiceBreakpoint extends JavaMethodBreakpoint {
      */
     public Set<TriggerType> getTriggerTypes() {
         final String triggerStrings = getMarker().getAttribute(TRIGGER_KEY, null);
-        return triggerStrings == null ? null : TriggerType.fromString(triggerStrings);
+        return triggerStrings == null ? null : SwitchYardDebugUtil.fromString(TriggerType.class, triggerStrings);
     }
 
     /**
@@ -177,7 +177,7 @@ public class ServiceBreakpoint extends JavaMethodBreakpoint {
         setAttributes(
                 new String[] {TRIGGER_KEY, SERVICE_TYPE_KEY, SERVICE_NAME_KEY, IMarker.MESSAGE },
                 new Object[] {
-                        TriggerType.toString(triggers.toArray(new TriggerType[triggers.size()])),
+                        SwitchYardDebugUtil.toString(triggers),
                         type.toString(),
                         service.toString(),
                         String.format("Service %s: %s {%s} on %s", type, service.getLocalPart(),
@@ -188,7 +188,7 @@ public class ServiceBreakpoint extends JavaMethodBreakpoint {
     private static Map<String, Object> createAttributes(QName service, String uri, ServiceType type,
             Set<TriggerType> triggers) {
         final Map<String, Object> attributes = new HashMap<String, Object>();
-        attributes.put(TRIGGER_KEY, TriggerType.toString(triggers.toArray(new TriggerType[triggers.size()])));
+        attributes.put(TRIGGER_KEY, SwitchYardDebugUtil.toString(triggers));
         attributes.put(SERVICE_TYPE_KEY, type.toString());
         attributes.put(SERVICE_NAME_KEY, service.toString());
         attributes.put(CONDITION_ENABLED, Boolean.TRUE);
@@ -209,15 +209,15 @@ public class ServiceBreakpoint extends JavaMethodBreakpoint {
 
         // trigger
         if (triggers == null || triggers.isEmpty()) {
-            triggers = EnumSet.of(TriggerType.ENTRY);
+            triggers = EnumSet.allOf(TriggerType.class);
         }
         boolean addOr = false;
         buffer.append("(");
-        if (triggers.contains(TriggerType.ENTRY)) {
+        if (triggers.contains(TriggerType.IN)) {
             buffer.append("org.switchyard.ExchangePhase.IN == ex.getProperty(\"org.switchyard.bus.camel.phase\", org.switchyard.ExchangePhase.class)");
             addOr = true;
         }
-        if (triggers.contains(TriggerType.EXIT)) {
+        if (triggers.contains(TriggerType.OUT)) {
             if (addOr) {
                 buffer.append("\n            || ");
             }

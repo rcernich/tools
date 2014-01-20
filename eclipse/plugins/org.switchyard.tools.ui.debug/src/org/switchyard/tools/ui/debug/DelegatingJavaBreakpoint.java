@@ -37,12 +37,14 @@ import com.sun.jdi.request.EventRequest;
  * <p/>
  * A breakpoint that is actually implemented using more than one individual
  * breakpoints.
+ * 
+ * @param <T> type for keys in delegate map
  */
 @SuppressWarnings("restriction")
-public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements ISwitchYardBreakpoint {
+public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint implements ISwitchYardBreakpoint {
 
     private IInteractionConfiguration _interactionConfiguration;
-    private Map<String, JavaBreakpoint> _delegates = new HashMap<String, JavaBreakpoint>();
+    private Map<T, JavaBreakpoint> _delegates = new HashMap<T, JavaBreakpoint>();
 
     /**
      * Create a new DelegatingJavaBreakpoint.
@@ -63,7 +65,7 @@ public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements
                 DelegatingJavaBreakpoint.super.setMarker(resource.createMarker(markerId));
                 final Map<String, Object> attributes;
                 if (configuration == null) {
-                    attributes = new HashMap<String,Object>();
+                    attributes = new HashMap<String, Object>();
                 } else {
                     attributes = configuration.toAttributesMap();
                 }
@@ -100,7 +102,9 @@ public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements
         if (configuration.equals(_interactionConfiguration)) {
             return;
         }
-        setAttributes(configuration.toAttributesMap());
+        Map<String, Object> attributes = getMarker().getAttributes();
+        attributes.putAll(configuration.toAttributesMap());
+        setAttributes(attributes);
         _interactionConfiguration = configuration;
         if (_delegates.size() > 0) {
             configurationUpdated();
@@ -119,11 +123,15 @@ public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements
         }
     }
 
-    protected JavaBreakpoint getDelegate(String key) {
+    protected Map<T, JavaBreakpoint> getDelegates() {
+        return _delegates;
+    }
+
+    protected JavaBreakpoint getDelegate(T key) {
         return _delegates.containsKey(key) ? _delegates.get(key) : null;
     }
 
-    protected void addDelegate(String key, JavaBreakpoint delegate) {
+    protected void addDelegate(T key, JavaBreakpoint delegate) {
         _delegates.put(key, delegate);
         if (fInstalledTargets != null) {
             for (IJavaDebugTarget target : fInstalledTargets) {
@@ -152,7 +160,7 @@ public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements
     protected void clearDelegates() {
         for (JavaBreakpoint delegate : _delegates.values()) {
             try {
-                if (fInstalledTargets != null) {
+                if (fInstalledTargets != null && delegate != null) {
                     for (IJavaDebugTarget target : fInstalledTargets) {
                         try {
                             delegate.removeFromTarget((JDIDebugTarget) target);
@@ -188,7 +196,9 @@ public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements
     public void delete() throws CoreException {
         for (IJavaBreakpoint delegate : _delegates.values()) {
             try {
-                delegate.delete();
+                if (delegate != null) {
+                    delegate.delete();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -198,7 +208,7 @@ public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements
 
     @Override
     public void setEnabled(boolean enabled) throws CoreException {
-        if (_delegates.size() > 0) {
+        if (_delegates.size() > 0 && enabled != isEnabled()) {
             updateEnabled(enabled);
         }
         super.setEnabled(enabled);
@@ -225,7 +235,9 @@ public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements
     public void setSuspendPolicy(int suspendPolicy) throws CoreException {
         for (IJavaBreakpoint delegate : _delegates.values()) {
             try {
-                delegate.setSuspendPolicy(suspendPolicy);
+                if (delegate != null) {
+                    delegate.setSuspendPolicy(suspendPolicy);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -237,7 +249,9 @@ public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements
     public void setThreadFilter(IJavaThread thread) throws CoreException {
         for (IJavaBreakpoint delegate : _delegates.values()) {
             try {
-                delegate.setThreadFilter(thread);
+                if (delegate != null) {
+                    delegate.setThreadFilter(thread);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -249,7 +263,9 @@ public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements
     public void removeThreadFilter(IJavaDebugTarget target) throws CoreException {
         for (IJavaBreakpoint delegate : _delegates.values()) {
             try {
-                delegate.removeThreadFilter(target);
+                if (delegate != null) {
+                    delegate.removeThreadFilter(target);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -288,7 +304,9 @@ public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements
         // add the delegates
         for (JavaBreakpoint delegate : _delegates.values()) {
             try {
-                delegate.addToTarget(target);
+                if (delegate != null) {
+                    delegate.addToTarget(target);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -300,14 +318,16 @@ public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements
 
     @Override
     protected void createRequests(JDIDebugTarget target) throws CoreException {
-        // do nothing.  everything is handled by the delegates.
+        // do nothing. everything is handled by the delegates.
     }
 
     @Override
     public void removeFromTarget(JDIDebugTarget target) throws CoreException {
         for (JavaBreakpoint delegate : _delegates.values()) {
             try {
-                delegate.removeFromTarget(target);
+                if (delegate != null) {
+                    delegate.removeFromTarget(target);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -322,7 +342,9 @@ public abstract class DelegatingJavaBreakpoint extends JavaBreakpoint implements
     public void setExpired(boolean expired) throws CoreException {
         for (JavaBreakpoint delegate : _delegates.values()) {
             try {
-                delegate.setExpired(expired);
+                if (delegate != null) {
+                    delegate.setExpired(expired);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
