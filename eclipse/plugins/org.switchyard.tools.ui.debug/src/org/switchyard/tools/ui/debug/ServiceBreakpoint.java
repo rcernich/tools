@@ -71,9 +71,9 @@ public class ServiceBreakpoint extends JavaMethodBreakpoint {
 
     @Override
     public void setMarker(IMarker marker) throws CoreException {
-        if (!SwitchYardDebugUtil.SERVICE_BREAKPIONT_MARKER_ID.equals(marker.getType())) {
+        if (!SwitchYardDebugUtil.SERVICE_INTERACTION_BREAKPIONT_MARKER_ID.equals(marker.getType())) {
             marker.delete();
-            marker = marker.getResource().createMarker(SwitchYardDebugUtil.SERVICE_BREAKPIONT_MARKER_ID);
+            marker = marker.getResource().createMarker(SwitchYardDebugUtil.SERVICE_INTERACTION_BREAKPIONT_MARKER_ID);
         }
         super.setMarker(marker);
     }

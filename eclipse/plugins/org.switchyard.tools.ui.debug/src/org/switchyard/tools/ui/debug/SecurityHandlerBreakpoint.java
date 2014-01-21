@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.CoreException;
  */
 public class SecurityHandlerBreakpoint extends ServiceHandlerBreakpoint {
 
-    private static final String MARKER_ID = "org.switchyard.tools.ui.debug.switchYardServiceBreakpointMarker";
+    private static final String MARKER_ID = SwitchYardDebugUtil.BASE_BREAKPOINT_MARKER_ID;
     private static final String TYPE = "org.switchyard.handlers.SecurityHandler";
     private static final String EXCHANGE_VARIABLE = "exchange";
 

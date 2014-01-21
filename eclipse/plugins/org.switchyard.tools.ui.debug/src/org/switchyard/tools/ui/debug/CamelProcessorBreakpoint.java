@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.model.IBreakpoint;
@@ -77,6 +78,7 @@ public abstract class CamelProcessorBreakpoint extends DelegatingJavaBreakpoint<
     protected void createDelegates() throws CoreException {
         final Map<String,Object> attributes = new HashMap<String, Object>(getMarker().getAttributes());
         attributes.put(IBreakpoint.PERSISTED, false);
+        attributes.put(IMarker.TRANSIENT, true);
 
         final IJavaMethodBreakpoint delegate = JDIDebugModel.createMethodBreakpoint(getMarker().getResource(), _type,
                 METHOD, SIGNATURE, true, false, false, -1, -1, -1, 0, false, attributes);

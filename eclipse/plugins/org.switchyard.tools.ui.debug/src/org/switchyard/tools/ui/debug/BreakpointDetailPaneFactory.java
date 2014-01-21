@@ -35,8 +35,8 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
             IBreakpoint b = (IBreakpoint) selection.getFirstElement();
             try {
                 String type = b.getMarker().getType();
-                if (SwitchYardDebugUtil.SERVICE_BREAKPIONT_MARKER_ID.equals(type)) {
-                    set.add(ServiceInteractionDetailPane.ID);
+                if (SwitchYardDebugUtil.SERVICE_INTERACTION_BREAKPIONT_MARKER_ID.equals(type)) {
+                    set.add(ServiceInteractionBreakpointDetailPane.ID);
                 }
             } catch (CoreException e) {
                 e.printStackTrace();
@@ -51,8 +51,8 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
             IBreakpoint b = (IBreakpoint) selection.getFirstElement();
             try {
                 String type = b.getMarker().getType();
-                if (SwitchYardDebugUtil.SERVICE_BREAKPIONT_MARKER_ID.equals(type)) {
-                    return ServiceInteractionDetailPane.ID;
+                if (SwitchYardDebugUtil.SERVICE_INTERACTION_BREAKPIONT_MARKER_ID.equals(type)) {
+                    return ServiceInteractionBreakpointDetailPane.ID;
                 }
             } catch (CoreException e) {
                 e.printStackTrace();
@@ -63,15 +63,15 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
 
     @Override
     public IDetailPane createDetailPane(String paneID) {
-        if (ServiceInteractionDetailPane.ID.equals(paneID)) {
-            return new ServiceInteractionDetailPane();
+        if (ServiceInteractionBreakpointDetailPane.ID.equals(paneID)) {
+            return new ServiceInteractionBreakpointDetailPane();
         }
         return null;
     }
 
     @Override
     public String getDetailPaneName(String paneID) {
-        if (ServiceInteractionDetailPane.ID.equals(paneID)) {
+        if (ServiceInteractionBreakpointDetailPane.ID.equals(paneID)) {
             return "SwitchYard Settings";
         }
         return null;

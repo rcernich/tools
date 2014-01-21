@@ -22,7 +22,7 @@ import org.switchyard.tools.ui.debug.SwitchYardDebugUtil.ServiceType;
  */
 public class ServiceInterceptBreakpoint extends CamelProcessorBreakpoint {
 
-    private static final String MARKER_ID = "org.switchyard.tools.ui.debug.switchYardServiceBreakpointMarker";
+    private static final String MARKER_ID = SwitchYardDebugUtil.BASE_BREAKPOINT_MARKER_ID;
     private static final String TYPE = "org.switchyard.bus.camel.processors.InterceptProcessor";
     private static final String EXCHANGE_VARIABLE = "ex";
 

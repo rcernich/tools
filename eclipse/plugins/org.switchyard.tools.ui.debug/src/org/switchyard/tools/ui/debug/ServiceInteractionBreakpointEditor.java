@@ -42,6 +42,11 @@ import org.switchyard.tools.ui.debug.IInteractionConfiguration.TriggerType;
 @SuppressWarnings("restriction")
 public class ServiceInteractionBreakpointEditor extends AbstractJavaBreakpointEditor {
 
+    /** The property ID for triggers. */
+    public static final int TRIGGER_PROP = 1;
+    /** The property ID for aspects. */
+    public static final int ASPECT_PROP = 2;
+
     private ServiceInteractionBreakpoint _breakpoint;
     private Button _inButton;
     private Button _outButton;
@@ -98,7 +103,7 @@ public class ServiceInteractionBreakpointEditor extends AbstractJavaBreakpointEd
                 } else {
                     _aspects.remove(aspect);
                 }
-                setDirty(true);
+                setDirty(ASPECT_PROP);
             }
         };
 
@@ -233,7 +238,7 @@ public class ServiceInteractionBreakpointEditor extends AbstractJavaBreakpointEd
                 _triggers.remove(_trigger);
             }
             updateEnablement();
-            setDirty(true);
+            setDirty(TRIGGER_PROP);
         }
     }
 }

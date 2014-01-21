@@ -11,27 +11,28 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.debug;
 
-
 import org.eclipse.jdt.internal.debug.ui.breakpoints.AbstractDetailPane;
 import org.eclipse.jdt.internal.debug.ui.breakpoints.AbstractJavaBreakpointEditor;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * ServiceInteractionDetailPane
+ * ServiceInteractionBreakpointDetailPane
  * <p/>
  * Detail pane for SwitchYard service breakpoints.
  */
 @SuppressWarnings("restriction")
-public class ServiceInteractionDetailPane extends AbstractDetailPane {
+public class ServiceInteractionBreakpointDetailPane extends AbstractDetailPane {
 
     /** The ID for this detail pane. */
-    public static final String ID = ServiceInteractionDetailPane.class.getCanonicalName();
+    public static final String ID = ServiceInteractionBreakpointDetailPane.class.getCanonicalName();
 
     /**
-     * Create a new ServiceInteractionDetailPane.
+     * Create a new ServiceInteractionBreakpointDetailPane.
      */
-    public ServiceInteractionDetailPane() {
+    public ServiceInteractionBreakpointDetailPane() {
         super("SwitchYard Service Breakpoint", "SwitchYard service breakpoint properties.", ID);
+        addAutosaveProperties(new int[] {ServiceInteractionBreakpointEditor.ASPECT_PROP,
+                ServiceInteractionBreakpointEditor.TRIGGER_PROP });
     }
 
     @Override

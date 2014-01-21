@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.model.IBreakpoint;
@@ -78,6 +79,7 @@ public abstract class ServiceHandlerBreakpoint extends DelegatingJavaBreakpoint<
     protected void createDelegates() throws CoreException {
         final Map<String, Object> messageAttributes = new HashMap<String, Object>(getMarker().getAttributes());
         messageAttributes.put(IBreakpoint.PERSISTED, false);
+        messageAttributes.put(IMarker.TRANSIENT, true);
         final Map<String, Object> faultAttributes = new HashMap<String, Object>(messageAttributes);
         faultAttributes.put(IBreakpoint.ENABLED, isEnabled() && triggersOnFault());
 

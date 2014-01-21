@@ -24,7 +24,7 @@ import org.eclipse.jdt.debug.core.IJavaMethodBreakpoint;
  */
 public class PolicyHandlerBreakpoint extends ServiceHandlerBreakpoint {
 
-    private static final String MARKER_ID = "org.switchyard.tools.ui.debug.switchYardServiceBreakpointMarker";
+    private static final String MARKER_ID = SwitchYardDebugUtil.BASE_BREAKPOINT_MARKER_ID;
     private static final String TYPE = "org.switchyard.handlers.PolicyHandler";
     private static final String EXCHANGE_VARIABLE = "exchange";
 

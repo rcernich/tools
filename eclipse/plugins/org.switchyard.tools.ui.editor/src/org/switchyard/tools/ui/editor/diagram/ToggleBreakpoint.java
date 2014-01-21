@@ -77,7 +77,7 @@ public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFe
                     e.printStackTrace();
                 }
                 if (marker == null || !project.equals(marker.getResource())
-                        || !SwitchYardDebugUtil.SERVICE_BREAKPIONT_MARKER_ID.equals(markerType)
+                        || !SwitchYardDebugUtil.SERVICE_INTERACTION_BREAKPIONT_MARKER_ID.equals(markerType)
                         || !breakpointMatchesSelection((ServiceInteractionBreakpoint) breakpoint, (Contract) bo)) {
                     continue;
                 }

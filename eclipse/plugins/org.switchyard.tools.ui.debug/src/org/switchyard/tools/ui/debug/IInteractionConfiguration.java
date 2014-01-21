@@ -45,7 +45,7 @@ public interface IInteractionConfiguration {
         /** Break during consumer callback. */
         RETURN(EnumSet.of(TriggerType.OUT)),
         /** Break during fault/error handler invocation. */
-        FAULT(EnumSet.of(TriggerType.FAULT)),
+        FAULT(EnumSet.of(TriggerType.OUT, TriggerType.FAULT)),
         /** Break during transaction setup/cleanup. */
         TRANSACTION(null),
         /** Break during transaction setup/cleanup. */

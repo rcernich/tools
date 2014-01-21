@@ -14,6 +14,7 @@ package org.switchyard.tools.ui.debug;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
@@ -73,6 +74,7 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
                 attributes.put(IBreakpoint.ENABLED, Boolean.valueOf(true));
                 if (!register) {
                     attributes.put(IBreakpoint.PERSISTED, false);
+                    attributes.put(IMarker.TRANSIENT, true);
                 }
                 ensureMarker().setAttributes(attributes);
                 register(register);
@@ -160,16 +162,18 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
     protected void clearDelegates() {
         for (JavaBreakpoint delegate : _delegates.values()) {
             try {
-                if (fInstalledTargets != null && delegate != null) {
-                    for (IJavaDebugTarget target : fInstalledTargets) {
-                        try {
-                            delegate.removeFromTarget((JDIDebugTarget) target);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                if (delegate != null) {
+                    if (fInstalledTargets != null) {
+                        for (IJavaDebugTarget target : fInstalledTargets) {
+                            try {
+                                delegate.removeFromTarget((JDIDebugTarget) target);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
+                    delegate.delete();
                 }
-                delegate.delete();
             } catch (CoreException e) {
                 e.printStackTrace();
             }
@@ -335,6 +339,9 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
         super.removeFromTarget(target);
         if (markerExists()) {
             decrementInstallCount();
+        }
+        if (!isInstalled()) {
+            clearDelegates();
         }
     }
 

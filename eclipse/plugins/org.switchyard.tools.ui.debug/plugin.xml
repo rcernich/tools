@@ -61,6 +61,24 @@
             type="org.switchyard.tools.ui.debug.switchYardBreakpointMarker">
       </super>
    </extension>
+   <extension
+         point="org.eclipse.ui.ide.markerSupport">
+      <markerTypeCategory
+            name="SwitchYard Breakpoints">
+         <markerTypeReference
+               id="org.switchyard.tools.ui.debug.switchYardBreakpointMarker">
+         </markerTypeReference>
+         <markerTypeReference
+               id="org.switchyard.tools.ui.debug.switchYardServiceBreakpointMarker">
+         </markerTypeReference>
+         <markerTypeReference
+               id="org.switchyard.tools.ui.debug.switchYardTransformerBreakpointMarker">
+         </markerTypeReference>
+         <markerTypeReference
+               id="org.switchyard.tools.ui.debug.switchYardValidatorBreakpointMarker">
+         </markerTypeReference>
+      </markerTypeCategory>
+   </extension>
    <!-- Breakpoint definitions. -->
    <extension
          point="org.eclipse.debug.core.breakpoints">
