@@ -42,6 +42,10 @@ public final class SwitchYardDebugUtil {
     public static final String BASE_BREAKPOINT_MARKER_ID = "org.switchyard.tools.ui.debug.switchYardBreakpointMarker";
     /** The id for service (consumer and provider) breakpoint markers. */
     public static final String SERVICE_INTERACTION_BREAKPIONT_MARKER_ID = "org.switchyard.tools.ui.debug.switchYardServiceBreakpointMarker";
+    /** The id for validate breakpoint markers. */
+    public static final String VALIDATE_BREAKPIONT_MARKER_ID = "org.switchyard.tools.ui.debug.switchYardValidatorBreakpointMarker";
+    /** The id for transform breakpoint markers. */
+    public static final String TRANSFORM_BREAKPIONT_MARKER_ID = "org.switchyard.tools.ui.debug.switchYardTransformerBreakpointMarker";
 
     /**
      * The type of service breakpoint.

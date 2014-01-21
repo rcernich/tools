@@ -11,12 +11,12 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.debug;
 
-import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.RETURN;
 import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.ENTRY;
 import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.FAULT;
-import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.TARGET_INVOCATION;
 import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.POLICY;
+import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.RETURN;
 import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.SECURITY;
+import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.TARGET_INVOCATION;
 import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.TRANSACTION;
 import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.TRANSFORMATION;
 import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.VALIDATION;
@@ -82,8 +82,8 @@ public class ServiceInteractionBreakpoint extends DelegatingJavaBreakpoint<Aspec
                 return ServiceType.CONSUMER;
             }
         });
-        addDelegate(TARGET_INVOCATION, enabled, triggers, aspects, new ProviderProcessorBreakpoint(resource, configuration,
-                false));
+        addDelegate(TARGET_INVOCATION, enabled, triggers, aspects, new ProviderProcessorBreakpoint(resource,
+                configuration, false));
         addDelegate(RETURN, enabled, triggers, aspects, new ConsumerCallbackProcessorBreakpoint(resource,
                 configuration, false));
         addDelegate(FAULT, enabled, triggers, aspects, new ErrorHandlingProcessorBreakpoint(resource, configuration,
@@ -93,7 +93,7 @@ public class ServiceInteractionBreakpoint extends DelegatingJavaBreakpoint<Aspec
         addDelegate(SECURITY, enabled, triggers, aspects, new SecurityHandlerBreakpoint(resource, configuration, false));
         addDelegate(POLICY, enabled, triggers, aspects, new PolicyHandlerBreakpoint(resource, configuration, false));
         addDelegate(VALIDATION, enabled, triggers, aspects, new ValidateHandlerBreakpoint(resource, configuration,
-                false));
+                ValidateConfigurationBuilder.create().build(), false));
         addDelegate(TRANSFORMATION, enabled, triggers, aspects, new TransformHandlerBreakpoint(resource, configuration,
                 false));
     }

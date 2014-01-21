@@ -239,5 +239,31 @@ public class InteractionConfigurationBuilder {
             return attributes;
         }
 
+        @Override
+        public int hashCode() {
+            return _consumerName == null ? _providerName == null ? 0 : _providerName.hashCode() : _consumerName
+                    .hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof BasicBreakpointConfiguration) {
+                final BasicBreakpointConfiguration other = (BasicBreakpointConfiguration) obj;
+                return valuesMatch(_providerName, other._providerName) && valuesMatch(_providerUri, other._providerUri)
+                        && valuesMatch(_consumerName, other._consumerName)
+                        && valuesMatch(_consumerUri, other._consumerUri) && setsMatch(_triggers, other._triggers)
+                        && setsMatch(_aspects, other._aspects);
+            }
+            return false;
+        }
+
+        private boolean valuesMatch(Object one, Object other) {
+            return (one == null && other == null) || (one != null && one.equals(other));
+        }
+
+        private boolean setsMatch(Set<?> one, Set<?> other) {
+            return ((one == null || one.isEmpty()) && (other == null || other.isEmpty()))
+                    || (one != null && one.equals(other));
+        }
     }
 }
