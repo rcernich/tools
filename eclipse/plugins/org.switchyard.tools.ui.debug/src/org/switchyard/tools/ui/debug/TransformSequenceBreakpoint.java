@@ -51,15 +51,16 @@ public class TransformSequenceBreakpoint extends DelegatingJavaBreakpoint<String
      * Create a new ConsumerCallbackProcessorBreakpoint.
      * 
      * @param resource the associated resource
+     * @param configuration the configuration for this breakpoint
      * @param transformConfiguration the transform configuration for this
      *            breakpoint
      * @param register true to register this breakpoint with the debug
      *            subsystem.
      * @throws CoreException if something goes awry
      */
-    public TransformSequenceBreakpoint(final IResource resource, final ITransformConfiguration transformConfiguration,
-            final boolean register) throws CoreException {
-        super(resource, InteractionConfigurationBuilder.create().build(), register, MARKER_ID);
+    public TransformSequenceBreakpoint(final IResource resource, final IInteractionConfiguration configuration,
+            final ITransformConfiguration transformConfiguration, final boolean register) throws CoreException {
+        super(resource, configuration, register, MARKER_ID);
         _transformConfiguration = transformConfiguration;
     }
 
