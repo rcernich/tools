@@ -15,6 +15,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.ui.IDebugModelPresentation;
 import org.eclipse.debug.ui.IValueDetailListener;
@@ -57,8 +58,8 @@ public class SwitchYardDebugModelPresentation implements IDebugModelPresentation
     @Override
     public IEditorInput getEditorInput(Object element) {
         IResource resource = null;
-        if (element instanceof ServiceInteractionBreakpoint) {
-            element = ((ServiceInteractionBreakpoint) element).getMarker();
+        if (element instanceof IBreakpoint) {
+            element = ((IBreakpoint) element).getMarker();
         }
         if (element instanceof IMarker) {
             resource = ((IMarker) element).getResource();
@@ -98,7 +99,7 @@ public class SwitchYardDebugModelPresentation implements IDebugModelPresentation
         if (element instanceof IMarker) {
             element = DebugPlugin.getDefault().getBreakpointManager().getBreakpoint((IMarker) element);
         }
-        if (element instanceof ServiceInteractionBreakpoint) {
+        if (element instanceof DelegatingJavaBreakpoint) {
             return Activator.getDefault().getImageRegistry().get(IImageDescriptors.SWITCH_YARD_SMALL);
         }
         return null;
@@ -109,18 +110,22 @@ public class SwitchYardDebugModelPresentation implements IDebugModelPresentation
         if (element instanceof IMarker) {
             element = DebugPlugin.getDefault().getBreakpointManager().getBreakpoint((IMarker) element);
         }
-        if (element instanceof ServiceInteractionBreakpoint) {
-            final ServiceInteractionBreakpoint breakpoint = (ServiceInteractionBreakpoint) element;
+        if (element instanceof TransformBreakpointEditor) {
+            return "Transform Breakpoint: " + ((IBreakpoint)element).getMarker().getResource().getName();
+        } else if (element instanceof ValidateBreakpointEditor) {
+            return "Validate Breakpoint: " + ((IBreakpoint)element).getMarker().getResource().getName();
+        } else if (element instanceof DelegatingJavaBreakpoint) {
+            final DelegatingJavaBreakpoint<?> breakpoint = (DelegatingJavaBreakpoint<?>) element;
             final IInteractionConfiguration config = breakpoint.getInteractionConfiguration();
             if (config.getConsumerName() == null) {
                 if (config.getProviderName() == null) {
                     return String.format("SwitchYard Service: <all> on %s", config.getTriggers().toArray());
                 }
-                return String.format("SwitchYard PROVIDER: %s on %s", config.getProviderName().getLocalPart(), config
-                        .getTriggers());
+                return String.format("SwitchYard PROVIDER: %s on %s", config.getProviderName().getLocalPart(),
+                        config.getTriggers());
             } else if (config.getProviderName() == null) {
-                return String.format("SwitchYard CONSUMER: %s on %s", config.getConsumerName().getLocalPart(), config
-                        .getTriggers());
+                return String.format("SwitchYard CONSUMER: %s on %s", config.getConsumerName().getLocalPart(),
+                        config.getTriggers());
             }
             return String.format("SwitchYard Service Intercept: %s to %s on %s", config.getConsumerName()
                     .getLocalPart(), config.getProviderName().getLocalPart(), config.getTriggers());

@@ -23,6 +23,7 @@ import org.eclipse.jdt.debug.core.IJavaMethodBreakpoint;
 import org.eclipse.jdt.debug.core.JDIDebugModel;
 import org.eclipse.jdt.internal.debug.core.breakpoints.JavaBreakpoint;
 import org.switchyard.tools.models.switchyard1_0.switchyard.TransformType;
+import org.switchyard.tools.ui.debug.IInteractionConfiguration.TriggerType;
 
 /**
  * TransformSequenceBreakpoint
@@ -32,11 +33,12 @@ import org.switchyard.tools.models.switchyard1_0.switchyard.TransformType;
 @SuppressWarnings("restriction")
 public class TransformSequenceBreakpoint extends DelegatingJavaBreakpoint<String> {
 
-    private static final String MARKER_ID = SwitchYardDebugUtil.TRANSFORM_BREAKPIONT_MARKER_ID;
+    private static final String MARKER_ID = SwitchYardDebugUtil.TRANSFORM_BREAKPOINT_MARKER_ID;
     private static final String DELEGATE_KEY = CamelProcessorBreakpoint.class.getCanonicalName();
     private static final String TYPE = "org.switchyard.transform.TransformSequence";
     private static final String METHOD = "apply";
     private static final String SIGNATURE = "(Lorg/switchyard/Message;Lorg/switchyard/transform/TransformerRegistry;)V";
+    private static final String VARIABLE_NAME = "message.getContext()";
 
     private ITransformConfiguration _transformConfiguration;
 
@@ -145,17 +147,21 @@ public class TransformSequenceBreakpoint extends DelegatingJavaBreakpoint<String
     }
 
     private String createCondition() {
+        final String phaseCondition = createPhaseCondition();
         final ITransformConfiguration config = getTransformConfiguration();
         if (config == null) {
-            return null;
+            return phaseCondition;
         }
         final Set<TransformType> transforms = config.getTransforms();
         if (transforms == null || transforms.isEmpty()) {
-            return null;
+            return phaseCondition;
         }
 
         boolean addOr = false;
         final StringBuffer buffer = new StringBuffer();
+        if (phaseCondition != null) {
+            buffer.append(phaseCondition).append(" && ");
+        }
         buffer.append("_sequence.size() > 1 && (\n");
         for (TransformType transform : transforms) {
             if (transform.getFrom() == null || transform.getTo() == null) {
@@ -176,6 +182,41 @@ public class TransformSequenceBreakpoint extends DelegatingJavaBreakpoint<String
         }
         buffer.append(')');
         buffer.insert(0, '(');
+        buffer.append(")");
+        return buffer.toString();
+    }
+
+    private String createPhaseCondition() {
+        final IInteractionConfiguration config = getInteractionConfiguration();
+        if (config == null) {
+            return null;
+        }
+        final Set<TriggerType> triggers = config.getTriggers();
+        final StringBuffer buffer = new StringBuffer();
+        boolean addOr = false;
+        buffer.append("(");
+        if (triggers.contains(TriggerType.IN)) {
+            if (triggers.contains(TriggerType.OUT)) {
+                // no need for a condition on triggers
+                return null;
+            }
+            buffer.append("org.switchyard.ExchangePhase.IN == ").append(VARIABLE_NAME)
+                    .append(".getPropertyValue(\"org.switchyard.bus.camel.phase\")");
+            addOr = true;
+        }
+        if (triggers.contains(TriggerType.OUT)) {
+            if (addOr) {
+                buffer.append("\n            || ");
+            }
+            buffer.append("org.switchyard.ExchangePhase.OUT == ").append(VARIABLE_NAME)
+                    .append(".getPropertyValue(\"org.switchyard.bus.camel.phase\")");
+        } else if (triggers.contains(TriggerType.FAULT)) {
+            if (addOr) {
+                buffer.append("\n            || ");
+            }
+            buffer.append("Boolean.TRUE.equals(").append(VARIABLE_NAME)
+                    .append(".getPropertyValue(\"org.switchyard.bus.camel.fault\"))");
+        }
         buffer.append(")");
         return buffer.toString();
     }

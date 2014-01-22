@@ -35,8 +35,12 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
             IBreakpoint b = (IBreakpoint) selection.getFirstElement();
             try {
                 String type = b.getMarker().getType();
-                if (SwitchYardDebugUtil.SERVICE_INTERACTION_BREAKPIONT_MARKER_ID.equals(type)) {
+                if (SwitchYardDebugUtil.SERVICE_INTERACTION_BREAKPOINT_MARKER_ID.equals(type)) {
                     set.add(ServiceInteractionBreakpointDetailPane.ID);
+                } else if (SwitchYardDebugUtil.TRANSFORM_BREAKPOINT_MARKER_ID.equals(type)) {
+                    set.add(TransformBreakpointDetailPane.ID);
+                } else if (SwitchYardDebugUtil.VALIDATE_BREAKPOINT_MARKER_ID.equals(type)) {
+                    set.add(ValidateBreakpointDetailPane.ID);
                 }
             } catch (CoreException e) {
                 e.printStackTrace();
@@ -51,8 +55,12 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
             IBreakpoint b = (IBreakpoint) selection.getFirstElement();
             try {
                 String type = b.getMarker().getType();
-                if (SwitchYardDebugUtil.SERVICE_INTERACTION_BREAKPIONT_MARKER_ID.equals(type)) {
+                if (SwitchYardDebugUtil.SERVICE_INTERACTION_BREAKPOINT_MARKER_ID.equals(type)) {
                     return ServiceInteractionBreakpointDetailPane.ID;
+                } else if (SwitchYardDebugUtil.TRANSFORM_BREAKPOINT_MARKER_ID.equals(type)) {
+                    return TransformBreakpointDetailPane.ID;
+                } else if (SwitchYardDebugUtil.VALIDATE_BREAKPOINT_MARKER_ID.equals(type)) {
+                    return ValidateBreakpointDetailPane.ID;
                 }
             } catch (CoreException e) {
                 e.printStackTrace();
@@ -65,6 +73,10 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
     public IDetailPane createDetailPane(String paneID) {
         if (ServiceInteractionBreakpointDetailPane.ID.equals(paneID)) {
             return new ServiceInteractionBreakpointDetailPane();
+        } else if (SwitchYardDebugUtil.TRANSFORM_BREAKPOINT_MARKER_ID.equals(paneID)) {
+            return new TransformBreakpointDetailPane();
+        } else if (SwitchYardDebugUtil.VALIDATE_BREAKPOINT_MARKER_ID.equals(paneID)) {
+            return new ValidateBreakpointDetailPane();
         }
         return null;
     }
@@ -72,7 +84,11 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
     @Override
     public String getDetailPaneName(String paneID) {
         if (ServiceInteractionBreakpointDetailPane.ID.equals(paneID)) {
-            return "SwitchYard Settings";
+            return "SwitchYard Service Breakpoint Settings";
+        } else if (SwitchYardDebugUtil.TRANSFORM_BREAKPOINT_MARKER_ID.equals(paneID)) {
+            return "SwitchYard Transform Breakpoint Settings";
+        } else if (SwitchYardDebugUtil.VALIDATE_BREAKPOINT_MARKER_ID.equals(paneID)) {
+            return "SwitchYard Validate Breakpoint Settings";
         }
         return null;
     }

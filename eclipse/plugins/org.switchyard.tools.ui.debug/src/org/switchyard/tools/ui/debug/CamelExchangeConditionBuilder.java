@@ -99,7 +99,7 @@ public class CamelExchangeConditionBuilder implements IConditionBuilder {
     @Override
     public String exchangeState(boolean fault) {
         final StringBuffer buffer = new StringBuffer();
-        if (fault) {
+        if (!fault) {
             buffer.append('!');
         }
         buffer.append(_exchangeVariable).append(

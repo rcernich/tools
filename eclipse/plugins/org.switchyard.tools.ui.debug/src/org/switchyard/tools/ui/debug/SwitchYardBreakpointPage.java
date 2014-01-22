@@ -25,12 +25,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IPropertyListener;
 
 /**
- * ServiceInteractionBreakpointPage
+ * SwitchYardBreakpointPage
  * <p/>
  * Property page for Service Interaction breakpoint.
  */
 @SuppressWarnings("restriction")
-public class ServiceInteractionBreakpointPage extends JavaBreakpointPage {
+public class SwitchYardBreakpointPage extends JavaBreakpointPage {
 
     private AbstractJavaBreakpointEditor _editor;
 
@@ -46,7 +46,14 @@ public class ServiceInteractionBreakpointPage extends JavaBreakpointPage {
     @Override
     protected void createTypeSpecificEditors(Composite parent) {
         try {
-            _editor = new ServiceInteractionBreakpointEditor();
+            String type = getBreakpoint().getMarker().getType();
+            if (SwitchYardDebugUtil.TRANSFORM_BREAKPOINT_MARKER_ID.equals(type)) {
+                _editor = new TransformBreakpointEditor();
+            } else if (SwitchYardDebugUtil.VALIDATE_BREAKPOINT_MARKER_ID.equals(type)) {
+                _editor = new ValidateBreakpointEditor();
+            } else {
+                _editor = new ServiceInteractionBreakpointEditor();
+            }
             _editor.createControl(parent);
             _editor.addPropertyListener(new IPropertyListener() {
                 public void propertyChanged(Object source, int propId) {
@@ -70,7 +77,7 @@ public class ServiceInteractionBreakpointPage extends JavaBreakpointPage {
 
     @Override
     protected void createTypeSpecificLabels(Composite parent) {
-        final ServiceInteractionBreakpoint breakpoint = (ServiceInteractionBreakpoint) getBreakpoint();
+        final DelegatingJavaBreakpoint<?> breakpoint = (DelegatingJavaBreakpoint<?>) getBreakpoint();
         final IResource resource = breakpoint.getMarker().getResource();
         final IInteractionConfiguration configuration = breakpoint.getInteractionConfiguration();
         final QName service;
@@ -95,6 +102,5 @@ public class ServiceInteractionBreakpointPage extends JavaBreakpointPage {
         }
         setTitle(new SwitchYardDebugModelPresentation().getText(breakpoint));
     }
-
 
 }

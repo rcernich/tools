@@ -518,15 +518,15 @@
          point="org.eclipse.ui.propertyPages">
       <page
             name="Breakpoint Properties"
-            class="org.switchyard.tools.ui.debug.ServiceInteractionBreakpointPage"
-            id="org.switchyard.tools.ui.debug.ServiceInteractionBreakpoint">
+            class="org.switchyard.tools.ui.debug.SwitchYardBreakpointPage"
+            id="org.switchyard.tools.ui.debug.page.property.breakpoint">
          <enabledWhen>
             <or>
                <instanceof
-                     value="org.switchyard.tools.ui.debug.ServiceInteractionBreakpoint">
+                     value="org.switchyard.tools.ui.debug.DelegatingJavaBreakpoint">
                </instanceof>
                <adapt
-                     type="org.switchyard.tools.ui.debug.ServiceInteractionBreakpoint">
+                     type="org.switchyard.tools.ui.debug.DelegatingJavaBreakpoint">
                </adapt>
             </or>
          </enabledWhen>

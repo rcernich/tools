@@ -47,7 +47,7 @@ public class ServiceInteractionBreakpointEditor extends AbstractJavaBreakpointEd
     /** The property ID for aspects. */
     public static final int ASPECT_PROP = 2;
 
-    private ServiceInteractionBreakpoint _breakpoint;
+    private DelegatingJavaBreakpoint<?> _breakpoint;
     private Button _inButton;
     private Button _outButton;
     private Button _faultButton;
@@ -143,8 +143,8 @@ public class ServiceInteractionBreakpointEditor extends AbstractJavaBreakpointEd
     public void setInput(Object breakpoint) throws CoreException {
         _updating = true;
         try {
-            if (breakpoint instanceof ServiceInteractionBreakpoint) {
-                _breakpoint = (ServiceInteractionBreakpoint) breakpoint;
+            if (breakpoint instanceof DelegatingJavaBreakpoint) {
+                _breakpoint = (DelegatingJavaBreakpoint<?>) breakpoint;
             } else {
                 breakpoint = null;
             }
