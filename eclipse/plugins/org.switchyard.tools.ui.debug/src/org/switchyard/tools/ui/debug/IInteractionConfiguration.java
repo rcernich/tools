@@ -11,6 +11,7 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.debug;
 
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
@@ -85,6 +86,13 @@ public interface IInteractionConfiguration {
                 }
             }
             return false;
+        }
+
+        /**
+         * @return the supported triggers
+         */
+        public Set<TriggerType> getSupportedTriggers() {
+            return Collections.unmodifiableSet(_supportedTriggers);
         }
     }
 

@@ -21,7 +21,6 @@ import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType
 import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.TRANSFORMATION;
 import static org.switchyard.tools.ui.debug.IInteractionConfiguration.AspectType.VALIDATION;
 
-import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -75,7 +74,7 @@ public class ServiceInteractionBreakpoint extends DelegatingJavaBreakpoint<Aspec
         final Set<AspectType> aspects = configuration.getAspects();
         final boolean enabled = isEnabled();
         addDelegate(ENTRY, enabled, triggers, aspects, new ServiceInterceptBreakpoint(resource,
-                transformInterceptConfiguration(configuration), false) {
+                transformInterceptConfiguration(configuration, ENTRY), false) {
             @Override
             protected ServiceType getTargetType() {
                 // we only want to break at the very beginning and the very end
@@ -83,19 +82,22 @@ public class ServiceInteractionBreakpoint extends DelegatingJavaBreakpoint<Aspec
             }
         });
         addDelegate(TARGET_INVOCATION, enabled, triggers, aspects, new ProviderProcessorBreakpoint(resource,
-                configuration, false));
+                transformInterceptConfiguration(configuration, TARGET_INVOCATION), false));
         addDelegate(RETURN, enabled, triggers, aspects, new ConsumerCallbackProcessorBreakpoint(resource,
-                configuration, false));
-        addDelegate(FAULT, enabled, triggers, aspects, new ErrorHandlingProcessorBreakpoint(resource, configuration,
-                false));
-        addDelegate(TRANSACTION, enabled, triggers, aspects, new TransactionHandlerBreakpoint(resource, configuration,
-                false));
-        addDelegate(SECURITY, enabled, triggers, aspects, new SecurityHandlerBreakpoint(resource, configuration, false));
-        addDelegate(POLICY, enabled, triggers, aspects, new PolicyHandlerBreakpoint(resource, configuration, false));
-        addDelegate(VALIDATION, enabled, triggers, aspects, new ValidateHandlerBreakpoint(resource, configuration,
-                ValidateConfigurationBuilder.create().build(), false));
-        addDelegate(TRANSFORMATION, enabled, triggers, aspects, new TransformHandlerBreakpoint(resource, configuration,
-                false));
+                transformInterceptConfiguration(configuration, RETURN), false));
+        addDelegate(FAULT, enabled, triggers, aspects, new ErrorHandlingProcessorBreakpoint(resource,
+                transformInterceptConfiguration(configuration, FAULT), false));
+        addDelegate(TRANSACTION, enabled, triggers, aspects, new TransactionHandlerBreakpoint(resource,
+                transformInterceptConfiguration(configuration, TRANSACTION), false));
+        addDelegate(SECURITY, enabled, triggers, aspects, new SecurityHandlerBreakpoint(resource,
+                transformInterceptConfiguration(configuration, SECURITY), false));
+        addDelegate(POLICY, enabled, triggers, aspects, new PolicyHandlerBreakpoint(resource,
+                transformInterceptConfiguration(configuration, POLICY), false));
+        addDelegate(VALIDATION, enabled, triggers, aspects, new ValidateHandlerBreakpoint(resource,
+                transformInterceptConfiguration(configuration, VALIDATION), ValidateConfigurationBuilder.create()
+                        .build(), false));
+        addDelegate(TRANSFORMATION, enabled, triggers, aspects, new TransformHandlerBreakpoint(resource,
+                transformInterceptConfiguration(configuration, TRANSFORMATION), false));
     }
 
     private void addDelegate(final AspectType aspect, final boolean enabled, final Set<TriggerType> triggers,
@@ -108,10 +110,18 @@ public class ServiceInteractionBreakpoint extends DelegatingJavaBreakpoint<Aspec
 
     @Override
     protected void configurationUpdated() throws CoreException {
-        /*
-         * we just need to adjust the update settings. provider/consumer
-         * information is static and shouldn't change.
-         */
+        final IInteractionConfiguration configuration = getInteractionConfiguration();
+        for (Map.Entry<AspectType, JavaBreakpoint> entry : getDelegates().entrySet()) {
+            final JavaBreakpoint delegate = entry.getValue();
+            if (delegate instanceof DelegatingJavaBreakpoint) {
+                try {
+                    ((DelegatingJavaBreakpoint<?>) delegate)
+                            .setInteractionConfiguration(transformInterceptConfiguration(configuration, entry.getKey()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         updateEnabled(isEnabled());
     }
 
@@ -149,10 +159,18 @@ public class ServiceInteractionBreakpoint extends DelegatingJavaBreakpoint<Aspec
         return enabled && (aspects == null || aspects.contains(aspect)) && aspect.shouldEnable(triggers);
     }
 
-    private IInteractionConfiguration transformInterceptConfiguration(final IInteractionConfiguration configuration) {
-        // we only want to break when the route starts.
-        InteractionConfigurationBuilder builder = InteractionConfigurationBuilder.createFrom(configuration);
-        builder.triggers(EnumSet.of(TriggerType.IN));
+    private IInteractionConfiguration transformInterceptConfiguration(final IInteractionConfiguration configuration,
+            final AspectType aspect) {
+        // we only want to set the triggers supported by the aspect.
+        final InteractionConfigurationBuilder builder = InteractionConfigurationBuilder.createFrom(configuration);
+        final Set<TriggerType> triggers = configuration.getTriggers();
+        final Set<TriggerType> supportedTriggers = aspect.getSupportedTriggers();
+        if (triggers == null) {
+            builder.triggers(supportedTriggers);
+        } else if (supportedTriggers != null) {
+            triggers.retainAll(supportedTriggers);
+        }
+        builder.triggers(triggers);
         return builder.build();
     }
 

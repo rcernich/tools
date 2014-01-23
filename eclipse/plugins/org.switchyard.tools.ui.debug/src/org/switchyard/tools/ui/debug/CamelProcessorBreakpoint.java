@@ -76,7 +76,7 @@ public abstract class CamelProcessorBreakpoint extends DelegatingJavaBreakpoint<
 
     @Override
     protected void createDelegates() throws CoreException {
-        final Map<String,Object> attributes = new HashMap<String, Object>(getMarker().getAttributes());
+        final Map<String, Object> attributes = new HashMap<String, Object>(getMarker().getAttributes());
         attributes.put(IBreakpoint.PERSISTED, false);
         attributes.put(IMarker.TRANSIENT, true);
 
@@ -106,12 +106,17 @@ public abstract class CamelProcessorBreakpoint extends DelegatingJavaBreakpoint<
         final IJavaMethodBreakpoint delegate = getDelegate();
         final String newCondition = createCondition();
         final String oldCondition = delegate.getCondition();
-        if (oldCondition == null || oldCondition.equals(newCondition)) {
-            return;
-        }
         if (newCondition == null) {
-            delegate.setConditionEnabled(false);
-            delegate.setCondition(null);
+            if (oldCondition == null) {
+                // nothing to do
+                return;
+            } else {
+                delegate.setConditionEnabled(false);
+                delegate.setCondition(null);
+            }
+        } else if (newCondition.equals(oldCondition)) {
+            // nothing to do
+            return;
         } else {
             delegate.setCondition(newCondition);
             if (!delegate.isConditionEnabled()) {

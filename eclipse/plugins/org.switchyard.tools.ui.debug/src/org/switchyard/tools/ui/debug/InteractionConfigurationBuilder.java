@@ -11,6 +11,7 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.debug;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -55,7 +56,7 @@ public class InteractionConfigurationBuilder {
      * @return this
      */
     public InteractionConfigurationBuilder triggers(Set<TriggerType> triggers) {
-        _config._triggers = triggers;
+        _config._triggers = triggers == null || triggers.isEmpty() ? null : EnumSet.copyOf(triggers);
         return this;
     }
 
@@ -64,7 +65,7 @@ public class InteractionConfigurationBuilder {
      * @return this
      */
     public InteractionConfigurationBuilder aspects(Set<AspectType> aspects) {
-        _config._aspects = aspects;
+        _config._aspects = aspects == null || aspects.isEmpty() ? null : EnumSet.copyOf(aspects);
         return this;
     }
 
@@ -197,7 +198,7 @@ public class InteractionConfigurationBuilder {
 
         @Override
         public Set<TriggerType> getTriggers() {
-            return _triggers;
+            return _triggers == null || _triggers.isEmpty() ? null : EnumSet.copyOf(_triggers);
         }
 
         @Override
@@ -222,7 +223,7 @@ public class InteractionConfigurationBuilder {
 
         @Override
         public Set<AspectType> getAspects() {
-            return _aspects;
+            return _aspects == null || _aspects.isEmpty() ? null : EnumSet.copyOf(_aspects);
         }
 
         @Override

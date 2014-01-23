@@ -132,12 +132,17 @@ public class TransformSequenceBreakpoint extends DelegatingJavaBreakpoint<String
         final IJavaMethodBreakpoint delegate = getDelegate();
         final String newCondition = createCondition();
         final String oldCondition = delegate.getCondition();
-        if (oldCondition == null || oldCondition.equals(newCondition)) {
-            return;
-        }
         if (newCondition == null) {
-            delegate.setConditionEnabled(false);
-            delegate.setCondition(null);
+            if (oldCondition == null) {
+                // nothing to do
+                return;
+            } else {
+                delegate.setConditionEnabled(false);
+                delegate.setCondition(null);
+            }
+        } else if (newCondition.equals(oldCondition)) {
+            // nothing to do
+            return;
         } else {
             delegate.setCondition(newCondition);
             if (!delegate.isConditionEnabled()) {
