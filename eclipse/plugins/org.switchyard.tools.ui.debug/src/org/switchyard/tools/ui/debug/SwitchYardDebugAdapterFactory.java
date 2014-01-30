@@ -13,12 +13,16 @@ package org.switchyard.tools.ui.debug;
 
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.debug.internal.ui.DebugUIPlugin;
+import org.eclipse.debug.internal.ui.viewers.model.provisional.IColumnPresentationFactory;
+import org.eclipse.debug.internal.ui.viewers.model.provisional.IModelProxyFactory;
 import org.eclipse.debug.ui.BreakpointTypeCategory;
 import org.eclipse.debug.ui.IBreakpointTypeCategory;
+import org.eclipse.jdt.internal.debug.ui.variables.JavaVariableColumnPresentationFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.switchyard.tools.ui.Activator;
 import org.switchyard.tools.ui.IImageDescriptors;
+import org.switchyard.tools.ui.debug.structure.SwitchYardModelProxyFactory;
 
 /**
  * SwitchYardDebugAdapterFactory
@@ -28,7 +32,7 @@ import org.switchyard.tools.ui.IImageDescriptors;
 @SuppressWarnings({"rawtypes", "restriction" })
 public class SwitchYardDebugAdapterFactory implements IAdapterFactory {
 
-    private static final Class[] TYPES = new Class[] {IBreakpointTypeCategory.class, IWorkbenchAdapter.class };
+    private static final Class[] TYPES = new Class[] {IBreakpointTypeCategory.class, IWorkbenchAdapter.class, IModelProxyFactory.class };
 
     @Override
     public Class[] getAdapterList() {
@@ -41,12 +45,16 @@ public class SwitchYardDebugAdapterFactory implements IAdapterFactory {
             return adaptBreakpointCategory(adaptableObject);
         } else if (adapterType == IWorkbenchAdapter.class) {
             return adaptWorkbenchAdapter(adaptableObject);
+        } else if (adapterType == IModelProxyFactory.class) {
+            return new SwitchYardModelProxyFactory();
+        } else if (adapterType == IColumnPresentationFactory.class) {
+            return new JavaVariableColumnPresentationFactory();
         }
         return null;
     }
 
     private Object adaptBreakpointCategory(Object adaptableObject) {
-        if (adaptableObject instanceof ServiceInteractionBreakpoint) {
+        if (adaptableObject instanceof DelegatingJavaBreakpoint) {
             return new BreakpointTypeCategory("SwitchYard Breakpoints", Activator.getDefault().getImageRegistry()
                     .getDescriptor(IImageDescriptors.SWITCH_YARD_SMALL));
         }
@@ -54,8 +62,8 @@ public class SwitchYardDebugAdapterFactory implements IAdapterFactory {
     }
 
     private Object adaptWorkbenchAdapter(Object adaptableObject) {
-        if (adaptableObject instanceof ServiceInteractionBreakpoint) {
-            final ServiceInteractionBreakpoint breakpoint = (ServiceInteractionBreakpoint) adaptableObject;
+        if (adaptableObject instanceof DelegatingJavaBreakpoint) {
+            final DelegatingJavaBreakpoint breakpoint = (DelegatingJavaBreakpoint<?>) adaptableObject;
             return new IWorkbenchAdapter() {
                 
                 @Override

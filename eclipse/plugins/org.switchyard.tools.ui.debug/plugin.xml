@@ -122,13 +122,23 @@
    <extension
          point="org.eclipse.core.runtime.adapters">
       <factory
-            adaptableType="org.switchyard.tools.ui.debug.ServiceInteractionBreakpoint"
+            adaptableType="org.switchyard.tools.ui.debug.DelegatingJavaBreakpoint"
             class="org.switchyard.tools.ui.debug.SwitchYardDebugAdapterFactory">
          <adapter
                type="org.eclipse.debug.ui.IBreakpointTypeCategory">
          </adapter>
          <adapter
                type="org.eclipse.ui.model.IWorkbenchAdapter">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.switchyard.tools.ui.debug.structure.SwitchYardContext"
+            class="org.switchyard.tools.ui.debug.SwitchYardDebugAdapterFactory">
+         <adapter
+               type="org.eclipse.debug.internal.ui.viewers.model.provisional.IModelProxyFactory">
+         </adapter>
+         <adapter
+               type="org.eclipse.debug.internal.ui.viewers.model.provisional.IColumnPresentationFactory">
          </adapter>
       </factory>
    </extension>
@@ -222,27 +232,6 @@
          </variable>
       </javaLogicalStructure>
       <javaLogicalStructure
-            description="SwitchYard Context Property"
-            subtypes="true"
-            type="org.switchyard.Property">
-         <variable
-               name="name"
-               value="return getName();">
-         </variable>
-         <variable
-               name="value"
-               value="return getValue();">
-         </variable>
-         <variable
-               name="scope"
-               value="return getScope().toString();">
-         </variable>
-         <variable
-               name="labels"
-               value="return getLabels();">
-         </variable>
-      </javaLogicalStructure>
-      <javaLogicalStructure
             description="SwitchYard Message"
             subtypes="true"
             type="org.switchyard.Message">
@@ -282,31 +271,6 @@
          <variable
                name="provider operation"
                value="return getProviderOperation();">
-         </variable>
-      </javaLogicalStructure>
-      <javaLogicalStructure
-            description="SwitchYard Service Operation"
-            subtypes="true"
-            type="org.switchyard.metadata.ServiceOperation">
-         <variable
-               name="name"
-               value="return getName();">
-         </variable>
-         <variable
-               name="exchange pattern"
-               value="return getExchangePattern().toString();">
-         </variable>
-         <variable
-               name="input type"
-               value="return getInputType();">
-         </variable>
-         <variable
-               name="output type"
-               value="return getOutputType();">
-         </variable>
-         <variable
-               name="fault type"
-               value="return getFaultType();">
          </variable>
       </javaLogicalStructure>
       <javaLogicalStructure
@@ -470,6 +434,15 @@
          </variable>
       </javaLogicalStructure>
    </extension>
+   <extension
+         point="org.eclipse.debug.core.logicalStructureTypes">
+      <logicalStructureType
+            class="org.switchyard.tools.ui.debug.structure.SwitchYardLogicalStructureTypeDelegate"
+            description="SwitchYard"
+            id="org.switchyard.tools.ui.debug.logicalStructureTypeDelegate"
+            modelIdentifier="org.eclipse.jdt.debug">
+      </logicalStructureType>
+   </extension>
    <!-- SwitchYard Step support -->
    <extension point="org.eclipse.ui.commands">
       <command
@@ -531,5 +504,40 @@
             </or>
          </enabledWhen>
       </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            id="org.switchyard.tools.ui.debug.context"
+            name="SwitchYard Context"
+            parentId="org.eclipse.jdt.debug.ui.debugging">
+      </context>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.contextViewBindings">
+      <contextViewBinding
+            autoOpen="false"
+            contextId="org.switchyard.tools.ui.debug.context"
+            viewId="org.switchyard.tools.ui.debug.view.switchYardContext">
+      </contextViewBinding>
+      <perspective
+            perspectiveId="org.eclipse.debug.ui.DebugPerspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.switchyard.tools.ui.debug.structure.SwitchYardContextView"
+            id="org.switchyard.tools.ui.debug.view.switchYardContext"
+            name="SwitchYard Context"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.debugModelContextBindings">
+      <modelContextBinding
+            contextId="org.switchyard.tools.ui.debug.context"
+            debugModelId="org.eclipse.jdt.debug">
+      </modelContextBinding>
    </extension>
 </plugin>

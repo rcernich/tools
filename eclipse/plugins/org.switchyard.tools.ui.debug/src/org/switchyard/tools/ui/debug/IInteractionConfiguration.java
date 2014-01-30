@@ -92,7 +92,7 @@ public interface IInteractionConfiguration {
          * @return the supported triggers
          */
         public Set<TriggerType> getSupportedTriggers() {
-            return Collections.unmodifiableSet(_supportedTriggers);
+            return _supportedTriggers == null ? null : Collections.unmodifiableSet(_supportedTriggers);
         }
     }
 
