@@ -26,9 +26,11 @@ import org.eclipse.jdt.debug.core.IJavaValue;
 import org.eclipse.jdt.internal.debug.core.logicalstructures.JavaLogicalStructure;
 
 /**
- * SwitchYardExchangeVariable
+ * SwitchYardExchangeMessageVariable
  * <p/>
- * A variable representing a SwitchYard exchange.
+ * Root variable for SwitchYard view, when only a Message is available (i.e. no
+ * Exchange). This variable adds the Exchange as a child of the message
+ * variable, if one is available.
  */
 @SuppressWarnings("restriction")
 public class SwitchYardExchangeMessageVariable extends JavaInterfaceVariable {
@@ -36,7 +38,7 @@ public class SwitchYardExchangeMessageVariable extends JavaInterfaceVariable {
     protected static final String TYPE = "org.switchyard.Message";
 
     /**
-     * Create a new SwitchYardExchangeVariable.
+     * Create a new SwitchYardExchangeMessageVariable.
      * 
      * @param underlyingObject the underlying Exchange object.
      */

@@ -18,14 +18,13 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaObject;
-import org.eclipse.jdt.debug.core.IJavaValue;
 
 /**
  * SwitchYardExchangeContractVariable
  * <p/>
  * A variable representing a SwitchYard ExchangeContract.
  */
-public class SwitchYardExchangeContractVariable extends JavaInterfaceVariable {
+public class SwitchYardExchangeContractVariable extends SimpleInterfaceVariable {
 
     protected static final String TYPE = "org.switchyard.metadata.ExchangeContract";
 
@@ -44,11 +43,6 @@ public class SwitchYardExchangeContractVariable extends JavaInterfaceVariable {
      */
     public SwitchYardExchangeContractVariable(IJavaObject underlyingObject) {
         super(underlyingObject, "Contract", TYPE, true);
-    }
-
-    @Override
-    protected IValue wrapJavaValue(IJavaValue actualValue) {
-        return new SwitchYardExchangeContractValue((IJavaObject) actualValue);
     }
 
     private static final class SwitchYardExchangeContractValue extends JavaInterfaceValue {
