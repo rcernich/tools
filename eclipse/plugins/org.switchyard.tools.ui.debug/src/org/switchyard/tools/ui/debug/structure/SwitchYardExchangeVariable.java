@@ -14,20 +14,29 @@ package org.switchyard.tools.ui.debug.structure;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaObject;
-import org.eclipse.jdt.debug.core.IJavaValue;
 
 /**
  * SwitchYardExchangeVariable
  * <p/>
  * A variable representing a SwitchYard exchange.
  */
-public class SwitchYardExchangeVariable extends JavaInterfaceVariable {
+public class SwitchYardExchangeVariable extends SimpleInterfaceVariable {
 
     protected static final String TYPE = "org.switchyard.Exchange";
+
+    /**
+     * @param source the source value
+     * @return a new object wrapping the supplied source
+     * @throws CoreException if something goes wrong
+     */
+    public static IValue newValue(IJavaObject source) throws CoreException {
+        return new SwitchYardExchangeValue(source);
+    }
 
     /**
      * Create a new SwitchYardExchangeVariable.
@@ -36,11 +45,6 @@ public class SwitchYardExchangeVariable extends JavaInterfaceVariable {
      */
     public SwitchYardExchangeVariable(IJavaObject underlyingObject) {
         super(underlyingObject, "Exchange", null, null, TYPE);
-    }
-
-    @Override
-    protected IValue wrapJavaValue(IJavaValue actualValue) {
-        return new SwitchYardExchangeValue((IJavaObject) actualValue);
     }
 
     private static final class SwitchYardExchangeValue extends JavaInterfaceValue {
@@ -66,6 +70,7 @@ public class SwitchYardExchangeVariable extends JavaInterfaceVariable {
                 variables.add(new SimpleInterfaceVariable((IJavaObject) getDelegate(), "Properties",
                         "getContext().getProperties(org.switchyard.Scope.EXCHANGE)", null,
                         "java.util.Set<org.switchyard.Property>"));
+                variables.add(new SwitchYardServiceDomainVariable((IJavaObject) getDelegate()));
                 _variables = variables.toArray(new IVariable[variables.size()]);
             }
             return _variables;

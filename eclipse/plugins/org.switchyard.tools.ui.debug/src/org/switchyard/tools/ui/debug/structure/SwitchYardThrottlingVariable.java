@@ -18,16 +18,23 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaObject;
-import org.eclipse.jdt.debug.core.IJavaValue;
 
 /**
  * SwitchYardThrottlingVariable
  * <p/>
  * A variable representing a SwitchYard service throttling details.
  */
-public class SwitchYardThrottlingVariable extends JavaInterfaceVariable {
+public class SwitchYardThrottlingVariable extends SimpleInterfaceVariable {
 
     protected static final String TYPE = "org.switchyard.metadata.qos.Throttling";
+
+    /**
+     * @param source the source value
+     * @return a new object wrapping the supplied source
+     */
+    public static IValue newValue(IJavaObject source) {
+        return new SwitchYardThrottlingValue(source);
+    }
 
     /**
      * Create a new SwitchYardThrottlingVariable.
@@ -36,11 +43,6 @@ public class SwitchYardThrottlingVariable extends JavaInterfaceVariable {
      */
     public SwitchYardThrottlingVariable(IJavaObject underlyingObject) {
         super(underlyingObject, "Throttling", TYPE, true);
-    }
-
-    @Override
-    protected IValue wrapJavaValue(IJavaValue actualValue) {
-        return new SwitchYardThrottlingValue((IJavaObject) actualValue);
     }
 
     private static final class SwitchYardThrottlingValue extends JavaInterfaceValue {

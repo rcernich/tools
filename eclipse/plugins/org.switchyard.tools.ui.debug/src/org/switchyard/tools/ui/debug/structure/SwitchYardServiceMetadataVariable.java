@@ -18,16 +18,23 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaObject;
-import org.eclipse.jdt.debug.core.IJavaValue;
 
 /**
  * SwitchYardServiceMetadataVariable
  * <p/>
  * A variable representing a SwitchYard service's metadata.
  */
-public class SwitchYardServiceMetadataVariable extends JavaInterfaceVariable {
+public class SwitchYardServiceMetadataVariable extends SimpleInterfaceVariable {
 
     protected static final String TYPE = "org.switchyard.ServiceMetadata";
+
+    /**
+     * @param source the source value
+     * @return a new object wrapping the supplied source
+     */
+    public static IValue newValue(IJavaObject source) {
+        return new SwitchYardServiceMetaDataValue(source);
+    }
 
     /**
      * Create a new SwitchYardServiceMetadataVariable.
@@ -36,11 +43,6 @@ public class SwitchYardServiceMetadataVariable extends JavaInterfaceVariable {
      */
     public SwitchYardServiceMetadataVariable(IJavaObject underlyingObject) {
         super(underlyingObject, "Service Metadata", TYPE, true);
-    }
-
-    @Override
-    protected IValue wrapJavaValue(IJavaValue actualValue) {
-        return new SwitchYardServiceMetaDataValue((IJavaObject) actualValue);
     }
 
     private static final class SwitchYardServiceMetaDataValue extends JavaInterfaceValue {

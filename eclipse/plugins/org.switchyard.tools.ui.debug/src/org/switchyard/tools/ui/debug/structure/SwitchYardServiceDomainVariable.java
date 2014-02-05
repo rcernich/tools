@@ -14,20 +14,29 @@ package org.switchyard.tools.ui.debug.structure;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaObject;
-import org.eclipse.jdt.debug.core.IJavaValue;
 
 /**
  * SwitchYardServiceDomainVariable
  * <p/>
  * A variable representing a SwitchYard service domain.
  */
-public class SwitchYardServiceDomainVariable extends JavaInterfaceVariable {
+public class SwitchYardServiceDomainVariable extends SimpleInterfaceVariable {
 
     protected static final String TYPE = "org.switchyard.ServiceDomain";
+
+    /**
+     * @param source the source value
+     * @return a new object wrapping the supplied source
+     * @throws CoreException if something goes awry
+     */
+    public static IValue newValue(IJavaObject source) throws CoreException {
+        return new SwitchYardServiceDomainValue(source);
+    }
 
     /**
      * Create a new SwitchYardServiceDomainVariable.
@@ -40,11 +49,6 @@ public class SwitchYardServiceDomainVariable extends JavaInterfaceVariable {
                 "Domain",
                 "getConsumer() == null ? getProvider() == null ? null : getProvider().getDomain() : getConsumer().getDomain()",
                 null, TYPE);
-    }
-
-    @Override
-    protected IValue wrapJavaValue(IJavaValue actualValue) {
-        return new SwitchYardServiceDomainValue((IJavaObject) actualValue);
     }
 
     private static final class SwitchYardServiceDomainValue extends JavaInterfaceValue {

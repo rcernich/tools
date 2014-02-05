@@ -18,16 +18,23 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaObject;
-import org.eclipse.jdt.debug.core.IJavaValue;
 
 /**
  * SwitchYardSecurityContextVariable
  * <p/>
  * A variable representing a SwitchYard exchange's security context.
  */
-public class SwitchYardSecurityContextVariable extends JavaInterfaceVariable {
+public class SwitchYardSecurityContextVariable extends SimpleInterfaceVariable {
 
-    private static final String TYPE = "org.switchyard.security.context.SecurityContext";
+    protected static final String TYPE = "org.switchyard.security.context.SecurityContext";
+
+    /**
+     * @param source the source value
+     * @return a new object wrapping the supplied source
+     */
+    public static IValue newValue(IJavaObject source) {
+        return new SwitchYardSecurityContextValue(source);
+    }
 
     /**
      * Create a new SwitchYardSecurityContextVariable.
@@ -36,11 +43,6 @@ public class SwitchYardSecurityContextVariable extends JavaInterfaceVariable {
      */
     public SwitchYardSecurityContextVariable(IJavaObject underlyingObject) {
         super(underlyingObject, "Security Context", "getContext().getPropertyValue(\"" + TYPE + "\")", null, TYPE);
-    }
-
-    @Override
-    protected IValue wrapJavaValue(IJavaValue actualValue) {
-        return new SwitchYardSecurityContextValue((IJavaObject) actualValue);
     }
 
     private static final class SwitchYardSecurityContextValue extends JavaInterfaceValue {

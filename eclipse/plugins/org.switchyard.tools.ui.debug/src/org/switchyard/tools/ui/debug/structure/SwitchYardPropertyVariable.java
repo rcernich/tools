@@ -18,14 +18,13 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaObject;
-import org.eclipse.jdt.debug.core.IJavaValue;
 
 /**
  * SwitchYardPropertyVariable
  * <p/>
  * A variable representing a SwitchYard property.
  */
-public class SwitchYardPropertyVariable extends JavaInterfaceVariable {
+public class SwitchYardPropertyVariable extends SimpleInterfaceVariable {
 
     protected static final String TYPE = "org.switchyard.Property";
 
@@ -44,11 +43,6 @@ public class SwitchYardPropertyVariable extends JavaInterfaceVariable {
      */
     public SwitchYardPropertyVariable(IJavaObject underlyingObject) {
         super(underlyingObject, "Property", null, null, TYPE);
-    }
-
-    @Override
-    protected IValue wrapJavaValue(IJavaValue actualValue) {
-        return new SwitchYardPropertyValue((IJavaObject) actualValue);
     }
 
     private static final class SwitchYardPropertyValue extends JavaInterfaceValue {

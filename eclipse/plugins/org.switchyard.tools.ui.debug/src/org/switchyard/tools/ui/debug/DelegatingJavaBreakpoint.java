@@ -46,6 +46,7 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
 
     private IInteractionConfiguration _interactionConfiguration;
     private Map<T, JavaBreakpoint> _delegates = new HashMap<T, JavaBreakpoint>();
+    private boolean _creating;
 
     /**
      * Create a new DelegatingJavaBreakpoint.
@@ -100,7 +101,7 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
      * @param configuration the new configuration
      * @throws CoreException if something goes awry
      */
-    public void setInteractionConfiguration(IInteractionConfiguration configuration) throws CoreException {
+    public synchronized void setInteractionConfiguration(IInteractionConfiguration configuration) throws CoreException {
         if (configuration.equals(_interactionConfiguration)) {
             return;
         }
@@ -125,17 +126,17 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
         }
     }
 
-    protected Map<T, JavaBreakpoint> getDelegates() {
+    protected synchronized Map<T, JavaBreakpoint> getDelegates() {
         return _delegates;
     }
 
-    protected JavaBreakpoint getDelegate(T key) {
+    protected synchronized JavaBreakpoint getDelegate(T key) {
         return _delegates.containsKey(key) ? _delegates.get(key) : null;
     }
 
-    protected void addDelegate(T key, JavaBreakpoint delegate) {
+    protected synchronized void addDelegate(T key, JavaBreakpoint delegate) {
         _delegates.put(key, delegate);
-        if (fInstalledTargets != null) {
+        if (fInstalledTargets != null && !_creating) {
             for (IJavaDebugTarget target : fInstalledTargets) {
                 try {
                     delegate.addToTarget((JDIDebugTarget) target);
@@ -159,7 +160,7 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
     /**
      * Deletes all existing delegates.
      */
-    protected void clearDelegates() {
+    protected synchronized void clearDelegates() {
         for (JavaBreakpoint delegate : _delegates.values()) {
             try {
                 if (delegate != null) {
@@ -301,9 +302,14 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
     }
 
     @Override
-    public void addToTarget(JDIDebugTarget target) throws CoreException {
+    public synchronized void addToTarget(JDIDebugTarget target) throws CoreException {
         if (_delegates.size() == 0) {
-            createDelegates();
+            _creating = true;
+            try {
+                createDelegates();
+            } finally {
+                _creating = false;
+            }
         }
         // add the delegates
         for (JavaBreakpoint delegate : _delegates.values()) {
@@ -326,7 +332,7 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
     }
 
     @Override
-    public void removeFromTarget(JDIDebugTarget target) throws CoreException {
+    public synchronized void removeFromTarget(JDIDebugTarget target) throws CoreException {
         for (JavaBreakpoint delegate : _delegates.values()) {
             try {
                 if (delegate != null) {

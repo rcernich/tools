@@ -12,6 +12,7 @@
 package org.switchyard.tools.ui.debug.structure;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.DebugElement;
 import org.eclipse.debug.core.model.IValue;
@@ -24,11 +25,11 @@ import org.eclipse.jdt.debug.core.IJavaThread;
 import org.eclipse.jdt.debug.core.IJavaType;
 import org.eclipse.jdt.debug.core.IJavaValue;
 import org.eclipse.jdt.debug.core.IJavaVariable;
+import org.eclipse.jdt.debug.core.JDIDebugModel;
 import org.eclipse.jdt.internal.debug.core.logicalstructures.JavaLogicalStructure;
 import org.eclipse.jdt.internal.debug.core.model.JDIDebugTarget;
 import org.eclipse.jdt.internal.debug.core.model.JDIPlaceholderValue;
 import org.eclipse.jdt.internal.debug.ui.JDIModelPresentation;
-import org.switchyard.tools.ui.debug.SwitchYardDebugUtil;
 
 /**
  * JavaInterfaceVariable
@@ -123,7 +124,7 @@ public abstract class JavaInterfaceVariable extends DebugElement implements IJav
     }
 
     @Override
-    public IValue getValue() throws DebugException {
+    public synchronized IValue getValue() throws DebugException {
         if (_value == null) {
             try {
                 final IJavaValue value = getRawValue();
@@ -170,20 +171,22 @@ public abstract class JavaInterfaceVariable extends DebugElement implements IJav
     }
 
     @Override
-    public void setValue(final IValue value) throws DebugException {
+    public synchronized void setValue(final IValue value) throws DebugException {
         if (_setterMethod == null) {
             notSupported(getReferenceTypeName() + " does not support setValue()", null);
         }
         if (value instanceof IJavaValue) {
             final IJavaThread thread = JDIModelPresentation.getEvaluationThread((IJavaDebugTarget) getDebugTarget());
-            _value = wrapJavaValue((IJavaValue) value);
             _underlyingObject.sendMessage(_setterMethod, getSetterMethodSignature(),
                     new IJavaValue[] {(IJavaValue) value }, thread, false);
+            _value = null;
+            fireChangeEvent(DebugEvent.CONTENT);
         }
     }
 
     protected String getSetterMethodSignature() {
-        return Signature.createMethodSignature(new String[] {Signature.createTypeSignature(_valueType, true) }, "V").replace('.', '/');
+        return Signature.createMethodSignature(new String[] {Signature.createTypeSignature(_valueType, true) }, "V")
+                .replace('.', '/');
     }
 
     @Override
@@ -219,7 +222,7 @@ public abstract class JavaInterfaceVariable extends DebugElement implements IJav
 
     @Override
     public String getModelIdentifier() {
-        return SwitchYardDebugUtil.MODEL_IDENTIFIER;
+        return JDIDebugModel.getPluginIdentifier();
     }
 
     @Override

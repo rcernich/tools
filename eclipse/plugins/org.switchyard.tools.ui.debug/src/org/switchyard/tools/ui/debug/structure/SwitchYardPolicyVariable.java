@@ -18,24 +18,22 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaObject;
-import org.eclipse.jdt.debug.core.IJavaValue;
 
 /**
  * SwitchYardPolicyVariable
  * <p/>
  * A variable representing a SwitchYard policy.
  */
-public class SwitchYardPolicyVariable extends JavaInterfaceVariable {
+public class SwitchYardPolicyVariable extends SimpleInterfaceVariable {
 
     protected static final String TYPE = "org.switchyard.policy.Policy";
 
     /**
-     * Create a new SwitchYardPolicyVariable.
-     * 
-     * @param underlyingObject the underlying Exchange object.
+     * @param source the source value
+     * @return a new object wrapping the supplied source
      */
-    public SwitchYardPolicyVariable(IJavaObject underlyingObject) {
-        super(underlyingObject, "Policy", null, null, TYPE);
+    public static IValue newValue(IJavaObject source) {
+        return new SwitchYardPolicyValue(source);
     }
 
     /**
@@ -46,11 +44,6 @@ public class SwitchYardPolicyVariable extends JavaInterfaceVariable {
      */
     public SwitchYardPolicyVariable(IJavaObject underlyingObject, String variableName) {
         super(underlyingObject, variableName, null, null, TYPE);
-    }
-
-    @Override
-    protected IValue wrapJavaValue(IJavaValue actualValue) {
-        return new SwitchYardPolicyValue((IJavaObject) actualValue);
     }
 
     private static final class SwitchYardPolicyValue extends JavaInterfaceValue {

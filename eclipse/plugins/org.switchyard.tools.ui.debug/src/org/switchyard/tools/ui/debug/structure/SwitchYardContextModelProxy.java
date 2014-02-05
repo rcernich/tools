@@ -64,7 +64,12 @@ public class SwitchYardContextModelProxy extends EventHandlerModelProxy {
                         }
                     }
 
-                    ModelDelta delta = new ModelDelta(_context, IModelDelta.CONTENT);
+                    final ModelDelta delta;
+                    if (event.getSource() instanceof JavaInterfaceVariable) {
+                        delta = new ModelDelta(event.getSource(), IModelDelta.CONTENT);
+                    } else {
+                        delta = new ModelDelta(_context, IModelDelta.CONTENT);
+                    }
                     fireDelta(delta);
                 }
             }

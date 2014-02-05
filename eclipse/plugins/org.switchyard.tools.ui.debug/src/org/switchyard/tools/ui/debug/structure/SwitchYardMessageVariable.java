@@ -19,16 +19,23 @@ import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.core.Signature;
 import org.eclipse.jdt.debug.core.IJavaObject;
-import org.eclipse.jdt.debug.core.IJavaValue;
 
 /**
  * SwitchYardMessageVariable
  * <p/>
  * A variable representing a SwitchYard message.
  */
-public class SwitchYardMessageVariable extends JavaInterfaceVariable {
+public class SwitchYardMessageVariable extends SimpleInterfaceVariable {
 
-    private static final String TYPE = "org.switchyard.Message";
+    protected static final String TYPE = "org.switchyard.Message";
+
+    /**
+     * @param source the source value
+     * @return a new object wrapping the supplied source
+     */
+    public static IValue newValue(IJavaObject source) {
+        return new SwitchYardMessageValue(source);
+    }
 
     /**
      * Create a new SwitchYardMessageVariable.
@@ -37,11 +44,6 @@ public class SwitchYardMessageVariable extends JavaInterfaceVariable {
      */
     public SwitchYardMessageVariable(IJavaObject underlyingObject) {
         super(underlyingObject, "Message", TYPE, true);
-    }
-
-    @Override
-    protected IValue wrapJavaValue(IJavaValue actualValue) {
-        return new SwitchYardMessageValue((IJavaObject) actualValue);
     }
 
     private static final class SwitchYardMessageValue extends JavaInterfaceValue {

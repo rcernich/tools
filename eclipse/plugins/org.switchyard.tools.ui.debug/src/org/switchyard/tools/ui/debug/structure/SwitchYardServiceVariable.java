@@ -18,16 +18,23 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaObject;
-import org.eclipse.jdt.debug.core.IJavaValue;
 
 /**
  * SwitchYardServiceVariable
  * <p/>
  * A variable representing a SwitchYard service.
  */
-public class SwitchYardServiceVariable extends JavaInterfaceVariable {
+public class SwitchYardServiceVariable extends SimpleInterfaceVariable {
 
     protected static final String TYPE = "org.switchyard.Service";
+
+    /**
+     * @param source the source value
+     * @return a new object wrapping the supplied source
+     */
+    public static IValue newValue(IJavaObject source) {
+        return new SwitchYardServiceValue(source);
+    }
 
     /**
      * Create a new SwitchYardServiceVariable.
@@ -36,11 +43,6 @@ public class SwitchYardServiceVariable extends JavaInterfaceVariable {
      */
     public SwitchYardServiceVariable(IJavaObject underlyingObject) {
         super(underlyingObject, "Provider", TYPE, true);
-    }
-
-    @Override
-    protected IValue wrapJavaValue(IJavaValue actualValue) {
-        return new SwitchYardServiceValue((IJavaObject) actualValue);
     }
 
     private static final class SwitchYardServiceValue extends JavaInterfaceValue {

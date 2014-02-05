@@ -138,18 +138,16 @@ public class SwitchYardContext extends DebugElement implements IVariable {
                                 // SwitchYard exchange
                                 _switchYardVariable = new SwitchYardExchangeVariable((IJavaObject) variable.getValue());
                                 return _switchYardVariable.getValue();
-                                // } else if
-                                // ("org.apache.camel.Exchange".equals(typeName))
-                                // {
-                                // // Camel exchange
-                                // return new IVariable[] {new
-                                // SwitchYardCamelExchangeContext(javaVariable)
-                                // };
-                                // } else if
-                                // ("org.switchyard.Message".equals(typeName)) {
-                                // // SwitchYard message
-                                // return new IVariable[] {new
-                                // SwitchYardMessageContext(javaVariable) };
+                            } else if ("org.apache.camel.Exchange".equals(typeName)) {
+                                // Camel exchange
+                                _switchYardVariable = new SwitchYardCamelExchangeVariable(
+                                        (IJavaObject) variable.getValue());
+                                return _switchYardVariable.getValue();
+                            } else if ("org.switchyard.Message".equals(typeName)) {
+                                // SwitchYard message
+                                _switchYardVariable = new SwitchYardExchangeMessageVariable(
+                                        (IJavaObject) variable.getValue());
+                                return _switchYardVariable.getValue();
                             }
                         }
                     } else if (type instanceof IJavaInterfaceType) {
@@ -157,8 +155,16 @@ public class SwitchYardContext extends DebugElement implements IVariable {
                             // SwitchYard exchange
                             _switchYardVariable = new SwitchYardExchangeVariable((IJavaObject) variable.getValue());
                             return _switchYardVariable.getValue();
+                        } else if ("org.apache.camel.Exchange".equals(((IJavaInterfaceType) type).getName())) {
+                            // Camel exchange
+                            _switchYardVariable = new SwitchYardCamelExchangeVariable((IJavaObject) variable.getValue());
+                            return _switchYardVariable.getValue();
+                        } else if ("org.switchyard.Message".equals(((IJavaInterfaceType) type).getName())) {
+                            // SwitchYard message
+                            _switchYardVariable = new SwitchYardExchangeMessageVariable(
+                                    (IJavaObject) variable.getValue());
+                            return _switchYardVariable.getValue();
                         }
-                        // XXX: should we check super interfaces?
                     }
                 }
             }

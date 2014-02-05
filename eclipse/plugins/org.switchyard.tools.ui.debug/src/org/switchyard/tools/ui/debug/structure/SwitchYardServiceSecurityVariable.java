@@ -18,16 +18,23 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaObject;
-import org.eclipse.jdt.debug.core.IJavaValue;
 
 /**
  * SwitchYardServiceSecurityVariable
  * <p/>
  * A variable representing a SwitchYard service's security metadata.
  */
-public class SwitchYardServiceSecurityVariable extends JavaInterfaceVariable {
+public class SwitchYardServiceSecurityVariable extends SimpleInterfaceVariable {
 
-    private static final String TYPE = "org.switchyard.ServiceSecurity";
+    protected static final String TYPE = "org.switchyard.ServiceSecurity";
+
+    /**
+     * @param source the source value
+     * @return a new object wrapping the supplied source
+     */
+    public static IValue newValue(IJavaObject source) {
+        return new SwitchYardServiceSecurityValue(source);
+    }
 
     /**
      * Create a new SwitchYardServiceSecurityVariable.
@@ -36,11 +43,6 @@ public class SwitchYardServiceSecurityVariable extends JavaInterfaceVariable {
      */
     public SwitchYardServiceSecurityVariable(IJavaObject underlyingObject) {
         super(underlyingObject, "Security", TYPE, true);
-    }
-
-    @Override
-    protected IValue wrapJavaValue(IJavaValue actualValue) {
-        return new SwitchYardServiceSecurityValue((IJavaObject) actualValue);
     }
 
     private static final class SwitchYardServiceSecurityValue extends JavaInterfaceValue {

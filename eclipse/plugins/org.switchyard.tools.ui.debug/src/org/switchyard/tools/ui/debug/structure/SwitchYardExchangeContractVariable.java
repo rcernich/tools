@@ -30,6 +30,14 @@ public class SwitchYardExchangeContractVariable extends JavaInterfaceVariable {
     protected static final String TYPE = "org.switchyard.metadata.ExchangeContract";
 
     /**
+     * @param source the source value
+     * @return a new object wrapping the supplied source
+     */
+    public static IValue newValue(IJavaObject source) {
+        return new SwitchYardExchangeContractValue(source);
+    }
+
+    /**
      * Create a new SwitchYardExchangeContractVariable.
      * 
      * @param underlyingObject the underlying Exchange object.
