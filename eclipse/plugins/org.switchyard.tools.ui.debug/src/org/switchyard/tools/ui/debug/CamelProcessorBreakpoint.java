@@ -123,6 +123,7 @@ public abstract class CamelProcessorBreakpoint extends DelegatingJavaBreakpoint<
                 delegate.setConditionEnabled(true);
             }
         }
+        super.configurationUpdated();
     }
 
     /**

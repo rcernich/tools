@@ -123,6 +123,7 @@ public class ServiceInteractionBreakpoint extends DelegatingJavaBreakpoint<Aspec
             }
         }
         updateEnabled(isEnabled());
+        super.configurationUpdated();
     }
 
     @Override

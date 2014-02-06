@@ -149,6 +149,7 @@ public class TransformSequenceBreakpoint extends DelegatingJavaBreakpoint<String
                 delegate.setConditionEnabled(true);
             }
         }
+        super.configurationUpdated();
     }
 
     private String createCondition() {

@@ -135,6 +135,7 @@ public abstract class ServiceHandlerBreakpoint extends DelegatingJavaBreakpoint<
     protected void configurationUpdated() throws CoreException {
         setMessageCondition(getHandleMessageDelegate());
         setFaultCondition(getHandleFaultDelegate());
+        super.configurationUpdated();
     }
 
     @Override

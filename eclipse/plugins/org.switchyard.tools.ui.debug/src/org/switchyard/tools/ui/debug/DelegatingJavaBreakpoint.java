@@ -111,24 +111,6 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
         _interactionConfiguration = configuration;
         if (_delegates.size() > 0) {
             configurationUpdated();
-            if (fInstalledTargets != null && !_creating) {
-                /*
-                 * we need to replace the breakpoint requests for the delegates
-                 * so they reflect any changes that have been made.
-                 */
-                for (IJavaDebugTarget target : fInstalledTargets) {
-                    for (JavaBreakpoint delegate : _delegates.values()) {
-                        try {
-                            if (delegate != null) {
-                                delegate.removeFromTarget((JDIDebugTarget) target);
-                                delegate.addToTarget((JDIDebugTarget) target);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -173,7 +155,33 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
      */
     protected abstract void createDelegates() throws CoreException;
 
-    protected abstract void configurationUpdated() throws CoreException;
+    /**
+     * Reinstalls the delegates after configuration changes. Subclasses
+     * overriding this method should invoke super to ensure any configuration
+     * changes made are reflected in any active debug sessions.
+     * 
+     * @throws CoreException if something goes awry
+     */
+    protected void configurationUpdated() throws CoreException {
+        if (fInstalledTargets != null && !_creating) {
+            /*
+             * we need to replace the breakpoint requests for the delegates so
+             * they reflect any changes that have been made.
+             */
+            for (IJavaDebugTarget target : fInstalledTargets) {
+                for (JavaBreakpoint delegate : _delegates.values()) {
+                    try {
+                        if (delegate != null) {
+                            delegate.removeFromTarget((JDIDebugTarget) target);
+                            delegate.addToTarget((JDIDebugTarget) target);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Deletes all existing delegates.
