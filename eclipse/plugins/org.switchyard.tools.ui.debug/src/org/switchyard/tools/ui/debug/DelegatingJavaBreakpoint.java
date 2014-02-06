@@ -88,7 +88,7 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
     /**
      * @return the configuration details for this breakpoint.
      */
-    public IInteractionConfiguration getInteractionConfiguration() {
+    public synchronized IInteractionConfiguration getInteractionConfiguration() {
         if (_interactionConfiguration == null) {
             _interactionConfiguration = readInteractionConfiguration();
         }
@@ -111,6 +111,24 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
         _interactionConfiguration = configuration;
         if (_delegates.size() > 0) {
             configurationUpdated();
+            if (fInstalledTargets != null && !_creating) {
+                /*
+                 * we need to replace the breakpoint requests for the delegates
+                 * so they reflect any changes that have been made.
+                 */
+                for (IJavaDebugTarget target : fInstalledTargets) {
+                    for (JavaBreakpoint delegate : _delegates.values()) {
+                        try {
+                            if (delegate != null) {
+                                delegate.removeFromTarget((JDIDebugTarget) target);
+                                delegate.addToTarget((JDIDebugTarget) target);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
         }
     }
 
