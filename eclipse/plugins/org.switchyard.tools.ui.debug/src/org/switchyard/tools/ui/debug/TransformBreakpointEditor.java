@@ -58,6 +58,7 @@ import org.switchyard.tools.ui.SwitchYardModelUtils;
 import org.switchyard.tools.ui.common.ISwitchYardProject;
 import org.switchyard.tools.ui.common.impl.SwitchYardProjectManager;
 import org.switchyard.tools.ui.debug.IInteractionConfiguration.TriggerType;
+import org.switchyard.tools.ui.debug.TransformConfigurationBuilder.DummyTransformType;
 
 /**
  * TransformBreakpointEditor
@@ -109,15 +110,22 @@ public class TransformBreakpointEditor extends AbstractJavaBreakpointEditor {
         _faultButton.setText("FAULT");
         _faultButton.addSelectionListener(new TriggerSelectionListener(TriggerType.FAULT));
 
-        _typesTable = CheckboxTableViewer.newCheckList(content, SWT.H_SCROLL | SWT.V_SCROLL);
+        _typesTable = CheckboxTableViewer.newCheckList(content, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
         _typesTable.getTable().setHeaderVisible(true);
 
         TableViewerColumn fromColumn = new TableViewerColumn(_typesTable, SWT.LEFT);
         fromColumn.getColumn().setText("From");
         fromColumn.getColumn().setResizable(true);
+        fromColumn.getColumn().setWidth(200);
+
         TableViewerColumn toColumn = new TableViewerColumn(_typesTable, SWT.LEFT);
         toColumn.getColumn().setText("To");
         toColumn.getColumn().setResizable(true);
+        toColumn.getColumn().setWidth(200);
+
+        GridData gd = new GridData(GridData.FILL_BOTH);
+        gd.minimumHeight = _typesTable.getTable().getHeaderHeight() + 5 * _typesTable.getTable().getItemHeight();
+        _typesTable.getControl().setLayoutData(gd);
 
         _typesTable.setLabelProvider(new ITableLabelProvider() {
             @Override
@@ -186,7 +194,6 @@ public class TransformBreakpointEditor extends AbstractJavaBreakpointEditor {
             }
         });
         _typesTable.setContentProvider(ArrayContentProvider.getInstance());
-        _typesTable.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
         _typesTable.addCheckStateListener(new ICheckStateListener() {
             @Override
             public void checkStateChanged(CheckStateChangedEvent event) {
@@ -330,9 +337,17 @@ public class TransformBreakpointEditor extends AbstractJavaBreakpointEditor {
             if (resource.getContents().size() > 0) {
                 Object content = resource.getContents().get(0);
                 if (content instanceof SwitchYardType) {
-                    return getTransforms((SwitchYardType) content);
+                    final Set<TransformType> transforms = new LinkedHashSet<TransformType>();
+                    for (TransformType transform : getTransforms((SwitchYardType) content)) {
+                        transforms.add(new DummyTransformType(transform));
+                    }
+                    return transforms;
                 } else if (content instanceof DocumentRoot) {
-                    return getTransforms(((DocumentRoot) content).getSwitchyard());
+                    final Set<TransformType> transforms = new LinkedHashSet<TransformType>();
+                    for (TransformType transform : getTransforms(((DocumentRoot) content).getSwitchyard())) {
+                        transforms.add(new DummyTransformType(transform));
+                    }
+                    return transforms;
                 }
             }
         } catch (IOException e) {
@@ -344,7 +359,7 @@ public class TransformBreakpointEditor extends AbstractJavaBreakpointEditor {
     }
 
     private Collection<TransformType> getTransforms(final SwitchYardType switchyard) {
-        if (switchyard == null || switchyard.getValidates() == null) {
+        if (switchyard == null || switchyard.getTransforms() == null) {
             return Collections.emptyList();
         }
         return switchyard.getTransforms().getTransform();

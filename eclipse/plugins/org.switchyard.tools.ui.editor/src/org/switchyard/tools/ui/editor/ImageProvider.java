@@ -198,8 +198,14 @@ public class ImageProvider extends AbstractImageProvider {
     /** Image for Properties dialog. **/
     public static final String IMG_16_PROPERTIES = PREFIX + "PROPERTIES" + DOT16; //$NON-NLS-1$
 
-    /** Image for Properties dialog. **/
-    public static final String IMG_16_BREAKPOINT = PREFIX + "BREAKPOINT" + DOT16; //$NON-NLS-1$
+    /** Image for breakpoint decorator. **/
+    public static final String IMG_16_SERVICE_WATCH = PREFIX + "SERVICE_WATCH" + DOT16; //$NON-NLS-1$
+
+    /** Image for breakpoint decorator. **/
+    public static final String IMG_16_VALIDATE_WATCH = PREFIX + "VALIDATE_WATCH" + DOT16; //$NON-NLS-1$
+
+    /** Image for breakpoint decorator. **/
+    public static final String IMG_16_TRANSFORM_WATCH = PREFIX + "TRANSFORM_WATCH" + DOT16; //$NON-NLS-1$
 
     @Override
     protected void addAvailableImages() {
@@ -257,7 +263,9 @@ public class ImageProvider extends AbstractImageProvider {
         addImageFilePath(IMG_16_TEST_CLASS, ICONS_16 + "test-class.png"); //$NON-NLS-1$
         addImageFilePath(IMG_16_SCA, ICONS_16 + "sca.png"); //$NON-NLS-1$
         addImageFilePath(IMG_16_PROPERTIES, ICONS_16 + "properties.gif"); //$NON-NLS-1$
-        addImageFilePath(IMG_16_BREAKPOINT, ICONS_16 + "jwatch_obj.gif"); //$NON-NLS-1$
+        addImageFilePath(IMG_16_SERVICE_WATCH, ICONS_16 + "jwatch_obj.gif"); //$NON-NLS-1$
+        addImageFilePath(IMG_16_VALIDATE_WATCH, ICONS_16 + "validatewatch.png"); //$NON-NLS-1$
+        addImageFilePath(IMG_16_TRANSFORM_WATCH, ICONS_16 + "transformwatch.png"); //$NON-NLS-1$
     }
 
 }

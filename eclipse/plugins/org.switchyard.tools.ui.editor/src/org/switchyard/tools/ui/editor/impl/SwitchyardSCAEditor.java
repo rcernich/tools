@@ -315,22 +315,31 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
         if (breakpoints == null) {
             return Collections.emptySet();
         }
+        final IProject project = _modelFile == null ? null : _modelFile.getProject();
+        if (project == null) {
+            return Collections.emptySet();
+        }
         final MergedModelAdapterFactory mergeAdapter = MergedModelUtil.getAdapterFactory(getResourceSet());
-        Set<EObject> touched = new LinkedHashSet<EObject>();
+        final Set<EObject> touched = new LinkedHashSet<EObject>();
         for (IBreakpoint breakpoint : breakpoints) {
             try {
-                if (breakpoint == null) {
+                if (breakpoint == null || !project.equals(breakpoint.getMarker().getResource().getProject())) {
                     continue;
                 }
                 final IMarker marker = breakpoint.getMarker();
-                final String consumerUri = marker.getAttribute(InteractionConfigurationBuilder.CONSUMER_URI_KEY, null);
-                EObject markedObject = getTargetObject(
-                        consumerUri == null ? marker.getAttribute(InteractionConfigurationBuilder.PROVIDER_URI_KEY,
-                                null) : consumerUri, mergeAdapter);
+                String uri = marker.getAttribute(InteractionConfigurationBuilder.CONSUMER_URI_KEY, null);
+                if (uri == null) {
+                    uri = marker.getAttribute(InteractionConfigurationBuilder.PROVIDER_URI_KEY, null);
+                }
+                if (uri == null) {
+                    // we'll associate it with the composite
+                    uri = "switchyard:generated#//@switchyard/@composite";
+                }
+                final EObject markedObject = getTargetObject(uri, mergeAdapter);
                 if (markedObject == null) {
                     continue;
                 }
-                ValidationStatusAdapter statusAdapter = (ValidationStatusAdapter) EcoreUtil.getRegisteredAdapter(
+                final ValidationStatusAdapter statusAdapter = (ValidationStatusAdapter) EcoreUtil.getRegisteredAdapter(
                         markedObject, ValidationStatusAdapter.class);
                 if (statusAdapter != null) {
                     statusAdapter.addBreakpoint();
@@ -783,8 +792,15 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
             if (config == null) {
                 continue;
             }
-            final String consumerUri = config.getConsumerUri();
-            EObject eobject = getTargetObject(consumerUri == null ? config.getProviderUri() : consumerUri, mergeAdapter);
+            String uri = config.getConsumerUri();
+            if (uri == null) {
+                uri = config.getProviderUri();
+            }
+            if (uri == null) {
+                // we'll associate it with the composite
+                uri = "switchyard:generated#//@switchyard/@composite";
+            }
+            EObject eobject = getTargetObject(uri, mergeAdapter);
             if (eobject == null) {
                 continue;
             }

@@ -7,7 +7,7 @@
          name="SwitchYard Breakpoint Marker"
          point="org.eclipse.core.resources.markers">
       <super
-            type="org.eclipse.jdt.debug.javaMethodBreakpointMarker">
+            type="org.eclipse.jdt.debug.javaBreakpointMarker">
       </super>
       <attribute
             name="switchYardServiceBreakpoint.aspect">
@@ -88,6 +88,18 @@
             markerType="org.switchyard.tools.ui.debug.switchYardServiceBreakpointMarker"
             name="SwitchYard Service Breakpoint">
       </breakpoint>
+      <breakpoint
+            class="org.switchyard.tools.ui.debug.TransformSequenceBreakpoint"
+            id="breakpoint.transform"
+            markerType="org.switchyard.tools.ui.debug.switchYardTransformerBreakpointMarker"
+            name="SwitchYard Transform Breakpoint">
+      </breakpoint>
+      <breakpoint
+            class="org.switchyard.tools.ui.debug.ValidateHandlerBreakpoint"
+            id="breakpoint.validate"
+            markerType="org.switchyard.tools.ui.debug.switchYardValidatorBreakpointMarker"
+            name="SwitchYard Validate Breakpoint">
+      </breakpoint>
    </extension>
    <!-- Breakpoint importers. -->
    <extension
@@ -105,6 +117,12 @@
                 <or>
                    <instanceof
                          value="org.switchyard.tools.ui.debug.ServiceInteractionBreakpoint">
+                   </instanceof>
+                   <instanceof
+                         value="org.switchyard.tools.ui.debug.TransformSequenceBreakpoint">
+                   </instanceof>
+                   <instanceof
+                         value="org.switchyard.tools.ui.debug.ValidateHandlerBreakpoint">
                    </instanceof>
                 </or>
              </iterate>
@@ -139,6 +157,23 @@
          </adapter>
          <adapter
                type="org.eclipse.debug.internal.ui.viewers.model.provisional.IColumnPresentationFactory">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.soa.sca.sca1_1.model.sca.Contract"
+            class="org.switchyard.tools.ui.debug.SwitchYardDebugAdapterFactory">
+         <adapter
+               type="org.switchyard.tools.ui.debug.ServiceInteractionBreakpoint">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.soa.sca.sca1_1.model.sca.Composite"
+            class="org.switchyard.tools.ui.debug.SwitchYardDebugAdapterFactory">
+         <adapter
+               type="org.switchyard.tools.ui.debug.TransformSequenceBreakpoint">
+         </adapter>
+         <adapter
+               type="org.switchyard.tools.ui.debug.ValidateHandlerBreakpoint">
          </adapter>
       </factory>
    </extension>
@@ -204,10 +239,22 @@
          <enabledWhen>
             <or>
                <instanceof
-                     value="org.switchyard.tools.ui.debug.DelegatingJavaBreakpoint">
+                     value="org.switchyard.tools.ui.debug.ServiceInteractionBreakpoint">
                </instanceof>
                <adapt
-                     type="org.switchyard.tools.ui.debug.DelegatingJavaBreakpoint">
+                     type="org.switchyard.tools.ui.debug.ServiceInteractionBreakpoint">
+               </adapt>
+               <instanceof
+                     value="org.switchyard.tools.ui.debug.TransformSequenceBreakpoint">
+               </instanceof>
+               <adapt
+                     type="org.switchyard.tools.ui.debug.TransformSequenceBreakpoint">
+               </adapt>
+               <instanceof
+                     value="org.switchyard.tools.ui.debug.ValidateHandlerBreakpoint">
+               </instanceof>
+               <adapt
+                     type="org.switchyard.tools.ui.debug.ValidateHandlerBreakpoint">
                </adapt>
             </or>
          </enabledWhen>

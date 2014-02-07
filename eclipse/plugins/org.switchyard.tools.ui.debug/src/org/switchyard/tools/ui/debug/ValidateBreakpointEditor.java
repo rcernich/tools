@@ -35,6 +35,7 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
@@ -106,7 +107,16 @@ public class ValidateBreakpointEditor extends AbstractJavaBreakpointEditor {
         _faultButton.setText("FAULT");
         _faultButton.addSelectionListener(new TriggerSelectionListener(TriggerType.FAULT));
 
-        _typesTable = CheckboxTableViewer.newCheckList(content, SWT.H_SCROLL | SWT.V_SCROLL);
+        _typesTable = CheckboxTableViewer.newCheckList(content, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+        GridData gd = new GridData(GridData.FILL_BOTH);
+        gd.minimumHeight = _typesTable.getTable().getHeaderHeight() + 5 * _typesTable.getTable().getItemHeight();
+        _typesTable.getControl().setLayoutData(gd);
+
+        TableViewerColumn typeColumn = new TableViewerColumn(_typesTable, SWT.LEFT);
+        typeColumn.getColumn().setResizable(true);
+        typeColumn.getColumn().setText("Type");
+        typeColumn.getColumn().setWidth(500);
+
         _typesTable.setLabelProvider(new LabelProvider() {
             @Override
             public String getText(Object element) {
@@ -140,7 +150,7 @@ public class ValidateBreakpointEditor extends AbstractJavaBreakpointEditor {
             }
         });
         _typesTable.setContentProvider(ArrayContentProvider.getInstance());
-        _typesTable.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+        _typesTable.getTable().setHeaderVisible(true);
         _typesTable.addCheckStateListener(new ICheckStateListener() {
             @Override
             public void checkStateChanged(CheckStateChangedEvent event) {

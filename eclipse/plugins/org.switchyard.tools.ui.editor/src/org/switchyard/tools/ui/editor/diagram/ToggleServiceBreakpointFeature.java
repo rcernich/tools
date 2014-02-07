@@ -26,6 +26,7 @@ import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
+import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.platform.IDiagramContainer;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -41,33 +42,36 @@ import org.switchyard.tools.ui.debug.IInteractionConfiguration;
 import org.switchyard.tools.ui.debug.ServiceInteractionBreakpoint;
 import org.switchyard.tools.ui.debug.SwitchYardDebugUtil;
 import org.switchyard.tools.ui.debug.SwitchYardDebugUtil.ServiceType;
+import org.switchyard.tools.ui.editor.ImageProvider;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 
 /**
- * ToggleBreakpoint
+ * ToggleServiceBreakpointFeature
  * <p/>
  * Toggles a breakpoint on a selected figure.
  */
-public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFeature {
+public class ToggleServiceBreakpointFeature extends AbstractCustomFeature implements ICustomFeature {
+
+    private IBreakpoint _toDelete;
+    private final PictogramElement _pe;
+    private final Contract _contract;
 
     /**
-     * Create a new ToggleBreakpoint.
+     * Create a new ToggleServiceBreakpointFeature.
      * 
      * @param fp the feature provider
+     * @param context the context
      */
-    public ToggleBreakpoint(IFeatureProvider fp) {
+    public ToggleServiceBreakpointFeature(IFeatureProvider fp, ICustomContext context) {
         super(fp);
-    }
-
-    @Override
-    public void execute(ICustomContext context) {
-        final PictogramElement pe = context.getPictogramElements()[0];
-        final Object bo = getBusinessObjectForPictogramElement(pe);
+        _pe = context.getPictogramElements()[0] instanceof Connection ? ((Connection) context.getPictogramElements()[0])
+                .getStart().getParent() : context.getPictogramElements()[0];
+        final Object bo = getBusinessObjectForPictogramElement(_pe);
         final IProject project = getProject();
         if (bo instanceof Contract) {
+            _contract = (Contract) bo;
             final IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager()
                     .getBreakpoints(SwitchYardDebugUtil.MODEL_IDENTIFIER);
-            IBreakpoint toDelete = null;
             for (IBreakpoint breakpoint : breakpoints) {
                 final IMarker marker = breakpoint.getMarker();
                 String markerType = null;
@@ -81,43 +85,49 @@ public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFe
                         || !breakpointMatchesSelection((ServiceInteractionBreakpoint) breakpoint, (Contract) bo)) {
                     continue;
                 }
-                toDelete = breakpoint;
+                _toDelete = breakpoint;
                 break;
             }
-            if (toDelete != null) {
-                try {
-                    toDelete.delete();
-                } catch (CoreException e) {
-                    final IDiagramContainer container = getDiagramBehavior().getDiagramContainer();
-                    final Shell shell;
-                    if (container instanceof SwitchyardSCAEditor) {
-                        shell = ((SwitchyardSCAEditor) container).getEditorSite().getShell();
-                    } else {
-                        shell = Display.getCurrent().getActiveShell();
-                    }
-                    MessageDialog.openError(shell, "Error Removing Breakpoint", e.getStatus().getMessage());
-                    return;
+        } else {
+            _contract = null;
+        }
+    }
+
+    @Override
+    public void execute(ICustomContext context) {
+        final IProject project = getProject();
+        if (_toDelete != null) {
+            try {
+                _toDelete.delete();
+            } catch (CoreException e) {
+                final IDiagramContainer container = getDiagramBehavior().getDiagramContainer();
+                final Shell shell;
+                if (container instanceof SwitchyardSCAEditor) {
+                    shell = ((SwitchyardSCAEditor) container).getEditorSite().getShell();
+                } else {
+                    shell = Display.getCurrent().getActiveShell();
                 }
-            } else {
-                final URI uri = URI.createGenericURI("switchyard", "generated", EcoreUtil.getURI((EObject) bo)
-                        .fragment());
-                try {
-                    SwitchYardDebugUtil.createServiceBreakpoint(project, getServiceName((Contract) bo), uri.toString(),
-                            ServiceType.fromContract((Contract) bo));
-                } catch (CoreException e) {
-                    final IDiagramContainer container = getDiagramBehavior().getDiagramContainer();
-                    final Shell shell;
-                    if (container instanceof SwitchyardSCAEditor) {
-                        shell = ((SwitchyardSCAEditor) container).getEditorSite().getShell();
-                    } else {
-                        shell = Display.getCurrent().getActiveShell();
-                    }
-                    MessageDialog.openError(shell, "Error Adding Breakpoint", e.getStatus().getMessage());
-                    return;
+                MessageDialog.openError(shell, "Error Removing Breakpoint", e.getStatus().getMessage());
+                return;
+            }
+        } else {
+            final URI uri = URI.createGenericURI("switchyard", "generated", EcoreUtil.getURI(_contract).fragment());
+            try {
+                SwitchYardDebugUtil.createServiceBreakpoint(project, getServiceName(_contract), uri.toString(),
+                        ServiceType.fromContract(_contract));
+            } catch (CoreException e) {
+                final IDiagramContainer container = getDiagramBehavior().getDiagramContainer();
+                final Shell shell;
+                if (container instanceof SwitchyardSCAEditor) {
+                    shell = ((SwitchyardSCAEditor) container).getEditorSite().getShell();
+                } else {
+                    shell = Display.getCurrent().getActiveShell();
                 }
+                MessageDialog.openError(shell, "Error Adding Breakpoint", e.getStatus().getMessage());
+                return;
             }
         }
-        getDiagramBehavior().refreshRenderingDecorators(pe);
+        getDiagramBehavior().refreshRenderingDecorators(_pe);
     }
 
     private boolean breakpointMatchesSelection(final ServiceInteractionBreakpoint breakpoint, final Contract contract) {
@@ -135,7 +145,12 @@ public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFe
 
     @Override
     public String getDescription() {
-        return "Set or clear a breakpoint on the selected object.";
+        return (_toDelete == null ? "Set" : "Clear") + " a breakpoint on the selected service.";
+    }
+
+    @Override
+    public String getImageId() {
+        return ImageProvider.IMG_16_SERVICE_WATCH;
     }
 
     @Override
@@ -145,13 +160,11 @@ public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFe
 
     @Override
     public boolean isAvailable(IContext context) {
-        if (!(context instanceof ICustomContext) || getProject() == null) {
+        if (_contract == null || getProject() == null) {
             return false;
         }
-        final PictogramElement[] elements = ((ICustomContext) context).getPictogramElements();
-        final Object bo = elements == null || elements.length != 1 ? null
-                : getBusinessObjectForPictogramElement(elements[0]);
-        return bo instanceof Contract && getServiceName((Contract) bo).getLocalPart() != null;
+        final QName serviceName = getServiceName(_contract);
+        return serviceName != null && serviceName.getLocalPart() != null;
     }
 
     @Override
@@ -162,10 +175,13 @@ public class ToggleBreakpoint extends AbstractCustomFeature implements ICustomFe
 
     @Override
     public String getName() {
-        return "Toggle Breakpoint";
+        return (_toDelete == null ? "Enable " : "Disable") + " Breakpoint";
     }
 
     private QName getServiceName(Contract contract) {
+        if (contract.getName() == null) {
+            return null;
+        }
         String targetNamespace = null;
         for (EObject container = contract.eContainer(); container != null && targetNamespace == null; container = container
                 .eContainer()) {

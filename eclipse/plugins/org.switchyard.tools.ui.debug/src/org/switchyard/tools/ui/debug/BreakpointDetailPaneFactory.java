@@ -73,9 +73,9 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
     public IDetailPane createDetailPane(String paneID) {
         if (ServiceInteractionBreakpointDetailPane.ID.equals(paneID)) {
             return new ServiceInteractionBreakpointDetailPane();
-        } else if (SwitchYardDebugUtil.TRANSFORM_BREAKPOINT_MARKER_ID.equals(paneID)) {
+        } else if (TransformBreakpointDetailPane.ID.equals(paneID)) {
             return new TransformBreakpointDetailPane();
-        } else if (SwitchYardDebugUtil.VALIDATE_BREAKPOINT_MARKER_ID.equals(paneID)) {
+        } else if (ValidateBreakpointDetailPane.ID.equals(paneID)) {
             return new ValidateBreakpointDetailPane();
         }
         return null;

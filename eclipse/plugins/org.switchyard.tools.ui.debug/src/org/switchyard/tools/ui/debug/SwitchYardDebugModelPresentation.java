@@ -30,6 +30,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.switchyard.tools.ui.Activator;
 import org.switchyard.tools.ui.IImageDescriptors;
 import org.switchyard.tools.ui.common.impl.SwitchYardProjectManager;
+import org.switchyard.tools.ui.debug.IInteractionConfiguration.TriggerType;
 
 /**
  * SwitchYardDebugModelPresentation
@@ -110,16 +111,17 @@ public class SwitchYardDebugModelPresentation implements IDebugModelPresentation
         if (element instanceof IMarker) {
             element = DebugPlugin.getDefault().getBreakpointManager().getBreakpoint((IMarker) element);
         }
-        if (element instanceof TransformBreakpointEditor) {
-            return "Transform Breakpoint: " + ((IBreakpoint)element).getMarker().getResource().getName();
-        } else if (element instanceof ValidateBreakpointEditor) {
-            return "Validate Breakpoint: " + ((IBreakpoint)element).getMarker().getResource().getName();
+        if (element instanceof TransformSequenceBreakpoint) {
+            return "Transform Breakpoint: " + ((IBreakpoint) element).getMarker().getResource().getName();
+        } else if (element instanceof ValidateHandlerBreakpoint) {
+            return "Validate Breakpoint: " + ((IBreakpoint) element).getMarker().getResource().getName();
         } else if (element instanceof DelegatingJavaBreakpoint) {
             final DelegatingJavaBreakpoint<?> breakpoint = (DelegatingJavaBreakpoint<?>) element;
             final IInteractionConfiguration config = breakpoint.getInteractionConfiguration();
             if (config.getConsumerName() == null) {
                 if (config.getProviderName() == null) {
-                    return String.format("SwitchYard Service: <all> on %s", config.getTriggers().toArray());
+                    return String.format("SwitchYard Service: <all> on %s",
+                            config.getTriggers() == null ? TriggerType.values() : config.getTriggers().toArray());
                 }
                 return String.format("SwitchYard PROVIDER: %s on %s", config.getProviderName().getLocalPart(),
                         config.getTriggers());

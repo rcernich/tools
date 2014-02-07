@@ -367,7 +367,7 @@ public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider 
             }
             // breakpoints
             if (statusAdapter.hasBreakpoints()) {
-                decorator = new ImageDecorator(ImageProvider.IMG_16_BREAKPOINT);
+                decorator = new ImageDecorator(ImageProvider.IMG_16_SERVICE_WATCH);
                 decorator.setX(-5 + (needsOffset ? 18 : 0));
                 decorator.setY(-8 + (needsOffset ? 8 : 0));
                 decorators.add(decorator);
@@ -658,6 +658,7 @@ public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider 
             for (ICreateFeature cf : ((SCADiagramFeatureProvider) getFeatureProvider()).getCreateComponentFeatures()) {
                 addCreateFeatureAsContextButtonToPad(cf, createContext, addComponentButton);
             }
+            addBreakpointButtons(data, customContext);
         } else {
             if (bo instanceof ComponentService) {
                 SCADiagramCustomPromoteServiceFeature promote = new SCADiagramCustomPromoteServiceFeature(getFeatureProvider());
@@ -750,11 +751,22 @@ public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider 
                         data.getDomainSpecificContextButtons().add(new ContextButtonEntry(wsdl2Java, customContext));
                     }
                 }
+                ToggleServiceBreakpointFeature toggleBreakpoint = new ToggleServiceBreakpointFeature(getFeatureProvider(), customContext);
+                data.getDomainSpecificContextButtons().add(new ContextButtonEntry(toggleBreakpoint, customContext));
             }
             setGenericContextButtons(data, pe, CONTEXT_BUTTON_DELETE);
         }
         
         return data;
+    }
+
+    private void addBreakpointButtons(IContextButtonPadData data, ICustomContext customContext) {
+        ContextButtonEntry toggleBreakpoints = new ContextButtonEntry(null, customContext);
+        toggleBreakpoints.setIconId(ImageProvider.IMG_16_SERVICE_WATCH);
+        toggleBreakpoints.setText("Breakpoints");
+        toggleBreakpoints.addContextButtonMenuEntry(new ContextButtonEntry(new ToggleTransformBreakpointFeature(getFeatureProvider(), customContext), customContext));
+        toggleBreakpoints.addContextButtonMenuEntry(new ContextButtonEntry(new ToggleValidateBreakpointFeature(getFeatureProvider(), customContext), customContext));
+        data.getDomainSpecificContextButtons().add(toggleBreakpoints);
     }
 
     @Override

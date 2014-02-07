@@ -18,6 +18,7 @@ import java.util.StringTokenizer;
 
 import javax.xml.namespace.QName;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.soa.sca.sca1_1.model.sca.ComponentReference;
@@ -102,6 +103,26 @@ public final class SwitchYardDebugUtil {
     }
 
     /**
+     * @param project the associated project.
+     * @return a new validate breakpoint
+     * @throws CoreException if something goes awry.
+     */
+    public static ValidateHandlerBreakpoint createValidateBreakpoint(IProject project) throws CoreException {
+        return new ValidateHandlerBreakpoint(project, InteractionConfigurationBuilder.create().build(),
+                ValidateConfigurationBuilder.create().build(), true);
+    }
+
+    /**
+     * @param project the associated project.
+     * @return a new transform breakpoint
+     * @throws CoreException if something goes awry.
+     */
+    public static TransformSequenceBreakpoint createTransformBreakpoint(IProject project) throws CoreException {
+        return new TransformSequenceBreakpoint(project, InteractionConfigurationBuilder.create().build(),
+                TransformConfigurationBuilder.create().build(), true);
+    }
+
+    /**
      * Utility for converting a set of enum values to a string. The form of the
      * string is: "VALUE1 VALUE2 VALUE3"
      * 
@@ -133,7 +154,7 @@ public final class SwitchYardDebugUtil {
         final Set<E> enumValues = new HashSet<E>();
         final StringTokenizer tokens = value == null ? null : new StringTokenizer(value);
         if (tokens == null || !tokens.hasMoreTokens()) {
-            return EnumSet.copyOf(enumValues);
+            return EnumSet.noneOf(enumType);
         }
         for (; tokens.hasMoreTokens();) {
             try {
@@ -150,4 +171,5 @@ public final class SwitchYardDebugUtil {
 
     private SwitchYardDebugUtil() {
     }
+
 }

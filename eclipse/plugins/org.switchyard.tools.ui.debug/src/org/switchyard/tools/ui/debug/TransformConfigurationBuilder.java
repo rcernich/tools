@@ -43,9 +43,13 @@ public final class TransformConfigurationBuilder {
      * @return this
      */
     public TransformConfigurationBuilder transforms(Set<TransformType> transforms) {
-        _config._transforms = transforms == null ? null : new LinkedHashSet<TransformType>();
-        for (TransformType transform : transforms) {
-            _config._transforms.add(new DummyTransformType(transform));
+        if (transforms == null) {
+            _config._transforms = null;
+        } else {
+            _config._transforms = new LinkedHashSet<TransformType>();
+            for (TransformType transform : transforms) {
+                _config._transforms.add(new DummyTransformType(transform));
+            }
         }
         return this;
     }
@@ -141,13 +145,13 @@ public final class TransformConfigurationBuilder {
         }
     }
 
-    private static final class DummyTransformType extends TransformTypeImpl {
-        private DummyTransformType(final String from, final String to) {
+    protected static final class DummyTransformType extends TransformTypeImpl {
+        protected DummyTransformType(final String from, final String to) {
             this.from = from;
             this.to = to;
         }
 
-        private DummyTransformType(final TransformType other) {
+        protected DummyTransformType(final TransformType other) {
             this.from = other.getFrom();
             this.to = other.getTo();
         }
