@@ -342,7 +342,7 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
                 final ValidationStatusAdapter statusAdapter = (ValidationStatusAdapter) EcoreUtil.getRegisteredAdapter(
                         markedObject, ValidationStatusAdapter.class);
                 if (statusAdapter != null) {
-                    statusAdapter.addBreakpoint();
+                    statusAdapter.addBreakpoint(marker.getType());
                     touched.add(markedObject);
                 }
             } catch (Exception e) {
@@ -787,7 +787,7 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
             if (!(breakpoint instanceof DelegatingJavaBreakpoint)) {
                 continue;
             }
-            final IInteractionConfiguration config = ((DelegatingJavaBreakpoint) breakpoint)
+            final IInteractionConfiguration config = ((DelegatingJavaBreakpoint<?>) breakpoint)
                     .getInteractionConfiguration();
             if (config == null) {
                 continue;
@@ -809,7 +809,7 @@ public class SwitchyardSCAEditor extends DiagramEditor implements IGotoMarker {
             if (adapter == null) {
                 continue;
             }
-            adapter.removeBreakpoint();
+            adapter.removeBreakpoint(((DelegatingJavaBreakpoint<?>) breakpoint).getMarkerId());
             updatedObjects.add(eobject);
         }
         final IFeatureProvider featureProvider = getDiagramTypeProvider().getFeatureProvider();

@@ -47,6 +47,7 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
     private IInteractionConfiguration _interactionConfiguration;
     private Map<T, JavaBreakpoint> _delegates = new HashMap<T, JavaBreakpoint>();
     private boolean _creating;
+    private String _markerId;
 
     /**
      * Create a new DelegatingJavaBreakpoint.
@@ -81,8 +82,22 @@ public abstract class DelegatingJavaBreakpoint<T> extends JavaBreakpoint impleme
                 register(register);
             }
         };
+        _markerId = markerId;
         run(getMarkerRule(resource), wr);
         _interactionConfiguration = configuration;
+    }
+
+    /**
+     * @return the ID of the marker associated with this breakpoint
+     */
+    public String getMarkerId() {
+        return _markerId;
+    }
+
+    @Override
+    public void setMarker(IMarker marker) throws CoreException {
+        _markerId = marker.getType();
+        super.setMarker(marker);
     }
 
     /**

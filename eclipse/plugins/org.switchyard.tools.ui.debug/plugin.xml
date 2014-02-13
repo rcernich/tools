@@ -233,9 +233,9 @@
    <extension
          point="org.eclipse.ui.propertyPages">
       <page
-            name="Breakpoint Properties"
-            class="org.switchyard.tools.ui.debug.SwitchYardBreakpointPage"
-            id="org.switchyard.tools.ui.debug.page.property.breakpoint">
+            name="Service Breakpoint Properties"
+            class="org.switchyard.tools.ui.debug.SwitchYardBreakpointPage$ServiceInteractionBreakpointPage"
+            id="org.switchyard.tools.ui.debug.page.property.breakpoint.service">
          <enabledWhen>
             <or>
                <instanceof
@@ -244,12 +244,30 @@
                <adapt
                      type="org.switchyard.tools.ui.debug.ServiceInteractionBreakpoint">
                </adapt>
+            </or>
+         </enabledWhen>
+      </page>
+      <page
+            name="Transform Breakpoint Properties"
+            class="org.switchyard.tools.ui.debug.SwitchYardBreakpointPage$TransformSequenceBreakpointPage"
+            id="org.switchyard.tools.ui.debug.page.property.breakpoint.transform">
+         <enabledWhen>
+            <or>
                <instanceof
                      value="org.switchyard.tools.ui.debug.TransformSequenceBreakpoint">
                </instanceof>
                <adapt
                      type="org.switchyard.tools.ui.debug.TransformSequenceBreakpoint">
                </adapt>
+            </or>
+         </enabledWhen>
+      </page>
+      <page
+            name="Validate Breakpoint Properties"
+            class="org.switchyard.tools.ui.debug.SwitchYardBreakpointPage$ValidateHandlerBreakpointPage"
+            id="org.switchyard.tools.ui.debug.page.property.breakpoint.validate">
+         <enabledWhen>
+            <or>
                <instanceof
                      value="org.switchyard.tools.ui.debug.ValidateHandlerBreakpoint">
                </instanceof>
@@ -271,7 +289,7 @@
    <extension
          point="org.eclipse.debug.ui.contextViewBindings">
       <contextViewBinding
-            autoOpen="false"
+            autoOpen="true"
             contextId="org.switchyard.tools.ui.debug.context"
             viewId="org.switchyard.tools.ui.debug.view.switchYardContext">
       </contextViewBinding>
@@ -282,7 +300,9 @@
    <extension
          point="org.eclipse.ui.views">
       <view
+            category="org.eclipse.debug.ui"
             class="org.switchyard.tools.ui.debug.structure.SwitchYardContextView"
+            icon="icons/switchyard_icon_16px.png"
             id="org.switchyard.tools.ui.debug.view.switchYardContext"
             name="SwitchYard Context"
             restorable="true">

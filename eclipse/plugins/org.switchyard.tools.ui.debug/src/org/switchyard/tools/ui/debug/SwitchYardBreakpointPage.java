@@ -15,8 +15,12 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.internal.ui.SWTFactory;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.debug.core.IJavaBreakpoint;
 import org.eclipse.jdt.internal.debug.ui.breakpoints.AbstractJavaBreakpointEditor;
 import org.eclipse.jdt.internal.debug.ui.propertypages.JavaBreakpointPage;
@@ -33,6 +37,57 @@ import org.eclipse.ui.IPropertyListener;
 public class SwitchYardBreakpointPage extends JavaBreakpointPage {
 
     private AbstractJavaBreakpointEditor _editor;
+    private final Class<? extends IBreakpoint> _type;
+
+    protected SwitchYardBreakpointPage(final Class<? extends IBreakpoint> type) {
+        _type = type;
+    }
+
+    /**
+     * ServiceInteractionBreakpointPage.
+     */
+    public static final class ServiceInteractionBreakpointPage extends SwitchYardBreakpointPage {
+        /**
+         * Create a new ServiceInteractionBreakpointPage.
+         */
+        public ServiceInteractionBreakpointPage() {
+            super(ServiceInteractionBreakpoint.class);
+        }
+    }
+
+    /**
+     * TransformSequenceBreakpointPage.
+     */
+    public static final class TransformSequenceBreakpointPage extends SwitchYardBreakpointPage {
+        /**
+         * Create a new TransformSequenceBreakpointPage.
+         */
+        public TransformSequenceBreakpointPage() {
+            super(TransformSequenceBreakpoint.class);
+        }
+    }
+
+    /**
+     * ValidateHandlerBreakpointPage.
+     */
+    public static final class ValidateHandlerBreakpointPage extends SwitchYardBreakpointPage {
+        /**
+         * Create a new ValidateHandlerBreakpointPage.
+         */
+        public ValidateHandlerBreakpointPage() {
+            super(ValidateHandlerBreakpoint.class);
+        }
+    }
+
+    @Override
+    public void setElement(IAdaptable element) {
+        final Object source = element.getAdapter(EObject.class);
+        if (source == null) {
+            super.setElement(element);
+        } else {
+            super.setElement((IAdaptable) Platform.getAdapterManager().getAdapter(source, _type));
+        }
+    }
 
     @Override
     protected void doStore() throws CoreException {

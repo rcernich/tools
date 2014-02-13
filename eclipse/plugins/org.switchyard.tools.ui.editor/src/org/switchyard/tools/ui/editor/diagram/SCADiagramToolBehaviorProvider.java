@@ -73,6 +73,7 @@ import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardBindingType;
+import org.switchyard.tools.ui.debug.SwitchYardDebugUtil;
 import org.switchyard.tools.ui.editor.BindingTypeExtensionManager;
 import org.switchyard.tools.ui.editor.ComponentTypeExtensionManager;
 import org.switchyard.tools.ui.editor.ImageProvider;
@@ -366,11 +367,23 @@ public class SCADiagramToolBehaviorProvider extends DefaultToolBehaviorProvider 
                 decorators.add(decorator);
             }
             // breakpoints
-            if (statusAdapter.hasBreakpoints()) {
-                decorator = new ImageDecorator(ImageProvider.IMG_16_SERVICE_WATCH);
-                decorator.setX(-5 + (needsOffset ? 18 : 0));
-                decorator.setY(-8 + (needsOffset ? 8 : 0));
+            int additionalOffset = 0;
+            for (String type : statusAdapter.getBreakpoints()) {
+                final String imageId;
+                if (type.equals(SwitchYardDebugUtil.SERVICE_INTERACTION_BREAKPOINT_MARKER_ID)) {
+                    imageId = ImageProvider.IMG_16_SERVICE_WATCH;
+                } else if (type.equals(SwitchYardDebugUtil.TRANSFORM_BREAKPOINT_MARKER_ID)) {
+                    imageId = ImageProvider.IMG_16_TRANSFORM_WATCH;
+                } else if (type.equals(SwitchYardDebugUtil.VALIDATE_BREAKPOINT_MARKER_ID)) {
+                    imageId = ImageProvider.IMG_16_VALIDATE_WATCH;
+                } else {
+                    continue;
+                }
+                decorator = new ImageDecorator(imageId);
+                decorator.setX(-5 + (bo instanceof Composite ? ga.getWidth() - 20 : needsOffset ? pe.getGraphicsAlgorithm().getWidth() - 40 : 0) + additionalOffset);
+                decorator.setY(-8 + (bo instanceof Composite ? StyleUtil.COMPOSITE_OUTER_EDGE + 13 : needsOffset ? pe.getGraphicsAlgorithm().getHeight() - 10 : 0));
                 decorators.add(decorator);
+                additionalOffset += 25;
             }
         }
 
