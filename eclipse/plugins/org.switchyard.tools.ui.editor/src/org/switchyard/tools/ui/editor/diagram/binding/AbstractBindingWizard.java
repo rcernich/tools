@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.eclipse.jface.databinding.wizard.WizardPageSupport;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.Contract;
@@ -120,13 +121,6 @@ public abstract class AbstractBindingWizard extends LinkedWizardBase implements 
 
         @Override
         public void createControl(Composite parent) {
-            _composite.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent arg0) {
-                    setErrorMessage(_composite.getErrorMessage());
-                    setPageComplete(_composite.getErrorMessage() == null);
-                }
-            });
             _composite.setTargetObject(_container);
             _composite.createContents(parent, SWT.NONE);
             _composite.setBinding(_newBinding);
@@ -134,6 +128,18 @@ public abstract class AbstractBindingWizard extends LinkedWizardBase implements 
 
             setControl(_composite.getPanel());
             setPageComplete(_composite.getErrorMessage() == null);
+            if (_composite instanceof AbstractSYBindingComposite && ((AbstractSYBindingComposite)_composite).getDataBindingContext() != null) {
+                WizardPageSupport.create(this, ((AbstractSYBindingComposite)_composite).getDataBindingContext());
+            } else {
+                _composite.addChangeListener(new ChangeListener() {
+                    @Override
+                    public void stateChanged(ChangeEvent arg0) {
+                        setErrorMessage(_composite.getErrorMessage());
+                        setPageComplete(_composite.getErrorMessage() == null);
+                    }
+                });
+
+            }
 
             setErrorMessage(null);
         }

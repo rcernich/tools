@@ -13,13 +13,20 @@
 package org.switchyard.tools.ui.editor.diagram.binding;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.jface.fieldassist.FieldDecoration;
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.OperationSelectorType;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Text;
 import org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.IBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
@@ -35,6 +42,8 @@ public abstract class AbstractSYBindingComposite extends AbstractSwitchyardCompo
     private Binding _binding;
     private EObject _targetObj = null;
     private boolean _didSomething = false;
+    private DataBindingContext _bindingContext = new DataBindingContext();
+    private ArrayList<ControlDecoration> _decorators = null;
 
     /**
      * Hack to get around triggering an unwanted button push on a property page.
@@ -208,5 +217,64 @@ public abstract class AbstractSYBindingComposite extends AbstractSwitchyardCompo
             return super.getDomain(_targetObj);
         }
         return domain;
+    }
+    
+    protected DataBindingContext getDataBindingContext() {
+        return _bindingContext;
+    }
+
+    protected void addDataBindings() {
+        addDataBindings(true);
+    }
+    
+    protected void addDataBindings(boolean clearErrorMessage) {
+        _decorators = new ArrayList<ControlDecoration>();
+        if (clearErrorMessage) {
+            setErrorMessage(null);
+        }
+    }
+
+    protected ControlDecoration createDecorator(Text text, String message) {
+        ControlDecoration controlDecoration = new ControlDecoration(text,
+                SWT.LEFT | SWT.TOP);
+        controlDecoration.setDescriptionText(message);
+        FieldDecoration fieldDecoration = FieldDecorationRegistry.getDefault()
+                .getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+        controlDecoration.setImage(fieldDecoration.getImage());
+        return controlDecoration;
+    }
+
+    protected ControlDecoration createDecorator(Text text) {
+        ControlDecoration controlDecoration = new ControlDecoration(text,
+                SWT.LEFT | SWT.TOP);
+        FieldDecoration fieldDecoration = FieldDecorationRegistry.getDefault()
+                .getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
+        controlDecoration.setImage(fieldDecoration.getImage());
+        return controlDecoration;
+    }
+
+    @Override
+    protected boolean validate() {
+        // moving validation into the databinding validators and decorators
+        if (_decorators != null && !_decorators.isEmpty()) {
+            Iterator<ControlDecoration> decIter = _decorators.iterator();
+            while (decIter.hasNext()) {
+                ControlDecoration decorator = decIter.next();
+                if (decorator.isVisible()) {
+                    setErrorMessage(decorator.getDescriptionText());
+                    break;
+                }
+            }
+        }
+        return (getErrorMessage() == null);
+    }
+
+    protected void addDecorator(ControlDecoration decorator) {
+        if (_decorators == null) {
+            _decorators = new ArrayList<ControlDecoration>();
+        }
+        if (decorator != null) {
+            _decorators.add(decorator);
+        }
     }
 }

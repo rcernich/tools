@@ -39,6 +39,10 @@ public class Messages extends NLS {
     public static String button_workspace;
     public static String CamelFTPConsumerMoveAndPollComposite_MoveAndPoll_wizard_page_description;
     public static String CamelFTPConsumerMoveAndPollComposite_MoveAndPoll_wizard_page_title;
+    public static String CamelQuartzComposite_Validation_CRON_Empty;
+    public static String CamelQuartzComposite_Validation_End_Time_Format;
+    public static String CamelQuartzComposite_Validation_Name_Empty;
+    public static String CamelQuartzComposite_Validation_Start_Time_Format;
     public static String category_menu_binding;
     public static String category_menu_component;
     public static String category_menu_implementation;
@@ -234,6 +238,8 @@ public class Messages extends NLS {
     public static String error_xslFileDoesNotExist;
     public static String error_xslFileExists;
     public static String error_xslFileNotOnClasspath;
+    public static String EscapedPropertyValidator_Must_Match_Escaped_Property_Pattern;
+    public static String EscapedPropertyValidator_Only_Call_For_String_Data;
     public static String featureDescription_componentService;
     public static String featureDescription_componentServiceReference;
     public static String featureDescription_editInterface;
@@ -554,6 +560,8 @@ public class Messages extends NLS {
     public static String message_creatingNewJavaTransformerClass;
     public static String message_creatingXslTransformerFile;
     public static String OperationSelectorComposite_OperationSelectorGroup_label;
+    public static String SimpleDateFormatValidator_Only_Call_for_String_Data;
+    public static String StringEmptyValidator_Only_Call_for_String_Data;
     public static String title_addInterceptor;
     public static String title_advancedBindingDetails;
     public static String title_advancedResourceDetails;

@@ -350,6 +350,10 @@ public class BindingsControlComposite extends AbstractModelComposite<Contract> i
             }
             _composite = composite;
             composite.setBinding(_binding);
+            if (_composite != null) {
+                _validError = _composite.getErrorMessage();
+                getContainer().validated(validate());
+            }
             _pageBook.showPage(bindingKey);
         } else {
             _pageBook.showEmptyPage();

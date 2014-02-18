@@ -277,7 +277,7 @@ public abstract class AbstractSwitchyardComposite implements FocusListener, KeyL
         return newText;
     }
 
-    private void handleChange(Control control) {
+    protected void handleChange(Control control) {
         setHasChanged(true);
         validate();
         handleModify(control);
