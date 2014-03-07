@@ -10,21 +10,23 @@
  *
  * @author bfitzpat
  ******************************************************************************/
-package org.switchyard.tools.ui.editor.diagram.shared.validators;
+package org.switchyard.tools.ui.editor.databinding;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.core.runtime.Status;
+import org.switchyard.tools.ui.editor.Activator;
 import org.switchyard.tools.ui.editor.Messages;
-import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 
 /**
+ * Validator which errors if property strings are not formatted correctly.
+ * 
  * @author bfitzpat
- *
  */
-public class EscapedPropertyValidator extends AbstractBindingValidator {
+public class EscapedPropertyValidator implements IValidator {
 
     private static final Pattern INNER_DOLLAR_START_PATTERN = Pattern.compile("\\$\\{"); //$NON-NLS-1$
     private static final String MESSAGE = Messages.EscapedPropertyValidator_Must_Match_Escaped_Property_Pattern;
@@ -32,22 +34,10 @@ public class EscapedPropertyValidator extends AbstractBindingValidator {
     
     /**
      * Constructor.
-     * @param controlDecoration Decorator to update
-     * @param composite Binding composite to keep validated
-     */
-    public EscapedPropertyValidator(ControlDecoration controlDecoration, 
-            AbstractSYBindingComposite composite) {
-        super(controlDecoration, composite);
-        setMessage(MESSAGE);
-    }
-    
-    /**
-     * Constructor.
      */
     public EscapedPropertyValidator() {
-        setMessage(MESSAGE);
     }
-
+    
     @Override
     public IStatus validate(Object value) {
         if (value instanceof String) {
@@ -69,9 +59,9 @@ public class EscapedPropertyValidator extends AbstractBindingValidator {
             }
             
             if (leftSides == rightSides) {
-                return clear();
+                return Status.OK_STATUS;
             } else {
-                return error(MESSAGE);
+                return new Status(Status.ERROR, Activator.PLUGIN_ID, MESSAGE);
             }
         } else {
             throw new RuntimeException(

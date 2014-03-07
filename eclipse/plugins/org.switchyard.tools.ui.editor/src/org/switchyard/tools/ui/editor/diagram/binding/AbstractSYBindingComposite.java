@@ -13,20 +13,21 @@
 package org.switchyard.tools.ui.editor.diagram.binding;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.ObservablesManager;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.databinding.EMFDataBindingContext;
+import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.jface.fieldassist.ControlDecoration;
-import org.eclipse.jface.fieldassist.FieldDecoration;
-import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.OperationSelectorType;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 import org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.IBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
@@ -42,19 +43,28 @@ public abstract class AbstractSYBindingComposite extends AbstractSwitchyardCompo
     private Binding _binding;
     private EObject _targetObj = null;
     private boolean _didSomething = false;
-    private DataBindingContext _bindingContext = new DataBindingContext();
-    private ArrayList<ControlDecoration> _decorators = null;
+    private DataBindingContext _bindingContext = new EMFDataBindingContext();
+    private ObservablesManager _observablesManager = new ObservablesManager();
+
+    @Override
+    public void dispose() {
+        _observablesManager.dispose();
+        _bindingContext.dispose();
+        super.dispose();
+    }
 
     /**
      * Hack to get around triggering an unwanted button push on a property page.
+     * 
      * @param flag true/false
      */
     public void setDidSomething(boolean flag) {
         this._didSomething = flag;
     }
-    
+
     /**
      * Hack to get around triggering an unwanted button push on a property page.
+     * 
      * @return true/false
      */
     public boolean getDidSomething() {
@@ -161,7 +171,7 @@ public abstract class AbstractSYBindingComposite extends AbstractSwitchyardCompo
             OperationSelectorType opSelect = OperationSelectorUtil.getFirstOperationSelector(_binding);
             int oldOpType = OperationSelectorComposite.getTypeOfExistingOpSelector(opSelect);
             Object oldValue = OperationSelectorComposite.getValueOfExistingOpSelector(opSelect);
-            
+
             // don't do anything if the value is the same
             if (opType == oldOpType) {
                 if (oldValue.equals(value)) {
@@ -177,22 +187,22 @@ public abstract class AbstractSYBindingComposite extends AbstractSwitchyardCompo
             }
         }
         ArrayList<ModelOperation> ops = new ArrayList<ModelOperation>();
-        if (value == null || (value instanceof String && ((String)value).trim().isEmpty())) {
+        if (value == null || (value instanceof String && ((String) value).trim().isEmpty())) {
             ops.add(new RemoveOperationSelectorOp(this._binding));
         } else {
             switch (opType) {
-                case OperationSelectorComposite.STATIC_TYPE:
-                    ops.add(new StaticOperationSelectorGroupOp(this._binding, (String) value));
-                    break;
-                case OperationSelectorComposite.REGEX_TYPE:
-                    ops.add(new RegexOperationSelectorGroupOp(this._binding, (String) value));
-                    break;
-                case OperationSelectorComposite.XPATH_TYPE:
-                    ops.add(new XPathOperationSelectorGroupOp(this._binding, (String) value));
-                    break;
-                case OperationSelectorComposite.JAVA_TYPE:
-                    ops.add(new JavaOperationSelectorGroupOp(this._binding, (String) value));
-                    break;
+            case OperationSelectorComposite.STATIC_TYPE:
+                ops.add(new StaticOperationSelectorGroupOp(this._binding, (String) value));
+                break;
+            case OperationSelectorComposite.REGEX_TYPE:
+                ops.add(new RegexOperationSelectorGroupOp(this._binding, (String) value));
+                break;
+            case OperationSelectorComposite.XPATH_TYPE:
+                ops.add(new XPathOperationSelectorGroupOp(this._binding, (String) value));
+                break;
+            case OperationSelectorComposite.JAVA_TYPE:
+                ops.add(new JavaOperationSelectorGroupOp(this._binding, (String) value));
+                break;
             }
         }
         wrapOperation(ops);
@@ -218,63 +228,35 @@ public abstract class AbstractSYBindingComposite extends AbstractSwitchyardCompo
         }
         return domain;
     }
-    
+
     protected DataBindingContext getDataBindingContext() {
         return _bindingContext;
     }
 
-    protected void addDataBindings() {
-        addDataBindings(true);
-    }
-    
-    protected void addDataBindings(boolean clearErrorMessage) {
-        _decorators = new ArrayList<ControlDecoration>();
-        if (clearErrorMessage) {
-            setErrorMessage(null);
-        }
+    protected ObservablesManager getObservablesManager() {
+        return _observablesManager;
     }
 
-    protected ControlDecoration createDecorator(Text text, String message) {
-        ControlDecoration controlDecoration = new ControlDecoration(text,
-                SWT.LEFT | SWT.TOP);
-        controlDecoration.setDescriptionText(message);
-        FieldDecoration fieldDecoration = FieldDecorationRegistry.getDefault()
-                .getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-        controlDecoration.setImage(fieldDecoration.getImage());
-        return controlDecoration;
-    }
-
-    protected ControlDecoration createDecorator(Text text) {
-        ControlDecoration controlDecoration = new ControlDecoration(text,
-                SWT.LEFT | SWT.TOP);
-        FieldDecoration fieldDecoration = FieldDecorationRegistry.getDefault()
-                .getFieldDecoration(FieldDecorationRegistry.DEC_ERROR);
-        controlDecoration.setImage(fieldDecoration.getImage());
-        return controlDecoration;
-    }
-
-    @Override
     protected boolean validate() {
-        // moving validation into the databinding validators and decorators
-        if (_decorators != null && !_decorators.isEmpty()) {
-            Iterator<ControlDecoration> decIter = _decorators.iterator();
-            while (decIter.hasNext()) {
-                ControlDecoration decorator = decIter.next();
-                if (decorator.isVisible()) {
-                    setErrorMessage(decorator.getDescriptionText());
-                    break;
-                }
-            }
-        }
         return (getErrorMessage() == null);
     }
 
-    protected void addDecorator(ControlDecoration decorator) {
-        if (_decorators == null) {
-            _decorators = new ArrayList<ControlDecoration>();
+    /**
+     * Creates the appropriate detail value depending on whether or not an
+     * editing domain is available.
+     * 
+     * @param domain the editing domain, may be null.
+     * @param value the value being observed
+     * @param eStructuralFeature the structural feature to observe
+     * @return a new observable value
+     */
+    protected IObservableValue observeDetailValue(EditingDomain domain, IObservableValue value,
+            EStructuralFeature eStructuralFeature) {
+        if (eStructuralFeature.isMany()) {
+            throw new IllegalArgumentException("Multi-valued features are not supported.  Use observeDetailList(), etc.");
         }
-        if (decorator != null) {
-            _decorators.add(decorator);
-        }
+        return domain == null ? EMFProperties.value(eStructuralFeature).observeDetail(value) : EMFEditProperties.value(
+                domain, eStructuralFeature).observeDetail(value);
     }
+
 }

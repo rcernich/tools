@@ -10,58 +10,46 @@
  *
  * @author bfitzpat
  ******************************************************************************/
-package org.switchyard.tools.ui.editor.diagram.shared.validators;
+package org.switchyard.tools.ui.editor.databinding;
 
+import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jface.fieldassist.ControlDecoration;
+import org.eclipse.core.runtime.Status;
+import org.switchyard.tools.ui.editor.Activator;
 import org.switchyard.tools.ui.editor.Messages;
-import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 
 /**
+ * Validator which errors if String value is null or empty.
+ * 
  * @author bfitzpat
- *
  */
-public class StringEmptyValidator extends AbstractBindingValidator {
+public class StringEmptyValidator implements IValidator {
+
+    private final String _message;
 
     /**
      * Constructor.
-     * @param message Validation message
-     * @param controlDecoration Decorator to update
-     * @param composite Binding composite to keep validated
-     */
-    public StringEmptyValidator(String message,
-            ControlDecoration controlDecoration, AbstractSYBindingComposite composite) {
-        super(message, controlDecoration, composite);
-    }
-    
-    /**
-     * Constructor.
+     * 
      * @param message Validation message
      */
     public StringEmptyValidator(String message) {
-        super(message);
-    }
-
-    /**
-     * Constructor.
-     */
-    public StringEmptyValidator() {
-        super();
+        _message = message;
     }
 
     @Override
     public IStatus validate(Object value) {
+        if (value == null) {
+            return new Status(Status.ERROR, Activator.PLUGIN_ID, _message);
+        }
         if (value instanceof String) {
             String s = (String) value;
             if (!s.trim().isEmpty()) {
-                return clear();
+                return Status.OK_STATUS;
             } else {
-                return error();
+                return new Status(Status.ERROR, Activator.PLUGIN_ID, _message);
             }
         } else {
-            throw new RuntimeException(
-                    Messages.StringEmptyValidator_Only_Call_for_String_Data);
+            throw new RuntimeException(Messages.StringEmptyValidator_Only_Call_for_String_Data);
         }
     }
 }
-
