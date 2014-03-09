@@ -19,7 +19,6 @@ import javax.swing.event.ChangeListener;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
-import org.eclipse.soa.sca.sca1_1.model.sca.OperationSelectorType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -31,11 +30,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.switchyard.tools.models.switchyard1_0.camel.ftp.CamelFtpBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.ftp.FtpFactory;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardOperationSelectorType;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorComposite;
-import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorUtil;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
 import org.switchyard.tools.ui.editor.util.PropTypeUtil;
 
@@ -129,9 +126,7 @@ public class CamelFTPConsumerComposite extends AbstractSYBindingComposite {
                 _nameText.setText(_binding.getName());
             }
             _binaryButton.setSelection(this._binding.isBinary());
-            OperationSelectorType opSelector = OperationSelectorUtil.getFirstOperationSelector(this._binding);
             _opSelectorComposite.setBinding(this._binding);
-            _opSelectorComposite.setOperation((SwitchYardOperationSelectorType) opSelector);
             
             setInUpdate(false);
             validate();
@@ -196,7 +191,7 @@ public class CamelFTPConsumerComposite extends AbstractSYBindingComposite {
         _deleteButton = createCheckbox(fileGroup, Messages.label_deleteFilesOnceProcessed);
         _recursiveButton = createCheckbox(fileGroup, Messages.label_processSubDirectoriesRecursively);
 
-        _opSelectorComposite = new OperationSelectorComposite(composite, SWT.NONE);
+        _opSelectorComposite = new OperationSelectorComposite(composite, SWT.NONE, this);
         GridData opSelectorGD = new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1);
         _opSelectorComposite.setLayoutData(opSelectorGD);
         GridLayout layout = new GridLayout(2, false);
@@ -245,8 +240,6 @@ public class CamelFTPConsumerComposite extends AbstractSYBindingComposite {
         } else if (control.equals(_includeText)) {
             updateConsumeFeature("include", _includeText.getText().trim()); //$NON-NLS-1$
         } else if (control.equals(_opSelectorComposite)) {
-            int opType = _opSelectorComposite.getSelectedOperationSelectorType();
-            updateOperationSelectorFeature(opType, _opSelectorComposite.getSelectedOperationSelectorValue());
             fireChangedEvent(_opSelectorComposite);
         }
 

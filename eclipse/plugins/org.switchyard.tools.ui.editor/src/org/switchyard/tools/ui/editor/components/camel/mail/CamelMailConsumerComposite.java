@@ -19,7 +19,6 @@ import javax.swing.event.ChangeListener;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
-import org.eclipse.soa.sca.sca1_1.model.sca.OperationSelectorType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -33,11 +32,9 @@ import org.eclipse.swt.widgets.Text;
 import org.switchyard.tools.models.switchyard1_0.camel.mail.CamelMailBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.mail.MailConsumerAccountType;
 import org.switchyard.tools.models.switchyard1_0.camel.mail.MailFactory;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardOperationSelectorType;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorComposite;
-import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorUtil;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
 import org.switchyard.tools.ui.editor.util.PropTypeUtil;
 
@@ -131,9 +128,7 @@ public class CamelMailConsumerComposite extends AbstractSYBindingComposite  {
                 _nameText.setText(_binding.getName());
             }
             _securedCheckbox.setSelection(this._binding.isSecure());
-            OperationSelectorType opSelector = OperationSelectorUtil.getFirstOperationSelector(this._binding);
             _opSelectorComposite.setBinding(this._binding);
-            _opSelectorComposite.setOperation((SwitchYardOperationSelectorType) opSelector);
 
             setInUpdate(false);
             validate();
@@ -211,7 +206,7 @@ public class CamelMailConsumerComposite extends AbstractSYBindingComposite  {
 //        _copyToText = createLabelAndText(consumeGroup, "Copy To");
 //        _disconnectCheckbox = createCheckbox(consumeGroup, "Disconnect");
 
-        _opSelectorComposite = new OperationSelectorComposite(composite, SWT.NONE);
+        _opSelectorComposite = new OperationSelectorComposite(composite, SWT.NONE, this);
         GridData opSelectGD = new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1);
         opSelectGD.horizontalIndent = -5;
         _opSelectorComposite.setLayoutData(opSelectGD);
@@ -287,8 +282,6 @@ public class CamelMailConsumerComposite extends AbstractSYBindingComposite  {
         } else if (control.equals(_nameText)) {
             super.updateFeature(_binding, "name", _nameText.getText().trim()); //$NON-NLS-1$
         } else if (control.equals(_opSelectorComposite)) {
-            int opType = _opSelectorComposite.getSelectedOperationSelectorType();
-            updateOperationSelectorFeature(opType, _opSelectorComposite.getSelectedOperationSelectorValue());
             fireChangedEvent(_opSelectorComposite);
         } else {
             super.handleModify(control);

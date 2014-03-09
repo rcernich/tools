@@ -16,6 +16,7 @@ import org.eclipse.core.databinding.observable.DisposeEvent;
 import org.eclipse.core.databinding.observable.IDisposeListener;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.jface.databinding.swt.ISWTObservable;
+import org.eclipse.jface.databinding.viewers.IViewerObservable;
 import org.eclipse.jface.internal.databinding.swt.WidgetListenerUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Control;
@@ -56,14 +57,20 @@ public final class SWTValueUpdater implements Listener, IDisposeListener {
         _target = _binding.getTarget();
         if (_target instanceof ISWTObservable && ((ISWTObservable) _binding.getTarget()).getWidget() instanceof Control) {
             _control = (Control) ((ISWTObservable) _binding.getTarget()).getWidget();
-            WidgetListenerUtil.asyncAddListener(_control, SWT.KeyUp, this);
-            WidgetListenerUtil.asyncAddListener(_control, SWT.FocusOut, this);
-            WidgetListenerUtil.asyncAddListener(_control, SWT.DefaultSelection, this);
-            WidgetListenerUtil.asyncAddListener(_control, SWT.Dispose, this);
-            _target.addDisposeListener(this);
+        } else if (_target instanceof IViewerObservable) {
+            _control = ((IViewerObservable) _target).getViewer().getControl();
         } else {
             throw new IllegalArgumentException("target of binding must be an ISWTObservable whose widget is a Control.");
         }
+        addListeners();
+    }
+
+    private void addListeners() {
+        WidgetListenerUtil.asyncAddListener(_control, SWT.KeyUp, this);
+        WidgetListenerUtil.asyncAddListener(_control, SWT.FocusOut, this);
+        WidgetListenerUtil.asyncAddListener(_control, SWT.DefaultSelection, this);
+        WidgetListenerUtil.asyncAddListener(_control, SWT.Dispose, this);
+        _target.addDisposeListener(this);
     }
 
     @Override

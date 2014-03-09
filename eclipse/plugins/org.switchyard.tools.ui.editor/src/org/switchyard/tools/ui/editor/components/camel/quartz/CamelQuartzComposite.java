@@ -33,7 +33,6 @@ import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.Contract;
-import org.eclipse.soa.sca.sca1_1.model.sca.OperationSelectorType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -44,15 +43,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.switchyard.tools.models.switchyard1_0.camel.quartz.CamelQuartzBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.quartz.QuartzPackage;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardOperationSelectorType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
+import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.databinding.StringEmptyValidator;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorComposite;
-import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorUtil;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
 
 /**
@@ -88,7 +86,12 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
         if (impl instanceof CamelQuartzBindingType) {
             _binding = (CamelQuartzBindingType) impl;
             if (_bindingValue == null) {
-                bindControls();
+                getObservablesManager().runAndCollect(new Runnable() {
+                    @Override
+                    public void run() {
+                        bindControls();
+                    }
+                });
             }
             setInUpdate(true);
 
@@ -99,12 +102,11 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
                 _opSelectorComposite.setTargetObject(getTargetObject());
             }
 
-            OperationSelectorType opSelector = OperationSelectorUtil.getFirstOperationSelector(this._binding);
             _opSelectorComposite.setBinding(this._binding);
-            _opSelectorComposite.setOperation((SwitchYardOperationSelectorType) opSelector);
 
             setInUpdate(false);
 
+            // TODO: this should be moved into the wizard
             if (!_defaultedName
                     && this._binding != null
                     && this._binding.getCamelBindingName() == null
@@ -163,7 +165,7 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
         Arrays.sort(timezones);
         _timezoneViewer.setInput(timezones);
 
-        _opSelectorComposite = new OperationSelectorComposite(composite, SWT.NONE);
+        _opSelectorComposite = new OperationSelectorComposite(composite, SWT.NONE, this);
         _opSelectorComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1));
         _opSelectorComposite.setLayout(new GridLayout(2, false));
         _opSelectorComposite.addChangeListener(new ChangeListener() {
@@ -195,8 +197,6 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
         // at this point, this is the only control we can't do with strict
         // databinding
         if (control.equals(_opSelectorComposite)) {
-            int opType = _opSelectorComposite.getSelectedOperationSelectorType();
-            updateOperationSelectorFeature(opType, _opSelectorComposite.getSelectedOperationSelectorValue());
             fireChangedEvent(_opSelectorComposite);
         }
         setHasChanged(false);
@@ -218,7 +218,7 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
 
         org.eclipse.core.databinding.Binding binding = context.bindValue(
                 SWTObservables.observeText(_nameText, new int[] {SWT.Modify }),
-                observeDetailValue(domain, _bindingValue,
+                ObservablesUtil.observeDetailValue(domain, _bindingValue,
                         QuartzPackage.Literals.CAMEL_QUARTZ_BINDING_TYPE__CAMEL_BINDING_NAME),
                 new EMFUpdateValueStrategyNullForEmptyString(null, UpdateValueStrategy.POLICY_CONVERT)
                         .setAfterConvertValidator(new StringEmptyValidator(
@@ -228,7 +228,7 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
         binding = context
                 .bindValue(
                         SWTObservables.observeText(_cronText, new int[] {SWT.Modify }),
-                        observeDetailValue(domain, _bindingValue,
+                        ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 QuartzPackage.Literals.CAMEL_QUARTZ_BINDING_TYPE__CRON),
                         new EMFUpdateValueStrategyNullForEmptyString(null, UpdateValueStrategy.POLICY_CONVERT)
                                 .setAfterConvertValidator(new StringEmptyValidator(
@@ -238,7 +238,7 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
         binding = context
                 .bindValue(
                         SWTObservables.observeText(_startTimeText, new int[] {SWT.Modify }),
-                        observeDetailValue(domain, _bindingValue,
+                        ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 QuartzPackage.Literals.CAMEL_QUARTZ_BINDING_TYPE__TRIGGER_START_TIME),
                         new EMFUpdateValueStrategyNullForEmptyString(
                                 Messages.CamelQuartzComposite_Validation_Start_Time_Format,
@@ -247,7 +247,7 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
 
         binding = context.bindValue(
                 SWTObservables.observeText(_endTimeText, new int[] {SWT.Modify }),
-                observeDetailValue(domain, _bindingValue,
+                ObservablesUtil.observeDetailValue(domain, _bindingValue,
                         QuartzPackage.Literals.CAMEL_QUARTZ_BINDING_TYPE__TRIGGER_END_TIME),
                 new EMFUpdateValueStrategyNullForEmptyString(Messages.CamelQuartzComposite_Validation_End_Time_Format,
                         UpdateValueStrategy.POLICY_CONVERT), null);
@@ -255,11 +255,11 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
 
         binding = context.bindValue(
                 ViewersObservables.observeSingleSelection(_timezoneViewer),
-                observeDetailValue(domain, _bindingValue,
+                ObservablesUtil.observeDetailValue(domain, _bindingValue,
                         QuartzPackage.Literals.CAMEL_QUARTZ_BINDING_TYPE__TRIGGER_TIME_ZONE));
         ControlDecorationSupport.create(binding, SWT.TOP | SWT.LEFT);
 
-        getObservablesManager().addObservablesFromContext(context, true, true);
+        // TODO: add validator for end time after start time
     }
 
     @Override

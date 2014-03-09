@@ -17,16 +17,10 @@ import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.ObservablesManager;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.EMFProperties;
-import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
-import org.eclipse.soa.sca.sca1_1.model.sca.OperationSelectorType;
 import org.eclipse.swt.widgets.Control;
 import org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.IBindingComposite;
@@ -45,6 +39,10 @@ public abstract class AbstractSYBindingComposite extends AbstractSwitchyardCompo
     private boolean _didSomething = false;
     private DataBindingContext _bindingContext = new EMFDataBindingContext();
     private ObservablesManager _observablesManager = new ObservablesManager();
+
+    protected AbstractSYBindingComposite() {
+        _observablesManager.addObservablesFromContext(_bindingContext, true, true);
+    }
 
     @Override
     public void dispose() {
@@ -166,48 +164,6 @@ public abstract class AbstractSYBindingComposite extends AbstractSwitchyardCompo
         return this._targetObj;
     }
 
-    protected void updateOperationSelectorFeature(int opType, Object value) {
-        if (OperationSelectorUtil.getFirstOperationSelector(_binding) != null) {
-            OperationSelectorType opSelect = OperationSelectorUtil.getFirstOperationSelector(_binding);
-            int oldOpType = OperationSelectorComposite.getTypeOfExistingOpSelector(opSelect);
-            Object oldValue = OperationSelectorComposite.getValueOfExistingOpSelector(opSelect);
-
-            // don't do anything if the value is the same
-            if (opType == oldOpType) {
-                if (oldValue.equals(value)) {
-                    return;
-                }
-            }
-            if (oldValue == null && value == null) {
-                return;
-            } else if (oldValue != null && oldValue.equals(value)) {
-                return;
-            } else if (value != null && value.equals(oldValue)) {
-                return;
-            }
-        }
-        ArrayList<ModelOperation> ops = new ArrayList<ModelOperation>();
-        if (value == null || (value instanceof String && ((String) value).trim().isEmpty())) {
-            ops.add(new RemoveOperationSelectorOp(this._binding));
-        } else {
-            switch (opType) {
-            case OperationSelectorComposite.STATIC_TYPE:
-                ops.add(new StaticOperationSelectorGroupOp(this._binding, (String) value));
-                break;
-            case OperationSelectorComposite.REGEX_TYPE:
-                ops.add(new RegexOperationSelectorGroupOp(this._binding, (String) value));
-                break;
-            case OperationSelectorComposite.XPATH_TYPE:
-                ops.add(new XPathOperationSelectorGroupOp(this._binding, (String) value));
-                break;
-            case OperationSelectorComposite.JAVA_TYPE:
-                ops.add(new JavaOperationSelectorGroupOp(this._binding, (String) value));
-                break;
-            }
-        }
-        wrapOperation(ops);
-    }
-
     protected void updateFeature(EObject eObject, String[] featureId, Object[] value) {
         ArrayList<ModelOperation> ops = new ArrayList<ModelOperation>();
 
@@ -239,24 +195,6 @@ public abstract class AbstractSYBindingComposite extends AbstractSwitchyardCompo
 
     protected boolean validate() {
         return (getErrorMessage() == null);
-    }
-
-    /**
-     * Creates the appropriate detail value depending on whether or not an
-     * editing domain is available.
-     * 
-     * @param domain the editing domain, may be null.
-     * @param value the value being observed
-     * @param eStructuralFeature the structural feature to observe
-     * @return a new observable value
-     */
-    protected IObservableValue observeDetailValue(EditingDomain domain, IObservableValue value,
-            EStructuralFeature eStructuralFeature) {
-        if (eStructuralFeature.isMany()) {
-            throw new IllegalArgumentException("Multi-valued features are not supported.  Use observeDetailList(), etc.");
-        }
-        return domain == null ? EMFProperties.value(eStructuralFeature).observeDetail(value) : EMFEditProperties.value(
-                domain, eStructuralFeature).observeDetail(value);
     }
 
 }

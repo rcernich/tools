@@ -137,6 +137,10 @@ public abstract class AbstractTabbedPropertySection<T extends EObject> extends G
     @Override
     public void dispose() {
         removeDomainListener();
+        if (_composite != null) {
+            _composite.dispose();
+            _composite = null;
+        }
         super.dispose();
     }
 

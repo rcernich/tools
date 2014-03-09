@@ -18,7 +18,6 @@ import javax.swing.event.ChangeListener;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.Contract;
-import org.eclipse.soa.sca.sca1_1.model.sca.OperationSelectorType;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.eclipse.swt.SWT;
@@ -30,12 +29,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.switchyard.tools.models.switchyard1_0.http.HTTPBindingType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardOperationSelectorType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorComposite;
-import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorUtil;
 import org.switchyard.tools.ui.editor.util.PropTypeUtil;
 
 /**
@@ -94,7 +91,7 @@ public class HttpBindingComposite extends AbstractSYBindingComposite {
             _contextPathText = createLabelAndText(composite, Messages.label_contextPath);
             _contextPathText.setEnabled(canEdit());
 
-            _opSelectorComposite = new OperationSelectorComposite(composite, SWT.NONE);
+            _opSelectorComposite = new OperationSelectorComposite(composite, SWT.NONE, this);
             _opSelectorComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1));
             _opSelectorComposite.setLayout(new GridLayout(2, false));
             _opSelectorComposite.addChangeListener(new ChangeListener() {
@@ -140,8 +137,6 @@ public class HttpBindingComposite extends AbstractSYBindingComposite {
                 String contextPath = _contextPathText.getText().trim();
                 updateFeature(_binding, "contextPath", contextPath); //$NON-NLS-1$
             } else if (control.equals(_opSelectorComposite)) {
-                int opType = _opSelectorComposite.getSelectedOperationSelectorType();
-                updateOperationSelectorFeature(opType, _opSelectorComposite.getSelectedOperationSelectorValue());
                 fireChangedEvent(_opSelectorComposite);
             } else if (control.equals(_methodCombo)) {
                 String methodName = _methodCombo.getText().trim();
@@ -214,9 +209,7 @@ public class HttpBindingComposite extends AbstractSYBindingComposite {
             }
 
             if (_opSelectorComposite != null && !_opSelectorComposite.isDisposed()) {
-                OperationSelectorType opSelector = OperationSelectorUtil.getFirstOperationSelector(this._binding);
                 _opSelectorComposite.setBinding(this._binding);
-                _opSelectorComposite.setOperation((SwitchYardOperationSelectorType) opSelector);
             }
 
             if (_contextPathText != null && !_contextPathText.isDisposed()) {

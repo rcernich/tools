@@ -407,6 +407,10 @@ public class BindingsControlComposite extends AbstractModelComposite<Contract> i
     @Override
     public void dispose() {
         removeDomainListener();
+        for (IBindingComposite bindingComposite : _composites.values()) {
+            bindingComposite.dispose();
+        }
+        _composites.clear();
         super.dispose();
     }
 

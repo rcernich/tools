@@ -173,4 +173,13 @@ public abstract class AbstractPropertyPage<T extends EObject> extends PropertyPa
     protected Composite getComposite() {
         return this._composite;
     }
+
+    @Override
+    public void dispose() {
+        if (_composite != null) {
+            _composite.dispose();
+            _composite = null;
+        }
+        super.dispose();
+    }
 }

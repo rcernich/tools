@@ -167,5 +167,10 @@ public class BindingPropertyComposite implements IBindingComposite, ChangeListen
         return _composites.get(0).getDescription();
     }
 
-    
+    @Override
+    public void dispose() {
+        for (IBindingComposite composite: _composites) {
+            composite.dispose();
+        }
+    }
 }

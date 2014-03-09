@@ -23,7 +23,6 @@ import javax.swing.event.ChangeListener;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
-import org.eclipse.soa.sca.sca1_1.model.sca.OperationSelectorType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
@@ -41,11 +40,9 @@ import org.switchyard.tools.models.switchyard1_0.jca.JCAInboundConnection;
 import org.switchyard.tools.models.switchyard1_0.jca.JcaFactory;
 import org.switchyard.tools.models.switchyard1_0.jca.Property;
 import org.switchyard.tools.models.switchyard1_0.jca.ResourceAdapter;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardOperationSelectorType;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorComposite;
-import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorUtil;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
 
 /**
@@ -148,9 +145,7 @@ public class JCABindingInboundComposite extends AbstractSYBindingComposite {
                     _propsList.setSelection(properties);
                 }
 
-                OperationSelectorType opSelector = OperationSelectorUtil.getFirstOperationSelector(this._binding);
                 _opSelectorComposite.setBinding(this._binding);
-                _opSelectorComposite.setOperation((SwitchYardOperationSelectorType) opSelector);
             }
             if (_binding.getName() == null) {
                 _nameText.setText(""); //$NON-NLS-1$
@@ -319,7 +314,7 @@ public class JCABindingInboundComposite extends AbstractSYBindingComposite {
         GridLayout gl = new GridLayout(1, false);
         composite.setLayout(gl);
         
-        _opSelectorComposite = new OperationSelectorComposite(composite, SWT.NONE);
+        _opSelectorComposite = new OperationSelectorComposite(composite, SWT.NONE, this);
         _opSelectorComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
         _opSelectorComposite.setLayout(new GridLayout(2, false));
         _opSelectorComposite.addChangeListener(new ChangeListener() {
@@ -430,8 +425,6 @@ public class JCABindingInboundComposite extends AbstractSYBindingComposite {
 
     protected void handleModify(final Control control) {
         if (control.equals(_opSelectorComposite)) {
-            int opType = _opSelectorComposite.getSelectedOperationSelectorType();
-            updateOperationSelectorFeature(opType, _opSelectorComposite.getSelectedOperationSelectorValue());
             fireChangedEvent(_opSelectorComposite);
         } else if (control.equals(_nameText)) {
             super.updateFeature(_binding, "name", _nameText.getText().trim()); //$NON-NLS-1$

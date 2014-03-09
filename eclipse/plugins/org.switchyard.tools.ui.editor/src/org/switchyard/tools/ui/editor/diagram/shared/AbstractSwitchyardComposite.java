@@ -223,6 +223,9 @@ public abstract class AbstractSwitchyardComposite implements FocusListener, KeyL
      * @param parent Parent composite
      */
     public static void disposeChildWidgets(Composite parent) {
+        if (parent.isDisposed()) {
+            return;
+        }
         Control[] kids = parent.getChildren();
         for (Control k : kids) {
             if (k instanceof Composite) {

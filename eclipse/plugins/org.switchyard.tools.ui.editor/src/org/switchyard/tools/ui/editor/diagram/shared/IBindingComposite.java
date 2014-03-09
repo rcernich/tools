@@ -113,4 +113,9 @@ public interface IBindingComposite {
      * @return true/false
      */
     public boolean getDidSomething();
+    
+    /**
+     * Dispose of any resources allocated for this object.
+     */
+    public void dispose();
 }
