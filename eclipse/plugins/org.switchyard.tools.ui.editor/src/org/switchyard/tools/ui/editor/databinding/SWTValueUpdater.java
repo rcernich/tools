@@ -13,6 +13,7 @@ package org.switchyard.tools.ui.editor.databinding;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.observable.DisposeEvent;
+import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.IDisposeListener;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.jface.databinding.swt.ISWTObservable;
@@ -35,7 +36,7 @@ import org.eclipse.swt.widgets.Text;
  * (i.e. Binding.updateModelToTarget()).
  */
 @SuppressWarnings("restriction")
-public final class SWTValueUpdater implements Listener, IDisposeListener {
+public final class SWTValueUpdater implements Listener, IDisposeListener, IChangeListener {
 
     /**
      * Attach a value updater to the binding.
@@ -51,6 +52,7 @@ public final class SWTValueUpdater implements Listener, IDisposeListener {
     private Control _control;
     private final org.eclipse.core.databinding.Binding _binding;
     private final IObservable _target;
+    private boolean _dirty;
 
     private SWTValueUpdater(final org.eclipse.core.databinding.Binding binding) {
         _binding = binding;
@@ -68,9 +70,11 @@ public final class SWTValueUpdater implements Listener, IDisposeListener {
     private void addListeners() {
         WidgetListenerUtil.asyncAddListener(_control, SWT.KeyUp, this);
         WidgetListenerUtil.asyncAddListener(_control, SWT.FocusOut, this);
+        WidgetListenerUtil.asyncAddListener(_control, SWT.FocusIn, this);
         WidgetListenerUtil.asyncAddListener(_control, SWT.DefaultSelection, this);
         WidgetListenerUtil.asyncAddListener(_control, SWT.Dispose, this);
         _target.addDisposeListener(this);
+        _target.addChangeListener(this);
     }
 
     @Override
@@ -82,9 +86,12 @@ public final class SWTValueUpdater implements Listener, IDisposeListener {
                     dispose();
                     return;
                 }
-                _binding.updateModelToTarget();
-                if (_control instanceof Text) {
-                    ((Text) _control).setSelection(0, ((Text) _control).getCharCount());
+                if (_dirty) {
+                    _dirty = false;
+                    _binding.updateModelToTarget();
+                    if (_control instanceof Text) {
+                        ((Text) _control).setSelection(0, ((Text) _control).getCharCount());
+                    }
                 }
             }
         } else if (event.type == SWT.FocusOut || event.type == SWT.DefaultSelection) {
@@ -92,11 +99,21 @@ public final class SWTValueUpdater implements Listener, IDisposeListener {
                 dispose();
                 return;
             }
-            _binding.updateTargetToModel();
+            if (_dirty) {
+                _dirty = false;
+                _binding.updateTargetToModel();
+            }
+        } else if (event.type == SWT.FocusIn) {
+            _dirty = false;
         } else if (event.type == SWT.Dispose) {
             dispose();
         }
 
+    }
+
+    @Override
+    public void handleChange(org.eclipse.core.databinding.observable.ChangeEvent event) {
+        _dirty = true;
     }
 
     @Override
@@ -108,10 +125,12 @@ public final class SWTValueUpdater implements Listener, IDisposeListener {
         if (_control != null) {
             WidgetListenerUtil.asyncRemoveListener(_control, SWT.KeyUp, this);
             WidgetListenerUtil.asyncRemoveListener(_control, SWT.FocusOut, this);
+            WidgetListenerUtil.asyncRemoveListener(_control, SWT.FocusIn, this);
             WidgetListenerUtil.asyncRemoveListener(_control, SWT.DefaultSelection, this);
             WidgetListenerUtil.asyncRemoveListener(_control, SWT.Dispose, this);
             _control = null;
             _target.removeDisposeListener(this);
+            _target.removeChangeListener(this);
         }
     }
 }
