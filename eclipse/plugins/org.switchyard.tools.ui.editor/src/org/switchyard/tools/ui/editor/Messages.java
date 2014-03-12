@@ -272,6 +272,17 @@ public class Messages extends NLS {
     public static String featureName_wsdlToJava;
     public static String info_specifyInterfaceDetails;
     public static String info_specifyInterfaceDetailsDefaultSelected;
+    public static String JCACCIEndpointPropertiesExtension_Title;
+    public static String JCAJMSEndpointPropertiesExtension_ConnectionFactoryJNDIName_label;
+    public static String JCAJMSEndpointPropertiesExtension_DestinationJNDIPropertiesFileName_label;
+    public static String JCAJMSEndpointPropertiesExtension_FaultTo_Label;
+    public static String JCAJMSEndpointPropertiesExtension_JNDIPropsFileName_Label;
+    public static String JCAJMSEndpointPropertiesExtension_MessageType_label;
+    public static String JCAJMSEndpointPropertiesExtension_Password_label;
+    public static String JCAJMSEndpointPropertiesExtension_PropertyList_label;
+    public static String JCAJMSEndpointPropertiesExtension_ReplyTo_Label;
+    public static String JCAJMSEndpointPropertiesExtension_title;
+    public static String JCAJMSEndpointPropertiesExtension_UserName_label;
     public static String label_accountType;
     public static String label_acknowledgeMode;
     public static String label_actions;

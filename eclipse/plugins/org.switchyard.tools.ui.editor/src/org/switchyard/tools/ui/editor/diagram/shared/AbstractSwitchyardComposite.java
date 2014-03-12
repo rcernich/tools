@@ -265,7 +265,10 @@ public abstract class AbstractSwitchyardComposite implements FocusListener, KeyL
      */
     protected Text createLabelAndText(Composite parent, String label) {
         if (label != null && !label.trim().isEmpty()) {
-            new Label(parent, SWT.NONE).setText(label);
+            Label tempLabel = new Label(parent, SWT.NONE);
+            tempLabel.setText(label);
+            TabbedPropertySheetWidgetFactory factory = new TabbedPropertySheetWidgetFactory();
+            factory.adapt(tempLabel, false, false);
         }
         Text newText = new Text(parent, SWT.BORDER);
         newText.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
