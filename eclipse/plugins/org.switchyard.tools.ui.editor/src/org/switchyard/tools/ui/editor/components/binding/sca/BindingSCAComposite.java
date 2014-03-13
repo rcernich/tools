@@ -13,6 +13,7 @@ package org.switchyard.tools.ui.editor.components.binding.sca;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
@@ -46,6 +47,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.SelectionDialog;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
@@ -69,6 +71,10 @@ public class BindingSCAComposite extends AbstractSYBindingComposite  {
     private Text _targetNamespaceText;
     private boolean _showConsumer;
     private IJavaProject _project;
+
+    BindingSCAComposite(FormToolkit toolkit) {
+        super(toolkit);
+    }
 
     @Override
     public String getTitle() {
@@ -174,14 +180,15 @@ public class BindingSCAComposite extends AbstractSYBindingComposite  {
     }
 
     @Override
-    public void createContents(Composite parent, int style) {
-        _panel = new Composite(parent, style);
+    public void createContents(Composite parent, int style, DataBindingContext context) {
+        _panel = getToolkit().createComposite(parent, style);
         _panel.setLayout(new FillLayout());
-        getConsumerTabControl(_panel);
+        getConsumerTabControl(_panel, context);
     }
 
-    private Control getConsumerTabControl(Composite tabFolder) {
-        Composite composite = new Composite(tabFolder, SWT.NONE);
+    private Control getConsumerTabControl(Composite tabFolder, DataBindingContext context) {
+        final FormToolkit toolkit = getToolkit();
+        Composite composite = toolkit.createComposite(tabFolder, SWT.NONE);
         GridLayout gl = new GridLayout(2, false);
         composite.setLayout(gl);
 
@@ -196,6 +203,7 @@ public class BindingSCAComposite extends AbstractSYBindingComposite  {
         clusteringGroup.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1));
         clusteringGroup.setLayout(new GridLayout(3, false));
         clusteringGroup.setText(Messages.label_clustering);
+        toolkit.adapt(clusteringGroup);
         
         _clusteredCheckbox = createCheckbox(clusteringGroup, Messages.label_clustered);
         addGridData(_clusteredCheckbox, 3, GridData.FILL_HORIZONTAL);
@@ -211,8 +219,7 @@ public class BindingSCAComposite extends AbstractSYBindingComposite  {
             
             _loadBalancingCustomClassText = createLabelAndText(clusteringGroup, Messages.label_customClass);
 
-            _browseLoadBalancingClassButton = new Button(clusteringGroup, SWT.PUSH);
-            _browseLoadBalancingClassButton.setText(Messages.button_browse);
+            _browseLoadBalancingClassButton = toolkit.createButton(clusteringGroup, Messages.button_browse, SWT.PUSH);
             GridData btnGD = new GridData();
             _browseLoadBalancingClassButton.setLayoutData(btnGD);
             _browseLoadBalancingClassButton.addSelectionListener(new SelectionAdapter() {

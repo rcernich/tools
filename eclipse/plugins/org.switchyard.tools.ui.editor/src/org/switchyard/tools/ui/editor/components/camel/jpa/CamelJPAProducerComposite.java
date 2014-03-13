@@ -14,6 +14,7 @@ package org.switchyard.tools.ui.editor.components.camel.jpa;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
@@ -42,6 +43,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.SelectionDialog;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.camel.jpa.CamelJpaBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.jpa.JpaFactory;
 import org.switchyard.tools.ui.editor.Messages;
@@ -65,6 +67,10 @@ public class CamelJPAProducerComposite extends AbstractSYBindingComposite {
     private Button _flushOnSendCheckbox;
     private Button _usePersistCheckbox;
     private IJavaProject _project;
+
+    CamelJPAProducerComposite(FormToolkit toolkit) {
+        super(toolkit);
+    }
 
     @Override
     public String getTitle() {
@@ -136,7 +142,7 @@ public class CamelJPAProducerComposite extends AbstractSYBindingComposite {
     }
 
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 

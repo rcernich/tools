@@ -15,13 +15,11 @@ package org.switchyard.tools.ui.editor.diagram.binding;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.ObservablesManager;
-import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.IBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
@@ -37,18 +35,9 @@ public abstract class AbstractSYBindingComposite extends AbstractSwitchyardCompo
     private Binding _binding;
     private EObject _targetObj = null;
     private boolean _didSomething = false;
-    private DataBindingContext _bindingContext = new EMFDataBindingContext();
-    private ObservablesManager _observablesManager = new ObservablesManager();
 
-    protected AbstractSYBindingComposite() {
-        _observablesManager.addObservablesFromContext(_bindingContext, true, true);
-    }
-
-    @Override
-    public void dispose() {
-        _observablesManager.dispose();
-        _bindingContext.dispose();
-        super.dispose();
+    protected AbstractSYBindingComposite(FormToolkit toolkit) {
+        super(toolkit);
     }
 
     /**
@@ -183,14 +172,6 @@ public abstract class AbstractSYBindingComposite extends AbstractSwitchyardCompo
             return super.getDomain(_targetObj);
         }
         return domain;
-    }
-
-    protected DataBindingContext getDataBindingContext() {
-        return _bindingContext;
-    }
-
-    protected ObservablesManager getObservablesManager() {
-        return _observablesManager;
     }
 
     protected boolean validate() {

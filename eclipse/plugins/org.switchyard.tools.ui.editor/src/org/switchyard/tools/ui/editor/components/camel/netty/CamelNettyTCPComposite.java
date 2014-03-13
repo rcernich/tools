@@ -15,7 +15,10 @@ package org.switchyard.tools.ui.editor.components.camel.netty;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.eclipse.swt.SWT;
@@ -25,6 +28,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.camel.netty.CamelNettyTcpBindingType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.Messages;
@@ -45,6 +49,10 @@ public class CamelNettyTCPComposite extends AbstractSYBindingComposite {
     private Text _hostText;
     private Text _portText;
     private OperationSelectorComposite _opSelectorComposite;
+
+    CamelNettyTCPComposite(FormToolkit toolkit) {
+        super(toolkit);
+    }
 
     @Override
     public String getTitle() {
@@ -122,7 +130,7 @@ public class CamelNettyTCPComposite extends AbstractSYBindingComposite {
     }
 
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 
@@ -133,6 +141,8 @@ public class CamelNettyTCPComposite extends AbstractSYBindingComposite {
                 _opSelectorComposite.setTargetObject((EObject) getTargetObject());
             }
         }
+
+        bindControls(context);
     }
 
     private Control getNettyTCPTabControl(Composite tabFolder) {
@@ -203,6 +213,14 @@ public class CamelNettyTCPComposite extends AbstractSYBindingComposite {
             }
         }
         setHasChanged(false);
+    }
+
+    private void bindControls(final DataBindingContext context) {
+        final EditingDomain domain = AdapterFactoryEditingDomain.getEditingDomainFor(getTargetObject());
+
+        if (_opSelectorComposite != null) {
+            _opSelectorComposite.bindControls(domain, context);
+        }
     }
 
 }

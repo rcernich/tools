@@ -17,7 +17,10 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -29,6 +32,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.camel.mail.CamelMailBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.mail.MailConsumerAccountType;
 import org.switchyard.tools.models.switchyard1_0.camel.mail.MailFactory;
@@ -60,6 +64,10 @@ public class CamelMailConsumerComposite extends AbstractSYBindingComposite  {
 //    private Button _disconnectCheckbox;
     private Button _securedCheckbox;
     private OperationSelectorComposite _opSelectorComposite;
+
+    CamelMailConsumerComposite(FormToolkit toolkit) {
+        super(toolkit);
+    }
 
     @Override
     public String getTitle() {
@@ -170,11 +178,13 @@ public class CamelMailConsumerComposite extends AbstractSYBindingComposite  {
     }
 
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 
         getConsumerTabControl(_panel);
+        
+        bindControls(context);
     }
 
     private Control getConsumerTabControl(Composite tabFolder) {
@@ -328,6 +338,12 @@ public class CamelMailConsumerComposite extends AbstractSYBindingComposite  {
             }
         }
         setHasChanged(false);
+    }
+
+    private void bindControls(final DataBindingContext context) {
+        final EditingDomain domain = AdapterFactoryEditingDomain.getEditingDomainFor(getTargetObject());
+
+        _opSelectorComposite.bindControls(domain, context);
     }
 
 }

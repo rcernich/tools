@@ -47,7 +47,7 @@ public class JCABindingWizard extends AbstractBindingWizard implements IBindingW
 
     @Override
     protected List<IBindingComposite> createComposites() {
-        return JCABindingTypeExtension.createComposites(getTargetContainer() instanceof Service);
+        return JCABindingTypeExtension.createComposites(getToolkit(), getTargetContainer() instanceof Service);
     }
 
 }

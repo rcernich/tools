@@ -14,6 +14,7 @@ package org.switchyard.tools.ui.editor.components.jca;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -27,6 +28,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.jca.BatchCommit;
 import org.switchyard.tools.models.switchyard1_0.jca.Endpoint;
 import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
@@ -55,6 +57,10 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
 
     private enum ENDPOINT_MAPPING_TYPE {
         JMSENDPOINT, CCIENDPOINT
+    }
+
+    JCAInteractionDetailsComposite(FormToolkit toolkit) {
+        super(toolkit);
     }
 
     @Override
@@ -117,7 +123,7 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
     }
 
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 

@@ -21,11 +21,15 @@ import org.eclipse.graphiti.tb.IImageDecorator;
 import org.eclipse.graphiti.tb.ImageDecorator;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
+import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.switchyard.tools.models.switchyard1_0.resteasy.ResteasyPackage;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType;
+import org.switchyard.tools.models.switchyard1_0.soap.SOAPPackage;
 import org.switchyard.tools.ui.editor.IBindingTypeExtension;
 import org.switchyard.tools.ui.editor.ImageProvider;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.binding.CreateBindingFeature;
+import org.switchyard.tools.ui.editor.diagram.binding.MessageComposerComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.IBindingComposite;
 
 /**
@@ -53,8 +57,8 @@ public class SOAPBindingTypeExtension implements IBindingTypeExtension {
     }
 
     @Override
-    public List<IBindingComposite> createComposites(Binding binding) {
-        return createComposites(binding.eContainer() instanceof Service);
+    public List<IBindingComposite> createComposites(FormToolkit toolkit, Binding binding) {
+        return createComposites(toolkit, binding.eContainer() instanceof Service);
     }
 
     @Override
@@ -67,18 +71,26 @@ public class SOAPBindingTypeExtension implements IBindingTypeExtension {
         return Messages.label_soap;
     }
 
-    protected static List<IBindingComposite> createComposites(boolean forConsumer) {
+    protected static List<IBindingComposite> createComposites(FormToolkit toolkit, boolean forConsumer) {
         final List<IBindingComposite> composites = new ArrayList<IBindingComposite>(3);
         if (forConsumer) {
-            final SOAPMessageComposerComposite messageComposer = new SOAPMessageComposerComposite();
+            final MessageComposerComposite messageComposer = new MessageComposerComposite(toolkit,
+                    SOAPPackage.Literals.MESSAGE_COMPOSER_TYPE,
+                    SOAPPackage.Literals.SOAP_BINDING_TYPE__MESSAGE_COMPOSER,
+                    SOAPPackage.Literals.CONTEXT_MAPPER_TYPE,
+                    SOAPPackage.Literals.SOAP_BINDING_TYPE__CONTEXT_MAPPER);
             composites.add(new SOAPBindingServiceComposite(messageComposer));
-            composites.add(new SOAPInterceptorsComposite());
+            composites.add(new SOAPInterceptorsComposite(toolkit));
             composites.add(messageComposer);
         } else {
-            final SOAPMessageComposerComposite messageComposer = new SOAPMessageComposerComposite();
+            final MessageComposerComposite messageComposer = new MessageComposerComposite(toolkit,
+                    SOAPPackage.Literals.MESSAGE_COMPOSER_TYPE,
+                    SOAPPackage.Literals.SOAP_BINDING_TYPE__MESSAGE_COMPOSER,
+                    SOAPPackage.Literals.CONTEXT_MAPPER_TYPE,
+                    SOAPPackage.Literals.SOAP_BINDING_TYPE__CONTEXT_MAPPER);
             composites.add(new SOAPBindingReferenceComposite(messageComposer));
-            composites.add(new SOAPAuthenticationComposite());
-            composites.add(new SOAPProxyComposite());
+            composites.add(new SOAPAuthenticationComposite(toolkit));
+            composites.add(new SOAPProxyComposite(toolkit));
             composites.add(messageComposer);
         }
         return composites;

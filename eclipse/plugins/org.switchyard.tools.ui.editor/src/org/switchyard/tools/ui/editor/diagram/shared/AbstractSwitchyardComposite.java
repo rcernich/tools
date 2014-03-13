@@ -20,6 +20,7 @@ import java.util.StringTokenizer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
@@ -51,11 +52,10 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.internal.dialogs.PropertyDialog;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.switchyard.tools.ui.editor.Activator;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 import org.switchyard.tools.ui.editor.util.ErrorUtils;
@@ -81,15 +81,25 @@ public abstract class AbstractSwitchyardComposite implements FocusListener, KeyL
     private ButtonValueChangeListener _buttonValueChangeListener = null;
     private ArrayList<IObservable> _observables = null;
     private boolean _observersAdded = false;
+    private final FormToolkit _toolkit;
 
     // change listeners
     private ListenerList _changeListeners;
 
     /**
      * Empty constructor.
+     * 
+     * @param toolkit the toolkit for creating controls
      */
-    public AbstractSwitchyardComposite() {
-        // empty
+    public AbstractSwitchyardComposite(FormToolkit toolkit) {
+        _toolkit = toolkit;
+    }
+
+    /**
+     * @return the toolkit associated with this composite
+     */
+    public FormToolkit getToolkit() {
+        return _toolkit;
     }
 
     abstract protected boolean validate();
@@ -105,8 +115,9 @@ public abstract class AbstractSwitchyardComposite implements FocusListener, KeyL
     /**
      * @param parent Composite parent
      * @param style any style bits
+     * @param dataBindingContext the context to be used for binding controls
      */
-    abstract public void createContents(Composite parent, int style);
+    abstract public void createContents(Composite parent, int style, DataBindingContext dataBindingContext);
 
     abstract protected void handleModify(final Control control);
 
@@ -241,8 +252,7 @@ public abstract class AbstractSwitchyardComposite implements FocusListener, KeyL
      * @return reference to created Button
      */
     protected Button createCheckbox(Composite parent, String label) {
-        Button newButton = new Button(parent, SWT.CHECK | SWT.LEFT);
-        newButton.setText(label);
+        Button newButton = getToolkit().createButton(parent, label, SWT.CHECK | SWT.LEFT);
         newButton.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false, 2, 1));
         _observableControls.add(newButton);
 
@@ -268,9 +278,9 @@ public abstract class AbstractSwitchyardComposite implements FocusListener, KeyL
      */
     protected Text createLabelAndText(Composite parent, String label) {
         if (label != null && !label.trim().isEmpty()) {
-            new Label(parent, SWT.NONE).setText(label);
+            getToolkit().createLabel(parent, label, SWT.NONE);
         }
-        Text newText = new Text(parent, SWT.BORDER);
+        Text newText = getToolkit().createText(parent, "", SWT.BORDER);
         newText.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
         newText.addKeyListener(this);
         addEnterNextListener(newText);
@@ -460,10 +470,7 @@ public abstract class AbstractSwitchyardComposite implements FocusListener, KeyL
 
     protected Combo createLabelAndCombo(Composite parent, String label, boolean readOnly) {
         if (label != null && !label.trim().isEmpty()) {
-            Label labelControl = new Label(parent, SWT.NONE);
-            labelControl.setText(label);
-            TabbedPropertySheetWidgetFactory factory = new TabbedPropertySheetWidgetFactory();
-            factory.adapt(labelControl, false, false);
+            getToolkit().createLabel(parent, label, SWT.NONE);
         }
         int styles = SWT.BORDER | SWT.DROP_DOWN;
         if (readOnly) {
@@ -475,6 +482,7 @@ public abstract class AbstractSwitchyardComposite implements FocusListener, KeyL
             addEnterNextListener(combo);
         }
         _observableControls.add(combo);
+        getToolkit().adapt(combo, true, true);
 
         return combo;
     }

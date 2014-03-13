@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
@@ -32,6 +33,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.jca.Connection;
 import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
 import org.switchyard.tools.models.switchyard1_0.jca.JCAOutboundConnection;
@@ -61,6 +63,10 @@ public class JCABindingOutboundComposite extends AbstractSYBindingComposite {
     private Combo _processorMappingTypeCombo;
     private enum ENDPOINT_MAPPING_TYPE {
         JMSPROCESSOR, CCIPROCESSOR
+    }
+
+    JCABindingOutboundComposite(FormToolkit toolkit) {
+        super(toolkit);
     }
 
     @Override
@@ -131,7 +137,7 @@ public class JCABindingOutboundComposite extends AbstractSYBindingComposite {
     }
 
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 

@@ -12,7 +12,7 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.components.jca;
 
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.jca.Property;
 import org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite;
 
@@ -33,10 +33,10 @@ public interface IJCAResourceAdapterExtension {
     public String getDisplayName();
 
     /**
-     * @param parent Composite
+     * @param toolkit for creating controls
      * @return Composite with controls
      */
-    public AbstractSwitchyardComposite getComposite(Composite parent);
+    public AbstractSwitchyardComposite getComposite(FormToolkit toolkit);
     
     /**
      * @return boolean true = default

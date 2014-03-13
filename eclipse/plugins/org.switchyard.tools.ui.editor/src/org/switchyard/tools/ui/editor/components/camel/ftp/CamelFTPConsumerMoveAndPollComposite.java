@@ -15,6 +15,7 @@ package org.switchyard.tools.ui.editor.components.camel.ftp;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
@@ -25,6 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.camel.ftp.CamelFtpBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.ftp.FtpFactory;
 import org.switchyard.tools.ui.editor.Messages;
@@ -45,6 +47,10 @@ public class CamelFTPConsumerMoveAndPollComposite extends AbstractSYBindingCompo
     private Text _moveFailedText;
     private Text _delayText;
     private Text _maxMessagesPerPollText;
+
+    CamelFTPConsumerMoveAndPollComposite(FormToolkit toolkit) {
+        super(toolkit);
+    }
 
     @Override
     public String getTitle() {
@@ -118,7 +124,7 @@ public class CamelFTPConsumerMoveAndPollComposite extends AbstractSYBindingCompo
     }
 
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 

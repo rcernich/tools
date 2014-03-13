@@ -14,6 +14,7 @@ package org.switchyard.tools.ui.editor.components.camel.file;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -22,6 +23,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.camel.file.CamelFileBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.file.FileFactory;
 import org.switchyard.tools.ui.editor.Messages;
@@ -42,6 +44,10 @@ public class CamelFileProducerComposite extends AbstractSYBindingComposite {
     private Button _autoCreateButton;
     private Text _fileExistText;
     private Text _tempPrefixText;
+
+    CamelFileProducerComposite(FormToolkit toolkit) {
+        super(toolkit);
+    }
 
     @Override
     public String getTitle() {
@@ -107,7 +113,7 @@ public class CamelFileProducerComposite extends AbstractSYBindingComposite {
     }
 
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
         if (getRootGridData() != null) {

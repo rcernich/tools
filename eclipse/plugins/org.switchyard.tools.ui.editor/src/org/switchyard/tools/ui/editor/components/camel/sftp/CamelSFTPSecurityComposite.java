@@ -12,6 +12,7 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.components.camel.sftp;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
@@ -29,6 +30,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.camel.ftp.CamelSftpBindingType;
 import org.switchyard.tools.ui.JavaUtil;
 import org.switchyard.tools.ui.common.ClasspathResourceSelectionDialog;
@@ -47,6 +49,10 @@ public class CamelSFTPSecurityComposite extends AbstractSYBindingComposite {
     private Text _privateKeyFileText;
     private Text _privateKeyFilePassphraseText;
     private Button _browseBtn;
+
+    CamelSFTPSecurityComposite(FormToolkit toolkit) {
+        super(toolkit);
+    }
 
     @Override
     public String getTitle() {
@@ -89,7 +95,7 @@ public class CamelSFTPSecurityComposite extends AbstractSYBindingComposite {
     }
 
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 

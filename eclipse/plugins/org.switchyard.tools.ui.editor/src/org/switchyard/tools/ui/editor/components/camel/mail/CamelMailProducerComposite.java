@@ -14,6 +14,7 @@ package org.switchyard.tools.ui.editor.components.camel.mail;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -24,6 +25,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.camel.mail.CamelMailBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.mail.MailFactory;
 import org.switchyard.tools.ui.editor.Messages;
@@ -51,6 +53,10 @@ public class CamelMailProducerComposite extends AbstractSYBindingComposite {
     private Text _bccText;
     private Text _replyToText;
     private Button _securedCheckbox;
+
+    CamelMailProducerComposite(FormToolkit toolkit) {
+        super(toolkit);
+    }
 
     @Override
     public String getTitle() {
@@ -153,7 +159,7 @@ public class CamelMailProducerComposite extends AbstractSYBindingComposite {
     }
 
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 

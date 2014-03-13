@@ -14,6 +14,7 @@ package org.switchyard.tools.ui.editor.components.resteasy;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -24,6 +25,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.resteasy.BasicAuthenticationType;
 import org.switchyard.tools.models.switchyard1_0.resteasy.NTLMAuthenticationType;
 import org.switchyard.tools.models.switchyard1_0.resteasy.RESTBindingType;
@@ -48,6 +50,10 @@ public class ResteasyAuthenticationComposite extends AbstractSYBindingComposite 
     private Text _authPortText;
     private Text _authDomainText;
 
+    ResteasyAuthenticationComposite(FormToolkit toolkit) {
+        super(toolkit);
+    }
+
     @Override
     public String getTitle() {
         return Messages.title_resteasyAuthenticationDetails;
@@ -58,12 +64,8 @@ public class ResteasyAuthenticationComposite extends AbstractSYBindingComposite 
         return Messages.description_resteasyAuthenticationDetails;
     }
 
-    /**
-     * @param parent composite parent
-     * @param style any style bits
-     */
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 

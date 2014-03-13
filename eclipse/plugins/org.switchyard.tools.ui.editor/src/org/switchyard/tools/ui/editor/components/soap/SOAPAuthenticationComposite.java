@@ -14,6 +14,7 @@ package org.switchyard.tools.ui.editor.components.soap;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
@@ -27,6 +28,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.wst.wsdl.Port;
 import org.switchyard.tools.models.switchyard1_0.soap.BasicAuthenticationType;
 import org.switchyard.tools.models.switchyard1_0.soap.NTLMAuthenticationType;
@@ -50,10 +52,8 @@ public class SOAPAuthenticationComposite extends AbstractSYBindingComposite {
     private Text _authPasswordText;
     private Text _authDomainText;
 
-    /**
-     * Create a new SOAPAuthenticationComposite.
-     */
-    public SOAPAuthenticationComposite() {
+    SOAPAuthenticationComposite(FormToolkit toolkit) {
+        super(toolkit);
     }
 
     @Override
@@ -66,12 +66,8 @@ public class SOAPAuthenticationComposite extends AbstractSYBindingComposite {
         return Messages.description_soapAuthenticationDetails;
     }
 
-    /**
-     * @param parent composite parent
-     * @param style any style bits
-     */
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 

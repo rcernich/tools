@@ -15,6 +15,7 @@ package org.switchyard.tools.ui.editor.components.jca;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -24,6 +25,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
 import org.switchyard.tools.models.switchyard1_0.jca.JCAInboundConnection;
 import org.switchyard.tools.models.switchyard1_0.jca.Property;
@@ -60,18 +62,14 @@ public class JCAHornetQTopicResourceAdapterExtension extends AbstractResourceAda
     }
 
     @Override
-    public AbstractSwitchyardComposite getComposite(Composite parent) {
+    public AbstractSwitchyardComposite getComposite(FormToolkit toolkit) {
         if (_composite == null) {
-            _composite = new JCAHornetQTopicResourceAdapterComposite();
+            _composite = new JCAHornetQTopicResourceAdapterComposite(toolkit);
         }
         return _composite;
     }
 
-    /**
-     * @author bfitzpat
-     *
-     */
-    public class JCAHornetQTopicResourceAdapterComposite extends AbstractJCABindingComposite {
+    private final class JCAHornetQTopicResourceAdapterComposite extends AbstractJCABindingComposite {
 
         private Text _messageSelectorText;
         private JCABinding _binding;
@@ -81,6 +79,10 @@ public class JCAHornetQTopicResourceAdapterExtension extends AbstractResourceAda
         private Text _clientIdText;
         private Text _subscriptionNameText;
         private Text _destinationText;
+
+        private JCAHornetQTopicResourceAdapterComposite(FormToolkit toolkit) {
+            super(toolkit);
+        }
 
         @Override
         public String getTitle() {
@@ -105,7 +107,7 @@ public class JCAHornetQTopicResourceAdapterExtension extends AbstractResourceAda
         }
 
         @Override
-        public void createContents(Composite parent, int style) {
+        public void createContents(Composite parent, int style, DataBindingContext context) {
             _panel = new Composite(parent, style);
             _panel.setLayout(new GridLayout(2, false));
             _destinationText = createLabelAndText(_panel, Messages.label_destinationTopic);

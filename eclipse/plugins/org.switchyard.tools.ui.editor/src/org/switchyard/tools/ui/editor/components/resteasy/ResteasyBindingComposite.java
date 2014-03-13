@@ -15,6 +15,7 @@ package org.switchyard.tools.ui.editor.components.resteasy;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.Contract;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
@@ -26,6 +27,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.resteasy.RESTBindingType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchYardType;
 import org.switchyard.tools.ui.editor.Messages;
@@ -46,6 +48,10 @@ public class ResteasyBindingComposite extends AbstractSYBindingComposite {
     private RESTBindingType _binding = null;
     private Text _requestTimeoutText = null;
 
+    ResteasyBindingComposite(FormToolkit toolkit) {
+        super(toolkit);
+    }
+
     @Override
     public String getTitle() {
         return Messages.title_restBindingDetails;
@@ -56,12 +62,8 @@ public class ResteasyBindingComposite extends AbstractSYBindingComposite {
         return Messages.description_restBindingDetails;
     }
 
-    /**
-     * @param parent composite parent
-     * @param style any style bits
-     */
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 

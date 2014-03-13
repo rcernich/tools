@@ -11,6 +11,8 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.databinding;
 
+import java.util.StringTokenizer;
+
 import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
@@ -18,25 +20,19 @@ import org.eclipse.core.runtime.Status;
 import org.switchyard.tools.ui.editor.Activator;
 
 /**
- * Processes a list of validator, merging their status.
+ * RegexListValidator
+ * <p/>
+ * Validates text for valid comma separated list of regular expressions.
  */
-public class CompoundValidator implements IValidator {
-    private final IValidator[] _validators;
+public class RegexListValidator implements IValidator {
 
-    /**
-     * Constructor.
-     * 
-     * @param validators list of validators
-     */
-    public CompoundValidator(final IValidator... validators) {
-        _validators = validators;
-    }
+    private static final RegexValidator VALIDATOR = new RegexValidator();
 
-    /**
-     * @param value Value to be validated
-     * @return merged status of all validators
-     */
-    public IStatus validate(final Object value) {
+    @Override
+    public IStatus validate(Object value) {
+        if (value == null || ((String) value).trim().isEmpty()) {
+            return Status.OK_STATUS;
+        }
         final MultiStatus result = new MultiStatus(Activator.PLUGIN_ID, 0, "", null) {
             @Override
             public void add(IStatus status) {
@@ -47,9 +43,10 @@ public class CompoundValidator implements IValidator {
                 super.add(status);
             }
         };
-        for (IValidator validator : _validators) {
-            result.merge(validator.validate(value));
+        for (StringTokenizer st = new StringTokenizer((String) value, ","); st.hasMoreTokens();) {
+            result.merge(VALIDATOR.validate(st.nextToken()));
         }
         return result.isOK() ? Status.OK_STATUS : result;
     }
+
 }

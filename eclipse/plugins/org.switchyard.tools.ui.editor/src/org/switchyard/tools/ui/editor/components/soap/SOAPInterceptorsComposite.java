@@ -14,6 +14,7 @@ package org.switchyard.tools.ui.editor.components.soap;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -23,6 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.soap.InterceptorType;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPFactory;
@@ -41,10 +43,8 @@ public class SOAPInterceptorsComposite extends AbstractSYBindingComposite {
     private InterceptorTable _inInterceptorTable;
     private InterceptorTable _outInterceptorTable;
 
-    /**
-     * Create a new SOAPInterceptorsComposite.
-     */
-    public SOAPInterceptorsComposite() {
+    SOAPInterceptorsComposite(FormToolkit toolkit) {
+        super(toolkit);
     }
 
     @Override
@@ -57,12 +57,8 @@ public class SOAPInterceptorsComposite extends AbstractSYBindingComposite {
         return Messages.description_interceptors;
     }
 
-    /**
-     * @param parent composite parent
-     * @param style any style bits
-     */
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 

@@ -12,11 +12,13 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.components.jca;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
 import org.switchyard.tools.models.switchyard1_0.jca.JCAInboundConnection;
 import org.switchyard.tools.ui.editor.Messages;
@@ -32,9 +34,9 @@ public class JCAGenericResourceAdapterExtension extends AbstractResourceAdapterE
     private JCACustomResourceAdapterComposite _composite;
 
     @Override
-    public AbstractSwitchyardComposite getComposite(Composite parent) {
+    public AbstractSwitchyardComposite getComposite(FormToolkit toolkit) {
         if (_composite == null) {
-            _composite = new JCACustomResourceAdapterComposite();
+            _composite = new JCACustomResourceAdapterComposite(toolkit);
         }
         return _composite;
     }
@@ -50,15 +52,15 @@ public class JCAGenericResourceAdapterExtension extends AbstractResourceAdapterE
         return Messages.label_genericResourceAdapter;
     }
 
-    /**
-     * @author bfitzpat
-     *
-     */
-    public class JCACustomResourceAdapterComposite extends AbstractJCABindingComposite {
+    private final class JCACustomResourceAdapterComposite extends AbstractJCABindingComposite {
 
         private Text _resourceAdapterText;
         private JCABinding _binding;
         private Composite _panel;
+
+        private JCACustomResourceAdapterComposite(FormToolkit toolkit) {
+            super(toolkit);
+        }
 
         @Override
         public String getTitle() {
@@ -80,7 +82,7 @@ public class JCAGenericResourceAdapterExtension extends AbstractResourceAdapterE
         }
 
         @Override
-        public void createContents(Composite parent, int style) {
+        public void createContents(Composite parent, int style, DataBindingContext context) {
             _panel = new Composite(parent, style);
             _panel.setLayout(new GridLayout(2, false));
             _resourceAdapterText = createLabelAndText(_panel, Messages.label_resourceAdapterArchive);

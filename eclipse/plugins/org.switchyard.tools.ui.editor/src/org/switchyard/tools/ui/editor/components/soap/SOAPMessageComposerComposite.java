@@ -12,6 +12,7 @@
 package org.switchyard.tools.ui.editor.components.soap;
 
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPFactory;
 import org.switchyard.tools.models.switchyard1_0.switchyard.ContextMapperType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.MessageComposerType;
@@ -25,6 +26,10 @@ import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
  * Specialized for SOAP binding.
  */
 public class SOAPMessageComposerComposite extends MessageComposerComposite {
+
+    SOAPMessageComposerComposite(FormToolkit toolkit) {
+        super(toolkit);
+    }
 
     @Override
     protected ContextMapperType createContextMapper() {

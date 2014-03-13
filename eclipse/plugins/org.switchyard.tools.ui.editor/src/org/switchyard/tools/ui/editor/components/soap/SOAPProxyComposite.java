@@ -14,6 +14,7 @@ package org.switchyard.tools.ui.editor.components.soap;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -22,6 +23,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.soap.ProxyType;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPFactory;
@@ -44,10 +46,8 @@ public class SOAPProxyComposite extends AbstractSYBindingComposite {
     private Text _proxyPasswordText;
     private Combo _proxyTypeCombo;
 
-    /**
-     * Create a new SOAPProxyComposite.
-     */
-    public SOAPProxyComposite() {
+    SOAPProxyComposite(FormToolkit toolkit) {
+        super(toolkit);
     }
 
     @Override
@@ -60,12 +60,8 @@ public class SOAPProxyComposite extends AbstractSYBindingComposite {
         return Messages.description_soapProxySettings;
     }
 
-    /**
-     * @param parent composite parent
-     * @param style any style bits
-     */
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 

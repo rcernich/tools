@@ -16,7 +16,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.ObservablesManager;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.value.ComputedValue;
@@ -28,7 +27,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
@@ -81,6 +79,7 @@ import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
 import org.switchyard.tools.models.switchyard1_0.switchyard.XPathOperationSelectorType;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
+import org.switchyard.tools.ui.editor.databinding.RegexValidator;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 import org.switchyard.tools.ui.editor.util.InterfaceOpsUtil;
@@ -109,8 +108,6 @@ public class OperationSelectorComposite extends Composite {
     private StackLayout _stackLayout = null;
     private Button _browseClassBtn = null;
 
-    private final DataBindingContext _dataBindingContext;
-    private ObservablesManager _observablesManager;
     private WritableValue _bindingValue;
     private IObservableValue _selectorValue;
 
@@ -137,8 +134,6 @@ public class OperationSelectorComposite extends Composite {
             boolean isReadOnly) {
         super(parent, style);
         _panel = parent;
-        _dataBindingContext = container.getDataBindingContext();
-        _observablesManager = container.getObservablesManager();
         _isReadOnly = isReadOnly;
         _changeListeners = new ListenerList();
 
@@ -281,25 +276,25 @@ public class OperationSelectorComposite extends Composite {
     public void setBinding(Binding binding) {
         _binding = binding;
         populateOperationCombo();
-        if (_bindingValue == null) {
-            _observablesManager.runAndCollect(new Runnable() {
-                @Override
-                public void run() {
-                    bindControls();
-                }
-            });
-        }
         _bindingValue.setValue(binding);
     }
 
-    private void bindControls() {
-        final EditingDomain domain = AdapterFactoryEditingDomain.getEditingDomainFor(_binding);
+    /**
+     * Bind the controls.
+     * 
+     * @param domain the editing domain, may be null
+     * @param context the data binding context
+     */
+    public void bindControls(EditingDomain domain, DataBindingContext context) {
         final Realm realm = SWTObservables.getRealm(getDisplay());
-        final DataBindingContext context = _dataBindingContext;
 
         _bindingValue = new WritableValue(realm, null, Binding.class);
 
-        // intermediate values
+        /*
+         * intermediate values, used to separate control changes from value
+         * changes (i.e. the bindings for these are wrapped with
+         * SWTValueUpdater).
+         */
         final IObservableValue selectorTypeValue = new WritableValue(realm, null, SelectorType.class);
         final IObservableValue staticValue = new WritableValue(realm, null, String.class);
         final IObservableValue regexValue = new WritableValue(realm, null, String.class);
@@ -317,7 +312,8 @@ public class OperationSelectorComposite extends Composite {
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         binding = context.bindValue(SWTObservables.observeText(_regexText, SWT.Modify), regexValue,
-                new UpdateValueStrategy(UpdateValueStrategy.POLICY_CONVERT), null);
+                new UpdateValueStrategy(UpdateValueStrategy.POLICY_CONVERT)
+                        .setAfterConvertValidator(new RegexValidator()), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         binding = context.bindValue(SWTObservables.observeText(_xpathText, SWT.Modify), xpathValue,
@@ -329,7 +325,7 @@ public class OperationSelectorComposite extends Composite {
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         /*
-         * computed value. creats an operation selector based on the current
+         * computed value. creates an operation selector based on the current
          * state of the controls.
          */
         _selectorValue = new ComputedValue(realm, OperationSelectorType.class) {
@@ -486,15 +482,11 @@ public class OperationSelectorComposite extends Composite {
                 _operationSelectionCombo.setItems(operations);
             }
             if (selection != null && selection.length() > 0) {
-                final String[] items = _operationSelectionCombo.getItems();
-                if (items != null) {
-                    for (int i = 0; i < items.length; i++) {
-                        if (selection.equals(items[i])) {
-                            _operationSelectionCombo.select(i);
-                            return;
-                        }
-                    }
+                final int index = _operationSelectionCombo.indexOf(selection);
+                if (index < 0) {
                     _operationSelectionCombo.setText(selection);
+                } else {
+                    _operationSelectionCombo.select(index);
                 }
             }
         }

@@ -15,7 +15,10 @@ package org.switchyard.tools.ui.editor.components.camel.binding;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.eclipse.swt.SWT;
@@ -25,6 +28,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.camel.core.CamelBindingType;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
@@ -41,6 +45,10 @@ public class CamelComposite extends AbstractSYBindingComposite {
     private Text _nameText;
     private Text _configURIText;
     private OperationSelectorComposite _opSelectorComposite;
+
+    CamelComposite(FormToolkit toolkit) {
+        super(toolkit);
+    }
 
     @Override
     public String getTitle() {
@@ -101,7 +109,7 @@ public class CamelComposite extends AbstractSYBindingComposite {
     }
 
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
         if (getRootGridData() != null) {
@@ -115,10 +123,11 @@ public class CamelComposite extends AbstractSYBindingComposite {
                 _opSelectorComposite.setTargetObject((EObject) getTargetObject());
             }
         }
+        bindControls(context);
     }
 
     private Control getSchedulerTabControl(Composite tabFolder) {
-        Composite composite = new Composite(tabFolder, SWT.NONE);
+        Composite composite = getToolkit().createComposite(tabFolder, SWT.NONE);
         GridLayout gl = new GridLayout(2, false);
         composite.setLayout(gl);
 
@@ -170,6 +179,14 @@ public class CamelComposite extends AbstractSYBindingComposite {
             }
         }
         setHasChanged(false);
+    }
+
+    private void bindControls(final DataBindingContext context) {
+        final EditingDomain domain = AdapterFactoryEditingDomain.getEditingDomainFor(getTargetObject());
+
+        if (_opSelectorComposite != null) {
+            _opSelectorComposite.bindControls(domain, context);
+        }
     }
 
 }

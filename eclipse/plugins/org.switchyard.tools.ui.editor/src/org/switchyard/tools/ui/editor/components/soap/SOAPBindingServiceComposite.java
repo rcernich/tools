@@ -14,6 +14,7 @@ package org.switchyard.tools.ui.editor.components.soap;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -102,6 +103,7 @@ public class SOAPBindingServiceComposite extends AbstractSYBindingComposite {
      *            message composer/context mapper settings.
      */
     public SOAPBindingServiceComposite(SOAPMessageComposerComposite messageComposerComposite) {
+        super(messageComposerComposite.getToolkit());
         _messageComposerComposite = messageComposerComposite;
     }
 
@@ -115,12 +117,8 @@ public class SOAPBindingServiceComposite extends AbstractSYBindingComposite {
         return Messages.description_soapBindingDetails;
     }
 
-    /**
-     * @param parent composite parent
-     * @param style any style bits
-     */
     @Override
-    public void createContents(Composite parent, int style) {
+    public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 
