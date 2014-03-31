@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2013 Red Hat, Inc. 
+ * Copyright (c) 2013-2014 Red Hat, Inc. 
  *  All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -22,7 +22,6 @@ import org.eclipse.graphiti.tb.ImageDecorator;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.switchyard.tools.models.switchyard1_0.resteasy.ResteasyPackage;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPBindingType;
 import org.switchyard.tools.models.switchyard1_0.soap.SOAPPackage;
 import org.switchyard.tools.ui.editor.IBindingTypeExtension;
@@ -79,7 +78,7 @@ public class SOAPBindingTypeExtension implements IBindingTypeExtension {
                     SOAPPackage.Literals.SOAP_BINDING_TYPE__MESSAGE_COMPOSER,
                     SOAPPackage.Literals.CONTEXT_MAPPER_TYPE,
                     SOAPPackage.Literals.SOAP_BINDING_TYPE__CONTEXT_MAPPER);
-            composites.add(new SOAPBindingServiceComposite(messageComposer));
+            composites.add(new SOAPBindingServiceComposite(toolkit));
             composites.add(new SOAPInterceptorsComposite(toolkit));
             composites.add(messageComposer);
         } else {
@@ -88,7 +87,7 @@ public class SOAPBindingTypeExtension implements IBindingTypeExtension {
                     SOAPPackage.Literals.SOAP_BINDING_TYPE__MESSAGE_COMPOSER,
                     SOAPPackage.Literals.CONTEXT_MAPPER_TYPE,
                     SOAPPackage.Literals.SOAP_BINDING_TYPE__CONTEXT_MAPPER);
-            composites.add(new SOAPBindingReferenceComposite(messageComposer));
+            composites.add(new SOAPBindingReferenceComposite(toolkit));
             composites.add(new SOAPAuthenticationComposite(toolkit));
             composites.add(new SOAPProxyComposite(toolkit));
             composites.add(messageComposer);

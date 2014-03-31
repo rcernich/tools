@@ -34,6 +34,7 @@ import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.internal.databinding.swt.SWTObservableValueDecorator;
 import org.eclipse.jface.internal.databinding.swt.SWTVetoableValueDecorator;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
@@ -483,6 +484,25 @@ public abstract class AbstractSwitchyardComposite implements FocusListener, KeyL
         }
         _observableControls.add(combo);
         getToolkit().adapt(combo, true, true);
+
+        return combo;
+    }
+
+    protected ComboViewer createLabelAndComboViewer(Composite parent, String label, boolean readOnly) {
+        if (label != null && !label.trim().isEmpty()) {
+            getToolkit().createLabel(parent, label, SWT.NONE);
+        }
+        int styles = SWT.BORDER | SWT.DROP_DOWN;
+        if (readOnly) {
+            styles = SWT.BORDER | SWT.DROP_DOWN | SWT.READ_ONLY;
+        }
+        ComboViewer combo = new ComboViewer(parent, styles);
+        combo.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+        if (!readOnly) {
+            addEnterNextListener(combo.getCombo());
+        }
+        _observableControls.add(combo.getCombo());
+        getToolkit().adapt(combo.getCombo(), true, true);
 
         return combo;
     }

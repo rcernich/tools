@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2013 Red Hat, Inc. 
+ * Copyright (c) 2013-2014 Red Hat, Inc. 
  *  All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -7,8 +7,6 @@
  * 
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
- *
- * @author bfitzpat
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.diagram.binding;
 
@@ -29,6 +27,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -74,14 +73,15 @@ public class CamelAdditionalURIPropertyTable extends Composite {
     private WritableValue _bindingValue;
 
     CamelAdditionalURIPropertyTable(Composite parent, int style, EReference additionalUriParametersFeature,
-            EReference parameterFeature, EClass parameterType, DataBindingContext context, EditingDomain domain) {
-        this(parent, style, false, additionalUriParametersFeature, parameterFeature, parameterType, context, domain);
+            EReference parameterFeature, EClass parameterType, DataBindingContext context) {
+        this(parent, style, false, additionalUriParametersFeature, parameterFeature, parameterType, context);
     }
 
     CamelAdditionalURIPropertyTable(Composite parent, int style, boolean isReadOnly,
             EReference additionalUriParametersFeature, EReference parameterFeature, EClass parameterType,
-            DataBindingContext context, EditingDomain domain) {
+            DataBindingContext context) {
         super(parent, style);
+        final EditingDomain domain = AdapterFactoryEditingDomain.getEditingDomainFor(getTargetObject());
         this._isReadOnly = isReadOnly;
         this._changeListeners = new ListenerList();
         _additionalUriParametersFeature = additionalUriParametersFeature;

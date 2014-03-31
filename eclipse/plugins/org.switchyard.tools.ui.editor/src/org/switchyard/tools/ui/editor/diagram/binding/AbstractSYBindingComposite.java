@@ -18,7 +18,10 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.IBindingComposite;
@@ -178,4 +181,25 @@ public abstract class AbstractSYBindingComposite extends AbstractSwitchyardCompo
         return (getErrorMessage() == null);
     }
 
+    protected void setTextValueAndNotify(Text control, String value, boolean setFocus) {
+        control.setText(value);
+        // make sure a notify event gets sent, to update the binding
+        control.notifyListeners(SWT.Modify, null);
+        // simulate "ENTER" to commit the change
+        control.notifyListeners(SWT.DefaultSelection, null);
+        if (setFocus) {
+            control.setFocus();
+        }
+    }
+
+    protected void setComboValueAndNotify(Combo control, String value, boolean setFocus) {
+        control.setText(value);
+        // make sure a notify event gets sent, to update the binding
+        control.notifyListeners(SWT.Modify, null);
+        // simulate "ENTER" to commit the change
+        control.notifyListeners(SWT.DefaultSelection, null);
+        if (setFocus) {
+            control.setFocus();
+        }
+    }
 }

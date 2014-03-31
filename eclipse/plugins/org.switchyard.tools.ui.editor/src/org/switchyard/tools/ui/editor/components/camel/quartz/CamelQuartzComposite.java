@@ -42,7 +42,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.camel.quartz.CamelQuartzBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.quartz.QuartzPackage;
-import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardFactory;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
@@ -50,7 +49,6 @@ import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.databinding.StringEmptyValidator;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorComposite;
-import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
 
 /**
  * @author bfitzpat
@@ -129,15 +127,14 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
         _startTimeText = createLabelAndText(composite, Messages.label_startTime);
         _endTimeText = createLabelAndText(composite, Messages.label_endTime);
 
-        getToolkit().createLabel(composite, Messages.label_timeZone, SWT.NONE);
-        _timezoneViewer = new ComboViewer(composite);
-        _timezoneViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
+        _timezoneViewer = createLabelAndComboViewer(composite, Messages.label_timeZone, true);
         _timezoneViewer.setContentProvider(ArrayContentProvider.getInstance());
         _timezoneViewer.setLabelProvider(new LabelProvider());
         String[] timezones = TimeZone.getAvailableIDs();
-        Arrays.sort(timezones);
-        _timezoneViewer.setInput(timezones);
-        getToolkit().adapt(_timezoneViewer.getControl(), true, true);
+        String[] tzPlusBlank = Arrays.copyOf(timezones, timezones.length + 1);
+        tzPlusBlank[timezones.length] = "";
+        Arrays.sort(tzPlusBlank);
+        _timezoneViewer.setInput(tzPlusBlank);
 
         _opSelectorComposite = new OperationSelectorComposite(composite, SWT.NONE, this);
         _opSelectorComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1));
@@ -155,16 +152,6 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
     @Override
     public Composite getPanel() {
         return this._panel;
-    }
-
-    class CamelOperationSelectorOp extends ModelOperation {
-        @Override
-        public void run() throws Exception {
-            if (_binding.getOperationSelector() == null) {
-                setFeatureValue(_binding,
-                        "operationSelector", SwitchyardFactory.eINSTANCE.createStaticOperationSelectorType()); //$NON-NLS-1$
-            }
-        }
     }
 
     protected void handleModify(final Control control) {
@@ -244,18 +231,10 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
                 ViewersObservables.observeSingleSelection(_timezoneViewer),
                 ObservablesUtil.observeDetailValue(domain, _bindingValue,
                         QuartzPackage.Literals.CAMEL_QUARTZ_BINDING_TYPE__TRIGGER_TIME_ZONE));
-        ControlDecorationSupport.create(binding, SWT.TOP | SWT.LEFT);
+        // TODO: Clear the value to null if it's set to an empty string
+        ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         _opSelectorComposite.bindControls(domain, context);
         // TODO: add validator for end time after start time
-    }
-
-    @Override
-    protected void handleChange(Control control) {
-        setHasChanged(true);
-        if (getErrorMessage() == null) {
-            handleModify(control);
-        }
-        fireChangedEvent(this);
     }
 }

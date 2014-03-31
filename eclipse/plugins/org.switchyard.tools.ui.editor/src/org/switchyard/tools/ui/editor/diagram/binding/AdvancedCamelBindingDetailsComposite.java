@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2013 Red Hat, Inc. 
+ * Copyright (c) 2013-1014 Red Hat, Inc. 
  *  All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -7,8 +7,6 @@
  * 
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
- *
- * @author bfitzpat
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.diagram.binding;
 
@@ -17,7 +15,6 @@ import java.util.List;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -77,8 +74,7 @@ public class AdvancedCamelBindingDetailsComposite extends AdvancedBindingDetails
         
         // add the additional URI properties table
         _propTable = new CamelAdditionalURIPropertyTable(getPanel(), SWT.NONE, _additionalUriParametersFeature,
-                _parameterFeature, _parameterType, context,
-                AdapterFactoryEditingDomain.getEditingDomainFor(getTargetObject()));
+                _parameterFeature, _parameterType, context);
         GridData gd2 = new GridData(SWT.FILL, SWT.FILL, true, false);
         gd2.verticalSpan = 5;
         _propTable.setLayoutData(gd2);
