@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2012 Red Hat, Inc. 
+ * Copyright (c) 2012-2014 Red Hat, Inc. 
  *  All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -15,8 +15,13 @@ package org.switchyard.tools.ui.editor.components.jca;
 import java.util.ArrayList;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -29,11 +34,13 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.switchyard.tools.models.switchyard1_0.jca.BatchCommit;
 import org.switchyard.tools.models.switchyard1_0.jca.Endpoint;
 import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
 import org.switchyard.tools.models.switchyard1_0.jca.JCAInboundInteraction;
 import org.switchyard.tools.models.switchyard1_0.jca.JcaFactory;
+import org.switchyard.tools.models.switchyard1_0.jca.Property;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.shared.ModelOperation;
@@ -47,13 +54,15 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
 
     private Composite _panel;
     private JCABinding _binding = null;
-//    private Combo _resourceAdapterText;
     private Combo _endpointMappingTypeCombo;
     private Button _transactedButton;
     private Group _batchGroup;
     private Button _batchEnabledCheckbox;
     private Text _batchSizeText;
     private Text _batchTimeoutText;
+    private AbstractJCABindingComposite _endpointPropsComposite;
+    private Composite _stackComposite;
+    private StackLayout _stackLayout;
 
     private enum ENDPOINT_MAPPING_TYPE {
         JMSENDPOINT, CCIENDPOINT
@@ -73,35 +82,87 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
         return Messages.description_interactionDetails;
     }
 
+    private void processEndpointComboSelection() {
+        Combo combo = _endpointMappingTypeCombo;
+        int index = combo.getSelectionIndex();
+        String value = ""; //$NON-NLS-1$
+        if (index == ENDPOINT_MAPPING_TYPE.CCIENDPOINT.ordinal()) {
+            value = "cciendpoint"; //$NON-NLS-1$
+        } else if (index == ENDPOINT_MAPPING_TYPE.JMSENDPOINT.ordinal()) {
+            value = "jmsendpoint"; //$NON-NLS-1$
+        }
+        swapExtensionComposites(value, true);
+    }
+
+    private void swapExtensionComposites(String endpointType, boolean updateValues) {
+        AbstractJCABindingComposite syComposite = null;
+        IJCAEndpointPropertiesExtension extension = null;
+        if (endpointType.equalsIgnoreCase("cciendpoint")) { //$NON-NLS-1$
+            extension = new JCACCIEndpointPropertiesExtension();
+            syComposite = (AbstractJCABindingComposite) extension.getComposite(_stackComposite);
+            syComposite.createContents(_stackComposite, SWT.NONE);
+        } else if (endpointType.equalsIgnoreCase("jmsendpoint")) { //$NON-NLS-1$
+            extension = new JCAJMSEndpointPropertiesExtension();
+            syComposite = (AbstractJCABindingComposite) extension.getComposite(_stackComposite);
+            syComposite.createContents(_stackComposite, SWT.NONE);
+        }
+        _endpointPropsComposite = syComposite;
+        if (syComposite != null) {
+            _stackLayout.topControl = syComposite.getPanel();
+            syComposite.setBinding(getBinding());
+        }
+        _stackComposite.layout();
+        if (_stackComposite.getParent() != null) {
+            _stackComposite.getParent().layout();
+        }
+        syComposite.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if (_endpointPropsComposite != null && !_endpointPropsComposite.validate()) {
+                    setErrorMessage(_endpointPropsComposite.getErrorMessage());
+                } else {
+                    validate();
+                }
+                fireChangedEvent(_endpointPropsComposite);
+            }
+        });
+        validate();
+    }
+ 
     @Override
     public void setBinding(Binding impl) {
         super.setBinding(impl);
         if (impl instanceof JCABinding) {
             this._binding = (JCABinding) impl;
             setInUpdate(true);
-            if (this._binding.getInboundConnection() != null) {
-                if (_binding.getInboundInteraction() != null) {
-                    JCAInboundInteraction interaction = _binding.getInboundInteraction();
-                    if (interaction.getEndpoint() != null) {
-                        String className = interaction.getEndpoint().getType();
-                        className = className.substring(className.lastIndexOf('.') + 1);
-                        if (className.equalsIgnoreCase("jmsendpoint")) { //$NON-NLS-1$
-                            _endpointMappingTypeCombo.select(ENDPOINT_MAPPING_TYPE.JMSENDPOINT.ordinal());
-                        } else if (className.equalsIgnoreCase("cciendpoint")) { //$NON-NLS-1$
-                            _endpointMappingTypeCombo.select(ENDPOINT_MAPPING_TYPE.CCIENDPOINT.ordinal());
-                        }
-                    }
-                    if (interaction.getBatchCommit() != null) {
-                        _batchEnabledCheckbox.setSelection(true);
-                        setTextValue(_batchSizeText, PropTypeUtil.getPropValueString(this._binding.getInboundInteraction().getBatchCommit().getBatchSize()));
-                        setTextValue(_batchTimeoutText, PropTypeUtil.getPropValueString(this._binding.getInboundInteraction().getBatchCommit().getBatchTimeout()));
-                    } else {
-                        _batchEnabledCheckbox.setSelection(false);
-                    }
-                    if (interaction.isTransacted()) {
-                        _transactedButton.setSelection(interaction.isTransacted());
-                    }
+            JCAInboundInteraction interaction = _binding.getInboundInteraction();
+            if (interaction != null 
+                    && _binding.getInboundInteraction().getEndpoint() == null) {
+                _endpointMappingTypeCombo.select(ENDPOINT_MAPPING_TYPE.JMSENDPOINT.ordinal());
+                updateEndpoint();
+                interaction = _binding.getInboundInteraction();
+                String className = interaction.getEndpoint().getType();
+                className = className.substring(className.lastIndexOf('.') + 1);
+                swapExtensionComposites(className, true);
+            } else if (interaction != null && interaction.getEndpoint() != null) {
+                String className = interaction.getEndpoint().getType();
+                className = className.substring(className.lastIndexOf('.') + 1);
+                swapExtensionComposites(className, true);
+                if (className.equalsIgnoreCase("jmsendpoint")) { //$NON-NLS-1$
+                    _endpointMappingTypeCombo.select(ENDPOINT_MAPPING_TYPE.JMSENDPOINT.ordinal());
+                } else if (className.equalsIgnoreCase("cciendpoint")) { //$NON-NLS-1$
+                    _endpointMappingTypeCombo.select(ENDPOINT_MAPPING_TYPE.CCIENDPOINT.ordinal());
                 }
+            }
+            if (interaction.getBatchCommit() != null) {
+                _batchEnabledCheckbox.setSelection(true);
+                setTextValue(_batchSizeText, PropTypeUtil.getPropValueString(this._binding.getInboundInteraction().getBatchCommit().getBatchSize()));
+                setTextValue(_batchTimeoutText, PropTypeUtil.getPropValueString(this._binding.getInboundInteraction().getBatchCommit().getBatchTimeout()));
+            } else {
+                _batchEnabledCheckbox.setSelection(false);
+            }
+            if (interaction.isTransacted()) {
+                _transactedButton.setSelection(interaction.isTransacted());
             }
             setInUpdate(false);
             validate();
@@ -130,6 +191,47 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
         getJCAInteractionDetailsTabControl(_panel);
     }
     
+    class ClearEndpointPropertiesOp extends ModelOperation {
+        @Override
+        public void run() throws Exception {
+            if (_binding != null && _binding.getInboundInteraction() != null
+                    && _binding.getInboundInteraction().getEndpoint() != null 
+                    && _binding.getInboundInteraction().getEndpoint().getProperty() != null) {
+                EList<Property> props = _binding.getInboundInteraction().getEndpoint().getProperty();
+                props.clear();
+            }
+        }
+    }
+
+    class EndpointPropertyOp extends ModelOperation {
+        private Property _property;
+        public EndpointPropertyOp(Property prop) {
+            _property = prop;
+        }
+        @Override
+        public void run() throws Exception {
+            if (_binding != null && _binding.getInboundInteraction() != null
+                    && _binding.getInboundInteraction().getEndpoint() != null 
+                    && _binding.getInboundInteraction().getEndpoint().getProperty() != null) {
+                EList<Property> props = _binding.getInboundInteraction().getEndpoint().getProperty();
+                props.add(_property);
+            }
+        }
+    }
+
+    protected void updatePropertiesFromPropertyArray(Property[] propList) {
+        ArrayList<ModelOperation> ops = new ArrayList<ModelOperation>();
+        ops.add(new EndpointOp());
+        ops.add(new ClearEndpointPropertiesOp());
+        if (propList != null && propList.length > 0) {
+            for (int i = 0; i < propList.length; i++) {
+                Property property = propList[i];
+                ops.add(new EndpointPropertyOp(property));
+            }
+        }
+        wrapOperation(ops);
+    }
+
     private Control getJCAInteractionDetailsTabControl(Composite tabFolder) {
         Composite composite = new Composite(tabFolder, SWT.NONE);
         GridLayout gl = new GridLayout(1, false);
@@ -140,6 +242,18 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
         _endpointMappingTypeCombo.setData(Messages.label_jmsEndpoint, ENDPOINT_MAPPING_TYPE.JMSENDPOINT);
         _endpointMappingTypeCombo.add(Messages.label_cciEndpoint, ENDPOINT_MAPPING_TYPE.CCIENDPOINT.ordinal());
         _endpointMappingTypeCombo.setData(Messages.label_cciEndpoint, ENDPOINT_MAPPING_TYPE.CCIENDPOINT);
+        
+        _endpointMappingTypeCombo.addSelectionListener(new SelectionListener(){
+            @Override
+            public void widgetDefaultSelected(SelectionEvent arg0) {
+                processEndpointComboSelection();
+            }
+
+            @Override
+            public void widgetSelected(SelectionEvent arg0) {
+                processEndpointComboSelection();
+            }
+        });
 
         _transactedButton = createCheckbox(composite, Messages.label_transacted);
         
@@ -165,6 +279,16 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
                 handleModify(_batchEnabledCheckbox);
             }
         });
+
+        _stackComposite = new Composite(composite, SWT.NONE);
+        GridData gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1);
+        _stackComposite.setLayoutData(gd);
+        _stackLayout = new StackLayout();
+        _stackComposite.setLayout(_stackLayout);
+        Composite dummy = new Composite(_stackComposite, SWT.NONE);
+        _stackLayout.topControl = dummy;
+        TabbedPropertySheetWidgetFactory factory = new TabbedPropertySheetWidgetFactory();
+        factory.adapt(_stackComposite, false, false);
 
         return composite;
     }
@@ -245,6 +369,7 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
                     setFeatureValue(interaction, "endpoint", endpoint); //$NON-NLS-1$
                 } else {
                     interaction.getEndpoint().setType(endpointClass);
+                    interaction.getEndpoint().getProperty().clear();
                 }
             }
         }

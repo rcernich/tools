@@ -57,7 +57,6 @@ public class JCABindingInboundComposite extends AbstractSYBindingComposite {
 
     private Composite _panel;
     private JCABinding _binding = null;
-//    private Combo _resourceAdapterText;
     private JCAPropertyTable _propsList;
     private Text _nameText;
     private OperationSelectorComposite _opSelectorComposite;
@@ -102,7 +101,9 @@ public class JCABindingInboundComposite extends AbstractSYBindingComposite {
         _propsList.setSelection(_binding.getInboundConnection().getActivationSpec().getProperty());
         _stackLayout.topControl = syComposite.getPanel();
         _resAdapterComposite = (AbstractJCABindingComposite) syComposite;
-        _resAdapterComposite.setBinding(_binding);
+        if (!_resAdapterComposite.getPanel().isDisposed()) {
+            _resAdapterComposite.setBinding(_binding);
+        }
         _stackComposite.layout();
         validate();
     }
