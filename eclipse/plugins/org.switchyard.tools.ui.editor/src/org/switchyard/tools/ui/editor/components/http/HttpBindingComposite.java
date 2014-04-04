@@ -290,8 +290,6 @@ public class HttpBindingComposite extends AbstractSYBindingComposite {
                             null, UpdateValueStrategy.POLICY_CONVERT), null);
             ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
         }
-        
-
     }
 
 }
