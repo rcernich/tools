@@ -63,6 +63,7 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
     private AbstractJCABindingComposite _endpointPropsComposite;
     private Composite _stackComposite;
     private StackLayout _stackLayout;
+    private DataBindingContext _context;
 
     private enum ENDPOINT_MAPPING_TYPE {
         JMSENDPOINT, CCIENDPOINT
@@ -99,12 +100,12 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
         IJCAEndpointPropertiesExtension extension = null;
         if (endpointType.equalsIgnoreCase("cciendpoint")) { //$NON-NLS-1$
             extension = new JCACCIEndpointPropertiesExtension();
-            syComposite = (AbstractJCABindingComposite) extension.getComposite(_stackComposite);
-            syComposite.createContents(_stackComposite, SWT.NONE);
+            syComposite = (AbstractJCABindingComposite) extension.getComposite(_stackComposite, getToolkit());
+            syComposite.createContents(_stackComposite, SWT.NONE, _context);
         } else if (endpointType.equalsIgnoreCase("jmsendpoint")) { //$NON-NLS-1$
             extension = new JCAJMSEndpointPropertiesExtension();
-            syComposite = (AbstractJCABindingComposite) extension.getComposite(_stackComposite);
-            syComposite.createContents(_stackComposite, SWT.NONE);
+            syComposite = (AbstractJCABindingComposite) extension.getComposite(_stackComposite, getToolkit());
+            syComposite.createContents(_stackComposite, SWT.NONE, _context);
         }
         _endpointPropsComposite = syComposite;
         if (syComposite != null) {
@@ -187,6 +188,7 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
     public void createContents(Composite parent, int style, DataBindingContext context) {
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
+        _context = context;
 
         getJCAInteractionDetailsTabControl(_panel);
     }
@@ -233,7 +235,8 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
     }
 
     private Control getJCAInteractionDetailsTabControl(Composite tabFolder) {
-        Composite composite = new Composite(tabFolder, SWT.NONE);
+        Composite composite = getToolkit().createComposite(tabFolder, SWT.NONE);
+//        Composite composite = new Composite(tabFolder, SWT.NONE);
         GridLayout gl = new GridLayout(1, false);
         composite.setLayout(gl);
         
@@ -262,6 +265,7 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
         _batchGroup.setLayoutData(bgGridData);
         _batchGroup.setLayout(new GridLayout(2, false));
         _batchGroup.setText(Messages.label_batchCommitOptions);
+        getToolkit().adapt(_batchGroup);
         
         _batchEnabledCheckbox = createCheckbox(_batchGroup, Messages.label_enableBatchCommit);
         _batchSizeText = createLabelAndText(_batchGroup, Messages.label_batchSize);
@@ -280,12 +284,12 @@ public class JCAInteractionDetailsComposite extends AbstractSYBindingComposite {
             }
         });
 
-        _stackComposite = new Composite(composite, SWT.NONE);
+        _stackComposite = getToolkit().createComposite(composite, SWT.NONE);
         GridData gd = new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1);
         _stackComposite.setLayoutData(gd);
         _stackLayout = new StackLayout();
         _stackComposite.setLayout(_stackLayout);
-        Composite dummy = new Composite(_stackComposite, SWT.NONE);
+        Composite dummy = getToolkit().createComposite(_stackComposite, SWT.NONE);
         _stackLayout.topControl = dummy;
         TabbedPropertySheetWidgetFactory factory = new TabbedPropertySheetWidgetFactory();
         factory.adapt(_stackComposite, false, false);

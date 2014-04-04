@@ -16,6 +16,7 @@ import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.jca.Endpoint;
 import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
 import org.switchyard.tools.models.switchyard1_0.jca.JCAInboundInteraction;
@@ -32,18 +33,20 @@ public class JCAInteractionPropertyTable extends JCAPropertyTable {
     /**
      * @param parent Composite
      * @param style any additional style bits
+     * @param toolkit Form toolkit to use when creating controls
      */
-    public JCAInteractionPropertyTable(Composite parent, int style) {
-        super(parent, style, false);
+    public JCAInteractionPropertyTable(Composite parent, int style, FormToolkit toolkit) {
+        super(parent, style, false, toolkit);
     }
     
     /**
      * @param parent Composite
      * @param style any additional style bits
      * @param isReadOnly flag
+     * @param toolkit Form toolkit to use when creating controls
      */
-    public JCAInteractionPropertyTable(Composite parent, int style, boolean isReadOnly) {
-        super(parent, style, isReadOnly);
+    public JCAInteractionPropertyTable(Composite parent, int style, boolean isReadOnly, FormToolkit toolkit) {
+        super(parent, style, isReadOnly, toolkit);
     }
 
     protected void removeFromList() {

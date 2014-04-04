@@ -18,6 +18,7 @@ import java.util.Iterator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
@@ -27,9 +28,8 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.jca.Endpoint;
 import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
 import org.switchyard.tools.models.switchyard1_0.jca.JCAInboundConnection;
@@ -50,18 +50,11 @@ public class JCAJMSEndpointPropertiesExtension implements
     private JCAJMSEndpointPropertiesComposite _composite;
 
     @Override
-    public AbstractSwitchyardComposite getComposite(Composite parent) {
+    public AbstractSwitchyardComposite getComposite(Composite parent, FormToolkit toolkit) {
         if (_composite == null) {
-            _composite = new JCAJMSEndpointPropertiesComposite();
+            _composite = new JCAJMSEndpointPropertiesComposite(toolkit);
         }
         return _composite;
-    }
-
-    private Property createNewProperty(String name, String value) {
-        Property newProperty = JcaFactory.eINSTANCE.createProperty();
-        newProperty.setName(name);
-        newProperty.setValue(value);
-        return newProperty;
     }
 
     /**
@@ -69,6 +62,13 @@ public class JCAJMSEndpointPropertiesExtension implements
      *
      */
     public class JCAJMSEndpointPropertiesComposite extends AbstractJCABindingComposite {
+
+        /**
+         * @param toolkit Form toolkit to use during control creation
+         */
+        public JCAJMSEndpointPropertiesComposite(FormToolkit toolkit) {
+            super(toolkit);
+        }
 
         private JCABinding _binding;
         private Composite _panel;
@@ -100,18 +100,20 @@ public class JCAJMSEndpointPropertiesExtension implements
         }
 
         @Override
-        public void createContents(Composite parent, int style) {
-            _panel = new Composite(parent, style);
+        public void createContents(Composite parent, int style, DataBindingContext dataBindingContext) {
+            _panel = getToolkit().createComposite(parent, style);
+//            _panel = new Composite(parent, style);
             _panel.setLayout(new GridLayout(2, false));
-            TabbedPropertySheetWidgetFactory factory = new TabbedPropertySheetWidgetFactory();
-            factory.adapt(_panel, false, false);
+//            TabbedPropertySheetWidgetFactory factory = new TabbedPropertySheetWidgetFactory();
+//            factory.adapt(_panel, false, false);
             _controlsList = new ArrayList<Control>();
             
             Group endpointPropsGroup = new Group(_panel, SWT.NONE);
             endpointPropsGroup.setText(getTitle());
             endpointPropsGroup.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true, 3, 1));
             endpointPropsGroup.setLayout(new GridLayout(2, false));
-            factory.adapt(endpointPropsGroup, false, false);
+            getToolkit().adapt(endpointPropsGroup);
+//            factory.adapt(endpointPropsGroup, false, false);
             
             _jndiPropsFileNameText = createLabelAndText(endpointPropsGroup, Messages.JCAJMSEndpointPropertiesExtension_JNDIPropsFileName_Label);
             _jndiPropsFileNameText.setData("jndiPropertiesFileName"); //$NON-NLS-1$
@@ -145,12 +147,13 @@ public class JCAJMSEndpointPropertiesExtension implements
             _passwordText.setData("password"); //$NON-NLS-1$
             _controlsList.add(_passwordText);
 
-            Label tempLabel = new Label(endpointPropsGroup, SWT.NONE);
-            tempLabel.setText(Messages.JCAJMSEndpointPropertiesExtension_PropertyList_label);
-            factory.adapt(tempLabel, false, false);
-            new Label(endpointPropsGroup, SWT.NONE); // spacer
+            getToolkit().createLabel(endpointPropsGroup, Messages.JCAJMSEndpointPropertiesExtension_PropertyList_label); //new Label(endpointPropsGroup, SWT.NONE);
+//            tempLabel.setText(Messages.JCAJMSEndpointPropertiesExtension_PropertyList_label);
+//            factory.adapt(tempLabel, false, false);
+            getToolkit().createLabel(endpointPropsGroup, ""); // spacer
+//            new Label(endpointPropsGroup, SWT.NONE); // spacer
 
-            _propsList = new JCAInteractionPropertyTable(endpointPropsGroup, SWT.NONE);
+            _propsList = new JCAInteractionPropertyTable(endpointPropsGroup, SWT.NONE, getToolkit());
             _propsList.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 4));
             _propsList.addChangeListener(new ChangeListener(){
                 @Override
@@ -162,7 +165,7 @@ public class JCAJMSEndpointPropertiesExtension implements
                     }
                 }
             });
-            factory.adapt(_propsList, false, false);
+//            factory.adapt(_propsList, false, false);
         }
 
         private void handlePropertyField(Control control) {

@@ -39,8 +39,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
 import org.switchyard.tools.models.switchyard1_0.jca.Property;
 import org.switchyard.tools.ui.editor.Messages;
@@ -165,9 +167,10 @@ public abstract class JCAPropertyTable extends Composite implements ICellModifie
      * 
      * @param parent Composite parent
      * @param style any SWT style bits to pass along
+     * @param toolkit Form toolkit to use when creating controls
      */
-    public JCAPropertyTable(Composite parent, int style) {
-        this(parent, style, false);
+    public JCAPropertyTable(Composite parent, int style, FormToolkit toolkit) {
+        this(parent, style, false, toolkit);
     }
 
     /**
@@ -176,8 +179,9 @@ public abstract class JCAPropertyTable extends Composite implements ICellModifie
      * @param parent composite parent
      * @param style any SWT style bits
      * @param isReadOnly boolean flag
+     * @param toolkit Form toolkit to use when creating controls
      */
-    public JCAPropertyTable(Composite parent, int style, boolean isReadOnly) {
+    public JCAPropertyTable(Composite parent, int style, boolean isReadOnly, FormToolkit toolkit) {
         super(parent, style);
         this._isReadOnly = isReadOnly;
         this._changeListeners = new ListenerList();
@@ -193,8 +197,9 @@ public abstract class JCAPropertyTable extends Composite implements ICellModifie
         gridLayout.numColumns = 2;
         setLayout(gridLayout);
 
-        _propertyTreeTable = new TreeViewer(this, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.FULL_SELECTION
+        Tree tree = toolkit.createTree(this, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL | SWT.FULL_SELECTION
                 | additionalStyles);
+        _propertyTreeTable = new TreeViewer(tree);
         this._propertyTreeTable.setAutoExpandLevel(TreeViewer.ALL_LEVELS);
         GridData gd11 = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 5);
         gd11.heightHint = 100;
@@ -217,9 +222,9 @@ public abstract class JCAPropertyTable extends Composite implements ICellModifie
         _propertyTreeTable.setCellEditors(new CellEditor[] {null, new TextCellEditor(_propertyTreeTable.getTree()),
                 null });
 
-        this._mAddButton = new Button(this, SWT.NONE);
+        this._mAddButton = toolkit.createButton(this, Messages.button_add, SWT.NONE);
         this._mAddButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-        this._mAddButton.setText(Messages.button_add);
+//        this._mAddButton.setText(Messages.button_add);
         this._mAddButton.addSelectionListener(new SelectionAdapter() {
 
             public void widgetSelected(SelectionEvent e) {
@@ -242,9 +247,10 @@ public abstract class JCAPropertyTable extends Composite implements ICellModifie
             }
         });
 
-        this._mRemoveButton = new Button(this, SWT.NONE);
+        this._mRemoveButton = toolkit.createButton(this, Messages.button_remove, SWT.NONE);
+//        this._mRemoveButton = new Button(this, SWT.NONE);
         this._mRemoveButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-        this._mRemoveButton.setText(Messages.button_remove);
+//        this._mRemoveButton.setText(Messages.button_remove);
         this._mRemoveButton.setEnabled(false);
         this._mRemoveButton.addSelectionListener(new SelectionAdapter() {
 

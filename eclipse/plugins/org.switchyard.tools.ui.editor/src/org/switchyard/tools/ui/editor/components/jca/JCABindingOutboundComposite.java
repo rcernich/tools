@@ -145,7 +145,7 @@ public class JCABindingOutboundComposite extends AbstractSYBindingComposite {
     }
 
     private Control getJCATabControl(Composite tabFolder) {
-        Composite composite = new Composite(tabFolder, SWT.NONE);
+        Composite composite = getToolkit().createComposite(tabFolder, SWT.NONE);
         GridLayout gl = new GridLayout(2, false);
         composite.setLayout(gl);
 
@@ -179,6 +179,7 @@ public class JCABindingOutboundComposite extends AbstractSYBindingComposite {
         outboundInteractionGroup.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true, 2, 1));
         outboundInteractionGroup.setLayout(new GridLayout(2, false));
         outboundInteractionGroup.setText(Messages.label_outboundInteractionOptions);
+        getToolkit().adapt(outboundInteractionGroup);
 
         _processorMappingTypeCombo = createLabelAndCombo(outboundInteractionGroup, Messages.label_endpointMappingType, true);
         _processorMappingTypeCombo.add("JMSProcessor", ENDPOINT_MAPPING_TYPE.JMSPROCESSOR.ordinal()); //$NON-NLS-1$
@@ -190,8 +191,9 @@ public class JCABindingOutboundComposite extends AbstractSYBindingComposite {
         activationPropsGroup.setText(Messages.label_processorProperties);
         activationPropsGroup.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true, 3, 1));
         activationPropsGroup.setLayout(new GridLayout(1, false));
+        getToolkit().adapt(activationPropsGroup);
 
-        _propsList = new JCAProcessorPropertyTable(activationPropsGroup, SWT.NONE);
+        _propsList = new JCAProcessorPropertyTable(activationPropsGroup, SWT.NONE, getToolkit());
         _propsList.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4));
         _propsList.addChangeListener(new ChangeListener(){
             @Override

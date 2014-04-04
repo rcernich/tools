@@ -13,6 +13,7 @@
 package org.switchyard.tools.ui.editor.components.jca;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite;
 
 /**
@@ -23,8 +24,9 @@ public interface IJCAEndpointPropertiesExtension {
 
     /**
      * @param parent Composite
+     * @param toolkit Form toolkit to use for control creation
      * @return Composite with controls
      */
-    public AbstractSwitchyardComposite getComposite(Composite parent);
+    public AbstractSwitchyardComposite getComposite(Composite parent, FormToolkit toolkit);
     
 }

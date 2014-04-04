@@ -12,6 +12,7 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.components.jca;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.jca.Property;
 import org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite;
@@ -52,4 +53,14 @@ public interface IJCAResourceAdapterExtension {
      * @return String corresponding to destination type
      */
     public String getDestinationType();
+    
+    /**
+     * @param context Databinding Context to use to bind
+     */
+    public void bindControls(DataBindingContext context);
+    
+    /**
+     * @param context Databinding Context to use to unbind
+     */
+    public void unbindControls(DataBindingContext context);
 }

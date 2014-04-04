@@ -15,6 +15,7 @@ package org.switchyard.tools.ui.editor.components.jca;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -22,7 +23,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
 import org.switchyard.tools.models.switchyard1_0.jca.JCAInboundConnection;
 import org.switchyard.tools.ui.editor.Messages;
@@ -38,9 +39,9 @@ public class JCACCIEndpointPropertiesExtension implements
     private JCACCIEndpointPropertiesComposite _composite;
 
     @Override
-    public AbstractSwitchyardComposite getComposite(Composite parent) {
+    public AbstractSwitchyardComposite getComposite(Composite parent, FormToolkit toolkit) {
         if (_composite == null) {
-            _composite = new JCACCIEndpointPropertiesComposite();
+            _composite = new JCACCIEndpointPropertiesComposite(toolkit);
         }
         return _composite;
     }
@@ -50,6 +51,13 @@ public class JCACCIEndpointPropertiesExtension implements
      *
      */
     public class JCACCIEndpointPropertiesComposite extends AbstractJCABindingComposite {
+
+        /**
+         * @param toolkit Form toolkit to use when creating controls
+         */
+        public JCACCIEndpointPropertiesComposite(FormToolkit toolkit) {
+            super(toolkit);
+        }
 
         private JCABinding _binding;
         private Composite _panel;
@@ -71,19 +79,17 @@ public class JCACCIEndpointPropertiesExtension implements
         }
 
         @Override
-        public void createContents(Composite parent, int style) {
-            _panel = new Composite(parent, style);
+        public void createContents(Composite parent, int style, DataBindingContext dataBindingContext) {
+            _panel = getToolkit().createComposite(parent, style);
             _panel.setLayout(new GridLayout(2, false));
-            TabbedPropertySheetWidgetFactory factory = new TabbedPropertySheetWidgetFactory();
-            factory.adapt(_panel, false, false);
 
             Group endpointPropsGroup = new Group(_panel, SWT.NONE);
             endpointPropsGroup.setText(getTitle());
             endpointPropsGroup.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true, 3, 1));
             endpointPropsGroup.setLayout(new GridLayout(1, false));
-            factory.adapt(endpointPropsGroup, false, false);
+            getToolkit().adapt(endpointPropsGroup, false, false);
 
-            _propsList = new JCAInteractionPropertyTable(endpointPropsGroup, SWT.NONE);
+            _propsList = new JCAInteractionPropertyTable(endpointPropsGroup, SWT.NONE, getToolkit());
             _propsList.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4));
             _propsList.addChangeListener(new ChangeListener(){
                 @Override
@@ -95,7 +101,7 @@ public class JCACCIEndpointPropertiesExtension implements
                     }
                 }
             });
-            factory.adapt(_propsList, false, false);
+            getToolkit().adapt(_propsList, false, false);
         }
 
         @Override
