@@ -45,6 +45,7 @@ import org.switchyard.tools.models.switchyard1_0.resteasy.ResteasyFactory;
 import org.switchyard.tools.models.switchyard1_0.resteasy.ResteasyPackage;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
+import org.switchyard.tools.ui.editor.databinding.EscapedPropertyIntegerValidator;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
@@ -310,8 +311,10 @@ public class ResteasyAuthenticationComposite extends AbstractSYBindingComposite 
 
         binding = 
                 context.bindValue(SWTObservables.observeText(_authPortText, SWT.Modify), basicAuthPort,
-                        new EMFUpdateValueStrategyNullForEmptyString(null,
-                                UpdateValueStrategy.POLICY_CONVERT), null);
+                    new EMFUpdateValueStrategyNullForEmptyString("", 
+                            UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(
+                                    new EscapedPropertyIntegerValidator("Port must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}')."))
+                                    , null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         binding = 
@@ -369,4 +372,13 @@ public class ResteasyAuthenticationComposite extends AbstractSYBindingComposite 
           ntlmValue.addDisposeListener(disposeListener);
           basicValue.addDisposeListener(disposeListener);        
     } 
+
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        super.dispose();
+    }
 }

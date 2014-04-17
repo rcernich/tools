@@ -18,6 +18,7 @@ import javax.swing.event.ChangeListener;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.Realm;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -38,10 +39,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.camel.core.CamelBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.core.CorePackage;
 import org.switchyard.tools.ui.editor.Messages;
+import org.switchyard.tools.ui.editor.databinding.CompoundValidator;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.databinding.StringEmptyValidator;
+import org.switchyard.tools.ui.editor.databinding.URLValidator;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
 import org.switchyard.tools.ui.editor.diagram.binding.OperationSelectorComposite;
 
@@ -190,14 +193,19 @@ public class CamelComposite extends AbstractSYBindingComposite {
                         UpdateValueStrategy.POLICY_NEVER));
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
+        final IObservableValue configURIValue = ObservablesUtil.observeDetailValue(domain, _bindingValue,
+                CorePackage.Literals.CAMEL_BINDING_TYPE__CONFIG_URI);
+
+        CompoundValidator uriValidator = new CompoundValidator(
+                new StringEmptyValidator(Messages.error_configUriMayNotBeEmpty),
+                new URLValidator("Potential problem with Camel URI")); 
+        
         binding = context
                 .bindValue(
                         SWTObservables.observeText(_configURIText, new int[] {SWT.Modify }),
-                        ObservablesUtil.observeDetailValue(domain, _bindingValue,
-                                CorePackage.Literals.CAMEL_BINDING_TYPE__CONFIG_URI),
+                        configURIValue,
                         new EMFUpdateValueStrategyNullForEmptyString(null, UpdateValueStrategy.POLICY_CONVERT)
-                                .setAfterConvertValidator(new StringEmptyValidator(
-                                        Messages.error_configUriMayNotBeEmpty)), null);
+                                .setAfterConvertValidator(uriValidator), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         if (_opSelectorComposite != null) {
@@ -205,4 +213,12 @@ public class CamelComposite extends AbstractSYBindingComposite {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        super.dispose();
+    }
 }

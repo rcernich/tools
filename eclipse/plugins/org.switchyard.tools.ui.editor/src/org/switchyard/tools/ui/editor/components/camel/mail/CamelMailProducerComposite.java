@@ -37,6 +37,7 @@ import org.switchyard.tools.models.switchyard1_0.camel.mail.CamelMailBindingType
 import org.switchyard.tools.models.switchyard1_0.camel.mail.MailPackage;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
+import org.switchyard.tools.ui.editor.databinding.EscapedPropertyIntegerValidator;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.databinding.StringEmptyValidator;
@@ -260,17 +261,19 @@ public class CamelMailProducerComposite extends AbstractSYBindingComposite {
                                 .setAfterConvertValidator(new StringEmptyValidator(
                                         Messages.error_emptyHost)), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
-
+       
         binding = context
                 .bindValue(
                         SWTObservables.observeText(_portText, new int[] {SWT.Modify }),
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 MailPackage.Literals.CAMEL_MAIL_BINDING_TYPE__PORT),
                         new EMFUpdateValueStrategyNullForEmptyString(
-                                "Port value must be a valid number.",
-                                UpdateValueStrategy.POLICY_CONVERT), null);
+                                "Port must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}').",
+                                UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(
+                                        new EscapedPropertyIntegerValidator("Port must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}')."))
+                                        , null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
-        
+
         binding = context
                 .bindValue(
                         SWTObservables.observeText(_usernameText, new int[] {SWT.Modify }),
@@ -300,5 +303,14 @@ public class CamelMailProducerComposite extends AbstractSYBindingComposite {
         
         bindProducerControls(context, domain, realm);
 
+    }
+
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        super.dispose();
     }
 }

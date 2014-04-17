@@ -36,6 +36,7 @@ import org.switchyard.tools.models.switchyard1_0.camel.ftp.CamelSftpBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.ftp.FtpPackage;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
+import org.switchyard.tools.ui.editor.databinding.EscapedPropertyIntegerValidator;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.diagram.binding.AbstractSYBindingComposite;
@@ -194,9 +195,10 @@ public class CamelSFTPConsumerMoveAndPollComposite extends AbstractSYBindingComp
                         SWTObservables.observeText(_delayText, new int[] {SWT.Modify }),
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 path),
-                        new EMFUpdateValueStrategyNullForEmptyString(
-                                null,
-                                UpdateValueStrategy.POLICY_CONVERT), null);
+                        new EMFUpdateValueStrategyNullForEmptyString(null,
+                                UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(
+                                        new EscapedPropertyIntegerValidator("Delay must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}')."))
+                                        , null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         path = FeaturePath.fromList(
@@ -208,9 +210,19 @@ public class CamelSFTPConsumerMoveAndPollComposite extends AbstractSYBindingComp
                         SWTObservables.observeText(_maxMessagesPerPollText, new int[] {SWT.Modify }),
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 path),
-                        new EMFUpdateValueStrategyNullForEmptyString(
-                                null,
-                                UpdateValueStrategy.POLICY_CONVERT), null);
+                        new EMFUpdateValueStrategyNullForEmptyString(null,
+                                UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(
+                                        new EscapedPropertyIntegerValidator("Max Messages per Poll must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}')."))
+                                        , null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
     }    
+
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        super.dispose();
+    }
 }

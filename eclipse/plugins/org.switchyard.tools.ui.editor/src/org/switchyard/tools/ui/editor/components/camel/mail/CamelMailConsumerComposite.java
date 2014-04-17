@@ -46,6 +46,7 @@ import org.switchyard.tools.models.switchyard1_0.camel.mail.MailConsumerAccountT
 import org.switchyard.tools.models.switchyard1_0.camel.mail.MailPackage;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
+import org.switchyard.tools.ui.editor.databinding.EscapedPropertyIntegerValidator;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.databinding.StringEmptyValidator;
@@ -239,8 +240,10 @@ public class CamelMailConsumerComposite extends AbstractSYBindingComposite  {
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 MailPackage.Literals.CAMEL_MAIL_BINDING_TYPE__PORT),
                         new EMFUpdateValueStrategyNullForEmptyString(
-                                "Port value must be a valid number.",
-                                UpdateValueStrategy.POLICY_CONVERT), null);
+                                "Port must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}').",
+                                UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(
+                                        new EscapedPropertyIntegerValidator("Port must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}')."))
+                                        , null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
         
         FeaturePath path = FeaturePath.fromList(
@@ -254,8 +257,10 @@ public class CamelMailConsumerComposite extends AbstractSYBindingComposite  {
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 path),
                         new EMFUpdateValueStrategyNullForEmptyString(
-                                "Fetch Size value must be a valid number.",
-                                UpdateValueStrategy.POLICY_CONVERT), null);
+                                "Fetch Size must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}').",
+                                UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(
+                                        new EscapedPropertyIntegerValidator("Fetch Size must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}')."))
+                                        , null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         path = FeaturePath.fromList(
@@ -314,15 +319,11 @@ public class CamelMailConsumerComposite extends AbstractSYBindingComposite  {
                                 null, UpdateValueStrategy.POLICY_CONVERT), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
-        path = FeaturePath.fromList(
-                MailPackage.Literals.CAMEL_MAIL_BINDING_TYPE__CONSUME,
-                MailPackage.Literals.CAMEL_MAIL_BINDING_TYPE__SECURE
-              );
         binding = context
                 .bindValue(
                         SWTObservables.observeSelection(_securedCheckbox),
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
-                                path),
+                                MailPackage.Literals.CAMEL_MAIL_BINDING_TYPE__SECURE),
                         new EMFUpdateValueStrategyNullForEmptyString(
                                 null, UpdateValueStrategy.POLICY_CONVERT), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
@@ -343,4 +344,12 @@ public class CamelMailConsumerComposite extends AbstractSYBindingComposite  {
         _opSelectorComposite.bindControls(domain, context);
     }
 
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        super.dispose();
+    }
 }

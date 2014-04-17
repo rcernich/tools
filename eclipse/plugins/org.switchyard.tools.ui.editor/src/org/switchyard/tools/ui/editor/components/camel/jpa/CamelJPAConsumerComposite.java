@@ -55,6 +55,7 @@ import org.switchyard.tools.models.switchyard1_0.camel.jpa.CamelJpaBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.jpa.JpaPackage;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
+import org.switchyard.tools.ui.editor.databinding.IntegerValidator;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.databinding.StringEmptyValidator;
@@ -259,7 +260,8 @@ public class CamelJPAConsumerComposite extends AbstractSYBindingComposite {
                                 path),
                         new EMFUpdateValueStrategyNullForEmptyString(
                                 "Maximum Results must be a valid number.",
-                                UpdateValueStrategy.POLICY_CONVERT), null);
+                                UpdateValueStrategy.POLICY_CONVERT)
+                        .setAfterConvertValidator(new IntegerValidator("Maximum Results must be a valid number.")), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         path = FeaturePath.fromList(
@@ -381,5 +383,14 @@ public class CamelJPAConsumerComposite extends AbstractSYBindingComposite {
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
         
         bindConsumerControls(context, domain);
+    }
+
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        super.dispose();
     }
 }

@@ -15,6 +15,7 @@ package org.switchyard.tools.ui.editor.databinding;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.switchyard.tools.ui.editor.Activator;
@@ -22,22 +23,23 @@ import org.switchyard.tools.ui.editor.Messages;
 
 /**
  * Validator which errors if property strings are not formatted correctly.
+ * 
+ * @author bfitzpat
  */
-public abstract class EscapedPropertyValidator extends AbstractValidator {
+public class AbstractEscapedPropertyValidator implements IValidator {
 
-    protected static final Pattern INNER_DOLLAR_START_PATTERN = Pattern.compile("\\$\\{"); //$NON-NLS-1$
-    protected static final String MESSAGE = Messages.EscapedPropertyValidator_Must_Match_Escaped_Property_Pattern;
-    protected static final Pattern OUTER_CURLY_PATTERN = Pattern.compile("\\}"); //$NON-NLS-1$
+    private static final Pattern INNER_DOLLAR_START_PATTERN = Pattern.compile("\\$\\{"); //$NON-NLS-1$
+    private static final String MESSAGE = Messages.EscapedPropertyValidator_Must_Match_Escaped_Property_Pattern;
+    private static final Pattern OUTER_CURLY_PATTERN = Pattern.compile("\\}"); //$NON-NLS-1$
     
     /**
      * Constructor.
-     * @param message Message to display (or null)
      */
-    public EscapedPropertyValidator(String message) {
-        super(message);
+    public AbstractEscapedPropertyValidator() {
     }
     
-    protected IStatus validEscapedPropertyString(Object value) {
+    @Override
+    public IStatus validate(Object value) {
         if (value instanceof String) {
             String s = (String) value;
             int leftSides = 0;
@@ -56,12 +58,9 @@ public abstract class EscapedPropertyValidator extends AbstractValidator {
                 foundOuter = idc_end_mat.find(idc_end_mat.end());
             }
             
-            if (leftSides == rightSides && leftSides > 0) {
+            if (leftSides == rightSides) {
                 return Status.OK_STATUS;
             } else {
-                if (getMessage() != null) {
-                    return new Status(Status.ERROR, Activator.PLUGIN_ID, getMessage());
-                }
                 return new Status(Status.ERROR, Activator.PLUGIN_ID, MESSAGE);
             }
         } else {

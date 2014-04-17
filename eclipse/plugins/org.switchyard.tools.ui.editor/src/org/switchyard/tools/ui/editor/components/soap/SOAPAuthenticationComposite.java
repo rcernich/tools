@@ -334,4 +334,13 @@ public class SOAPAuthenticationComposite extends AbstractSYBindingComposite {
           ntlmValue.addDisposeListener(disposeListener);
           basicValue.addDisposeListener(disposeListener);        
     }
+
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        super.dispose();
+    }
 }

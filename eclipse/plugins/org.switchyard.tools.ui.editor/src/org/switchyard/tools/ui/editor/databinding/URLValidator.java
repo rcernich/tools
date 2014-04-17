@@ -27,6 +27,17 @@ import org.switchyard.tools.ui.editor.Messages;
  */
 public class URLValidator implements IValidator {
 
+    private final String _message;
+
+    /**
+     * Constructor.
+     * 
+     * @param message Validation message
+     */
+    public URLValidator(String message) {
+        _message = message;
+    }
+
     @Override
     public IStatus validate(Object value) {
         String urlString = null;
@@ -40,8 +51,8 @@ public class URLValidator implements IValidator {
                 try {
                     new URL(urlString);
                 } catch (MalformedURLException e) {
-                    return new Status(Status.ERROR, 
-                            Activator.PLUGIN_ID, e.getLocalizedMessage());
+                    return new Status(Status.WARNING, 
+                            Activator.PLUGIN_ID, _message + " (" + e.getLocalizedMessage() + ")");
                 }
             }
         }

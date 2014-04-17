@@ -72,6 +72,7 @@ import org.switchyard.tools.models.switchyard1_0.soap.SoapHeadersType;
 import org.switchyard.tools.ui.JavaUtil;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
+import org.switchyard.tools.ui.editor.databinding.EscapedPropertyIntegerValidator;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.databinding.StringEmptyValidator;
@@ -396,9 +397,10 @@ public class SOAPBindingReferenceComposite extends AbstractSYBindingComposite {
                         SWTObservables.observeText(_requestTimeoutText, new int[] {SWT.Modify }),
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 SOAPPackage.Literals.SOAP_BINDING_TYPE__TIMEOUT),
-                        new EMFUpdateValueStrategyNullForEmptyString(
-                                null,
-                                UpdateValueStrategy.POLICY_CONVERT), null);
+                        new EMFUpdateValueStrategyNullForEmptyString("", 
+                                UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(
+                                        new EscapedPropertyIntegerValidator("Request Timeout must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}')."))
+                                        , null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         binding = context
@@ -416,8 +418,7 @@ public class SOAPBindingReferenceComposite extends AbstractSYBindingComposite {
         binding = context
                 .bindValue(
                         SWTObservables.observeSelection(_unwrappedPayloadCheckbox), msgComposerUnwrappedValue,
-                        new EMFUpdateValueStrategyNullForEmptyString(
-                                null, UpdateValueStrategy.POLICY_CONVERT), null);
+                        new EMFUpdateValueStrategyNullForEmptyString(null, UpdateValueStrategy.POLICY_CONVERT), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         ComputedValue computedMessageComposer = new ComputedValue() {
@@ -581,4 +582,12 @@ public class SOAPBindingReferenceComposite extends AbstractSYBindingComposite {
 
     }
     
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        super.dispose();
+    }
 }
