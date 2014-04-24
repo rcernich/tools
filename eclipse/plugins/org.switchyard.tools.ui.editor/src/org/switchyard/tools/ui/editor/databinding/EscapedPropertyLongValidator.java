@@ -12,43 +12,44 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.databinding;
 
-import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.switchyard.tools.ui.editor.Activator;
 
 /**
- * Validator which errors if String value is null or empty.
- * 
- * @author bfitzpat
+ * PropInteger validator which errors if property strings are not formatted correctly
+ * and value is not a valid BigInteger.
  */
-public class StringEmptyValidator implements IValidator {
-
-    private final String _message;
+public class EscapedPropertyLongValidator extends EscapedPropertyValidator {
 
     /**
      * Constructor.
-     * 
-     * @param message Validation message
+     * @param message Message to display (or null)
      */
-    public StringEmptyValidator(String message) {
-        _message = message;
+    public EscapedPropertyLongValidator(String message) {
+        super(message);
     }
-
+    
     @Override
     public IStatus validate(Object value) {
-        if (value == null) {
-            return new Status(Status.ERROR, Activator.PLUGIN_ID, _message);
-        }
-        if (value instanceof String) {
-            String s = (String) value;
-            if (!s.trim().isEmpty()) {
+        if (value != null) {
+            if (value instanceof Long) {
                 return Status.OK_STATUS;
+            } else if (value instanceof String) {
+                String s = (String) value;
+                try {
+                    Long.valueOf(s);
+                } catch (NumberFormatException nfe) {
+                    return validEscapedPropertyString(value);
+                }
             } else {
-                return new Status(Status.ERROR, Activator.PLUGIN_ID, _message);
+                if (getMessage() != null) {
+                    return new Status(Status.ERROR, Activator.PLUGIN_ID, getMessage());
+                }
+                return new Status(Status.ERROR, Activator.PLUGIN_ID, MESSAGE);
             }
         }
-        // if it's not a string, then ignore it
         return Status.OK_STATUS;
     }
 }
+

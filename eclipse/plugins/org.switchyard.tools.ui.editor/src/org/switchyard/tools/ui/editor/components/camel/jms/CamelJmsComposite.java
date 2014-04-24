@@ -18,7 +18,6 @@ import javax.swing.event.ChangeListener;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.core.databinding.observable.value.ComputedValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.ecore.EObject;
@@ -28,12 +27,17 @@ import org.eclipse.jface.databinding.fieldassist.ControlDecorationSupport;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.soa.sca.sca1_1.model.sca.Reference;
 import org.eclipse.soa.sca.sca1_1.model.sca.ScaPackage;
 import org.eclipse.soa.sca.sca1_1.model.sca.Service;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -46,6 +50,7 @@ import org.switchyard.tools.models.switchyard1_0.camel.jms.CamelJmsBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.jms.JmsPackage;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
+import org.switchyard.tools.ui.editor.databinding.EscapedPropertyIntegerValidator;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.databinding.StringEmptyValidator;
@@ -62,7 +67,6 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
     private CamelJmsBindingType _binding = null;
     private Text _nameText;
     private ComboViewer _typeCombo;
-    private Text _typeNameText;
     private Text _connectionFactoryText;
     private Text _concurrentConsumersText;
     private Text _maxConcurrentConsumersText;
@@ -73,7 +77,17 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
     private Button _transactedButton;
     private OperationSelectorComposite _opSelectorComposite;
     private WritableValue _bindingValue;
-    private IObservableValue _jmsValue;
+    private org.eclipse.core.databinding.Binding _queueNameBinding;
+    private org.eclipse.core.databinding.Binding _topicNameBinding;
+    private StackLayout _stackLayout = null;
+    private Composite _contentPanel = null;
+    private Composite _queuePanel = null;
+    private Text _queueNameText;
+    private Composite _topicPanel = null;
+    private Text _topicNameText;
+    private DataBindingContext _context;
+    private IObservableValue _queueValue;
+    private IObservableValue _topicValue;
 
     CamelJmsComposite(FormToolkit toolkit) {
         super(toolkit);
@@ -93,11 +107,12 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
     public void setBinding(Binding impl) {
         super.setBinding(impl);
         if (impl instanceof CamelJmsBindingType) {
+            
             setTargetObject(impl.eContainer());
             _binding = (CamelJmsBindingType) impl;
 
             _bindingValue.setValue(_binding);
-
+            
             // refresh the operation selector control
             if (_opSelectorComposite != null && !_opSelectorComposite.isDisposed() && getTargetObject() != null) {
                 _opSelectorComposite.setTargetObject(getTargetObject());
@@ -105,6 +120,16 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
             if (_opSelectorComposite != null && !_opSelectorComposite.isDisposed()) {
                 _opSelectorComposite.setBinding(_binding);
             }
+
+            JMSType initialType = JMSType.QUEUE;
+            String queueText = _binding.getQueue();
+            String topicText = _binding.getTopic();
+            if (queueText != null && topicText == null) {
+                initialType = JMSType.QUEUE;
+            } else if (topicText != null && queueText == null) {
+                initialType = JMSType.TOPIC;
+            }
+            _typeCombo.setSelection(new StructuredSelection(initialType));
 
         } else {
             _bindingValue.setValue(null);
@@ -121,6 +146,7 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
 
     @Override
     public void createContents(Composite parent, int style, DataBindingContext context) {
+        _context = context;
         _panel = new Composite(parent, style);
         _panel.setLayout(new FillLayout());
 
@@ -135,6 +161,18 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
         }
         
         bindControls(context);
+
+        _typeCombo.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
+                if (event.getSelection().isEmpty()) {
+                    return;
+                }
+                handleSelectorTypeChanged((JMSType) ((IStructuredSelection) event.getSelection())
+                        .getFirstElement());
+            }
+        });
+
     }
 
     private Control getJmsTabControl(Composite tabFolder) {
@@ -156,8 +194,26 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
             }
         });
         _typeCombo.setInput(JMSType.values());
+        
+        getToolkit().createLabel(composite, Messages.label_queueTopicName);
+        
+        _contentPanel = new Composite(composite, SWT.NONE);
+        _stackLayout = new StackLayout();
+        _contentPanel.setLayout(_stackLayout);
+        GridData gd = new GridData(SWT.FILL, SWT.FILL, true, false);
+        gd.horizontalIndent = -5;
+        gd.verticalIndent = -5;
+        _contentPanel.setLayoutData(gd);
 
-        _typeNameText = createLabelAndText(composite, Messages.label_queueTopicName);
+        _queuePanel = new Composite(_contentPanel, SWT.NONE);
+        _queueNameText = createLabelAndText(_queuePanel, null);
+        _queuePanel.setLayout(new GridLayout(2, false));
+        _queueNameText.setLayoutData(new GridData(SWT.FILL, SWT.NULL, true, false));
+        
+        _topicPanel = new Composite(_contentPanel, SWT.NONE);
+        _topicNameText = createLabelAndText(_topicPanel, null);
+        _topicPanel.setLayout(new GridLayout(2, false));
+        _topicNameText.setLayoutData(new GridData(SWT.FILL, SWT.NULL, true, false));
 
         _connectionFactoryText = createLabelAndText(composite, Messages.label_connectionFactory);
         _connectionFactoryText.setText("#ConnectionFactory"); //$NON-NLS-1$
@@ -191,6 +247,33 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
         return composite;
     }
 
+    private void handleSelectorTypeChanged(final JMSType typeToSelect) {
+        _queueNameText.setEnabled(false);
+        _topicNameText.setEnabled(false);
+
+        switch (typeToSelect) {
+        case QUEUE:
+            _queueNameText.setEnabled(true);
+            if (_topicValue.getValue() != null) {
+                _topicValue.setValue(null);
+            }
+            _stackLayout.topControl = _queuePanel;
+            _context.removeBinding(_topicNameBinding);
+            _context.addBinding(_queueNameBinding);
+            break;
+        case TOPIC:
+            _topicNameText.setEnabled(true);
+            if (_queueValue.getValue() != null) {
+                _queueValue.setValue(null);
+            }
+            _stackLayout.topControl = _topicPanel;
+            _context.removeBinding(_queueNameBinding);
+            _context.addBinding(_topicNameBinding);
+            break;
+        }
+        _contentPanel.layout();
+    }
+
     @Override
     public Composite getPanel() {
         return this._panel;
@@ -210,58 +293,6 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
         if (_binding != null) {
             super.handleUndo(control);
         }
-    }
-    
-    class JMSComputedValue extends ComputedValue {
-        
-        private IObservableValue _jmsTypeValue = null;
-        private IObservableValue _topicValue = null;
-        private IObservableValue _queueValue = null;
-
-        public JMSComputedValue(Realm realm, Object valueType, 
-                IObservableValue jmsType, IObservableValue topic, IObservableValue queue) {
-            super(realm, valueType);
-            _jmsTypeValue = jmsType;
-            _topicValue = topic;
-            _queueValue = queue;
-        }
-
-        @Override
-        protected Object calculate() {
-            // we need to interrogate all values, or we'll miss events
-            final JMSType selectedType = (JMSType) _jmsTypeValue.getValue();
-            final String typeText = _typeNameText.getText();
-            if (selectedType == null) {
-                return null;
-            }
-            switch (selectedType) {
-            case TOPIC:
-                selectedType.updateBindingJMSType(_binding, typeText);
-            case QUEUE:
-                selectedType.updateBindingJMSType(_binding, typeText);
-            }
-            return null;
-        }
-
-        @Override
-        protected void doSetValue(Object value) {
-            if (value == null) {
-                _topicValue.setValue(null);
-                _queueValue.setValue(null);
-            } else if (value instanceof CamelJmsBindingType) {
-                final CamelJmsBindingType selectorType = (CamelJmsBindingType) value;
-                if (selectorType.getQueue() != null) {
-                    _queueValue.setValue(selectorType.getQueue());
-                } else if (selectorType.getTopic() != null) {
-                    _topicValue.setValue(selectorType.getTopic());
-                }
-            } else {
-                throw new IllegalArgumentException("Unknown queue/topic type: " + value.getClass().getCanonicalName());
-            }
-            // update our cached value
-            getValue();
-        }
-        
     }
 
     private void bindControls(final DataBindingContext context) {
@@ -292,39 +323,38 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
                                 Messages.error_emptyName)), new UpdateValueStrategy(
                         UpdateValueStrategy.POLICY_NEVER));
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
-
-        final IObservableValue selectorTypeValue = new WritableValue(realm, null, JMSType.class);
-        final IObservableValue topicValue = new WritableValue(realm, null, String.class);
-        final IObservableValue queueValue = new WritableValue(realm, null, String.class);
-
-        /*
-         * computed value. creates a JMS queue or topic based on the current
-         * state of the controls.
-         */
-        _jmsValue = new JMSComputedValue(realm, CamelJmsBindingType.class, 
-                selectorTypeValue, topicValue, queueValue);
         
-        // now bind the selector into the binding
-        context.bindValue(
-                _jmsValue,
-                ObservablesUtil.observeDetailValue(domain, _bindingValue,
-                        ScaPackage.eINSTANCE.getBinding_OperationSelector()));
-        binding = context
+        _queueValue = ObservablesUtil.observeDetailValue(domain, _bindingValue,
+                JmsPackage.Literals.CAMEL_JMS_BINDING_TYPE__QUEUE);
+        
+        _queueNameBinding = context
                 .bindValue(
-                        SWTObservables.observeText(_typeNameText, new int[] {SWT.Modify }),
-                        ObservablesUtil.observeDetailValue(domain, _bindingValue,
-                                JmsPackage.Literals.CAMEL_JMS_BINDING_TYPE__QUEUE),
-                        new EMFUpdateValueStrategyNullForEmptyString(null,
-                                UpdateValueStrategy.POLICY_CONVERT), null);
-        ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
+                        SWTObservables.observeText(_queueNameText , new int[] {SWT.Modify }),
+                        _queueValue,
+                        new EMFUpdateValueStrategyNullForEmptyString(null, UpdateValueStrategy.POLICY_CONVERT)
+                            .setAfterConvertValidator(new StringEmptyValidator(
+                                "Queue may not be empty.")), null);
+        ControlDecorationSupport.create(SWTValueUpdater.attach(_queueNameBinding), SWT.TOP | SWT.LEFT);
+
+        _topicValue = ObservablesUtil.observeDetailValue(domain, _bindingValue,
+                JmsPackage.Literals.CAMEL_JMS_BINDING_TYPE__TOPIC);
+        _topicNameBinding = context
+                .bindValue(
+                        SWTObservables.observeText(_topicNameText , new int[] {SWT.Modify }),
+                        _topicValue,
+                        new EMFUpdateValueStrategyNullForEmptyString(null, UpdateValueStrategy.POLICY_CONVERT)
+                            .setAfterConvertValidator(new StringEmptyValidator(
+                                "Topic may not be empty.")), null);
+        ControlDecorationSupport.create(SWTValueUpdater.attach(_topicNameBinding), SWT.TOP | SWT.LEFT);
 
         binding = context
                 .bindValue(
                         SWTObservables.observeText(_connectionFactoryText , new int[] {SWT.Modify }),
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 JmsPackage.Literals.CAMEL_JMS_BINDING_TYPE__CONNECTION_FACTORY),
-                        new EMFUpdateValueStrategyNullForEmptyString(
-                                "", UpdateValueStrategy.POLICY_CONVERT), null);
+                        new EMFUpdateValueStrategyNullForEmptyString(null, UpdateValueStrategy.POLICY_CONVERT)
+                            .setAfterConvertValidator(new StringEmptyValidator(
+                                Messages.error_emptyConnectionFactory)), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         binding = context
@@ -333,7 +363,10 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 JmsPackage.Literals.CAMEL_JMS_BINDING_TYPE__CONCURRENT_CONSUMERS),
                         new EMFUpdateValueStrategyNullForEmptyString(
-                                "", UpdateValueStrategy.POLICY_CONVERT), null);
+                                null,
+                                UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(
+                                        new EscapedPropertyIntegerValidator("Concurrent Consumers must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}')."))
+                                        , null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         binding = context
@@ -342,7 +375,10 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 JmsPackage.Literals.CAMEL_JMS_BINDING_TYPE__MAX_CONCURRENT_CONSUMERS),
                         new EMFUpdateValueStrategyNullForEmptyString(
-                                "", UpdateValueStrategy.POLICY_CONVERT), null);
+                                null,
+                                UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(
+                                        new EscapedPropertyIntegerValidator("Max Concurrent Consumers must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}')."))
+                                        , null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         binding = context
@@ -361,7 +397,10 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
                             ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                     JmsPackage.Literals.CAMEL_JMS_BINDING_TYPE__REQUEST_TIMEOUT),
                             new EMFUpdateValueStrategyNullForEmptyString(
-                                    "", UpdateValueStrategy.POLICY_CONVERT), null);
+                                    null,
+                                    UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(
+                                            new EscapedPropertyIntegerValidator("Request Timeout must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}')."))
+                                            , null);
             ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
         }
 
@@ -395,23 +434,12 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
         if (_opSelectorComposite != null) {
             _opSelectorComposite.bindControls(domain, context);
         }
+
     }
 
     private enum JMSType {
-        QUEUE(Messages.label_queue) {
-            @Override
-            public void updateBindingJMSType(CamelJmsBindingType binding, String selectorText) {
-                binding.setQueue(selectorText);
-                binding.setTopic(null);
-            }
-        },
-        TOPIC(Messages.label_topic) {
-            @Override
-            public void updateBindingJMSType(CamelJmsBindingType binding, String selectorText) {
-                binding.setQueue(null);
-                binding.setTopic(selectorText);
-            }
-        };
+        QUEUE(Messages.label_queue) {},
+        TOPIC(Messages.label_topic) {};
 
         private final String _label;
 
@@ -426,13 +454,19 @@ public class CamelJmsComposite extends AbstractSYBindingComposite {
             return _label;
         }
 
-        /**
-         * Create a new queue or topic.
-         * 
-         * @param binding the binding to set the queue or topic on
-         * @param queueOrTopicText the text for the queue or topic
-         */
-        public abstract void updateBindingJMSType(CamelJmsBindingType binding, String queueOrTopicText);
 
+    }
+
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        _queueValue.dispose();
+        _topicValue.dispose();
+        _topicNameBinding.dispose();
+        _queueNameBinding.dispose();
+        super.dispose();
     }
 }

@@ -36,6 +36,7 @@ import org.switchyard.tools.models.switchyard1_0.resteasy.RESTBindingType;
 import org.switchyard.tools.models.switchyard1_0.resteasy.ResteasyPackage;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
+import org.switchyard.tools.ui.editor.databinding.EscapedPropertyIntegerValidator;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.databinding.StringEmptyValidator;
@@ -195,8 +196,10 @@ public class ResteasyBindingComposite extends AbstractSYBindingComposite {
                             SWTObservables.observeText(_requestTimeoutText , new int[] {SWT.Modify }),
                             ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                     ResteasyPackage.Literals.REST_BINDING_TYPE__TIMEOUT),
-                            new EMFUpdateValueStrategyNullForEmptyString(
-                                    "", UpdateValueStrategy.POLICY_CONVERT), null);
+                            new EMFUpdateValueStrategyNullForEmptyString("", 
+                                    UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(
+                                            new EscapedPropertyIntegerValidator("Request Timeout must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}')."))
+                                            , null);
             ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
         } else {
             binding = context
@@ -220,4 +223,13 @@ public class ResteasyBindingComposite extends AbstractSYBindingComposite {
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
     }    
+
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        super.dispose();
+    }
 }

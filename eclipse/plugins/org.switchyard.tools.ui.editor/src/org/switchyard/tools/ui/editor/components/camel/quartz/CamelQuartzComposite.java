@@ -22,6 +22,7 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -209,32 +210,49 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
                                         Messages.CamelQuartzComposite_Validation_CRON_Empty)), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
+        EMFUpdateValueStrategy startTimeStrategy = new EMFUpdateValueStrategyNullForEmptyString(
+                Messages.CamelQuartzComposite_Validation_Start_Time_Format,
+                UpdateValueStrategy.POLICY_CONVERT);
+        startTimeStrategy.setConverter(new StringToXMLCalendarConverter(Messages.CamelQuartzComposite_Validation_Start_Time_Format));
+        
         binding = context
                 .bindValue(
                         SWTObservables.observeText(_startTimeText, new int[] {SWT.Modify }),
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 QuartzPackage.Literals.CAMEL_QUARTZ_BINDING_TYPE__TRIGGER_START_TIME),
-                        new EMFUpdateValueStrategyNullForEmptyString(
-                                Messages.CamelQuartzComposite_Validation_Start_Time_Format,
-                                UpdateValueStrategy.POLICY_CONVERT), null);
+                        startTimeStrategy, null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
+
+        EMFUpdateValueStrategy endTimeStrategy = new EMFUpdateValueStrategyNullForEmptyString(
+                Messages.CamelQuartzComposite_Validation_End_Time_Format,
+                UpdateValueStrategy.POLICY_CONVERT);
+        endTimeStrategy.setConverter(new StringToXMLCalendarConverter(Messages.CamelQuartzComposite_Validation_End_Time_Format));
 
         binding = context.bindValue(
                 SWTObservables.observeText(_endTimeText, new int[] {SWT.Modify }),
                 ObservablesUtil.observeDetailValue(domain, _bindingValue,
                         QuartzPackage.Literals.CAMEL_QUARTZ_BINDING_TYPE__TRIGGER_END_TIME),
-                new EMFUpdateValueStrategyNullForEmptyString(Messages.CamelQuartzComposite_Validation_End_Time_Format,
-                        UpdateValueStrategy.POLICY_CONVERT), null);
+                endTimeStrategy, null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         binding = context.bindValue(
                 ViewersObservables.observeSingleSelection(_timezoneViewer),
                 ObservablesUtil.observeDetailValue(domain, _bindingValue,
-                        QuartzPackage.Literals.CAMEL_QUARTZ_BINDING_TYPE__TRIGGER_TIME_ZONE));
-        // TODO: Clear the value to null if it's set to an empty string
+                        QuartzPackage.Literals.CAMEL_QUARTZ_BINDING_TYPE__TRIGGER_TIME_ZONE),
+                new EMFUpdateValueStrategyNullForEmptyString(
+                        null, UpdateValueStrategy.POLICY_CONVERT), null);
+
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         _opSelectorComposite.bindControls(domain, context);
-        // TODO: add validator for end time after start time
+    }
+
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        super.dispose();
     }
 }

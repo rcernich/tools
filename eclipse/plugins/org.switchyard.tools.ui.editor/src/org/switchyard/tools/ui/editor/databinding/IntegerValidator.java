@@ -12,43 +12,34 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.databinding;
 
-import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.switchyard.tools.ui.editor.Activator;
 
 /**
- * Validator which errors if String value is null or empty.
- * 
- * @author bfitzpat
+ * Integer validator which errors if not empty
+ * and value is not a valid Integer.
  */
-public class StringEmptyValidator implements IValidator {
-
-    private final String _message;
+public class IntegerValidator extends AbstractValidator {
 
     /**
      * Constructor.
-     * 
-     * @param message Validation message
+     * @param message Message to display (or null)
      */
-    public StringEmptyValidator(String message) {
-        _message = message;
+    public IntegerValidator(String message) {
+        super(message);
     }
-
+    
     @Override
     public IStatus validate(Object value) {
-        if (value == null) {
-            return new Status(Status.ERROR, Activator.PLUGIN_ID, _message);
-        }
-        if (value instanceof String) {
-            String s = (String) value;
-            if (!s.trim().isEmpty()) {
+        if (value != null) {
+            if (value instanceof Integer) {
                 return Status.OK_STATUS;
-            } else {
-                return new Status(Status.ERROR, Activator.PLUGIN_ID, _message);
+            } else if (value instanceof String) {
+                return new Status(Status.ERROR, Activator.PLUGIN_ID, getMessage());
             }
         }
-        // if it's not a string, then ignore it
         return Status.OK_STATUS;
     }
 }
+

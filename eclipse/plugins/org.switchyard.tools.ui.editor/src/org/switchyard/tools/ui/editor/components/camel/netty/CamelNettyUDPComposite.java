@@ -39,7 +39,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.camel.netty.CamelNettyUdpBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.netty.NettyPackage;
 import org.switchyard.tools.ui.editor.Messages;
+import org.switchyard.tools.ui.editor.databinding.CompoundValidator;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
+import org.switchyard.tools.ui.editor.databinding.EscapedPropertyIntegerValidator;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.databinding.StringEmptyValidator;
@@ -203,14 +205,17 @@ public class CamelNettyUDPComposite extends AbstractSYBindingComposite {
                                         Messages.error_emptyHost)), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
+        CompoundValidator portValidator = new CompoundValidator(
+                new StringEmptyValidator(Messages.error_emptyPort),
+                new EscapedPropertyIntegerValidator("Port must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}').")); 
+
         binding = context
                 .bindValue(
                         SWTObservables.observeText(_portText, new int[] {SWT.Modify }),
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 NettyPackage.Literals.CAMEL_NETTY_BINDING_TYPE__PORT),
                         new EMFUpdateValueStrategyNullForEmptyString(null, UpdateValueStrategy.POLICY_CONVERT)
-                                .setAfterConvertValidator(new StringEmptyValidator(
-                                        Messages.error_emptyPort)), null);
+                                .setAfterConvertValidator(portValidator), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         binding = context
@@ -227,4 +232,12 @@ public class CamelNettyUDPComposite extends AbstractSYBindingComposite {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        super.dispose();
+    }
 }

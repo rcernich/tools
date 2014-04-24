@@ -41,6 +41,7 @@ import org.switchyard.tools.models.switchyard1_0.camel.ftp.CamelSftpBindingType;
 import org.switchyard.tools.models.switchyard1_0.camel.ftp.FtpPackage;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
+import org.switchyard.tools.ui.editor.databinding.EscapedPropertyIntegerValidator;
 import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.databinding.StringEmptyValidator;
@@ -302,8 +303,10 @@ public class CamelSFTPConsumerComposite extends AbstractSYBindingComposite {
                         SWTObservables.observeText(_portText , new int[] {SWT.Modify }),
                         ObservablesUtil.observeDetailValue(domain, _bindingValue,
                                 FtpPackage.Literals.CAMEL_SFTP_BINDING_TYPE__PORT),
-                        new EMFUpdateValueStrategyNullForEmptyString(
-                                "", UpdateValueStrategy.POLICY_CONVERT), null);
+                                new EMFUpdateValueStrategyNullForEmptyString("", 
+                                        UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(
+                                                new EscapedPropertyIntegerValidator("Port must be a valid numeric value or follow the pattern for escaped properties (i.e. '${propName}')."))
+                                                , null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         binding = context
@@ -347,4 +350,12 @@ public class CamelSFTPConsumerComposite extends AbstractSYBindingComposite {
         _opSelectorComposite.bindControls(domain, context);
     }
 
+    /* (non-Javadoc)
+     * @see org.switchyard.tools.ui.editor.diagram.shared.AbstractSwitchyardComposite#dispose()
+     */
+    @Override
+    public void dispose() {
+        _bindingValue.dispose();
+        super.dispose();
+    }
 }
