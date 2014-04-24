@@ -14,13 +14,32 @@ package org.switchyard.tools.ui.editor.databinding;
 import java.util.ArrayList;
 
 import org.eclipse.core.databinding.conversion.IConverter;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.edit.domain.EditingDomain;
 
 /**
  * The default version doesn't support empty strings, so we convert those to
  * null. We also provide a more usable error message should conversion fail.
  */
 public class EMFUpdateValueStrategyNullForEmptyString extends EMFUpdateValueStrategyConversionErrorMessage {
+
+    /**
+     * Create a new EMFUpdateValueStrategyConversionErrorMessage.
+     * 
+     * @param message message to display for conversion errors
+     * @param updatePolicy update policy
+     * @param domain the editing domain
+     * @param root the root object
+     * @param features the feature path
+     * @param deleteEmptyContainers true if empty containers in the feature path
+     *            should be deleted (all but root)
+     */
+    public EMFUpdateValueStrategyNullForEmptyString(String message, int updatePolicy, EditingDomain domain,
+            IObservableValue root, FeaturePath features, boolean deleteEmptyContainers) {
+        super(message, updatePolicy, domain, root, features, deleteEmptyContainers);
+    }
 
     /**
      * Create a new EMFUpdateValueStrategyNullForEmptyString.

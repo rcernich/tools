@@ -12,6 +12,9 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.components.jca;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.emf.databinding.FeaturePath;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.swt.widgets.Composite;
@@ -21,6 +24,7 @@ import org.switchyard.tools.models.switchyard1_0.jca.Endpoint;
 import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
 import org.switchyard.tools.models.switchyard1_0.jca.JCAInboundInteraction;
 import org.switchyard.tools.models.switchyard1_0.jca.JcaFactory;
+import org.switchyard.tools.models.switchyard1_0.jca.JcaPackage;
 import org.switchyard.tools.models.switchyard1_0.jca.Property;
 import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
 
@@ -30,23 +34,32 @@ import org.switchyard.tools.ui.editor.impl.SwitchyardSCAEditor;
  */
 public class JCAInteractionPropertyTable extends JCAPropertyTable {
 
+    private static final FeaturePath ENDPOINT_PROPERTIES = FeaturePath.fromList(
+            JcaPackage.Literals.JCA_BINDING__INBOUND_INTERACTION,
+            JcaPackage.Literals.JCA_INBOUND_INTERACTION__ENDPOINT, JcaPackage.Literals.ENDPOINT__PROPERTY);
+
     /**
      * @param parent Composite
      * @param style any additional style bits
      * @param toolkit Form toolkit to use when creating controls
+     * @param context the data binding context
+     * @param domain the editing domain
      */
-    public JCAInteractionPropertyTable(Composite parent, int style, FormToolkit toolkit) {
-        super(parent, style, false, toolkit);
+    public JCAInteractionPropertyTable(Composite parent, int style, FormToolkit toolkit, DataBindingContext context, EditingDomain domain) {
+        super(parent, style, false, toolkit, context, ENDPOINT_PROPERTIES, domain);
     }
-    
+
     /**
      * @param parent Composite
      * @param style any additional style bits
      * @param isReadOnly flag
      * @param toolkit Form toolkit to use when creating controls
+     * @param context the data binding context
+     * @param domain the editing domain
      */
-    public JCAInteractionPropertyTable(Composite parent, int style, boolean isReadOnly, FormToolkit toolkit) {
-        super(parent, style, isReadOnly, toolkit);
+    public JCAInteractionPropertyTable(Composite parent, int style, boolean isReadOnly, FormToolkit toolkit,
+            DataBindingContext context, EditingDomain domain) {
+        super(parent, style, isReadOnly, toolkit, context, ENDPOINT_PROPERTIES, domain);
     }
 
     protected void removeFromList() {
@@ -96,11 +109,10 @@ public class JCAInteractionPropertyTable extends JCAPropertyTable {
                             
                             if (binding.getInboundInteraction() == null) {
                                 JCAInboundInteraction inBound = JcaFactory.eINSTANCE.createJCAInboundInteraction();
-                                setFeatureValue(binding, "outboundInteraction", inBound); //$NON-NLS-1$
-                            }
-                            if (binding.getInboundInteraction().getEndpoint() == null) {
-                                Endpoint endpoint = JcaFactory.eINSTANCE.createEndpoint();
-                                setFeatureValue(binding.getInboundInteraction(), "endpoint", endpoint); //$NON-NLS-1$
+                                inBound.setEndpoint(JcaFactory.eINSTANCE.createEndpoint());
+                                binding.setInboundInteraction(inBound);
+                            } else if (binding.getInboundInteraction().getEndpoint() == null) {
+                                binding.getInboundInteraction().setEndpoint(JcaFactory.eINSTANCE.createEndpoint());
                             }
                             Endpoint endpoint = binding.getInboundInteraction().getEndpoint();
                             endpoint.getProperty().add(newProperty);
@@ -113,11 +125,10 @@ public class JCAInteractionPropertyTable extends JCAPropertyTable {
                     
                     if (binding.getInboundInteraction() == null) {
                         JCAInboundInteraction inBound = JcaFactory.eINSTANCE.createJCAInboundInteraction();
-                        setFeatureValue(binding, "outboundInteraction", inBound); //$NON-NLS-1$
-                    }
-                    if (binding.getInboundInteraction().getEndpoint() == null) {
-                        Endpoint endpoint = JcaFactory.eINSTANCE.createEndpoint();
-                        setFeatureValue(binding.getInboundInteraction(), "endpoint", endpoint); //$NON-NLS-1$
+                        inBound.setEndpoint(JcaFactory.eINSTANCE.createEndpoint());
+                        binding.setInboundInteraction(inBound);
+                    } else if (binding.getInboundInteraction().getEndpoint() == null) {
+                        binding.getInboundInteraction().setEndpoint(JcaFactory.eINSTANCE.createEndpoint());
                     }
                     Endpoint endpoint = binding.getInboundInteraction().getEndpoint();
                     endpoint.getProperty().add(newProperty);

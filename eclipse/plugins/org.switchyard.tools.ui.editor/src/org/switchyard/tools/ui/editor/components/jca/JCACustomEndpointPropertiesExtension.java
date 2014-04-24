@@ -12,23 +12,16 @@
  ******************************************************************************/
 package org.switchyard.tools.ui.editor.components.jca;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.emf.databinding.EMFProperties;
 import org.eclipse.emf.databinding.FeaturePath;
-import org.eclipse.emf.databinding.edit.EMFEditProperties;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.databinding.fieldassist.ControlDecorationSupport;
 import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.soa.sca.sca1_1.model.sca.Binding;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -39,53 +32,39 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.switchyard.tools.models.switchyard1_0.jca.JCABinding;
 import org.switchyard.tools.models.switchyard1_0.jca.JcaPackage;
-import org.switchyard.tools.models.switchyard1_0.jca.Property;
-import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 
 /**
- * @author bfitzpat
- *
+ * Provides controls for configuring a custom JCA endpoint (i.e. custom endpoint
+ * type).
  */
-public class JCACCIEndpointPropertiesExtension implements
-        IJCAEndpointPropertiesExtension {
-
-    /*
-     * These properties correspond to setters on the CCIEndpont class, e.g.
-     * setConnectionFactoryJNDIName().
-     */
-    private static final String CONNECTION_FACTORY_JNDI_NAME_PROP = "connectionFactoryJNDIName"; //$NON-NLS-1$
-    @SuppressWarnings("serial")
-    private static final Set<String> HIDDEN_PROPERTIES = new HashSet<String>() {
-        {
-            add(CONNECTION_FACTORY_JNDI_NAME_PROP);
-        }
-    };
+public class JCACustomEndpointPropertiesExtension implements IJCAEndpointPropertiesExtension {
 
     @Override
     public AbstractJCABindingComposite createComposite(FormToolkit toolkit) {
-        return new JCACCIEndpointPropertiesComposite(toolkit);
+        return new JCACustomEndpointPropertiesComposite(toolkit);
     }
 
-    private static final class JCACCIEndpointPropertiesComposite extends AbstractJCABindingComposite {
+    private static final class JCACustomEndpointPropertiesComposite extends AbstractJCABindingComposite {
 
         /**
-         * @param toolkit Form toolkit to use when creating controls
+         * @param toolkit Form toolkit to use during control creation
          */
-        private JCACCIEndpointPropertiesComposite(FormToolkit toolkit) {
+        private JCACustomEndpointPropertiesComposite(FormToolkit toolkit) {
             super(toolkit);
         }
 
         private JCABinding _binding;
         private Composite _panel;
-        private Text _connectionFactoryJNDINameText;
         private JCAInteractionPropertyTable _propsList;
+        private Text _endpointTypeText;
+        private Text _listenerTypeText;
         private WritableValue _bindingValue;
 
         @Override
         public String getTitle() {
-            return Messages.JCACCIEndpointPropertiesExtension_Title;
+            return "Custom JCA Endpoint";
         }
 
         @Override
@@ -94,34 +73,28 @@ public class JCACCIEndpointPropertiesExtension implements
         }
 
         @Override
-        protected boolean validate() {
-            return true;
-        }
-
-        @Override
         public void createContents(Composite parent, int style, DataBindingContext context) {
             _panel = getToolkit().createComposite(parent, style);
             _panel.setLayout(new GridLayout(2, false));
 
-            _connectionFactoryJNDINameText = createLabelAndText(_panel, Messages.JCAJMSEndpointPropertiesExtension_ConnectionFactoryJNDIName_label);
-
             Group endpointPropsGroup = new Group(_panel, SWT.NONE);
             endpointPropsGroup.setText(getTitle());
             endpointPropsGroup.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, true, 3, 1));
-            endpointPropsGroup.setLayout(new GridLayout(1, false));
-            getToolkit().adapt(endpointPropsGroup, false, false);
+            endpointPropsGroup.setLayout(new GridLayout(2, false));
+            getToolkit().adapt(endpointPropsGroup);
 
-            _propsList = new JCAInteractionPropertyTable(endpointPropsGroup, SWT.NONE, getToolkit(), context, getDomain(getTargetObject()));
-            _propsList.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 4));
-            _propsList.getTableViewer().addFilter(new ViewerFilter() {
-                @Override
-                public boolean select(Viewer viewer, Object parentElement, Object element) {
-                    final String name = ((Property) element).getName();
-                    return !(name != null && HIDDEN_PROPERTIES.contains(name));
-                }
-            });
+            _endpointTypeText = createLabelAndText(endpointPropsGroup, "Endpoint Type");
+
+            _listenerTypeText = createLabelAndText(endpointPropsGroup, "Listener Type");
+
+            getToolkit().createLabel(endpointPropsGroup, "Endpoint Properties");
+            getToolkit().createLabel(endpointPropsGroup, ""); // spacer
+
+            _propsList = new JCAInteractionPropertyTable(endpointPropsGroup, SWT.NONE, getToolkit(), context,
+                    getDomain(getTargetObject()));
+            _propsList.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 4));
             getToolkit().adapt(_propsList, false, false);
-            
+
             bindControls(context);
         }
 
@@ -131,16 +104,23 @@ public class JCACCIEndpointPropertiesExtension implements
 
             _bindingValue = new WritableValue(realm, null, JCABinding.class);
 
-            final FeaturePath propertiesFeaturePath = FeaturePath.fromList(
+            final FeaturePath endpointTypeFeaturePath = FeaturePath.fromList(
                     JcaPackage.Literals.JCA_BINDING__INBOUND_INTERACTION,
-                    JcaPackage.Literals.JCA_INBOUND_INTERACTION__ENDPOINT, JcaPackage.Literals.ENDPOINT__PROPERTY);
-            final IObservableList propertiesList = (domain == null ? EMFProperties.list(propertiesFeaturePath)
-                    : EMFEditProperties.list(domain, propertiesFeaturePath)).observeDetail(_bindingValue);
+                    JcaPackage.Literals.JCA_INBOUND_INTERACTION__ENDPOINT, JcaPackage.Literals.ENDPOINT__TYPE);
+            org.eclipse.core.databinding.Binding binding = context.bindValue(SWTObservables.observeText(
+                    _endpointTypeText, SWT.Modify),
+                    EMFProperties.value(endpointTypeFeaturePath).observeDetail(_bindingValue),
+                    new EMFUpdateValueStrategyNullForEmptyString(null, UpdateValueStrategy.POLICY_CONVERT, domain,
+                            _bindingValue, endpointTypeFeaturePath, false), null);
+            ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
-            org.eclipse.core.databinding.Binding binding = context.bindValue(
-                    SWTObservables.observeText(_connectionFactoryJNDINameText, SWT.Modify),
-                    new JCANamedPropertyObservableValue(realm, propertiesList, CONNECTION_FACTORY_JNDI_NAME_PROP),
-                    new EMFUpdateValueStrategyNullForEmptyString(null, UpdateValueStrategy.POLICY_CONVERT), null);
+            final FeaturePath listenerTypeFeaturePath = FeaturePath.fromList(
+                    JcaPackage.Literals.JCA_BINDING__INBOUND_INTERACTION,
+                    JcaPackage.Literals.JCA_INBOUND_INTERACTION__LISTENER);
+            binding = context.bindValue(SWTObservables.observeText(_listenerTypeText, SWT.Modify),
+                    EMFProperties.value(listenerTypeFeaturePath).observeDetail(_bindingValue),
+                    new EMFUpdateValueStrategyNullForEmptyString(null, UpdateValueStrategy.POLICY_CONVERT, domain,
+                            _bindingValue, listenerTypeFeaturePath, false), null);
             ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT, _panel);
         }
 
@@ -156,6 +136,5 @@ public class JCACCIEndpointPropertiesExtension implements
             _bindingValue.setValue(_binding);
             _propsList.setTargetObject(_binding);
         }
-
     }
 }

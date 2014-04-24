@@ -29,7 +29,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.databinding.EMFUpdateValueStrategy;
+import org.eclipse.emf.databinding.EMFProperties;
+import org.eclipse.emf.databinding.FeaturePath;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -76,14 +77,11 @@ import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
-import org.switchyard.tools.models.switchyard1_0.switchyard.ContextMapperType;
-import org.switchyard.tools.models.switchyard1_0.switchyard.MessageComposerType;
 import org.switchyard.tools.models.switchyard1_0.switchyard.SwitchyardPackage;
 import org.switchyard.tools.ui.editor.Activator;
 import org.switchyard.tools.ui.editor.Messages;
 import org.switchyard.tools.ui.editor.databinding.AccessibleClassValidator;
 import org.switchyard.tools.ui.editor.databinding.EMFUpdateValueStrategyNullForEmptyString;
-import org.switchyard.tools.ui.editor.databinding.ObservablesUtil;
 import org.switchyard.tools.ui.editor.databinding.RegexListValidator;
 import org.switchyard.tools.ui.editor.databinding.SWTValueUpdater;
 import org.switchyard.tools.ui.editor.diagram.shared.IBindingComposite;
@@ -246,75 +244,72 @@ public class MessageComposerComposite extends AbstractSYBindingComposite impleme
         final Realm realm = SWTObservables.getRealm(_panel.getDisplay());
 
         _bindingValue = new WritableValue(realm, null, Binding.class);
-        final IObservableValue intermediateMessageComposerValue = new WritableValue(realm, null,
-                MessageComposerType.class);
-        final IObservableValue intermediateContextMapperValue = new WritableValue(realm, null, ContextMapperType.class);
-
-        // bind the intermediate values
-        final org.eclipse.core.databinding.Binding messageComposerBinding = context.bindValue(
-                intermediateMessageComposerValue, ObservablesUtil.observeNullForEmptyValue(
-                        ObservablesUtil.observeDetailValue(domain, _bindingValue, _messageComposerFeature),
-                        _messageComposerType), new EMFUpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
-
-        final org.eclipse.core.databinding.Binding contextMapperBinding = context.bindValue(
-                intermediateContextMapperValue, ObservablesUtil.observeNullForEmptyValue(
-                        ObservablesUtil.observeDetailValue(domain, _bindingValue, _contextMapperFeature),
-                        _contextMapperType), new EMFUpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST), null);
 
         // bind the controls
-        final IObservableValue composerClassValue = ObservablesUtil.updateContainerBinding(ObservablesUtil
-                .observeDetailValue(domain, intermediateMessageComposerValue,
-                        SwitchyardPackage.Literals.MESSAGE_COMPOSER_TYPE__CLASS), messageComposerBinding);
+        final FeaturePath messageComposerClassFeature = FeaturePath.fromList(_messageComposerFeature,
+                SwitchyardPackage.Literals.MESSAGE_COMPOSER_TYPE__CLASS);
+        final IObservableValue composerClassValue = EMFProperties.value(messageComposerClassFeature).observeDetail(
+                _bindingValue);
         org.eclipse.core.databinding.Binding binding = context.bindValue(SWTObservables.observeText(_composerClassText,
                 new int[] {SWT.Modify }), composerClassValue, new EMFUpdateValueStrategyNullForEmptyString(null,
-                UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(new AccessibleClassValidator(
-                BeanProperties.value("targetObject").observe(this))), null);
+                UpdateValueStrategy.POLICY_CONVERT, domain, _bindingValue, messageComposerClassFeature, true)
+                .setAfterConvertValidator(new AccessibleClassValidator(BeanProperties.value("targetObject").observe(
+                        this))), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
+        final FeaturePath contextMapperClassFeature = FeaturePath.fromList(_contextMapperFeature,
+                SwitchyardPackage.Literals.CONTEXT_MAPPER_TYPE__CLASS);
         final IObservableValue mapperClassTextValue = SWTObservables.observeText(_mapperClassText,
                 new int[] {SWT.Modify });
-        final IObservableValue mapperClassValue = ObservablesUtil.updateContainerBinding(ObservablesUtil
-                .observeDetailValue(domain, intermediateContextMapperValue,
-                        SwitchyardPackage.Literals.CONTEXT_MAPPER_TYPE__CLASS), contextMapperBinding);
+        final IObservableValue mapperClassValue = EMFProperties.value(contextMapperClassFeature).observeDetail(
+                _bindingValue);
         final org.eclipse.core.databinding.Binding mapperClassBinding = context.bindValue(mapperClassTextValue,
-                mapperClassValue,
-                new EMFUpdateValueStrategyNullForEmptyString(null, UpdateValueStrategy.POLICY_CONVERT)
+                mapperClassValue, new EMFUpdateValueStrategyNullForEmptyString(null,
+                        UpdateValueStrategy.POLICY_CONVERT, domain, _bindingValue, contextMapperClassFeature, true)
                         .setAfterConvertValidator(new AccessibleClassValidator(BeanProperties.value("targetObject")
                                 .observe(this))), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(mapperClassBinding), SWT.TOP | SWT.LEFT);
 
+        final FeaturePath contextMapperIncludesFeature = FeaturePath.fromList(_contextMapperFeature,
+                SwitchyardPackage.Literals.CONTEXT_MAPPER_TYPE__INCLUDES);
         final IObservableValue includesTextValue = SWTObservables.observeText(_includesText, new int[] {SWT.Modify });
-        final IObservableValue includesValue = ObservablesUtil.updateContainerBinding(ObservablesUtil
-                .observeDetailValue(domain, intermediateContextMapperValue,
-                        SwitchyardPackage.Literals.CONTEXT_MAPPER_TYPE__INCLUDES), contextMapperBinding);
+        final IObservableValue includesValue = EMFProperties.value(contextMapperIncludesFeature).observeDetail(
+                _bindingValue);
         binding = context.bindValue(includesTextValue, includesValue, new EMFUpdateValueStrategyNullForEmptyString(
-                null, UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(new RegexListValidator()), null);
+                null, UpdateValueStrategy.POLICY_CONVERT, domain, _bindingValue, contextMapperIncludesFeature, true)
+                .setAfterConvertValidator(new RegexListValidator()), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
+        final FeaturePath contextMapperExcludesFeature = FeaturePath.fromList(_contextMapperFeature,
+                SwitchyardPackage.Literals.CONTEXT_MAPPER_TYPE__EXCLUDES);
         final IObservableValue excludesTextValue = SWTObservables.observeText(_excludesText, new int[] {SWT.Modify });
-        final IObservableValue excludesValue = ObservablesUtil.updateContainerBinding(ObservablesUtil
-                .observeDetailValue(domain, intermediateContextMapperValue,
-                        SwitchyardPackage.Literals.CONTEXT_MAPPER_TYPE__EXCLUDES), contextMapperBinding);
+        final IObservableValue excludesValue = EMFProperties.value(contextMapperExcludesFeature).observeDetail(
+                _bindingValue);
         binding = context.bindValue(excludesTextValue, excludesValue, new EMFUpdateValueStrategyNullForEmptyString(
-                null, UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(new RegexListValidator()), null);
+                null, UpdateValueStrategy.POLICY_CONVERT, domain, _bindingValue, contextMapperExcludesFeature, true)
+                .setAfterConvertValidator(new RegexListValidator()), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
+        final FeaturePath contextMapperIncludesNSFeature = FeaturePath.fromList(_contextMapperFeature,
+                SwitchyardPackage.Literals.CONTEXT_MAPPER_TYPE__INCLUDE_NAMESPACES);
         final IObservableValue includesNSTextValue = SWTObservables.observeText(_includesNSText,
                 new int[] {SWT.Modify });
-        final IObservableValue includesNSValue = ObservablesUtil.updateContainerBinding(ObservablesUtil
-                .observeDetailValue(domain, intermediateContextMapperValue,
-                        SwitchyardPackage.Literals.CONTEXT_MAPPER_TYPE__INCLUDE_NAMESPACES), contextMapperBinding);
+        final IObservableValue includesNSValue = EMFProperties.value(contextMapperIncludesNSFeature).observeDetail(
+                _bindingValue);
         binding = context.bindValue(includesNSTextValue, includesNSValue, new EMFUpdateValueStrategyNullForEmptyString(
-                null, UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(new RegexListValidator()), null);
+                null, UpdateValueStrategy.POLICY_CONVERT, domain, _bindingValue, contextMapperIncludesNSFeature, true)
+                .setAfterConvertValidator(new RegexListValidator()), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
+        final FeaturePath contextMapperExcludesNSFeature = FeaturePath.fromList(_contextMapperFeature,
+                SwitchyardPackage.Literals.CONTEXT_MAPPER_TYPE__EXCLUDE_NAMESPACES);
         final IObservableValue excludesNSTextValue = SWTObservables.observeText(_excludesNSText,
                 new int[] {SWT.Modify });
-        final IObservableValue excludesNSValue = ObservablesUtil.updateContainerBinding(ObservablesUtil
-                .observeDetailValue(domain, intermediateContextMapperValue,
-                        SwitchyardPackage.Literals.CONTEXT_MAPPER_TYPE__EXCLUDE_NAMESPACES), contextMapperBinding);
+        final IObservableValue excludesNSValue = EMFProperties.value(contextMapperExcludesNSFeature).observeDetail(
+                _bindingValue);
         binding = context.bindValue(excludesNSTextValue, excludesNSValue, new EMFUpdateValueStrategyNullForEmptyString(
-                null, UpdateValueStrategy.POLICY_CONVERT).setAfterConvertValidator(new RegexListValidator()), null);
+                null, UpdateValueStrategy.POLICY_CONVERT, domain, _bindingValue, contextMapperExcludesNSFeature, true)
+                .setAfterConvertValidator(new RegexListValidator()), null);
         ControlDecorationSupport.create(SWTValueUpdater.attach(binding), SWT.TOP | SWT.LEFT);
 
         /*
