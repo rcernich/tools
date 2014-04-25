@@ -248,7 +248,8 @@ public class BindingsControlComposite extends AbstractModelComposite<Contract> i
                     @Override
                     protected void doExecute() {
                         Contract contract = (Contract) _targetBO;
-                        contract.getBindingGroup().remove(_listViewer.getList().getSelectionIndex());
+                        IStructuredSelection ssel = (IStructuredSelection) _listViewer.getSelection();
+                        contract.getBinding().remove(ssel.getFirstElement());
                     }
                 };
                 _domain.getCommandStack().execute(rcmd);

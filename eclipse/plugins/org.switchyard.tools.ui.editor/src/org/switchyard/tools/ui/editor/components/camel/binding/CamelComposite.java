@@ -85,9 +85,9 @@ public class CamelComposite extends AbstractSYBindingComposite {
             // refresh the operation selector control
             if (_opSelectorComposite != null && !_opSelectorComposite.isDisposed() && getTargetObject() != null) {
                 _opSelectorComposite.setTargetObject(getTargetObject());
+                _opSelectorComposite.setBinding(_binding);
             }
 
-            _opSelectorComposite.setBinding(_binding);
         } else {
             _bindingValue.setValue(null);
         }
