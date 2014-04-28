@@ -213,8 +213,6 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
         EMFUpdateValueStrategy startTimeStrategy = new EMFUpdateValueStrategyNullForEmptyString(
                 Messages.CamelQuartzComposite_Validation_Start_Time_Format,
                 UpdateValueStrategy.POLICY_CONVERT);
-        //TODO: Figure out how to make the converter work correctly
-//        startTimeStrategy.setConverter(new StringToXMLCalendarConverter(Messages.CamelQuartzComposite_Validation_Start_Time_Format));
         
         binding = context
                 .bindValue(
@@ -227,8 +225,6 @@ public class CamelQuartzComposite extends AbstractSYBindingComposite {
         EMFUpdateValueStrategy endTimeStrategy = new EMFUpdateValueStrategyNullForEmptyString(
                 Messages.CamelQuartzComposite_Validation_End_Time_Format,
                 UpdateValueStrategy.POLICY_CONVERT);
-        //TODO: Figure out how to make the converter work correctly
-//        endTimeStrategy.setConverter(new StringToXMLCalendarConverter(Messages.CamelQuartzComposite_Validation_End_Time_Format));
 
         binding = context.bindValue(
                 SWTObservables.observeText(_endTimeText, new int[] {SWT.Modify }),
